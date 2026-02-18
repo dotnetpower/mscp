@@ -23,6 +23,8 @@ MSCP grew out of a simple question: as agents gain the ability to set goals, mod
 
 ## Agent Cognition Levels
 
+> **Note**: The "Status" column reflects the implementation state within this personal project's reference implementation, not an industry-wide standard.
+
 | Level | Name | Self-Awareness | Status |
 |:-----:|------|:--------------:|:------:|
 | 1 | Tool Agent | None | Baseline |
