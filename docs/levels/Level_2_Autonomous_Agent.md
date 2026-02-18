@@ -39,34 +39,34 @@ Level 2 agents are **stateful processes**: `f(input, world_state, goals) → (ou
 flowchart TB
     subgraph PL["Layer 1: Perception"]
         direction LR
-        IR["🎯 Intent Router\n(structured Percept output)"]
-        ED["💭 Emotion Detector\n(valence / arousal)"]
-        SE["📡 Sensor Encoder\n(time, system state)"]
+        IR["🎯 Intent Router<br/>(structured Percept output)"]
+        ED["💭 Emotion Detector<br/>(valence / arousal)"]
+        SE["📡 Sensor Encoder<br/>(time, system state)"]
     end
 
     subgraph WM["Layer 2: World Model"]
         direction LR
-        KG["🗄️ Knowledge Graph\n(persistent store)"]
-        ES["👤 Entity State\nTracker"]
-        TM["⏱️ Temporal Model\n(time-bound facts)"]
+        KG["🗄️ Knowledge Graph<br/>(persistent store)"]
+        ES["👤 Entity State<br/>Tracker"]
+        TM["⏱️ Temporal Model<br/>(time-bound facts)"]
     end
 
     subgraph GS["Layer 3: Goal System"]
         direction LR
-        GM["🎯 Goal Manager\n(CRUD + hierarchy)"]
-        AGG["⚡ Autonomous Goal\nGenerator"]
-        GP["📊 Goal Prioritizer\n(dynamic ranking)"]
-        GD["🔀 Goal Decomposer\n(complex → subtasks)"]
+        GM["🎯 Goal Manager<br/>(CRUD + hierarchy)"]
+        AGG["⚡ Autonomous Goal<br/>Generator"]
+        GP["📊 Goal Prioritizer<br/>(dynamic ranking)"]
+        GD["🔀 Goal Decomposer<br/>(complex → subtasks)"]
     end
 
     subgraph AP["Layer 4: Action Planner"]
         direction LR
-        TD["🔧 Tool Dispatcher\n(inherited from L1)"]
-        EP["📋 Execution Planner\n(multi-step plans)"]
+        TD["🔧 Tool Dispatcher<br/>(inherited from L1)"]
+        EP["📋 Execution Planner<br/>(multi-step plans)"]
     end
 
     subgraph CE["Layer 5: Cognitive Engine"]
-        LLM["🧠 LLM Backend\n(primary reasoning)"]
+        LLM["🧠 LLM Backend<br/>(primary reasoning)"]
     end
 
     PL ==> WM ==> GS ==> AP ==> CE
@@ -97,7 +97,7 @@ flowchart TB
         EST["Entity State Tracker"]
         TML["Temporal Model"]
         KG["Knowledge Graph"]
-        WS["World Snapshot\n(unified state)"]
+        WS["World Snapshot<br/>(unified state)"]
         
         EST --> WS
         TML --> WS
@@ -105,7 +105,7 @@ flowchart TB
     end
 
     subgraph GoalSystem["Layer 3: Goal System"]
-        AGG["Autonomous Goal\nGenerator"]
+        AGG["Autonomous Goal<br/>Generator"]
         GM["Goal Manager"]
         GP["Goal Prioritizer"]
         GD["Goal Decomposer"]
@@ -205,10 +205,10 @@ sequenceDiagram
 ```mermaid
 flowchart TB
     subgraph Triggers["🎯 Goal Generation Triggers"]
-        T1["🔄 Repetition Pattern\n(same entity 3+ times)"]
-        T2["😟 Negative Emotion\n(valence < -0.5)"]
-        T3["⏰ Time Pressure\n(deadline approaching)"]
-        T4["📈 Interest Pattern\n(sustained topic focus)"]
+        T1["🔄 Repetition Pattern<br/>(same entity 3+ times)"]
+        T2["😟 Negative Emotion<br/>(valence < -0.5)"]
+        T3["⏰ Time Pressure<br/>(deadline approaching)"]
+        T4["📈 Interest Pattern<br/>(sustained topic focus)"]
     end
 
     subgraph Generator["⚡ Autonomous Goal Generator"]
@@ -219,10 +219,10 @@ flowchart TB
     end
 
     subgraph Goals["📋 Generated Goals"]
-        G1["REACTIVE: Clarification\npriority: 0.7"]
-        G2["REACTIVE: Emotional Support\npriority: 0.8"]
-        G3["AUTO: Information Collection\npriority: 0.6"]
-        G4["AUTO: Proactive Reminder\npriority: 0.5"]
+        G1["REACTIVE: Clarification<br/>priority: 0.7"]
+        G2["REACTIVE: Emotional Support<br/>priority: 0.8"]
+        G3["AUTO: Information Collection<br/>priority: 0.6"]
+        G4["AUTO: Proactive Reminder<br/>priority: 0.5"]
     end
 
     T1 -->|"pattern"| PD
@@ -477,14 +477,14 @@ flowchart TB
         L1R1["'The terms are A, B, C.'"]
         L1R2["'The terms are A, B, C.'"]
         L1R3["'The terms are A, B, C.'"]
-        L1Note["Each response is IDENTICAL.\nNo memory of previous answers.\nNo pattern detection."]
+        L1Note["Each response is IDENTICAL.<br/>No memory of previous answers.<br/>No pattern detection."]
     end
 
     subgraph L2Response["✅ Level 2 Response"]
         L2R1["'The terms are A, B, C.'"]
-        L2R2["'As I mentioned, the terms are A, B, C.\nWould you like more detail on any specific term?'"]
-        L2R3["'You've asked about this several times.\nIs there a specific concern about the terms?\nI can explain each one in detail.'"]
-        L2Note["Detects repetition pattern.\nGenerates clarification goal.\nAdapts response proactively."]
+        L2R2["'As I mentioned, the terms are A, B, C.<br/>Would you like more detail on any specific term?'"]
+        L2R3["'You've asked about this several times.<br/>Is there a specific concern about the terms?<br/>I can explain each one in detail.'"]
+        L2Note["Detects repetition pattern.<br/>Generates clarification goal.<br/>Adapts response proactively."]
     end
 
     Q1 --> L1R1
@@ -509,19 +509,19 @@ What Level 2 still **cannot** do (motivating Level 3):
 ```mermaid
 flowchart TB
     subgraph Limitations["⚠️ Level 2 Limitations"]
-        L1["❌ No Self-Model\nDoesn't know its own\ncapabilities or values"]
-        L2["❌ No Prediction Loop\nCannot predict consequences\nof its actions on itself"]
-        L3["❌ No Identity Continuity\nGoal drift and value drift\nare undetected"]
-        L4["❌ No Ethical Constraints\nNo formal mechanism to\nreject harmful goals"]
-        L5["❌ No Meta-Cognition\nCannot evaluate the quality\nof its own decisions"]
+        L1["❌ No Self-Model<br/>Doesn't know its own<br/>capabilities or values"]
+        L2["❌ No Prediction Loop<br/>Cannot predict consequences<br/>of its actions on itself"]
+        L3["❌ No Identity Continuity<br/>Goal drift and value drift<br/>are undetected"]
+        L4["❌ No Ethical Constraints<br/>No formal mechanism to<br/>reject harmful goals"]
+        L5["❌ No Meta-Cognition<br/>Cannot evaluate the quality<br/>of its own decisions"]
     end
 
     subgraph L3Additions["✅ Level 3 Adds"]
-        A1["Identity Vector\n+ capability model\n+ value model"]
-        A2["PredictionEngine\n+ self-impact prediction"]
-        A3["Identity hash tracking\n+ drift detection\n+ rollback"]
-        A4["Ethical Kernel\n(Layer 0: immutable\nLayer 1: adaptive)"]
-        A5["Triple-Loop\nMeta-Cognition\n(L1/L2/L3 cycles)"]
+        A1["Identity Vector<br/>+ capability model<br/>+ value model"]
+        A2["PredictionEngine<br/>+ self-impact prediction"]
+        A3["Identity hash tracking<br/>+ drift detection<br/>+ rollback"]
+        A4["Ethical Kernel<br/>(Layer 0: immutable<br/>Layer 1: adaptive)"]
+        A5["Triple-Loop<br/>Meta-Cognition<br/>(L1/L2/L3 cycles)"]
     end
 
     L1 --> A1
@@ -547,11 +547,11 @@ flowchart TB
     end
 
     subgraph NewModules["🆕 New Modules for Level 3"]
-        SM["Self Model\n(Identity + Capability + Value)"]
-        PE["Prediction Engine\n(external + internal)"]
-        MC["MetaCognition Comparator\n(predict vs actual)"]
-        SUL["Self-Update Loop\n(delta-clamped)"]
-        EK["Ethical Kernel\n(Layer 0 + Layer 1)"]
+        SM["Self Model<br/>(Identity + Capability + Value)"]
+        PE["Prediction Engine<br/>(external + internal)"]
+        MC["MetaCognition Comparator<br/>(predict vs actual)"]
+        SUL["Self-Update Loop<br/>(delta-clamped)"]
+        EK["Ethical Kernel<br/>(Layer 0 + Layer 1)"]
     end
 
     subgraph L3Arch["Level 3 Architecture"]

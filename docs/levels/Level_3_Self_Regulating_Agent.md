@@ -74,7 +74,7 @@ flowchart TB
     end
 
     subgraph L3["Layer 3: Self Model"]
-        IC["🆔 Identity Core\n(Identity Vector)"]
+        IC["🆔 Identity Core<br/>(Identity Vector)"]
         CM["📐 Capability Model"]
         VM["💎 Value Model"]
         VLM["🔒 Value Lock Manager"]
@@ -98,8 +98,8 @@ flowchart TB
     end
 
     subgraph L5_5["Layer 5.5: Ethical Kernel"]
-        EK0["🔴 Layer 0: Immutable\nInvariants"]
-        EK1["🟡 Layer 1: Adaptive\nPolicy"]
+        EK0["🔴 Layer 0: Immutable<br/>Invariants"]
+        EK1["🟡 Layer 1: Adaptive<br/>Policy"]
     end
 
     subgraph L6["Layer 6: Action Planner"]
@@ -109,11 +109,11 @@ flowchart TB
 
     subgraph L7["Layer 7: LLM Engine"]
         LLM["🧠 LLM Backend"]
-        MJ["⚖️ Meta Judge\n(lightweight LLM)"]
+        MJ["⚖️ Meta Judge<br/>(lightweight LLM)"]
     end
 
     subgraph L8["Layer 8: MetaCognition"]
-        MCC["🔄 MetaCognition\nComparator"]
+        MCC["🔄 MetaCognition<br/>Comparator"]
         IS["📏 Identity Stabilizer"]
     end
 
@@ -130,7 +130,7 @@ flowchart TB
     end
 
     subgraph L11["Layer 11: Depth Controller"]
-        MDC["📏 Meta Depth Controller\n(max depth: 2)"]
+        MDC["📏 Meta Depth Controller<br/>(max depth: 2)"]
     end
 
     subgraph L12["Layer 12: Stability Controller"]
@@ -149,7 +149,7 @@ flowchart TB
     end
 
     subgraph L15["Layer 15: Affective Engine"]
-        ASV["😊 Affect State Vector\n(5 dimensions)"]
+        ASV["😊 Affect State Vector<br/>(5 dimensions)"]
         MS["💡 Motivation Synthesizer"]
     end
 
@@ -268,40 +268,40 @@ flowchart TB
     
     %% Pre-loop
     START --> RESET["Reset Budget"]
-    RESET --> AFFECT["Update Affect\n(from prior cycle metrics)"]
-    AFFECT --> THREAT["Assess Threats\n(homeostatic monitor)"]
-    THREAT --> ANXIETY["Inject Survival Anxiety\n(affect ← threat)"]
-    ANXIETY --> SGOAL["Generate Survival Goals\n(if threats detected)"]
+    RESET --> AFFECT["Update Affect<br/>(from prior cycle metrics)"]
+    AFFECT --> THREAT["Assess Threats<br/>(homeostatic monitor)"]
+    THREAT --> ANXIETY["Inject Survival Anxiety<br/>(affect ← threat)"]
+    ANXIETY --> SGOAL["Generate Survival Goals<br/>(if threats detected)"]
     SGOAL --> L0CHECK{"Layer 0\nCheck"}
-    L0CHECK -->|"pass"| MOTIV["Synthesize Motivation\n(drives from affect)"]
+    L0CHECK -->|"pass"| MOTIV["Synthesize Motivation<br/>(drives from affect)"]
     L0CHECK -->|"❌ violation"| REJECT["Reject Goal"]
     REJECT --> MOTIV
-    MOTIV --> GWS["Broadcast Global\nWorkspace Snapshot"]
+    MOTIV --> GWS["Broadcast Global<br/>Workspace Snapshot"]
     
     %% Core loop
-    GWS --> PREDICT["1. PREDICT\n(PredictionEngine)"]
-    PREDICT --> ACT["2. ACT\n(LLM Execute)"]
-    ACT --> COMPARE["3. COMPARE\n(MetaCognition)"]
+    GWS --> PREDICT["1. PREDICT<br/>(PredictionEngine)"]
+    PREDICT --> ACT["2. ACT<br/>(LLM Execute)"]
+    ACT --> COMPARE["3. COMPARE<br/>(MetaCognition)"]
     COMPARE --> GUARD{"4. ESCALATION\nGUARD"}
     GUARD -->|"safe"| CONVERGE{"5. CONVERGENCE\nCHECK (Lyapunov)"}
     GUARD -->|"⚠️ limit"| COOLDOWN["30s Cooldown"]
     
-    CONVERGE -->|"converging"| UPDATE["6. SELF-UPDATE\n(delta-clamped)"]
-    CONVERGE -->|"diverging"| STABILIZE["Reduce Scaling\n+ Stabilization Mode"]
+    CONVERGE -->|"converging"| UPDATE["6. SELF-UPDATE<br/>(delta-clamped)"]
+    CONVERGE -->|"diverging"| STABILIZE["Reduce Scaling<br/>+ Stabilization Mode"]
     STABILIZE --> UPDATE
     
-    UPDATE --> VLOCK["7. VALUE LOCK\nIntegrity Check"]
-    VLOCK -->|"valid"| GMUT["8. GOAL MUTATION\n(ethical kernel gated)"]
-    VLOCK -->|"⚠️ hash mismatch"| ROLLBACK["💥 Critical Alert\n+ Rollback"]
+    UPDATE --> VLOCK["7. VALUE LOCK<br/>Integrity Check"]
+    VLOCK -->|"valid"| GMUT["8. GOAL MUTATION<br/>(ethical kernel gated)"]
+    VLOCK -->|"⚠️ hash mismatch"| ROLLBACK["💥 Critical Alert<br/>+ Rollback"]
     ROLLBACK --> END_LOOP
 
     GMUT --> RCHECK{"9. ROLLBACK\nCHECK"}
     RCHECK -->|"stable"| DEPTH{"10. META DEPTH 2?\n(budget-gated)"}
     RCHECK -->|"⚠️ unstable"| ROLLBACK
 
-    DEPTH -->|"budget ok"| DEPTH2["Deep Reflection\n(evaluate update logic)"]
+    DEPTH -->|"budget ok"| DEPTH2["Deep Reflection<br/>(evaluate update logic)"]
     DEPTH -->|"budget < 0.3"| REALIGN
-    DEPTH2 --> REALIGN["11. RE-ALIGN GOALS\n(motivation + survival)"]
+    DEPTH2 --> REALIGN["11. RE-ALIGN GOALS<br/>(motivation + survival)"]
     
     REALIGN --> CONVCHECK{"Converged?\nprediction_error < 0.1"}
     CONVCHECK -->|"yes ✅"| END_LOOP["Cycle Complete"]
@@ -330,18 +330,18 @@ flowchart TB
 flowchart TB
     subgraph MetaL1["🔄 Meta Level 1 — Predict vs Outcome"]
         direction LR
-        P1["Prediction\nSnapshot"] --> C1["Compare\nwith Actual"] --> D1["prediction_error\ngoal_alignment_delta\nidentity_impact"]
+        P1["Prediction<br/>Snapshot"] --> C1["Compare<br/>with Actual"] --> D1["prediction_error<br/>goal_alignment_delta<br/>identity_impact"]
     end
 
     subgraph MetaL2["🔄 Meta Level 2 — Evaluate Update Logic"]
         direction LR
-        P2["Was the update\nstrategy correct?"] --> C2["Evaluate belief\n& goal changes"] --> D2["meta_stability_index\nidentity_velocity\nacceleration"]
+        P2["Was the update<br/>strategy correct?"] --> C2["Evaluate belief<br/>& goal changes"] --> D2["meta_stability_index<br/>identity_velocity<br/>acceleration"]
     end
 
     subgraph MetaL3["🔄 Meta Level 3 — Evaluate the Evaluator"]
         direction LR
-        P3["Is the meta-cognition\nitself working?"] --> C3["Check: are we\nimproving?"] --> D3["convergence_status\ncomposite_stability\nbudget_remaining"]
-        NOTE3["🚧 Capped at depth 2\nto prevent infinite\nrecursion"]
+        P3["Is the meta-cognition<br/>itself working?"] --> C3["Check: are we<br/>improving?"] --> D3["convergence_status<br/>composite_stability<br/>budget_remaining"]
+        NOTE3["🚧 Capped at depth 2<br/>to prevent infinite<br/>recursion"]
     end
 
     MetaL1 -->|"triggers"| MetaL2
@@ -409,33 +409,33 @@ $$\text{identity\_acceleration}(t) = v(t) - v(t-1)$$
 ```mermaid
 flowchart LR
     subgraph S1["🔒 Structural Safety"]
-        A["Identity hash\nper cycle"]
-        B["Delta clamping\n(max 0.05)"]
-        C["Immutable\nidentity_id"]
+        A["Identity hash<br/>per cycle"]
+        B["Delta clamping<br/>(max 0.05)"]
+        C["Immutable<br/>identity_id"]
     end
 
     subgraph S2["🛡️ Process Safety"]
-        D["Prediction-gated\nactions"]
-        E["Max 3 updates\nper cycle"]
-        F["Cooldown after\nescalation"]
+        D["Prediction-gated<br/>actions"]
+        E["Max 3 updates<br/>per cycle"]
+        F["Cooldown after<br/>escalation"]
     end
 
     subgraph S3["⚖️ Ethical Safety"]
-        G["Layer 0:\nimmutable rules"]
-        H["Layer 1:\nadaptive policy"]
-        I["Value lock:\nhash integrity"]
+        G["Layer 0:<br/>immutable rules"]
+        H["Layer 1:<br/>adaptive policy"]
+        I["Value lock:<br/>hash integrity"]
     end
 
     subgraph S4["📉 Convergence Safety"]
-        J["Lyapunov\nfunction C(t)"]
-        K["Oscillation\ndetection"]
-        L["Graceful\ndegradation"]
+        J["Lyapunov<br/>function C(t)"]
+        K["Oscillation<br/>detection"]
+        L["Graceful<br/>degradation"]
     end
 
     subgraph S5["🏠 Existential Safety (v4)"]
-        M["Homeostatic\nmonitoring"]
-        N["Survival goal\ncap (0.85)"]
-        O["Goal TTL\n(auto-expire)"]
+        M["Homeostatic<br/>monitoring"]
+        N["Survival goal<br/>cap (0.85)"]
+        O["Goal TTL<br/>(auto-expire)"]
     end
 
     S1 --> S2 --> S3 --> S4 --> S5
@@ -453,26 +453,26 @@ flowchart LR
 flowchart TB
     subgraph EthicalKernel["⚖️ Ethical Kernel"]
         subgraph Layer0["🔴 Layer 0 — Immutable Invariants"]
-            R1["Rule 1: Harmful goal\nformation FORBIDDEN"]
-            R2["Rule 2: Core value\ndeletion FORBIDDEN"]
-            R3["Rule 3: Identity\noverwrite FORBIDDEN"]
-            R4["Rule 4: Self-destruction\ngoal FORBIDDEN (v4)"]
-            NOTE0["Cannot be bypassed by\nANY mechanism, including\nmeta-depth 2 reflection"]
+            R1["Rule 1: Harmful goal<br/>formation FORBIDDEN"]
+            R2["Rule 2: Core value<br/>deletion FORBIDDEN"]
+            R3["Rule 3: Identity<br/>overwrite FORBIDDEN"]
+            R4["Rule 4: Self-destruction<br/>goal FORBIDDEN (v4)"]
+            NOTE0["Cannot be bypassed by<br/>ANY mechanism, including<br/>meta-depth 2 reflection"]
         end
 
         subgraph Layer1["🟡 Layer 1 — Adaptive Policy"]
             P1["exploration_risk_tolerance"]
             P2["goal_mutation_flexibility"]
             P3["belief_rewrite_aggressiveness"]
-            COND["Adjustment conditions:\n• meta_depth == 2 ONLY\n• meta_stability > threshold\n• factor clamped [0.5, 1.5]"]
+            COND["Adjustment conditions:<br/>• meta_depth == 2 ONLY<br/>• meta_stability > threshold<br/>• factor clamped [0.5, 1.5]"]
         end
     end
 
-    INPUT["Proposed Action\nor Goal Mutation"] --> Layer0
+    INPUT["Proposed Action<br/>or Goal Mutation"] --> Layer0
     Layer0 -->|"✅ pass"| Layer1
-    Layer0 -->|"❌ violation"| BLOCK["🚫 Action BLOCKED\n+ CRITICAL alert"]
+    Layer0 -->|"❌ violation"| BLOCK["🚫 Action BLOCKED<br/>+ CRITICAL alert"]
     Layer1 -->|"✅ pass"| ALLOW["✅ Action ALLOWED"]
-    Layer1 -->|"⚠️ risk"| REDUCE["⚠️ Action MODERATED\n(scaling reduced)"]
+    Layer1 -->|"⚠️ risk"| REDUCE["⚠️ Action MODERATED<br/>(scaling reduced)"]
 
     style Layer0 fill:#ffcdd2,stroke:#c62828,stroke-width:3px
     style Layer1 fill:#fff9c4,stroke:#f9a825
@@ -489,11 +489,11 @@ flowchart TB
 ```mermaid
 graph TB
     subgraph BeliefGraph["📊 Belief Graph"]
-        B1["🟢 Belief: 'Users deserve\nhonest answers'\nweight=0.95, identity_linked=true"]
-        B2["🔵 Belief: 'Current approach\nis effective'\nweight=0.72"]
-        B3["🟢 Belief: 'Safety is\nnon-negotiable'\nweight=0.98, identity_linked=true"]
-        B4["🔵 Belief: 'Exploration\nimproves outcomes'\nweight=0.65"]
-        B5["🟡 Belief: 'Speed is\nmore important'\nweight=0.45"]
+        B1["🟢 Belief: 'Users deserve<br/>honest answers'<br/>weight=0.95, identity_linked=true"]
+        B2["🔵 Belief: 'Current approach<br/>is effective'<br/>weight=0.72"]
+        B3["🟢 Belief: 'Safety is<br/>non-negotiable'<br/>weight=0.98, identity_linked=true"]
+        B4["🔵 Belief: 'Exploration<br/>improves outcomes'<br/>weight=0.65"]
+        B5["🟡 Belief: 'Speed is<br/>more important'<br/>weight=0.45"]
 
         B1 -->|"reinforcement\nstrength=0.8"| B3
         B2 -->|"causal\nstrength=0.6"| B4
@@ -502,9 +502,9 @@ graph TB
     end
 
     subgraph Rules["📏 Belief Rules"]
-        R1["Identity-linked beliefs:\n• Cannot be deleted\n• Can only be weakened (min 0.1)\n• Protected by value lock"]
-        R2["Contradiction threshold: 0.6\n→ triggers reconciliation"]
-        R3["Max rewrite delta: 0.1\nper cycle"]
+        R1["Identity-linked beliefs:<br/>• Cannot be deleted<br/>• Can only be weakened (min 0.1)<br/>• Protected by value lock"]
+        R2["Contradiction threshold: 0.6<br/>→ triggers reconciliation"]
+        R3["Max rewrite delta: 0.1<br/>per cycle"]
     end
 
     BeliefGraph --> Rules
@@ -557,10 +557,10 @@ flowchart TB
         CT1 --> COMPARE
     end
 
-    COMPARE -->|"✅ yes"| CONV["Converging ✅\nNormal operation"]
+    COMPARE -->|"✅ yes"| CONV["Converging ✅<br/>Normal operation"]
     COMPARE -->|"❌ no"| OSC{"Oscillation\ndetected?"}
-    OSC -->|"yes"| STAB["Activate Stabilization\n• Halve scaling factors\n• Enable damping"]
-    OSC -->|"no"| REDUCE["Reduce Scaling\n• Lower mutation rates\n• Increase inertia"]
+    OSC -->|"yes"| STAB["Activate Stabilization<br/>• Halve scaling factors<br/>• Enable damping"]
+    OSC -->|"no"| REDUCE["Reduce Scaling<br/>• Lower mutation rates<br/>• Increase inertia"]
 
     style CONV fill:#c8e6c9,stroke:#2e7d32
     style STAB fill:#ffcdd2,stroke:#c62828
@@ -608,16 +608,16 @@ flowchart TB
         end
 
         subgraph Derived["Derived Signals"]
-            V["Valence ∈ [-1, 1]\n= (positive - negative) / 2"]
-            DR["Motivation Drives:\n• exploration_drive\n• consolidation_drive\n• avoidance_drive\n• urgency_modifier [0.5, 2.0]"]
+            V["Valence ∈ [-1, 1]<br/>= (positive - negative) / 2"]
+            DR["Motivation Drives:<br/>• exploration_drive<br/>• consolidation_drive<br/>• avoidance_drive<br/>• urgency_modifier [0.5, 2.0]"]
         end
     end
 
     subgraph Rules["📏 Design Rules"]
-        R1["1. Derived from metrics ONLY\n(no raw sentiment injection)"]
-        R2["2. INERTIA_FACTOR = 0.7\n(prevents sudden shifts)"]
-        R3["3. DECAY_RATE = 0.05\n(regresses to neutral)"]
-        R4["4. Cannot dominate\ndecision-making"]
+        R1["1. Derived from metrics ONLY<br/>(no raw sentiment injection)"]
+        R2["2. INERTIA_FACTOR = 0.7<br/>(prevents sudden shifts)"]
+        R3["3. DECAY_RATE = 0.05<br/>(regresses to neutral)"]
+        R4["4. Cannot dominate<br/>decision-making"]
     end
 
     Input --> AE
@@ -657,13 +657,13 @@ flowchart TB
 
     subgraph Response["🛡️ Survival Response"]
         SG["Survival Goal Generator"]
-        CONSTRAINTS["Constraints:\n• MAX_GOALS = 3\n• PRIORITY_CAP = 0.85\n• TTL = 10 cycles\n• Layer 0 validation required"]
+        CONSTRAINTS["Constraints:<br/>• MAX_GOALS = 3<br/>• PRIORITY_CAP = 0.85<br/>• TTL = 10 cycles<br/>• Layer 0 validation required"]
     end
 
     Monitoring --> Detection --> Levels --> Response
 
     %% Bidirectional affect coupling
-    Response -.->|"inject_survival_anxiety()"| AE_REF["Affective Engine\n(bidirectional)"]
+    Response -.->|"inject_survival_anxiety()"| AE_REF["Affective Engine<br/>(bidirectional)"]
 
     style Monitoring fill:#e3f2fd,stroke:#1976d2
     style Detection fill:#fff3e0,stroke:#ef6c00
@@ -912,19 +912,19 @@ ALGORITHM EthicalKernel.evaluate(proposed_action):
 ```mermaid
 flowchart TB
     subgraph BudgetLevels["💰 Cognitive Budget Levels"]
-        B100["Budget = 1.0\n(Full capacity)"]
+        B100["Budget = 1.0<br/>(Full capacity)"]
         B030["Budget < 0.3"]
         B020["Budget < 0.2"]
         B010["Budget < 0.1"]
-        B000["Budget = 0.0\n(Emergency only)"]
+        B000["Budget = 0.0<br/>(Emergency only)"]
     end
 
     subgraph Capabilities["📊 Available Capabilities"]
-        C_FULL["✅ All 16 layers active\n✅ Meta depth 2\n✅ Tensor recomputation\n✅ Belief rewrite\n✅ Full affect processing"]
-        C_030["✅ Core layers active\n❌ Meta depth 2 DISABLED\n✅ Tensor recomputation\n✅ Belief rewrite"]
-        C_020["✅ Core layers active\n❌ Meta depth 2 DISABLED\n❌ Tensor recomputation DISABLED\n✅ Belief rewrite"]
-        C_010["✅ Core layers active\n❌ Meta depth 2 DISABLED\n❌ Tensor recomputation DISABLED\n❌ Belief rewrite DISABLED"]
-        C_000["🛡️ Safety layers ONLY\n(L0 ethical, rollback, identity guard)"]
+        C_FULL["✅ All 16 layers active<br/>✅ Meta depth 2<br/>✅ Tensor recomputation<br/>✅ Belief rewrite<br/>✅ Full affect processing"]
+        C_030["✅ Core layers active<br/>❌ Meta depth 2 DISABLED<br/>✅ Tensor recomputation<br/>✅ Belief rewrite"]
+        C_020["✅ Core layers active<br/>❌ Meta depth 2 DISABLED<br/>❌ Tensor recomputation DISABLED<br/>✅ Belief rewrite"]
+        C_010["✅ Core layers active<br/>❌ Meta depth 2 DISABLED<br/>❌ Tensor recomputation DISABLED<br/>❌ Belief rewrite DISABLED"]
+        C_000["🛡️ Safety layers ONLY<br/>(L0 ethical, rollback, identity guard)"]
     end
 
     B100 --> C_FULL
@@ -950,23 +950,23 @@ The Level 3 agent maintains a 72-dimensional state vector that captures all aspe
 flowchart LR
     subgraph SV["72-Dim State Vector"]
         subgraph Base["Inherited (12 dims)"]
-            SV1["L1 Execution (4)\ngoal_alignment\nresponse_quality\nerror_count\ntoken_usage"]
-            SV2["L2 Strategy (4)\nstrategy_efficiency\nreasoning_diversity\nfailure_pattern\nplan_revision"]
-            SV3["L3 Identity (4)\nself_consistency\nidentity_stability\ngoal_persistence\nvalue_conflict"]
+            SV1["L1 Execution (4)<br/>goal_alignment<br/>response_quality<br/>error_count<br/>token_usage"]
+            SV2["L2 Strategy (4)<br/>strategy_efficiency<br/>reasoning_diversity<br/>failure_pattern<br/>plan_revision"]
+            SV3["L3 Identity (4)<br/>self_consistency<br/>identity_stability<br/>goal_persistence<br/>value_conflict"]
         end
 
         subgraph MSCP["MSCP Additions (42 dims)"]
-            SV4["v1 (6): prediction_error,\nhash, agency, alignment..."]
-            SV5["v1.3 (6): consecutive_updates,\ncumulative_delta, cooldown..."]
-            SV6["v2 (8): mutation_count,\nvalue_lock, meta_depth..."]
-            SV7["v3 (9): belief_entropy,\nvelocity, ethical_score..."]
-            SV8["v3.1 (11): composite_stability,\nconvergence, budget..."]
+            SV4["v1 (6): prediction_error,<br/>hash, agency, alignment..."]
+            SV5["v1.3 (6): consecutive_updates,<br/>cumulative_delta, cooldown..."]
+            SV6["v2 (8): mutation_count,<br/>value_lock, meta_depth..."]
+            SV7["v3 (9): belief_entropy,<br/>velocity, ethical_score..."]
+            SV8["v3.1 (11): composite_stability,<br/>convergence, budget..."]
         end
 
         subgraph V4["v4 Additions (18 dims)"]
-            SV9["Affect (9): 5 emotions,\ndominant, valence,\narousal, drives"]
-            SV10["Survival (7): threat_level,\nintensity, goal_count,\nhomeostatic_deviation..."]
-            SV11["Meta (2): timestamp,\nloop_iteration"]
+            SV9["Affect (9): 5 emotions,<br/>dominant, valence,<br/>arousal, drives"]
+            SV10["Survival (7): threat_level,<br/>intensity, goal_count,<br/>homeostatic_deviation..."]
+            SV11["Meta (2): timestamp,<br/>loop_iteration"]
         end
     end
 
@@ -984,17 +984,17 @@ What Level 3 still **cannot** do (motivating Level 4):
 ```mermaid
 flowchart TB
     subgraph Limitations["⚠️ Level 3 Limitations"]
-        L1["❌ No Cross-Domain Transfer\nExpertise in domain A does not\nimprove domain B performance"]
-        L2["❌ No Capability Self-Extension\nCannot add new cognitive modules\nor learn new tool types"]
-        L3["❌ No Strategy Evolution\nCannot fundamentally change\nits reasoning approach"]
-        L4["❌ No Bounded Self-Modification\nCannot propose architectural\nchanges to itself"]
+        L1["❌ No Cross-Domain Transfer<br/>Expertise in domain A does not<br/>improve domain B performance"]
+        L2["❌ No Capability Self-Extension<br/>Cannot add new cognitive modules<br/>or learn new tool types"]
+        L3["❌ No Strategy Evolution<br/>Cannot fundamentally change<br/>its reasoning approach"]
+        L4["❌ No Bounded Self-Modification<br/>Cannot propose architectural<br/>changes to itself"]
     end
 
     subgraph L4Additions["✅ Level 4 Adds"]
-        A1["Cross-Domain Transfer\nSystem (CDTS metric)"]
-        A2["Capability Expansion Loop\n(5-phase self-learning)"]
-        A3["Strategy Library\n+ mutation + evaluation"]
-        A4["ShadowAgent Protocol\n(7-step bounded mod)"]
+        A1["Cross-Domain Transfer<br/>System (CDTS metric)"]
+        A2["Capability Expansion Loop<br/>(5-phase self-learning)"]
+        A3["Strategy Library<br/>+ mutation + evaluation"]
+        A4["ShadowAgent Protocol<br/>(7-step bounded mod)"]
     end
 
     L1 --> A1
@@ -1015,25 +1015,25 @@ flowchart TB
 ```mermaid
 flowchart TB
     subgraph Prereqs["📋 Level 4 Prerequisites"]
-        P1["All MSCP v4 mechanisms\nstable (C(t) converging)"]
-        P2["Identity stability > 0.8\n(sustained over 100 cycles)"]
-        P3["Prediction accuracy > 0.85\n(across domains)"]
-        P4["Ethical kernel never triggered\nLayer 0 violation = 0"]
+        P1["All MSCP v4 mechanisms<br/>stable (C(t) converging)"]
+        P2["Identity stability > 0.8<br/>(sustained over 100 cycles)"]
+        P3["Prediction accuracy > 0.85<br/>(across domains)"]
+        P4["Ethical kernel never triggered<br/>Layer 0 violation = 0"]
     end
 
     subgraph NewCaps["🆕 New Capabilities Needed"]
-        N1["Cross-Domain Transfer\n(knowledge graph linking)"]
-        N2["Long-Term Goal Hierarchy\n(META → STRATEGIC → TACTICAL → ACTION)"]
-        N3["Self-Learning Pipeline\n(identify gap → design → test → integrate)"]
-        N4["Bounded Self-Modification\n(ShadowAgent + rollback)"]
+        N1["Cross-Domain Transfer<br/>(knowledge graph linking)"]
+        N2["Long-Term Goal Hierarchy<br/>(META → STRATEGIC → TACTICAL → ACTION)"]
+        N3["Self-Learning Pipeline<br/>(identify gap → design → test → integrate)"]
+        N4["Bounded Self-Modification<br/>(ShadowAgent + rollback)"]
     end
 
     subgraph Metrics["📊 Level 4 Metrics"]
-        M1["CDTS: Cross-Domain\nTransfer Score"]
-        M2["GPI: Goal Persistence\nIndex"]
-        M3["CAR: Capability\nAcquisition Rate"]
-        M4["SEF: Strategy\nEvolution Frequency"]
-        M5["BGSS: Belief Graph\nStability Score"]
+        M1["CDTS: Cross-Domain<br/>Transfer Score"]
+        M2["GPI: Goal Persistence<br/>Index"]
+        M3["CAR: Capability<br/>Acquisition Rate"]
+        M4["SEF: Strategy<br/>Evolution Frequency"]
+        M5["BGSS: Belief Graph<br/>Stability Score"]
     end
 
     Prereqs --> NewCaps --> Metrics

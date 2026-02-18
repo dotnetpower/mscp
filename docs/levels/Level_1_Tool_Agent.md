@@ -37,9 +37,9 @@ flowchart LR
     end
 
     subgraph Processing["⚙️ Processing Pipeline"]
-        IR["Intent\nRouter"]
-        TP["Tool\nParser"]
-        TD["Tool\nDispatcher"]
+        IR["Intent<br/>Router"]
+        TP["Tool<br/>Parser"]
+        TD["Tool<br/>Dispatcher"]
     end
 
     subgraph Tools["🔧 External Tools"]
@@ -50,7 +50,7 @@ flowchart LR
     end
 
     subgraph Output["🔵 Output"]
-        LLM["LLM Response\nGenerator"]
+        LLM["LLM Response<br/>Generator"]
         R["📝 Response"]
     end
 
@@ -69,28 +69,28 @@ flowchart LR
 ```mermaid
 flowchart TB
     subgraph UserLayer["User Interaction Layer"]
-        REQ["Incoming Request\n(text / structured)"]
-        RES["Outgoing Response\n(text / structured)"]
+        REQ["Incoming Request<br/>(text / structured)"]
+        RES["Outgoing Response<br/>(text / structured)"]
     end
 
     subgraph IntentLayer["Intent Classification Layer"]
         IC["Intent Classifier"]
-        PT["Pattern Matcher\n(keyword / regex)"]
-        CF["Confidence Scorer\n(0.0–1.0)"]
+        PT["Pattern Matcher<br/>(keyword / regex)"]
+        CF["Confidence Scorer<br/>(0.0–1.0)"]
         IC --> PT --> CF
     end
 
     subgraph ToolLayer["Tool Execution Layer"]
-        TR["Tool Registry\n(name → schema)"]
-        TV["Parameter\nValidator"]
-        TE["Tool Executor\n(sync / async)"]
-        EH["Error Handler\n(retry / fallback)"]
+        TR["Tool Registry<br/>(name → schema)"]
+        TV["Parameter<br/>Validator"]
+        TE["Tool Executor<br/>(sync / async)"]
+        EH["Error Handler<br/>(retry / fallback)"]
         TR --> TV --> TE --> EH
     end
 
     subgraph ResponseLayer["Response Generation Layer"]
-        RC["Result Collector\n(merge tool outputs)"]
-        RF["Response Formatter\n(template / LLM)"]
+        RC["Result Collector<br/>(merge tool outputs)"]
+        RF["Response Formatter<br/>(template / LLM)"]
     end
 
     REQ --> IC
@@ -299,18 +299,18 @@ Level 1 has fundamental limitations that motivate the transition to Level 2:
 ```mermaid
 flowchart TB
     subgraph Limitations["⚠️ Level 1 Fundamental Limitations"]
-        L1["❌ No State\nForgets everything\nbetween requests"]
-        L2["❌ No Goals\nCannot set its own\nobjectives"]
-        L3["❌ No Context\nNo understanding of\nconversation history"]
-        L4["❌ No Emotion Awareness\nCannot detect or respond\nto user sentiment"]
-        L5["❌ No Self-Awareness\nNo model of its own\ncapabilities or identity"]
+        L1["❌ No State<br/>Forgets everything<br/>between requests"]
+        L2["❌ No Goals<br/>Cannot set its own<br/>objectives"]
+        L3["❌ No Context<br/>No understanding of<br/>conversation history"]
+        L4["❌ No Emotion Awareness<br/>Cannot detect or respond<br/>to user sentiment"]
+        L5["❌ No Self-Awareness<br/>No model of its own<br/>capabilities or identity"]
     end
 
     subgraph Consequences["📉 Behavioral Consequences"]
-        C1["Identical repeated\nquestions get\nidentical answers"]
-        C2["Cannot proactively\noffer relevant\ninformation"]
-        C3["Cannot learn from\nprevious interactions\nor mistakes"]
-        C4["Cannot adapt\nresponse style to\nuser's emotional state"]
+        C1["Identical repeated<br/>questions get<br/>identical answers"]
+        C2["Cannot proactively<br/>offer relevant<br/>information"]
+        C3["Cannot learn from<br/>previous interactions<br/>or mistakes"]
+        C4["Cannot adapt<br/>response style to<br/>user's emotional state"]
     end
 
     L1 --> C1
@@ -358,10 +358,10 @@ flowchart LR
     end
 
     subgraph Gap["🔑 Transition Requirements"]
-        G1["+ World Model\n(persistent state)"]
-        G2["+ Entity Tracker\n(who/what tracking)"]
-        G3["+ Goal System\n(autonomous objectives)"]
-        G4["+ Temporal Model\n(time-aware facts)"]
+        G1["+ World Model<br/>(persistent state)"]
+        G2["+ Entity Tracker<br/>(who/what tracking)"]
+        G3["+ Goal System<br/>(autonomous objectives)"]
+        G4["+ Temporal Model<br/>(time-aware facts)"]
     end
 
     subgraph L2["Level 2: Autonomous Agent"]

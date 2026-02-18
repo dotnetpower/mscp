@@ -11,13 +11,13 @@ The **Minimal Self-Consciousness Protocol (MSCP)** defines a six-level taxonomy 
 
 ```mermaid
 flowchart LR
-    L1["L1\nTool\nAgent"]
-    L2["L2\nAutonomous\nAgent"]
-    L3["L3\nSelf-Regulating\nAgent\n★ MSCP Core"]
-    L4["L4\nAdaptive\nGeneral Agent"]
-    L45["L4.5\nPre-AGI\nSelf-Architecting"]
-    L5["L5\nAGI"]
-    L6["L6\nConscious\nEntity"]
+    L1["L1<br/>Tool<br/>Agent"]
+    L2["L2<br/>Autonomous<br/>Agent"]
+    L3["L3<br/>Self-Regulating<br/>Agent<br/>★ MSCP Core"]
+    L4["L4<br/>Adaptive<br/>General Agent"]
+    L45["L4.5<br/>Pre-AGI<br/>Self-Architecting"]
+    L5["L5<br/>AGI"]
+    L6["L6<br/>Conscious<br/>Entity"]
 
     L1 --> L2 --> L3 --> L4 --> L45 --> L5 --> L6
 
@@ -51,23 +51,23 @@ flowchart LR
 ```mermaid
 flowchart TB
     subgraph L1S["Level 1"]
-        S1["Input validation\nError handling"]
+        S1["Input validation<br/>Error handling"]
     end
 
     subgraph L2S["Level 2 (adds)"]
-        S2["Persistent world model\nGoal priority management"]
+        S2["Persistent world model<br/>Goal priority management"]
     end
 
     subgraph L3S["Level 3 (adds)"]
-        S3["Identity hash tracking\nDelta-clamped updates (0.05)\nPrediction-gated actions\nEscalation guard (max 3)\nEthical Kernel (L0+L1)\nValue lock (SHA-256)\nLyapunov convergence C(t)\nCognitive budget + degradation\nBelief graph consistency\nAffective inertia + decay\nSurvival instinct bounds"]
+        S3["Identity hash tracking<br/>Delta-clamped updates (0.05)<br/>Prediction-gated actions<br/>Escalation guard (max 3)<br/>Ethical Kernel (L0+L1)<br/>Value lock (SHA-256)<br/>Lyapunov convergence C(t)<br/>Cognitive budget + degradation<br/>Belief graph consistency<br/>Affective inertia + decay<br/>Survival instinct bounds"]
     end
 
     subgraph L4S["Level 4 (adds)"]
-        S4["BGSS ≥ 0.7 floor\nShadowAgent simulation\n7-step modification protocol\nSingle-mod atomicity\nStrategy oscillation suppression\nSkill lifecycle management\nGrowth-stability zones\n6 meta-supervisory processes"]
+        S4["BGSS ≥ 0.7 floor<br/>ShadowAgent simulation<br/>7-step modification protocol<br/>Single-mod atomicity<br/>Strategy oscillation suppression<br/>Skill lifecycle management<br/>Growth-stability zones<br/>6 meta-supervisory processes"]
     end
 
     subgraph L45S["Level 4.5 (adds)"]
-        S5["Existential Guard (unfalsifiable)\nParallel frame ethical veto\nGraduated recomposition protocol\nROD ceiling (depth 3)\nSEOF ensemble (anti-overfitting)\nPurpose coherence monitoring\nIdentity fragmentation detection\n8 global invariants"]
+        S5["Existential Guard (unfalsifiable)<br/>Parallel frame ethical veto<br/>Graduated recomposition protocol<br/>ROD ceiling (depth 3)<br/>SEOF ensemble (anti-overfitting)<br/>Purpose coherence monitoring<br/>Identity fragmentation detection<br/>8 global invariants"]
     end
 
     L1S --> L2S --> L3S --> L4S --> L45S

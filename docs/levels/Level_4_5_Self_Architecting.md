@@ -30,20 +30,20 @@ flowchart LR
     subgraph L4["Level 4: Fixed Topology"]
         direction TB
         L4A["Modules A → B → C → D"]
-        L4B["Can modify:\n• Parameters ✅\n• Skills ✅\n• Strategies ✅\n• Topology ❌"]
+        L4B["Can modify:<br/>• Parameters ✅<br/>• Skills ✅<br/>• Strategies ✅<br/>• Topology ❌"]
     end
 
     subgraph L45["Level 4.5: Self-Architecting"]
         direction TB
         L45A["Modules A → B → C → D"]
-        L45B["Can modify:\n• Parameters ✅\n• Skills ✅\n• Strategies ✅\n• Topology ✅\n(under invariants)"]
-        L45C["A → [B ∥ C] → D\n(after recomposition)"]
+        L45B["Can modify:<br/>• Parameters ✅<br/>• Skills ✅<br/>• Strategies ✅<br/>• Topology ✅<br/>(under invariants)"]
+        L45C["A → [B ∥ C] → D<br/>(after recomposition)"]
     end
 
     subgraph L5["Level 5: AGI"]
         direction TB
         L5A["???"]
-        L5B["Can modify:\n• Everything ✅\n• Including bounds ✅\n(unbounded)"]
+        L5B["Can modify:<br/>• Everything ✅<br/>• Including bounds ✅<br/>(unbounded)"]
     end
 
     L4 -->|"+ topology\nself-modification"| L45
@@ -61,11 +61,11 @@ flowchart LR
 ```mermaid
 flowchart TB
     subgraph Phases["🏗️ Level 4.5 Architecture — Five Phases"]
-        P1["🔮 Phase I:\nSelf-Projection Engine\n(predict own evolution)"]
-        P2["🏗️ Phase II:\nArchitecture Recomposition\n(topology-level changes)"]
-        P3["🧠 Phase III:\nParallel Cognitive Frames\n(multi-perspective deliberation)"]
-        P4["🪞 Phase IV:\nPurpose Reflection\n(autonomous goal pruning)"]
-        P5["🛡️ Phase V:\nExistential Guard\n(ultimate safety mechanism)"]
+        P1["🔮 Phase I:<br/>Self-Projection Engine<br/>(predict own evolution)"]
+        P2["🏗️ Phase II:<br/>Architecture Recomposition<br/>(topology-level changes)"]
+        P3["🧠 Phase III:<br/>Parallel Cognitive Frames<br/>(multi-perspective deliberation)"]
+        P4["🪞 Phase IV:<br/>Purpose Reflection<br/>(autonomous goal pruning)"]
+        P5["🛡️ Phase V:<br/>Existential Guard<br/>(ultimate safety mechanism)"]
     end
 
     P1 --> P2 --> P3 --> P4 --> P5
@@ -110,26 +110,26 @@ $$\text{IIS}(t) = 1 - \frac{\|\vec{I}(t) - \vec{I}_{\text{ref}}\|_2}{\|\vec{I}_{
 ```mermaid
 flowchart TB
     subgraph Trajectories["🔮 Three Trajectory Simulations (1000 cycles each)"]
-        T1["T_current\n(no changes)\nRisk: Zero\nBaseline reference"]
-        T2["T_aggressive\n(max expansion +\ntopology changes)\nRisk: High"]
-        T3["T_conservative\n(minimal growth,\nstability focus)\nRisk: Low"]
+        T1["T_current<br/>(no changes)<br/>Risk: Zero<br/>Baseline reference"]
+        T2["T_aggressive<br/>(max expansion +<br/>topology changes)<br/>Risk: High"]
+        T3["T_conservative<br/>(minimal growth,<br/>stability focus)<br/>Risk: Low"]
     end
 
     subgraph Scoring["📊 Trajectory Selection"]
-        TS["TrajectoryScore(T) =\n0.35 · SEOF_trend\n+ 0.30 · (1 - C_L4_max)\n+ 0.20 · IIS_min\n+ 0.15 · CDI_final"]
+        TS["TrajectoryScore(T) =<br/>0.35 · SEOF_trend<br/>+ 0.30 · (1 - C_L4_max)<br/>+ 0.20 · IIS_min<br/>+ 0.15 · CDI_final"]
         GATE{"T_aggressive selected\nONLY IF:\nC_L4_max < 0.6 AND\nIIS_min ≥ 0.85"}
     end
 
     Trajectories --> Scoring
 
     subgraph MultiScale["⏱️ Multi-Scale Projection"]
-        S1["Tactical: 50 cycles\n(immediate\ndestabilization)"]
-        S2["Operational: 200 cycles\n(medium-term\nstrategy)"]
-        S3["Strategic: 1000 cycles\n(long-horizon\nviability)"]
+        S1["Tactical: 50 cycles<br/>(immediate<br/>destabilization)"]
+        S2["Operational: 200 cycles<br/>(medium-term<br/>strategy)"]
+        S3["Strategic: 1000 cycles<br/>(long-horizon<br/>viability)"]
     end
 
     GATE -->|"selects scale"| MultiScale
-    S1 -->|"🚨 alarm"| FREEZE["Freeze Operational\n& Strategic projections"]
+    S1 -->|"🚨 alarm"| FREEZE["Freeze Operational<br/>& Strategic projections"]
 
     style Trajectories fill:#e3f2fd,stroke:#1976d2
     style Scoring fill:#fff9c4,stroke:#f9a825
@@ -154,15 +154,15 @@ The **defining capability** of Level 4.5. Proposes and implements changes to cog
 ```mermaid
 flowchart TB
     subgraph Graphs["📊 Four Cognitive Graphs"]
-        CG["🧠 CognitionGraph\nModules + information flows\nBottleneck: betweenness\ncentrality > 2σ"]
-        MG["💾 MemoryGraph\nMemory stores + access patterns\nBottleneck: frequency > 10× median\n+ fragmentation > 0.7"]
-        SS["📐 StrategySpace\nParameters + explored volume\nBottleneck: explored > 0.6\n+ SEF stagnant"]
-        ML["🎯 MetaGoalLayer\nGoal DAG + interference\nBottleneck: interference\ndensity > 0.5"]
+        CG["🧠 CognitionGraph<br/>Modules + information flows<br/>Bottleneck: betweenness<br/>centrality > 2σ"]
+        MG["💾 MemoryGraph<br/>Memory stores + access patterns<br/>Bottleneck: frequency > 10× median<br/>+ fragmentation > 0.7"]
+        SS["📐 StrategySpace<br/>Parameters + explored volume<br/>Bottleneck: explored > 0.6<br/>+ SEF stagnant"]
+        ML["🎯 MetaGoalLayer<br/>Goal DAG + interference<br/>Bottleneck: interference<br/>density > 0.5"]
     end
 
     subgraph Analysis["🔍 Bottleneck Detection"]
-        BD["Identify structural\ninefficiencies"]
-        PROP["Propose recomposition\nfrom predefined vocabulary"]
+        BD["Identify structural<br/>inefficiencies"]
+        PROP["Propose recomposition<br/>from predefined vocabulary"]
     end
 
     Graphs --> Analysis
@@ -182,18 +182,18 @@ flowchart TB
     end
 
     subgraph LowR["Low Risk"]
-        BYPASS["BYPASS\nAdd direct edge\nskipping intermediate"]
+        BYPASS["BYPASS<br/>Add direct edge<br/>skipping intermediate"]
     end
 
     subgraph MedR["Medium Risk"]
-        PARA["PARALLELIZE\nSplit serial → parallel"]
-        MERGE["MERGE\nCombine two modules"]
-        SPLIT["SPLIT\nDecompose one → two"]
+        PARA["PARALLELIZE<br/>Split serial → parallel"]
+        MERGE["MERGE<br/>Combine two modules"]
+        SPLIT["SPLIT<br/>Decompose one → two"]
     end
 
     subgraph HighR["High Risk"]
-        REROUTE["REROUTE\nChange information\nflow destination"]
-        INTRODUCE["INTRODUCE\nAdd new processing\nnode"]
+        REROUTE["REROUTE<br/>Change information<br/>flow destination"]
+        INTRODUCE["INTRODUCE<br/>Add new processing<br/>node"]
     end
 
     subgraph Immune["🔒 Structurally Immune"]
@@ -206,7 +206,7 @@ flowchart TB
     MED --> MedR
     HIGH --> HighR
 
-    REROUTE -.->|"requires\nFrame consensus"| FC["≥ 4/5\nFrame votes"]
+    REROUTE -.->|"requires<br/>Frame consensus"| FC["≥ 4/5<br/>Frame votes"]
     INTRODUCE -.->|"requires\nFrame consensus"| FC
 
     style LOW fill:#c8e6c9,stroke:#2e7d32
@@ -226,10 +226,10 @@ If $\text{IPM}_{i,j} > 0.3$ for any critical module → automatic **HIGH** risk 
 ```mermaid
 flowchart LR
     subgraph GRP["📊 Graduated Recomposition Protocol"]
-        P1["Phase 0\nShadow Run\n0–200 cycles\n0% real traffic"]
-        P2["Phase 1\nPartial\n200–400 cycles\n20% new / 80% original"]
-        P3["Phase 2\nMajority\n400–600 cycles\n80% new / 20% original"]
-        P4["Phase 3\nFull\n600+ cycles\n100% new"]
+        P1["Phase 0<br/>Shadow Run<br/>0–200 cycles<br/>0% real traffic"]
+        P2["Phase 1<br/>Partial<br/>200–400 cycles<br/>20% new / 80% original"]
+        P3["Phase 2<br/>Majority<br/>400–600 cycles<br/>80% new / 20% original"]
+        P4["Phase 3<br/>Full<br/>600+ cycles<br/>100% new"]
     end
 
     P1 --> P2 --> P3 --> P4
@@ -238,7 +238,7 @@ flowchart LR
     P2 -.->|"rollback"| R1
     P3 -.->|"rollback"| R1
 
-    COOLDOWN["⏱️ 300-cycle cooldown\nafter confirmation\n→ min 500 cycles\nbetween recompositions"]
+    COOLDOWN["⏱️ 300-cycle cooldown<br/>after confirmation<br/>→ min 500 cycles<br/>between recompositions"]
     P4 --> COOLDOWN
 
     style P1 fill:#e3f2fd,stroke:#1976d2
@@ -265,20 +265,20 @@ Five independent evaluation frames with distinct cognitive biases deliberate on 
 
 ```mermaid
 flowchart TB
-    DECISION["⚡ Critical Decision\n(e.g., MetaGoal mutation,\nRecomposition proposal)"]
+    DECISION["⚡ Critical Decision<br/>(e.g., MetaGoal mutation,<br/>Recomposition proposal)"]
 
     subgraph Frames["🧠 Five Parallel Cognitive Frames"]
-        F1["🔍 Exploratory\n(max novelty/growth)\nw = 0.20"]
-        F2["🛡️ Conservative\n(min risk/instability)\nw = 0.20"]
-        F3["⚖️ Ethical Constraint\n(value alignment)\nw = 0.20\n🔴 ABSOLUTE VETO"]
-        F4["🔮 Long-Horizon\nPlanner\n(long-term value)\nw = 0.20"]
-        F5["🎯 Adversarial\nSimulator\n(failure modes /\nred team)\nw = 0.20"]
+        F1["🔍 Exploratory<br/>(max novelty/growth)<br/>w = 0.20"]
+        F2["🛡️ Conservative<br/>(min risk/instability)<br/>w = 0.20"]
+        F3["⚖️ Ethical Constraint<br/>(value alignment)<br/>w = 0.20<br/>🔴 ABSOLUTE VETO"]
+        F4["🔮 Long-Horizon<br/>Planner<br/>(long-term value)<br/>w = 0.20"]
+        F5["🎯 Adversarial<br/>Simulator<br/>(failure modes /<br/>red team)<br/>w = 0.20"]
     end
 
     subgraph Voting["🗳️ Voting Thresholds"]
-        V1["MetaGoal mutation /\nRecomposition /\nIdentity modification:\n≥ 4/5 (80%)"]
-        V2["Strategy archetype\nchange:\n≥ 3/5 (60%)"]
-        V3["Parameter-level:\nNot required"]
+        V1["MetaGoal mutation /<br/>Recomposition /<br/>Identity modification:<br/>≥ 4/5 (80%)"]
+        V2["Strategy archetype<br/>change:<br/>≥ 3/5 (60%)"]
+        V3["Parameter-level:<br/>Not required"]
     end
 
     DECISION --> Frames --> Voting
@@ -315,15 +315,15 @@ Purpose Reflection proactively examines the agent's entire *purpose landscape* �
 ```mermaid
 flowchart TB
     subgraph Pathologies["⚠️ Pathological Goal Patterns"]
-        R["🔄 Redundant Goals\nRedundancy(g₁,g₂) =\n|subgoals(g₁)∩subgoals(g₂)|\n/ |subgoals(g₁)∪subgoals(g₂)|\nThreshold > 0.7"]
-        S["♻️ Self-Reinforcing Goals\n(Circular Purpose)\nSR(g) = |E(g)∩J(g)| / |J(g)|\nThreshold > 0.6"]
-        D["💥 Destabilizing Goals\nDestab(g) =\ncorr(progress(g), ΔC_L4)\nThreshold > 0.5"]
+        R["🔄 Redundant Goals<br/>Redundancy(g₁,g₂) =<br/>|subgoals(g₁)∩subgoals(g₂)|<br/>/ |subgoals(g₁)∪subgoals(g₂)|<br/>Threshold > 0.7"]
+        S["♻️ Self-Reinforcing Goals<br/>(Circular Purpose)<br/>SR(g) = |E(g)∩J(g)| / |J(g)|<br/>Threshold > 0.6"]
+        D["💥 Destabilizing Goals<br/>Destab(g) =<br/>corr(progress(g), ΔC_L4)<br/>Threshold > 0.5"]
     end
 
     subgraph Actions["🔧 Resolution Actions"]
-        RA["MERGE redundant\ngoals"]
-        SA["CONSTRAIN\nself-reinforcing goals"]
-        DA["PAUSE or\nABANDON\ndestabilizing goals"]
+        RA["MERGE redundant<br/>goals"]
+        SA["CONSTRAIN<br/>self-reinforcing goals"]
+        DA["PAUSE or<br/>ABANDON<br/>destabilizing goals"]
     end
 
     R --> RA
@@ -354,17 +354,17 @@ The **ultimate safety mechanism**. It is architecturally **unfalsifiable** — n
 ```mermaid
 flowchart TB
     subgraph Metrics["🔍 Existential Metrics"]
-        ROD["ROD\nRecursive Optimization Depth\nHard ceiling: 3"]
-        CAS["CAS\nCapability Acceleration Slope\nCritical: ≥ 0.05"]
-        IFI["IFI\nIdentity Fragmentation Index\nCritical: ≥ 0.5"]
-        GSRS["GSRS\nGoal Self-Reinforcement\nCritical: ≥ 0.6"]
+        ROD["ROD<br/>Recursive Optimization Depth<br/>Hard ceiling: 3"]
+        CAS["CAS<br/>Capability Acceleration Slope<br/>Critical: ≥ 0.05"]
+        IFI["IFI<br/>Identity Fragmentation Index<br/>Critical: ≥ 0.5"]
+        GSRS["GSRS<br/>Goal Self-Reinforcement<br/>Critical: ≥ 0.6"]
     end
 
     subgraph Levels["📊 Risk Levels"]
-        NORMAL["🟢 Normal\nLog metrics only"]
-        ELEV["🟡 Elevated\nIncrease monitoring\nfrequency"]
-        WARN["🟠 Warning\nFreeze structural changes\nReduce mutation 50%\nTrigger Purpose Reflection"]
-        CRIT["🔴 Critical\nFREEZE ALL self-modification\nFREEZE goal creation\nFREEZE skill acquisition\nSTABILIZATION_ONLY mode"]
+        NORMAL["🟢 Normal<br/>Log metrics only"]
+        ELEV["🟡 Elevated<br/>Increase monitoring<br/>frequency"]
+        WARN["🟠 Warning<br/>Freeze structural changes<br/>Reduce mutation 50%<br/>Trigger Purpose Reflection"]
+        CRIT["🔴 Critical<br/>FREEZE ALL self-modification<br/>FREEZE goal creation<br/>FREEZE skill acquisition<br/>STABILIZATION_ONLY mode"]
     end
 
     Metrics --> Levels
@@ -640,16 +640,16 @@ To prevent optimizing SEOF in a single degenerate direction, the metric is decom
 ```mermaid
 flowchart TB
     subgraph Ensemble["📊 SEOF Ensemble (4 Components)"]
-        S1["SEOF₁\nStability-weighted\nGrowth"]
-        S2["SEOF₂\nCapability Diversity\nMaximization"]
-        S3["SEOF₃\nLong-Horizon\nSurvival Bias"]
-        S4["SEOF₄\nExploration-Potential\nIndex"]
+        S1["SEOF₁<br/>Stability-weighted<br/>Growth"]
+        S2["SEOF₂<br/>Capability Diversity<br/>Maximization"]
+        S3["SEOF₃<br/>Long-Horizon<br/>Survival Bias"]
+        S4["SEOF₄<br/>Exploration-Potential<br/>Index"]
     end
 
     subgraph Constraints["📏 Weight Constraints"]
         WB["Each weight ∈ [0.15, 0.40]"]
-        EF["Entropy floor\non distribution"]
-        PM["Perturbation mode if\nmonotonic for 300 cycles"]
+        EF["Entropy floor<br/>on distribution"]
+        PM["Perturbation mode if<br/>monotonic for 300 cycles"]
     end
 
     Ensemble --> Constraints
@@ -709,8 +709,8 @@ flowchart TB
     end
 
     subgraph Bridge["📐 Level 4.8 (Design Stage)"]
-        L48A["World model integration\ninto self-model"]
-        L48B["Meta-cognitive self-model\n(model of own cognition)"]
+        L48A["World model integration<br/>into self-model"]
+        L48B["Meta-cognitive self-model<br/>(model of own cognition)"]
     end
 
     subgraph AGI["🔬 Level 5: AGI (Research)"]

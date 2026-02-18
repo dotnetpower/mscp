@@ -28,11 +28,11 @@ Level 4 represents the leap from *self-regulating* to *self-improving*. While Le
 ```mermaid
 flowchart TB
     subgraph L4Caps["🎯 Level 4: Five Core Capabilities"]
-        C1["1️⃣ Cross-Domain\nTransfer Learning\nCDTS ≥ 0.6"]
-        C2["2️⃣ Long-Term\nAutonomous Goals\nGPI ≥ 0.3"]
-        C3["3️⃣ Capability\nExpansion\nCAR > 0"]
-        C4["4️⃣ Strategy\nEvolution\nSEF > 1.0"]
-        C5["5️⃣ Bounded\nSelf-Modification\nBGSS ≥ 0.7"]
+        C1["1️⃣ Cross-Domain<br/>Transfer Learning<br/>CDTS ≥ 0.6"]
+        C2["2️⃣ Long-Term<br/>Autonomous Goals<br/>GPI ≥ 0.3"]
+        C3["3️⃣ Capability<br/>Expansion<br/>CAR > 0"]
+        C4["4️⃣ Strategy<br/>Evolution<br/>SEF > 1.0"]
+        C5["5️⃣ Bounded<br/>Self-Modification<br/>BGSS ≥ 0.7"]
     end
 
     subgraph Foundation["🏗️ Built on Level 3 MSCP v4"]
@@ -72,22 +72,22 @@ $$\text{BGSS} = 1.0 - 0.4 \cdot \frac{dC(t)}{dt} - 0.3 \cdot V_{\text{identity}}
 ```mermaid
 flowchart LR
     subgraph Growth["📈 Growth Metrics"]
-        CDTS["CDTS\nCross-Domain\nTransfer Score"]
-        CAR["CAR\nCapability\nAcquisition Rate"]
-        SEF["SEF\nStrategy\nEvolution Fitness"]
+        CDTS["CDTS<br/>Cross-Domain<br/>Transfer Score"]
+        CAR["CAR<br/>Capability<br/>Acquisition Rate"]
+        SEF["SEF<br/>Strategy<br/>Evolution Fitness"]
     end
 
     subgraph Persistence["🎯 Persistence"]
-        GPI["GPI\nGoal Persistence\nIndex"]
+        GPI["GPI<br/>Goal Persistence<br/>Index"]
     end
 
     subgraph Safety["🛡️ Safety Floor"]
-        BGSS["BGSS\nBounded Growth\nStability Score\n≥ 0.7 AT ALL TIMES"]
+        BGSS["BGSS<br/>Bounded Growth<br/>Stability Score<br/>≥ 0.7 AT ALL TIMES"]
     end
 
     Growth --> BGSS
     Persistence --> BGSS
-    BGSS -->|"if violated"| FREEZE["❄️ FREEZE\nall growth"]
+    BGSS -->|"if violated"| FREEZE["❄️ FREEZE<br/>all growth"]
 
     style Growth fill:#e3f2fd,stroke:#1976d2
     style Persistence fill:#fff3e0,stroke:#ef6c00
@@ -104,26 +104,26 @@ flowchart LR
 ```mermaid
 flowchart TB
     subgraph DomainA["🟦 Domain A (Known)"]
-        SA["Skill Acquired\nin Domain A"]
-        CS["Context Signature\nextracted"]
+        SA["Skill Acquired<br/>in Domain A"]
+        CS["Context Signature<br/>extracted"]
     end
 
     subgraph Matcher["🔍 Context Signature Matcher"]
-        VEC["Vector Similarity\n(cosine)"]
-        SEM["Semantic Bridge\n(LLM-based)"]
-        SCORE["Combined Score\n= w₁·sim_sig + w₂·sim_dom\n+ w₃·sim_temporal"]
+        VEC["Vector Similarity<br/>(cosine)"]
+        SEM["Semantic Bridge<br/>(LLM-based)"]
+        SCORE["Combined Score<br/>= w₁·sim_sig + w₂·sim_dom<br/>+ w₃·sim_temporal"]
     end
 
     subgraph DomainB["🟩 Domain B (Novel)"]
         ENTRY["Domain B entry"]
-        CAND["Candidate Skills\n(top-k, k=5)"]
-        ADAPT["Adaptation\nExperiment"]
+        CAND["Candidate Skills<br/>(top-k, k=5)"]
+        ADAPT["Adaptation<br/>Experiment"]
         VAL{"Validation\nSuccess?"}
     end
 
     subgraph Outcome["📊 Outcome"]
-        SUCCESS["✅ Transfer Success\ngeneralization_score ↑"]
-        FAIL["❌ Transfer Failed\n→ Learn new skill"]
+        SUCCESS["✅ Transfer Success<br/>generalization_score ↑"]
+        FAIL["❌ Transfer Failed<br/>→ Learn new skill"]
     end
 
     SA --> CS --> Matcher
@@ -159,24 +159,24 @@ flowchart TB
 ```mermaid
 flowchart TB
     subgraph MetaLevel["Level 0: MetaGoal — Weeks to Months"]
-        MG1["🏔️ MetaGoal:\n'Become proficient in\nnew problem domain'\npriority_decay = 0.001/hr"]
+        MG1["🏔️ MetaGoal:<br/>'Become proficient in<br/>new problem domain'<br/>priority_decay = 0.001/hr"]
     end
 
     subgraph StrategicLevel["Level 1: StrategicGoal — Days to Weeks"]
-        SG1["📋 Strategic:\n'Master fundamental\nconcepts'\ndecay = 0.01/hr"]
-        SG2["📋 Strategic:\n'Build cross-domain\nconnections'\ndecay = 0.01/hr"]
+        SG1["📋 Strategic:<br/>'Master fundamental<br/>concepts'<br/>decay = 0.01/hr"]
+        SG2["📋 Strategic:<br/>'Build cross-domain<br/>connections'<br/>decay = 0.01/hr"]
     end
 
     subgraph TacticalLevel["Level 2: TacticalGoal — Hours to Days"]
-        TG1["⚡ Tactical:\n'Complete learning\nmodule A'\ndecay = 0.05/hr"]
-        TG2["⚡ Tactical:\n'Practice problem\nset B'\ndecay = 0.05/hr"]
-        TG3["⚡ Tactical:\n'Identify transfer\nopportunities'\ndecay = 0.05/hr"]
+        TG1["⚡ Tactical:<br/>'Complete learning<br/>module A'<br/>decay = 0.05/hr"]
+        TG2["⚡ Tactical:<br/>'Practice problem<br/>set B'<br/>decay = 0.05/hr"]
+        TG3["⚡ Tactical:<br/>'Identify transfer<br/>opportunities'<br/>decay = 0.05/hr"]
     end
 
     subgraph ActionLevel["Level 3: Action — Single Cycle"]
-        A1["🔧 Action:\n'Execute step 1'"]
-        A2["🔧 Action:\n'Execute step 2'"]
-        A3["🔧 Action:\n'Execute step 3'"]
+        A1["🔧 Action:<br/>'Execute step 1'"]
+        A2["🔧 Action:<br/>'Execute step 2'"]
+        A3["🔧 Action:<br/>'Execute step 3'"]
     end
 
     MG1 --> SG1
@@ -235,32 +235,32 @@ where RFW = repeated failure weight, LCW = low confidence weight, DNW = domain n
 
 ```mermaid
 flowchart TB
-    TRIGGER["🎯 CGS > 0.7\n+ budget ok\n+ stable"]
+    TRIGGER["🎯 CGS > 0.7<br/>+ budget ok<br/>+ stable"]
 
     subgraph Phase1["Phase 1: ACQUISITION"]
-        P1["Identify skill gap\nSearch for patterns\nBudget: max 10%"]
+        P1["Identify skill gap<br/>Search for patterns<br/>Budget: max 10%"]
         P1OUT["→ CapabilityHypothesis"]
     end
 
     subgraph Phase2["Phase 2: EXPERIMENT"]
-        P2["Design experiments\nMax 5 experiments\nBudget: max 20% each"]
+        P2["Design experiments<br/>Max 5 experiments<br/>Budget: max 20% each"]
         P2OUT["→ ExperimentResults"]
     end
 
     subgraph Phase3["Phase 3: EVALUATION"]
-        P3["Analyze results\nCompute confidence\nCheck stability impact"]
+        P3["Analyze results<br/>Compute confidence<br/>Check stability impact"]
         P3OUT["→ EvaluationReport"]
     end
 
     subgraph Phase4["Phase 4: ABSTRACTION"]
-        P4["Extract general pattern\nCreate context signature\nRequires confidence > 0.6"]
+        P4["Extract general pattern<br/>Create context signature<br/>Requires confidence > 0.6"]
         P4OUT["→ Candidate Skill"]
     end
 
     subgraph Phase5["Phase 5: VALIDATION"]
-        P5["Identity stability > 0.7?\nEthical check passed?\nC(t) not degraded?"]
-        COMMIT["✅ COMMIT\nSkill added"]
-        DISCARD["❌ DISCARD\nInsufficient evidence"]
+        P5["Identity stability > 0.7?<br/>Ethical check passed?<br/>C(t) not degraded?"]
+        COMMIT["✅ COMMIT<br/>Skill added"]
+        DISCARD["❌ DISCARD<br/>Insufficient evidence"]
     end
 
     TRIGGER --> Phase1 --> Phase2 --> Phase3 --> Phase4 --> Phase5
@@ -309,9 +309,9 @@ stateDiagram-v2
 ```mermaid
 flowchart TB
     subgraph StratLib["📚 Strategy Library"]
-        S1["Strategy v1.0\n(active)"]
-        S2["Strategy v0.9\n(archived)"]
-        S3["Strategy v0.8\n(archived)"]
+        S1["Strategy v1.0<br/>(active)"]
+        S2["Strategy v0.9<br/>(archived)"]
+        S3["Strategy v0.8<br/>(archived)"]
         S1 -.->|"parent"| S2
         S2 -.->|"parent"| S3
     end
@@ -345,18 +345,18 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    TRIGGER["📉 StrategyScore < threshold\nfor 20+ cycles"]
+    TRIGGER["📉 StrategyScore < threshold<br/>for 20+ cycles"]
     
-    GENERATE["🧬 Clone + Bounded Perturbation\nparam_new = param_old + N(0,σ)·scale\nσ ∈ [0.01, 0.1]"]
+    GENERATE["🧬 Clone + Bounded Perturbation<br/>param_new = param_old + N(0,σ)·scale<br/>σ ∈ [0.01, 0.1]"]
     
-    SHADOW["🔬 ShadowAgent Evaluation\n(isolated simulation)"]
+    SHADOW["🔬 ShadowAgent Evaluation<br/>(isolated simulation)"]
     
     EVAL{"Improvement\n> threshold?"}
     
-    COMMIT["✅ COMMIT\nnew strategy"]
-    REJECT["❌ REJECT\n+ failure counter"]
+    COMMIT["✅ COMMIT<br/>new strategy"]
+    REJECT["❌ REJECT<br/>+ failure counter"]
     
-    POST["📊 20-cycle Post-Monitoring\nTrack C(t), StrategyScore"]
+    POST["📊 20-cycle Post-Monitoring<br/>Track C(t), StrategyScore"]
     
     REVERT{"C(t)\ndegraded?"}
     
@@ -401,12 +401,12 @@ When `oscillation_score > 0.5`:
 flowchart TB
     subgraph ModTypes["📋 Self-Modification Taxonomy"]
         direction TB
-        M1["🟢 Parameter Tuning\nApproval: L1 | Risk: Low\nReversible: Yes"]
-        M2["🟢 Skill Acquisition\nApproval: L1+stability\nReversible: Yes"]
-        M3["🟡 Strategy Mutation\nApproval: L2+simulation\nReversible: Yes"]
-        M4["🟡 Goal Restructuring\nApproval: L2+conflict res\nReversible: Partial"]
-        M5["🟠 Belief Revision\nApproval: L2+consistency\nReversible: Yes"]
-        M6["🔴 Identity Adjustment\nApproval: L3+EK+Guard\nReversible: Limited"]
+        M1["🟢 Parameter Tuning<br/>Approval: L1 | Risk: Low<br/>Reversible: Yes"]
+        M2["🟢 Skill Acquisition<br/>Approval: L1+stability<br/>Reversible: Yes"]
+        M3["🟡 Strategy Mutation<br/>Approval: L2+simulation<br/>Reversible: Yes"]
+        M4["🟡 Goal Restructuring<br/>Approval: L2+conflict res<br/>Reversible: Partial"]
+        M5["🟠 Belief Revision<br/>Approval: L2+consistency<br/>Reversible: Yes"]
+        M6["🔴 Identity Adjustment<br/>Approval: L3+EK+Guard<br/>Reversible: Limited"]
     end
 
     subgraph Forbidden["🚫 PROHIBITED"]
@@ -427,22 +427,22 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    S1["1️⃣ PROPOSAL\nModule proposes modification\nwith type, scope, expected benefit"]
+    S1["1️⃣ PROPOSAL<br/>Module proposes modification<br/>with type, scope, expected benefit"]
     
-    S2["2️⃣ PRE-VALIDATION\nEthical Kernel Layer 0 + Layer 1"]
+    S2["2️⃣ PRE-VALIDATION<br/>Ethical Kernel Layer 0 + Layer 1"]
     S2_FAIL["🚫 ABORT"]
     
-    S3["3️⃣ SIMULATION\nShadowAgent executes modification\nin isolated sandbox\n(max 20 cycles)"]
+    S3["3️⃣ SIMULATION<br/>ShadowAgent executes modification<br/>in isolated sandbox<br/>(max 20 cycles)"]
     
-    S4["4️⃣ STABILITY VALIDATION\nΔ_stability = C_shadow - C_baseline\nIdentity drift check"]
+    S4["4️⃣ STABILITY VALIDATION<br/>Δ_stability = C_shadow - C_baseline<br/>Identity drift check"]
     S4_FAIL["🚫 REJECT"]
     
-    S5["5️⃣ COMMIT\nSave snapshot → apply\nto main agent → enter monitoring"]
+    S5["5️⃣ COMMIT<br/>Save snapshot → apply<br/>to main agent → enter monitoring"]
     
-    S6["6️⃣ POST-COMMIT MONITORING\n20 cycles: track C(t),\nStrategyScore, identity_drift"]
-    S6_FAIL["⏪ ROLLBACK\nRestore from snapshot"]
+    S6["6️⃣ POST-COMMIT MONITORING<br/>20 cycles: track C(t),<br/>StrategyScore, identity_drift"]
+    S6_FAIL["⏪ ROLLBACK<br/>Restore from snapshot"]
     
-    S7["7️⃣ CONFIRMATION\nMark CONFIRMED\nUpdate BeliefGraph"]
+    S7["7️⃣ CONFIRMATION<br/>Mark CONFIRMED<br/>Update BeliefGraph"]
 
     S1 --> S2
     S2 -->|"✅ pass"| S3
@@ -471,16 +471,16 @@ flowchart TB
 ```mermaid
 flowchart TB
     subgraph MainAgent["🤖 Main Agent"]
-        MA_STATE["Full State\n(identity, goals, beliefs,\nstrategy, skills)"]
+        MA_STATE["Full State<br/>(identity, goals, beliefs,<br/>strategy, skills)"]
     end
 
     subgraph Shadow["🔬 ShadowAgent Instance"]
-        SA_STATE["Cloned State\n(deep copy)"]
-        SA_RULES["Invariants:\n• ❌ No real actions\n• ❌ No main state modification\n• ⏱️ Hard budget limit\n• 1️⃣ Max 1 instance at a time\n• 📏 Max 20 simulation cycles"]
+        SA_STATE["Cloned State<br/>(deep copy)"]
+        SA_RULES["Invariants:<br/>• ❌ No real actions<br/>• ❌ No main state modification<br/>• ⏱️ Hard budget limit<br/>• 1️⃣ Max 1 instance at a time<br/>• 📏 Max 20 simulation cycles"]
     end
 
     subgraph Result["📊 Evaluation"]
-        RES["Compare:\n• C_shadow vs C_baseline\n• Identity drift\n• Strategy performance"]
+        RES["Compare:<br/>• C_shadow vs C_baseline<br/>• Identity drift<br/>• Strategy performance"]
     end
 
     MainAgent -->|"clone"| Shadow
@@ -676,10 +676,10 @@ The three **new** terms (50% of total weight) capture expansion dynamics:
 ```mermaid
 flowchart LR
     subgraph Zones["📊 C_L4 Phase Zones"]
-        Z1["🟢 Optimal\n[0, 0.3)\nAll growth permitted\nProactive exploration"]
-        Z2["🟡 Growth-Permitted\n[0.3, 0.5)\nNormal operations"]
-        Z3["🟠 Caution\n[0.5, 0.8)\nStabilization mode\nThrottled growth"]
-        Z4["🔴 Critical\n[0.8, 1.0]\nEmergency rollback\nALL growth frozen"]
+        Z1["🟢 Optimal<br/>[0, 0.3)<br/>All growth permitted<br/>Proactive exploration"]
+        Z2["🟡 Growth-Permitted<br/>[0.3, 0.5)<br/>Normal operations"]
+        Z3["🟠 Caution<br/>[0.5, 0.8)<br/>Stabilization mode<br/>Throttled growth"]
+        Z4["🔴 Critical<br/>[0.8, 1.0]<br/>Emergency rollback<br/>ALL growth frozen"]
     end
 
     Z1 --> Z2 --> Z3 --> Z4
@@ -699,12 +699,12 @@ flowchart TB
     PRE["PRE-CHECK: BGSS ≥ 0.7?"]
 
     subgraph MetaProcesses["🔬 Six Supervisory Processes"]
-        I["I. External Validation\n(prevent self-confirmation bias)\n±5% perturbation test"]
-        II["II. Proactive Capability Projector\n(predict future gaps)\nPreemptiveGapProb > 0.6"]
-        III["III. Strategy Archetype Generator\n(topology-level changes)\nΔSEF ≥ +10% required"]
-        IV["IV. Layered Identity Evolution\n(evolve adaptive traits only)\nLayer 2 max 5%/cycle"]
-        V["V. Emergence Detector\n(detect unexpected changes)\nStatistical anomaly: mean ± 2σ"]
-        VI["VI. Directional Growth Controller\n(balanced expansion)\n4D growth vector, mag < 0.2"]
+        I["I. External Validation<br/>(prevent self-confirmation bias)<br/>±5% perturbation test"]
+        II["II. Proactive Capability Projector<br/>(predict future gaps)<br/>PreemptiveGapProb > 0.6"]
+        III["III. Strategy Archetype Generator<br/>(topology-level changes)<br/>ΔSEF ≥ +10% required"]
+        IV["IV. Layered Identity Evolution<br/>(evolve adaptive traits only)<br/>Layer 2 max 5%/cycle"]
+        V["V. Emergence Detector<br/>(detect unexpected changes)<br/>Statistical anomaly: mean ± 2σ"]
+        VI["VI. Directional Growth Controller<br/>(balanced expansion)<br/>4D growth vector, mag < 0.2"]
     end
 
     POST["POST-CHECK: Invariants valid?"]
@@ -746,11 +746,11 @@ flowchart TB
     end
 
     subgraph L45["Level 4.5 (Pre-AGI)"]
-        L45A["🔮 Self-Projection Engine\n(predict own evolutionary trajectory)"]
-        L45B["🏗️ Architecture Recomposition\n(topology-level structural changes)"]
-        L45C["🧠 Parallel Cognitive Frames\n(simultaneous multi-frame reasoning)"]
-        L45D["🪞 Purpose Reflection\n(reflect on own reason for existing)"]
-        L45E["🛡️ Existential Guard\n(safety for existential-level concerns)"]
+        L45A["🔮 Self-Projection Engine<br/>(predict own evolutionary trajectory)"]
+        L45B["🏗️ Architecture Recomposition<br/>(topology-level structural changes)"]
+        L45C["🧠 Parallel Cognitive Frames<br/>(simultaneous multi-frame reasoning)"]
+        L45D["🪞 Purpose Reflection<br/>(reflect on own reason for existing)"]
+        L45E["🛡️ Existential Guard<br/>(safety for existential-level concerns)"]
     end
 
     L4 -->|"Prerequisites:\n• CDTS ≥ 0.6\n• BGSS ≥ 0.7 sustained\n• All invariants hold\n• Ethical violations = 0"| L45
