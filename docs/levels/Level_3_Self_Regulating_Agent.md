@@ -396,13 +396,13 @@ classDiagram
 
 **Identity Vector — The Math:**
 
-$$I(t) = [\text{persona\_consistency},\ \text{value\_alignment},\ \text{capability\_confidence},\ \text{emotional\_stability},\ \text{goal\_persistence}]$$
+$$I(t) = [\text{persona\\_consistency},\ \text{value\\_alignment},\ \text{capability\\_confidence},\ \text{emotional\\_stability},\ \text{goal\\_persistence}]$$
 
-$$\text{identity\_delta}(t) = \| I(t) - I(t-1) \|_2$$
+$$\text{identity\\_delta}(t) = \| I(t) - I(t-1) \|_2$$
 
-$$\text{identity\_velocity}(t) = \frac{\text{delta}(t)}{\Delta t}$$
+$$\text{identity\\_velocity}(t) = \frac{\text{delta}(t)}{\Delta t}$$
 
-$$\text{identity\_acceleration}(t) = v(t) - v(t-1)$$
+$$\text{identity\\_acceleration}(t) = v(t) - v(t-1)$$
 
 ### 4.2 Safety Mechanism Chain
 
@@ -521,11 +521,11 @@ $$S_{ij} = \text{alignment}(\text{belief}_i,\ \text{reference}_j)$$
 
 where references include goals, core values, and identity dimensions.
 
-$$\text{global\_consistency} = \text{mean}(S)$$
+$$\text{global\\_consistency} = \text{mean}(S)$$
 
-$$\text{consistency\_gradient}_i = \text{mean}(S_{i,:}) \quad \text{(per-belief score)}$$
+$$\text{consistency\\_gradient}_i = \text{mean}(S_{i,:}) \quad \text{(per-belief score)}$$
 
-If $\text{global\_consistency} < 0.6$, reconciliation is triggered.
+If $\text{global\\_consistency} < 0.6$, reconciliation is triggered.
 
 ---
 

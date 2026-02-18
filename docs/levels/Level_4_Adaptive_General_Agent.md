@@ -63,7 +63,7 @@ $$\text{GPI} = \frac{\sum_{g \in G_{\text{long}}} w_g \cdot \text{progress}(g, T
 
 $$\text{CAR} = \frac{|S_{\text{acquired}}(T) - S_{\text{initial}}|}{T} \cdot \frac{1}{\overline{\text{cost}}(S_{\text{acquired}})} \qquad > 0$$
 
-$$\text{SEF} = \frac{\overline{R}_{\text{post\_mutation}}}{\overline{R}_{\text{pre\_mutation}}} - \sigma_{\text{oscillation}} \qquad > 1.0$$
+$$\text{SEF} = \frac{\overline{R}_{\text{post\\_mutation}}}{\overline{R}_{\text{pre\\_mutation}}} - \sigma_{\text{oscillation}} \qquad > 1.0$$
 
 $$\text{BGSS} = 1.0 - 0.4 \cdot \frac{dC(t)}{dt} - 0.3 \cdot V_{\text{identity}}(t) - 0.3 \cdot R_{\text{ethical}}(t) \qquad \geq 0.7$$
 
@@ -196,21 +196,21 @@ flowchart TB
 
 ### 4.2 Goal Scoring Function
 
-$$\text{GoalScore}(g, t) = \text{base\_value}(g) + \lambda_c \cdot \text{curiosity\_weight}(g, t) - \lambda_p \cdot \text{preservation\_weight}(g, t) + \lambda_l \cdot \text{LTP}(g, t)$$
+$$\text{GoalScore}(g, t) = \text{base\\_value}(g) + \lambda_c \cdot \text{curiosity\\_weight}(g, t) - \lambda_p \cdot \text{preservation\\_weight}(g, t) + \lambda_l \cdot \text{LTP}(g, t)$$
 
 where:
 
-$$\lambda_c = \text{motivation\_intensity}(t) \cdot \text{curiosity\_ratio}(t) \quad \text{(from AffectiveEngine)}$$
+$$\lambda_c = \text{motivation\\_intensity}(t) \cdot \text{curiosity\\_ratio}(t) \quad \text{(from AffectiveEngine)}$$
 
-$$\lambda_p = \text{identity\_volatility}(t) + \text{threat\_level}(t) \quad \text{(from Stability + Survival)}$$
+$$\lambda_p = \text{identity\\_volatility}(t) + \text{threat\\_level}(t) \quad \text{(from Stability + Survival)}$$
 
-$$\lambda_l = \frac{1}{1 + e^{-\text{horizon\_confidence}(g)}} \quad \text{(sigmoid-scaled)}$$
+$$\lambda_l = \frac{1}{1 + e^{-\text{horizon\\_confidence}(g)}} \quad \text{(sigmoid-scaled)}$$
 
 ### 4.3 Goal Resilience
 
-$$\text{GRS}(g, t) = 0.3 \cdot \frac{\text{progress}}{\text{age}} + 0.3 \cdot \text{parent\_alignment} + 0.2 \cdot \frac{\text{success\_streak}}{\text{attempts}} - 0.2 \cdot \text{conflict\_pressure}$$
+$$\text{GRS}(g, t) = 0.3 \cdot \frac{\text{progress}}{\text{age}} + 0.3 \cdot \text{parent\\_alignment} + 0.2 \cdot \frac{\text{success\\_streak}}{\text{attempts}} - 0.2 \cdot \text{conflict\\_pressure}$$
 
-$$\text{GRS}(g, t+\Delta t) = \text{GRS}(g, t) \cdot e^{-\text{decay\_rate} \cdot \Delta t}$$
+$$\text{GRS}(g, t+\Delta t) = \text{GRS}(g, t) \cdot e^{-\text{decay\\_rate} \cdot \Delta t}$$
 
 | Goal Level | Abandon Threshold | Observation Window |
 |:----------:|:---------:|:----------:|
@@ -381,7 +381,7 @@ flowchart TB
 
 ### 6.3 Oscillation Suppression
 
-$$\text{oscillation\_score} = \frac{|\text{reverts}|}{|\text{mutations}|}$$
+$$\text{oscillation\\_score} = \frac{|\text{reverts}|}{|\text{mutations}|}$$
 
 When `oscillation_score > 0.5`:
 1. **100-cycle mutation freeze**
