@@ -1,7 +1,6 @@
 # MSCP Agent Cognition Level Series
 
 > **Status**: 🔬 **Experimental** — All documents in this series describe designs that emerged from prototyping and testing. They are not finalized specifications.  
-> **Author**: Moon Choi — Cloud Solution Architect, Cloud & AI Apps, Microsoft
 
 ---
 
