@@ -196,7 +196,7 @@ sequenceDiagram
         EP->>TD: search("partnership deadline information")
         TD-->>EP: factual results
         EP->>RG: {goal: "emotional_support", facts: [...], emotion: "anxiety"}
-        RG-->>U: "I notice you've asked about the partnership several times.\nThe deadline is March 15. Would you like me to break down\nthe remaining steps so it feels more manageable?"
+        RG-->>U: "I notice you've asked about the partnership several times.<br/>The deadline is March 15. Would you like me to break down<br/>the remaining steps so it feels more manageable?"
     end
 ```
 
@@ -561,7 +561,7 @@ flowchart TB
         MC3 --> SUL3["Self-Update ★"] --> SM3
     end
 
-    L2Arch --> |"+ Self-Awareness\n+ Meta-Cognition\n+ Ethical Constraints"| L3Arch
+    L2Arch --> |"+ Self-Awareness<br/>+ Meta-Cognition<br/>+ Ethical Constraints"| L3Arch
 
     style L2Arch fill:#fff3e0,stroke:#ff9800
     style NewModules fill:#e3f2fd,stroke:#2196f3

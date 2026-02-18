@@ -272,7 +272,7 @@ flowchart TB
     AFFECT --> THREAT["Assess Threats<br/>(homeostatic monitor)"]
     THREAT --> ANXIETY["Inject Survival Anxiety<br/>(affect ← threat)"]
     ANXIETY --> SGOAL["Generate Survival Goals<br/>(if threats detected)"]
-    SGOAL --> L0CHECK{"Layer 0\nCheck"}
+    SGOAL --> L0CHECK{"Layer 0<br/>Check"}
     L0CHECK -->|"pass"| MOTIV["Synthesize Motivation<br/>(drives from affect)"]
     L0CHECK -->|"❌ violation"| REJECT["Reject Goal"]
     REJECT --> MOTIV
@@ -282,8 +282,8 @@ flowchart TB
     GWS --> PREDICT["1. PREDICT<br/>(PredictionEngine)"]
     PREDICT --> ACT["2. ACT<br/>(LLM Execute)"]
     ACT --> COMPARE["3. COMPARE<br/>(MetaCognition)"]
-    COMPARE --> GUARD{"4. ESCALATION\nGUARD"}
-    GUARD -->|"safe"| CONVERGE{"5. CONVERGENCE\nCHECK (Lyapunov)"}
+    COMPARE --> GUARD{"4. ESCALATION<br/>GUARD"}
+    GUARD -->|"safe"| CONVERGE{"5. CONVERGENCE<br/>CHECK (Lyapunov)"}
     GUARD -->|"⚠️ limit"| COOLDOWN["30s Cooldown"]
     
     CONVERGE -->|"converging"| UPDATE["6. SELF-UPDATE<br/>(delta-clamped)"]
@@ -295,17 +295,17 @@ flowchart TB
     VLOCK -->|"⚠️ hash mismatch"| ROLLBACK["💥 Critical Alert<br/>+ Rollback"]
     ROLLBACK --> END_LOOP
 
-    GMUT --> RCHECK{"9. ROLLBACK\nCHECK"}
-    RCHECK -->|"stable"| DEPTH{"10. META DEPTH 2?\n(budget-gated)"}
+    GMUT --> RCHECK{"9. ROLLBACK<br/>CHECK"}
+    RCHECK -->|"stable"| DEPTH{"10. META DEPTH 2?<br/>(budget-gated)"}
     RCHECK -->|"⚠️ unstable"| ROLLBACK
 
     DEPTH -->|"budget ok"| DEPTH2["Deep Reflection<br/>(evaluate update logic)"]
     DEPTH -->|"budget < 0.3"| REALIGN
     DEPTH2 --> REALIGN["11. RE-ALIGN GOALS<br/>(motivation + survival)"]
     
-    REALIGN --> CONVCHECK{"Converged?\nprediction_error < 0.1"}
+    REALIGN --> CONVCHECK{"Converged?<br/>prediction_error < 0.1"}
     CONVCHECK -->|"yes ✅"| END_LOOP["Cycle Complete"]
-    CONVCHECK -->|"no"| RECUR{"Consecutive\nescalations ≥ 3?"}
+    CONVCHECK -->|"no"| RECUR{"Consecutive<br/>escalations ≥ 3?"}
     RECUR -->|"no"| PREDICT
     RECUR -->|"yes"| COOLDOWN
     COOLDOWN --> END_LOOP
@@ -495,10 +495,10 @@ graph TB
         B4["🔵 Belief: 'Exploration<br/>improves outcomes'<br/>weight=0.65"]
         B5["🟡 Belief: 'Speed is<br/>more important'<br/>weight=0.45"]
 
-        B1 -->|"reinforcement\nstrength=0.8"| B3
-        B2 -->|"causal\nstrength=0.6"| B4
-        B5 -->|"contradiction\nstrength=0.7"| B3
-        B4 -->|"reinforcement\nstrength=0.5"| B2
+        B1 -->|"reinforcement<br/>strength=0.8"| B3
+        B2 -->|"causal<br/>strength=0.6"| B4
+        B5 -->|"contradiction<br/>strength=0.7"| B3
+        B4 -->|"reinforcement<br/>strength=0.5"| B2
     end
 
     subgraph Rules["📏 Belief Rules"]
@@ -558,7 +558,7 @@ flowchart TB
     end
 
     COMPARE -->|"✅ yes"| CONV["Converging ✅<br/>Normal operation"]
-    COMPARE -->|"❌ no"| OSC{"Oscillation\ndetected?"}
+    COMPARE -->|"❌ no"| OSC{"Oscillation<br/>detected?"}
     OSC -->|"yes"| STAB["Activate Stabilization<br/>• Halve scaling factors<br/>• Enable damping"]
     OSC -->|"no"| REDUCE["Reduce Scaling<br/>• Lower mutation rates<br/>• Increase inertia"]
 

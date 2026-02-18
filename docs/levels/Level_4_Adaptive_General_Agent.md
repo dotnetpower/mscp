@@ -43,7 +43,7 @@ flowchart TB
         F5["Affective + Survival Engine"]
     end
 
-    Foundation -->|"preserves ALL\nexisting mechanisms"| L4Caps
+    Foundation -->|"preserves ALL<br/>existing mechanisms"| L4Caps
 
     style L4Caps fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
     style Foundation fill:#c8e6c9,stroke:#2e7d32
@@ -118,7 +118,7 @@ flowchart TB
         ENTRY["Domain B entry"]
         CAND["Candidate Skills<br/>(top-k, k=5)"]
         ADAPT["Adaptation<br/>Experiment"]
-        VAL{"Validation\nSuccess?"}
+        VAL{"Validation<br/>Success?"}
     end
 
     subgraph Outcome["📊 Outcome"]
@@ -282,11 +282,11 @@ flowchart TB
 ```mermaid
 stateDiagram-v2
     [*] --> CANDIDATE : CGS > 0.7 triggers
-    CANDIDATE --> VALIDATED : Experiments pass\nconfidence > 0.6
+    CANDIDATE --> VALIDATED : Experiments pass<br/>confidence > 0.6
     CANDIDATE --> [*] : Experiments fail
-    VALIDATED --> ACTIVE : Stability check pass\nidentity_stability > 0.7
+    VALIDATED --> ACTIVE : Stability check pass<br/>identity_stability > 0.7
     VALIDATED --> [*] : Stability degraded
-    ACTIVE --> MATURE : usage_count > threshold\nsuccess_rate stable
+    ACTIVE --> MATURE : usage_count > threshold<br/>success_rate stable
     ACTIVE --> DEPRECATED : Replaced or redundant
     MATURE --> DEPRECATED : Better skill available
     DEPRECATED --> [*] : Removed after cool-down
@@ -351,14 +351,14 @@ flowchart TB
     
     SHADOW["🔬 ShadowAgent Evaluation<br/>(isolated simulation)"]
     
-    EVAL{"Improvement\n> threshold?"}
+    EVAL{"Improvement<br/>> threshold?"}
     
     COMMIT["✅ COMMIT<br/>new strategy"]
     REJECT["❌ REJECT<br/>+ failure counter"]
     
     POST["📊 20-cycle Post-Monitoring<br/>Track C(t), StrategyScore"]
     
-    REVERT{"C(t)\ndegraded?"}
+    REVERT{"C(t)<br/>degraded?"}
     
     DONE["✅ Strategy Confirmed"]
     ROLLBACK["⏪ Revert to Previous"]
@@ -753,7 +753,7 @@ flowchart TB
         L45E["🛡️ Existential Guard<br/>(safety for existential-level concerns)"]
     end
 
-    L4 -->|"Prerequisites:\n• CDTS ≥ 0.6\n• BGSS ≥ 0.7 sustained\n• All invariants hold\n• Ethical violations = 0"| L45
+    L4 -->|"Prerequisites:<br/>• CDTS ≥ 0.6<br/>• BGSS ≥ 0.7 sustained<br/>• All invariants hold<br/>• Ethical violations = 0"| L45
 
     style L4 fill:#e3f2fd,stroke:#1976d2
     style L45 fill:#e1bee7,stroke:#8e24aa,stroke-width:2px

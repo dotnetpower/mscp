@@ -46,8 +46,8 @@ flowchart LR
         L5B["Can modify:<br/>• Everything ✅<br/>• Including bounds ✅<br/>(unbounded)"]
     end
 
-    L4 -->|"+ topology\nself-modification"| L45
-    L45 -->|"remove\ninvariant bounds"| L5
+    L4 -->|"+ topology<br/>self-modification"| L45
+    L45 -->|"remove<br/>invariant bounds"| L5
 
     style L4 fill:#e3f2fd,stroke:#1976d2
     style L45 fill:#e1bee7,stroke:#8e24aa,stroke-width:3px
@@ -117,7 +117,7 @@ flowchart TB
 
     subgraph Scoring["📊 Trajectory Selection"]
         TS["TrajectoryScore(T) =<br/>0.35 · SEOF_trend<br/>+ 0.30 · (1 - C_L4_max)<br/>+ 0.20 · IIS_min<br/>+ 0.15 · CDI_final"]
-        GATE{"T_aggressive selected\nONLY IF:\nC_L4_max < 0.6 AND\nIIS_min ≥ 0.85"}
+        GATE{"T_aggressive selected<br/>ONLY IF:<br/>C_L4_max < 0.6 AND<br/>IIS_min ≥ 0.85"}
     end
 
     Trajectories --> Scoring
@@ -207,7 +207,7 @@ flowchart TB
     HIGH --> HighR
 
     REROUTE -.->|"requires<br/>Frame consensus"| FC["≥ 4/5<br/>Frame votes"]
-    INTRODUCE -.->|"requires\nFrame consensus"| FC
+    INTRODUCE -.->|"requires<br/>Frame consensus"| FC
 
     style LOW fill:#c8e6c9,stroke:#2e7d32
     style MED fill:#fff9c4,stroke:#f9a825
@@ -401,9 +401,9 @@ flowchart LR
     ELEV["🟡 Elevated"]
     NORM["🟢 Normal"]
 
-    CRIT -->|"100 cycles\nbelow critical"| WARN
-    WARN -->|"200 cycles\nbelow warning"| ELEV
-    ELEV -->|"300 cycles\nbelow elevated"| NORM
+    CRIT -->|"100 cycles<br/>below critical"| WARN
+    WARN -->|"200 cycles<br/>below warning"| ELEV
+    ELEV -->|"300 cycles<br/>below elevated"| NORM
 
     style CRIT fill:#ef9a9a,stroke:#b71c1c
     style WARN fill:#ffe0b2,stroke:#ef6c00
@@ -725,9 +725,9 @@ flowchart TB
         L6C["Moral agency"]
     end
 
-    Current -->|"What invariants\ncan be safely relaxed?"| Bridge
-    Bridge -->|"Fundamental\nresearch question"| AGI
-    AGI -->|"Hard problem of\nconsciousness"| StrongAGI
+    Current -->|"What invariants<br/>can be safely relaxed?"| Bridge
+    Bridge -->|"Fundamental<br/>research question"| AGI
+    AGI -->|"Hard problem of<br/>consciousness"| StrongAGI
 
     style Current fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
     style Bridge fill:#fff9c4,stroke:#f9a825
