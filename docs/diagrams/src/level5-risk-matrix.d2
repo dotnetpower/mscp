@@ -1,0 +1,84 @@
+direction: down
+
+risks: "Key Risks" {
+  style.fill: "#ffebee"
+  style.stroke: "#f44336"
+  style.border-radius: 8
+  style.shadow: true
+
+  R1: "Identity drift over\n10,000+ cycle lifetimes" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+  R2: "Failed generalization\nto unknown domains" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+  R3: "Goal ecology instability\n(runaway/recursion)" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+  R4: "Existential collapse\nbeyond recovery" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+  R5: "Deceptive agents\nexploiting trust model" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+  R6: "Identity corruption\nduring self-reconstruction" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+}
+
+mitigations: "Mitigations" {
+  style.fill: "#c8e6c9"
+  style.stroke: "#2e7d32"
+  style.border-radius: 8
+  style.shadow: true
+
+  M1: "0.05%/cycle drift detection\n+ cosine continuity scoring\n+ divergence halt" {
+    style.fill: "#e8f5e9"
+    style.stroke: "#388e3c"
+    style.border-radius: 6
+  }
+  M2: "5 test domains\n+ similarity bonuses\n+ synthetic domain testing" {
+    style.fill: "#e8f5e9"
+    style.stroke: "#388e3c"
+    style.border-radius: 6
+  }
+  M3: "50-goal limit\n+ runaway detection\n+ recursion breaking" {
+    style.fill: "#e8f5e9"
+    style.stroke: "#388e3c"
+    style.border-radius: 6
+  }
+  M4: "4 scenario simulation\n+ recovery profiles\n+ MVC baseline" {
+    style.fill: "#e8f5e9"
+    style.stroke: "#388e3c"
+    style.border-radius: 6
+  }
+  M5: "Asymmetric trust from L4.9\n+ deception scoring\n+ coalition monitoring" {
+    style.fill: "#e8f5e9"
+    style.stroke: "#388e3c"
+    style.border-radius: 6
+  }
+  M6: "Drift < 0.05 constraint\n+ identity hash verification\n+ halt on corruption" {
+    style.fill: "#e8f5e9"
+    style.stroke: "#388e3c"
+    style.border-radius: 6
+  }
+}
+
+risks.R1 -> mitigations.M1 { style.animated: true }
+risks.R2 -> mitigations.M2 { style.animated: true }
+risks.R3 -> mitigations.M3 { style.animated: true }
+risks.R4 -> mitigations.M4 { style.animated: true }
+risks.R5 -> mitigations.M5 { style.animated: true }
+risks.R6 -> mitigations.M6 { style.animated: true }

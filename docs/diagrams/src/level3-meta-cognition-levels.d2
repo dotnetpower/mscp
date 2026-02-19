@@ -1,0 +1,84 @@
+direction: down
+
+MetaL1: "🔄 Meta Level 1 — Predict vs Outcome" {
+  style: {
+    fill: "#e3f2fd"
+    stroke: "#1976d2"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+    stroke-width: 2
+  }
+  P1: "Prediction\nSnapshot" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  C1: "Compare\nwith Actual" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  D1: "prediction_error\ngoal_alignment_delta\nidentity_impact" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  P1 -> C1: { style.animated: true; style.stroke: "#1976d2" }
+  C1 -> D1: { style.animated: true; style.stroke: "#1976d2" }
+}
+
+MetaL2: "🔄 Meta Level 2 — Evaluate Update Logic" {
+  style: {
+    fill: "#fff3e0"
+    stroke: "#ef6c00"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+    stroke-width: 2
+  }
+  P2: "Was the update\nstrategy correct?" {
+    style: { fill: "#ffe0b2"; stroke: "#ef6c00"; border-radius: 6 }
+  }
+  C2: "Evaluate belief\n& goal changes" {
+    style: { fill: "#ffe0b2"; stroke: "#ef6c00"; border-radius: 6 }
+  }
+  D2: "meta_stability_index\nidentity_velocity\nacceleration" {
+    style: { fill: "#ffe0b2"; stroke: "#ef6c00"; border-radius: 6 }
+  }
+  P2 -> C2: { style.animated: true; style.stroke: "#ef6c00" }
+  C2 -> D2: { style.animated: true; style.stroke: "#ef6c00" }
+}
+
+MetaL3: "🔄 Meta Level 3 — Evaluate the Evaluator" {
+  style: {
+    fill: "#ffebee"
+    stroke: "#c62828"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+    stroke-width: 2
+  }
+  P3: "Is the meta-cognition\nitself working?" {
+    style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6 }
+  }
+  C3: "Check: are we\nimproving?" {
+    style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6 }
+  }
+  D3: "convergence_status\ncomposite_stability\nbudget_remaining" {
+    style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6 }
+  }
+  NOTE3: "🚧 Capped at depth 2\nto prevent infinite\nrecursion" {
+    style: { fill: "#fff9c4"; stroke: "#f9a825"; border-radius: 6; font-size: 12 }
+  }
+  P3 -> C3: { style.animated: true; style.stroke: "#e53935" }
+  C3 -> D3: { style.animated: true; style.stroke: "#e53935" }
+}
+
+MetaL1 -> MetaL2: "triggers" {
+  style.animated: true
+  style.stroke: "#ef6c00"
+  style.stroke-width: 3
+}
+MetaL2 -> MetaL3: "may trigger" {
+  style.animated: true
+  style.stroke: "#c62828"
+  style.stroke-width: 3
+}

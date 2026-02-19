@@ -32,7 +32,9 @@ MSCP grew out of a simple question: as agents gain the ability to set goals, mod
 | 3 | Self-Regulating Cognitive Agent | Structural | Implemented |
 | 4 | Adaptive General Agent | Structural + Reflective | Implemented |
 | 4.5 | Directionally Self-Architecting | Architectural | Implemented |
-| 5 | AGI | Full | Research |
+| 4.8 | Strategic Self-Modeling Agent | Architectural + Strategic | Design |
+| 4.9 | Autonomous Strategic Agent | Architectural + Autonomous | Design |
+| 5 | Proto-AGI | Full | Research |
 | 6 | Strong AGI / Conscious Entity | Phenomenal | Theoretical |
 
 ## Documentation
@@ -49,6 +51,9 @@ Detailed architecture specifications with Mermaid diagrams, pseudocode, and safe
 - **[Level 3: Self-Regulating Agent](docs/levels/Level_3_Self_Regulating_Agent.md)** — 16-layer architecture, MSCP v1–v4, triple-loop meta-cognition
 - **[Level 4: Adaptive General Agent](docs/levels/Level_4_Adaptive_General_Agent.md)** — Cross-domain transfer, capability expansion, bounded self-modification
 - **[Level 4.5: Pre-AGI Self-Architecting](docs/levels/Level_4_5_Self_Architecting.md)** — Self-projection (SEOF), architecture recomposition, existential guard
+- **[Level 4.8: Strategic Self-Modeling](docs/levels/Level_4_8_Strategic_Self_Modeling.md)** — World model integration, meta-cognitive self-model, strategic planning
+- **[Level 4.9: Autonomous Strategic Agent](docs/levels/Level_4_9_Autonomous_Strategic_Agent.md)** — Autonomous goal generation, value evolution, resource survival, multi-agent reasoning
+- **[Level 5: Proto-AGI](docs/levels/Level_5_Proto_AGI.md)** — Persistent identity, cross-domain generalization, self-reconstruction
 
 ## Core Design Principles
 

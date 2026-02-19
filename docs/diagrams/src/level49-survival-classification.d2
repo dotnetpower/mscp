@@ -1,0 +1,47 @@
+title: |md
+  # Survival Classification
+| {
+  near: top-center
+  shape: text
+  style.font-size: 24
+}
+
+Abundant: "🟢 Abundant\nFull capability\n(> 500 cycles)" {
+  style.border-radius: 6
+  style.fill: "#c8e6c9"
+  style.stroke: "#2e7d32"
+}
+Adequate: "🔵 Adequate\nNormal + monitor\n(200–500 cycles)" {
+  style.border-radius: 6
+  style.fill: "#bbdefb"
+  style.stroke: "#1976d2"
+}
+Constrained: "🟡 Constrained\nReduce exploration -30%\n(100–200 cycles)" {
+  style.border-radius: 6
+  style.fill: "#fff59d"
+  style.stroke: "#f9a825"
+}
+Warning: "🟠 Warning\nSurvival goals + reduce -50%\n(50–100 cycles)" {
+  style.border-radius: 6
+  style.fill: "#ffe0b2"
+  style.stroke: "#ef6c00"
+}
+Critical_S: "🔴 Critical\nSURVIVAL MODE:\n80% to stability\n(< 50 cycles)" {
+  style.border-radius: 6
+  style.fill: "#ffcdd2"
+  style.stroke: "#c62828"
+  style.stroke-width: 2
+}
+
+Abundant -> Adequate: "min_survival ≤ 500" {
+  style.animated: true
+}
+Adequate -> Constrained: "min_survival < 200" {
+  style.animated: true
+}
+Constrained -> Warning: "min_survival < 100" {
+  style.animated: true
+}
+Warning -> Critical_S: "min_survival < 50" {
+  style.animated: true
+}

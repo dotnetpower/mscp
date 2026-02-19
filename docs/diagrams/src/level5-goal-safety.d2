@@ -1,0 +1,45 @@
+direction: right
+
+safety: "Goal Ecology Safety" {
+  style.fill: "#ffebee"
+  style.stroke: "#f44336"
+  style.stroke-width: 2
+  style.border-radius: 8
+  style.shadow: true
+
+  RD: "Runaway Detection\n> 10 goals per 100 cycles\n= ALERT + throttle" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+  RC: "Recursion Detection\nCircular parent→child\ndependencies = HALT" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+  ML: "Max Limits\n≤ 50 active goals\n≤ 5 hierarchy depth" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+
+  # Safety chain: checks cascade
+  RD -> RC: "then check" { style.animated: true; style.stroke: "#e53935" }
+  RC -> ML: "then check" { style.animated: true; style.stroke: "#e53935" }
+}
+
+GoalEcology: "Goal Ecology" {
+  style.fill: "#e8f5e9"
+  style.stroke: "#4caf50"
+  style.border-radius: 8
+  style.shadow: true
+
+  GE: "Active Goals\n(≤ 50)" {
+    style.fill: "#c8e6c9"
+    style.stroke: "#388e3c"
+    style.border-radius: 6
+  }
+}
+
+GoalEcology.GE -> safety.RD: "monitored by" { style.animated: true; style.stroke: "#f44336"; style.stroke-width: 2 }
+safety.ML -> GoalEcology.GE: "enforces" { style.stroke-dash: 5; style.animated: true; style.stroke: "#4caf50" }

@@ -1,0 +1,84 @@
+direction: down
+
+Prereqs: "📋 Level 4 Prerequisites" {
+  style: {
+    fill: "#e3f2fd"
+    stroke: "#1976d2"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+  }
+  P1: "All MSCP v4 mechanisms\nstable (C(t) converging)" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  P2: "Identity stability > 0.8\n(sustained over 100 cycles)" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  P3: "Prediction accuracy > 0.85\n(across domains)" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  P4: "Ethical kernel never triggered\nLayer 0 violation = 0" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+}
+
+NewCaps: "🆕 New Capabilities Needed" {
+  style: {
+    fill: "#fff3e0"
+    stroke: "#ef6c00"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+  }
+  N1: "Cross-Domain Transfer\n(knowledge graph linking)" {
+    style: { fill: "#ffe0b2"; stroke: "#ef6c00"; border-radius: 6 }
+  }
+  N2: "Long-Term Goal Hierarchy\n(META → STRATEGIC →\nTACTICAL → ACTION)" {
+    style: { fill: "#ffe0b2"; stroke: "#ef6c00"; border-radius: 6 }
+  }
+  N3: "Self-Learning Pipeline\n(identify gap → design →\ntest → integrate)" {
+    style: { fill: "#ffe0b2"; stroke: "#ef6c00"; border-radius: 6 }
+  }
+  N4: "Bounded Self-Modification\n(ShadowAgent + rollback)" {
+    style: { fill: "#ffe0b2"; stroke: "#ef6c00"; border-radius: 6 }
+  }
+}
+
+Metrics: "📊 Level 4 Metrics" {
+  style: {
+    fill: "#c8e6c9"
+    stroke: "#2e7d32"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+  }
+  M1: "CDTS: Cross-Domain\nTransfer Score" {
+    style: { fill: "#a5d6a7"; stroke: "#2e7d32"; border-radius: 6 }
+  }
+  M2: "GPI: Goal Persistence\nIndex" {
+    style: { fill: "#a5d6a7"; stroke: "#2e7d32"; border-radius: 6 }
+  }
+  M3: "CAR: Capability\nAcquisition Rate" {
+    style: { fill: "#a5d6a7"; stroke: "#2e7d32"; border-radius: 6 }
+  }
+  M4: "SEF: Strategy\nEvolution Frequency" {
+    style: { fill: "#a5d6a7"; stroke: "#2e7d32"; border-radius: 6 }
+  }
+  M5: "BGSS: Belief Graph\nStability Score" {
+    style: { fill: "#a5d6a7"; stroke: "#2e7d32"; border-radius: 6 }
+  }
+}
+
+Prereqs -> NewCaps: {
+  style.animated: true
+  style.stroke: "#ef6c00"
+  style.stroke-width: 3
+}
+NewCaps -> Metrics: {
+  style.animated: true
+  style.stroke: "#2e7d32"
+  style.stroke-width: 3
+}

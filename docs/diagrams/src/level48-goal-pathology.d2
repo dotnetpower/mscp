@@ -1,0 +1,65 @@
+title: |md
+  # Goal Pathology Detection
+| {
+  near: top-center
+  shape: text
+  style.font-size: 20
+}
+
+Pathologies: {
+  label: "🔍 Goal Pathology Detection"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#ffebee"
+  style.stroke: "#f44336"
+
+  CONFLICT: {
+    label: "⚔️ Goal Conflict\nResource overlap >\nthreshold between\ntwo active goals"
+    style.border-radius: 6
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+  }
+  CIRCULAR: {
+    label: "🔄 Circular Goals\nGoal A depends on B,\nB depends on A\n(cycle in DAG)"
+    style.border-radius: 6
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+  }
+  STALE_node: {
+    label: "⏰ Stale Goals\nNo progress for >\nconfigured window\nwith no blockers"
+    style.border-radius: 6
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+  }
+}
+
+Response: {
+  label: "📋 Pathology Response"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#fff9c4"
+  style.stroke: "#fbc02d"
+
+  R1: {
+    label: "Conflict → Priority-based\nresource reallocation"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+  R2: {
+    label: "Circular → Break cycle,\nmerge or abandon lowest"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+  R3: {
+    label: "Stale → Escalate to\nstrategic review or abandon"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+}
+
+Pathologies.CONFLICT -> Response.R1: {style.animated: true}
+Pathologies.CIRCULAR -> Response.R2: {style.animated: true}
+Pathologies.STALE_node -> Response.R3: {style.animated: true}

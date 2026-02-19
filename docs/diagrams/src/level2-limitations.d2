@@ -1,0 +1,25 @@
+direction: down
+
+Limitations: "⚠️ Level 2 Limitations" {
+  style: { fill: "#ffebee"; stroke: "#f44336"; border-radius: 8; shadow: true }
+  L1: "❌ No Self-Model\nDoesn't know its own\ncapabilities or values" { style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6 } }
+  L2: "❌ No Prediction Loop\nCannot predict consequences\nof its actions on itself" { style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6 } }
+  L3: "❌ No Identity Continuity\nGoal drift and value drift\nare undetected" { style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6 } }
+  L4: "❌ No Ethical Constraints\nNo formal mechanism to\nreject harmful goals" { style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6 } }
+  L5: "❌ No Meta-Cognition\nCannot evaluate the quality\nof its own decisions" { style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6 } }
+}
+
+L3Additions: "✅ Level 3 Adds" {
+  style: { fill: "#e8f5e9"; stroke: "#4caf50"; border-radius: 8; shadow: true }
+  A1: "Identity Vector\n+ capability model\n+ value model" { style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 } }
+  A2: "PredictionEngine\n+ self-impact prediction" { style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 } }
+  A3: "Identity hash tracking\n+ drift detection\n+ rollback" { style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 } }
+  A4: "Ethical Kernel\n(Layer 0: immutable\nLayer 1: adaptive)" { style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 } }
+  A5: "Triple-Loop\nMeta-Cognition\n(L1/L2/L3 cycles)" { style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 } }
+}
+
+Limitations.L1 -> L3Additions.A1 { style.animated: true; style.stroke: "#4caf50" }
+Limitations.L2 -> L3Additions.A2 { style.animated: true; style.stroke: "#4caf50" }
+Limitations.L3 -> L3Additions.A3 { style.animated: true; style.stroke: "#4caf50" }
+Limitations.L4 -> L3Additions.A4 { style.animated: true; style.stroke: "#4caf50" }
+Limitations.L5 -> L3Additions.A5 { style.animated: true; style.stroke: "#4caf50" }

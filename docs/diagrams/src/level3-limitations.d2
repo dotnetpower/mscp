@@ -1,0 +1,68 @@
+direction: down
+
+Limitations: "⚠️ Level 3 Limitations" {
+  style: {
+    fill: "#ffebee"
+    stroke: "#f44336"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+  }
+  L1: "❌ No Cross-Domain Transfer\nExpertise in domain A does not\nimprove domain B performance" {
+    style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6; font-size: 11 }
+  }
+  L2: "❌ No Capability Self-Extension\nCannot add new cognitive modules\nor learn new tool types" {
+    style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6; font-size: 11 }
+  }
+  L3: "❌ No Strategy Evolution\nCannot fundamentally change\nits reasoning approach" {
+    style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6; font-size: 11 }
+  }
+  L4: "❌ No Bounded Self-Modification\nCannot propose architectural\nchanges to itself" {
+    style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6; font-size: 11 }
+  }
+}
+
+L4Additions: "✅ Level 4 Adds" {
+  style: {
+    fill: "#e8f5e9"
+    stroke: "#4caf50"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+  }
+  A1: "Cross-Domain Transfer\nSystem (CDTS metric)" {
+    style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 }
+  }
+  A2: "Capability Expansion Loop\n(5-phase self-learning)" {
+    style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 }
+  }
+  A3: "Strategy Library\n+ mutation + evaluation" {
+    style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 }
+  }
+  A4: "ShadowAgent Protocol\n(7-step bounded mod)" {
+    style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 }
+  }
+}
+
+Limitations.L1 -> L4Additions.A1: {
+  style.animated: true
+  style.stroke: "#4caf50"
+  style.stroke-width: 2
+}
+Limitations.L2 -> L4Additions.A2: {
+  style.animated: true
+  style.stroke: "#4caf50"
+  style.stroke-width: 2
+}
+Limitations.L3 -> L4Additions.A3: {
+  style.animated: true
+  style.stroke: "#4caf50"
+  style.stroke-width: 2
+}
+Limitations.L4 -> L4Additions.A4: {
+  style.animated: true
+  style.stroke: "#4caf50"
+  style.stroke-width: 2
+}

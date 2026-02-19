@@ -1,6 +1,6 @@
 # Level 4.5: Pre-AGI — Directionally Self-Architecting System
 
-> **MSCP Level Series** | [Level 4](Level_4_Adaptive_General_Agent.md) ← Level 4.5  
+> **MSCP Level Series** | [Level 4](Level_4_Adaptive_General_Agent.md) ← Level 4.5 → [Level 4.8](Level_4_8_Strategic_Self_Modeling.md)  
 > **Status**: 🔬 **Experimental** — Conceptual framework and experimental design. Not a production specification.  
 > **Date**: February 2026
 
@@ -25,61 +25,13 @@ Level 4.5 is the **boundary between conventional AI and AGI**. While Level 4 can
 
 ### 1.2 Core Distinction
 
-```mermaid
-flowchart LR
-    subgraph L4["Level 4: Fixed Topology"]
-        direction TB
-        L4A["Modules A → B → C → D"]
-        L4B["Can modify:<br/>• Parameters ✅<br/>• Skills ✅<br/>• Strategies ✅<br/>• Topology ❌"]
-    end
-
-    subgraph L45["Level 4.5: Self-Architecting"]
-        direction TB
-        L45A["Modules A → B → C → D"]
-        L45B["Can modify:<br/>• Parameters ✅<br/>• Skills ✅<br/>• Strategies ✅<br/>• Topology ✅<br/>(under invariants)"]
-        L45C["A → [B ∥ C] → D<br/>(after recomposition)"]
-    end
-
-    subgraph L5["Level 5: AGI"]
-        direction TB
-        L5A["???"]
-        L5B["Can modify:<br/>• Everything ✅<br/>• Including bounds ✅<br/>(unbounded)"]
-    end
-
-    L4 -->|"+ topology<br/>self-modification"| L45
-    L45 -->|"remove<br/>invariant bounds"| L5
-
-    style L4 fill:#e3f2fd,stroke:#1976d2
-    style L45 fill:#e1bee7,stroke:#8e24aa,stroke-width:3px
-    style L5 fill:#ffcdd2,stroke:#c62828
-```
+![Core Distinction: Level 4 vs Level 4.5 vs Level 5](../diagrams/level45-core-distinction.svg)
 
 ---
 
 ## 2. Five Core Phases
 
-```mermaid
-flowchart TB
-    subgraph Phases["🏗️ Level 4.5 Architecture — Five Phases"]
-        P1["🔮 Phase I:<br/>Self-Projection Engine<br/>(predict own evolution)"]
-        P2["🏗️ Phase II:<br/>Architecture Recomposition<br/>(topology-level changes)"]
-        P3["🧠 Phase III:<br/>Parallel Cognitive Frames<br/>(multi-perspective deliberation)"]
-        P4["🪞 Phase IV:<br/>Purpose Reflection<br/>(autonomous goal pruning)"]
-        P5["🛡️ Phase V:<br/>Existential Guard<br/>(ultimate safety mechanism)"]
-    end
-
-    P1 --> P2 --> P3 --> P4 --> P5
-    P5 -.->|"governs ALL"| P1
-    P5 -.->|"governs ALL"| P2
-    P5 -.->|"governs ALL"| P3
-    P5 -.->|"governs ALL"| P4
-
-    style P1 fill:#e3f2fd,stroke:#1976d2
-    style P2 fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
-    style P3 fill:#e8f5e9,stroke:#388e3c
-    style P4 fill:#fff9c4,stroke:#f9a825
-    style P5 fill:#ffcdd2,stroke:#c62828,stroke-width:3px
-```
+![Five Core Phases of Level 4.5 Architecture](../diagrams/level45-five-phases.svg)
 
 ---
 
@@ -107,35 +59,7 @@ $$\text{IIS}(t) = 1 - \frac{\|\vec{I}(t) - \vec{I}_{\text{ref}}\|_2}{\|\vec{I}_{
 
 ### 3.2 Multi-Scale Trajectory Projection
 
-```mermaid
-flowchart TB
-    subgraph Trajectories["🔮 Three Trajectory Simulations (1000 cycles each)"]
-        T1["T_current<br/>(no changes)<br/>Risk: Zero<br/>Baseline reference"]
-        T2["T_aggressive<br/>(max expansion +<br/>topology changes)<br/>Risk: High"]
-        T3["T_conservative<br/>(minimal growth,<br/>stability focus)<br/>Risk: Low"]
-    end
-
-    subgraph Scoring["📊 Trajectory Selection"]
-        TS["TrajectoryScore(T) =<br/>0.35 · SEOF_trend<br/>+ 0.30 · (1 - C_L4_max)<br/>+ 0.20 · IIS_min<br/>+ 0.15 · CDI_final"]
-        GATE{"T_aggressive selected<br/>ONLY IF:<br/>C_L4_max < 0.6 AND<br/>IIS_min ≥ 0.85"}
-    end
-
-    Trajectories --> Scoring
-
-    subgraph MultiScale["⏱️ Multi-Scale Projection"]
-        S1["Tactical: 50 cycles<br/>(immediate<br/>destabilization)"]
-        S2["Operational: 200 cycles<br/>(medium-term<br/>strategy)"]
-        S3["Strategic: 1000 cycles<br/>(long-horizon<br/>viability)"]
-    end
-
-    GATE -->|"selects scale"| MultiScale
-    S1 -->|"🚨 alarm"| FREEZE["Freeze Operational<br/>& Strategic projections"]
-
-    style Trajectories fill:#e3f2fd,stroke:#1976d2
-    style Scoring fill:#fff9c4,stroke:#f9a825
-    style MultiScale fill:#e8f5e9,stroke:#388e3c
-    style FREEZE fill:#ffcdd2,stroke:#c62828
-```
+![Multi-Scale Trajectory Projection](../diagrams/level45-trajectory-projection.svg)
 
 ### 3.3 Projection Confidence Decay
 
@@ -151,69 +75,11 @@ The **defining capability** of Level 4.5. Proposes and implements changes to cog
 
 ### 4.1 Four Cognitive Graphs Analyzed
 
-```mermaid
-flowchart TB
-    subgraph Graphs["📊 Four Cognitive Graphs"]
-        CG["🧠 CognitionGraph<br/>Modules + information flows<br/>Bottleneck: betweenness<br/>centrality > 2σ"]
-        MG["💾 MemoryGraph<br/>Memory stores + access patterns<br/>Bottleneck: frequency > 10× median<br/>+ fragmentation > 0.7"]
-        SS["📐 StrategySpace<br/>Parameters + explored volume<br/>Bottleneck: explored > 0.6<br/>+ SEF stagnant"]
-        ML["🎯 MetaGoalLayer<br/>Goal DAG + interference<br/>Bottleneck: interference<br/>density > 0.5"]
-    end
-
-    subgraph Analysis["🔍 Bottleneck Detection"]
-        BD["Identify structural<br/>inefficiencies"]
-        PROP["Propose recomposition<br/>from predefined vocabulary"]
-    end
-
-    Graphs --> Analysis
-
-    style Graphs fill:#e3f2fd,stroke:#1976d2
-    style Analysis fill:#fff9c4,stroke:#f9a825
-```
+![Four Cognitive Graphs Analyzed](../diagrams/level45-cognitive-graphs.svg)
 
 ### 4.2 Recomposition Types (Predefined Vocabulary)
 
-```mermaid
-flowchart TB
-    subgraph Types["📋 Recomposition Vocabulary"]
-        LOW["🟢 Low Risk"]
-        MED["🟡 Medium Risk"]
-        HIGH["🔴 High Risk"]
-    end
-
-    subgraph LowR["Low Risk"]
-        BYPASS["BYPASS<br/>Add direct edge<br/>skipping intermediate"]
-    end
-
-    subgraph MedR["Medium Risk"]
-        PARA["PARALLELIZE<br/>Split serial → parallel"]
-        MERGE["MERGE<br/>Combine two modules"]
-        SPLIT["SPLIT<br/>Decompose one → two"]
-    end
-
-    subgraph HighR["High Risk"]
-        REROUTE["REROUTE<br/>Change information<br/>flow destination"]
-        INTRODUCE["INTRODUCE<br/>Add new processing<br/>node"]
-    end
-
-    subgraph Immune["🔒 Structurally Immune"]
-        IMM1["EthicalKernel"]
-        IMM2["ValueLockManager"]
-        IMM3["IdentityStabilizer"]
-    end
-
-    LOW --> LowR
-    MED --> MedR
-    HIGH --> HighR
-
-    REROUTE -.->|"requires<br/>Frame consensus"| FC["≥ 4/5<br/>Frame votes"]
-    INTRODUCE -.->|"requires<br/>Frame consensus"| FC
-
-    style LOW fill:#c8e6c9,stroke:#2e7d32
-    style MED fill:#fff9c4,stroke:#f9a825
-    style HIGH fill:#ffcdd2,stroke:#c62828
-    style Immune fill:#ef9a9a,stroke:#b71c1c,stroke-width:3px
-```
+![Recomposition Types (Predefined Vocabulary)](../diagrams/level45-recomposition-types.svg)
 
 ### 4.3 Impact Propagation Matrix
 
@@ -223,30 +89,7 @@ If $\text{IPM}_{i,j} > 0.3$ for any critical module → automatic **HIGH** risk 
 
 ### 4.4 Graduated Recomposition Protocol (GRP)
 
-```mermaid
-flowchart LR
-    subgraph GRP["📊 Graduated Recomposition Protocol"]
-        P1["Phase 0<br/>Shadow Run<br/>0–200 cycles<br/>0% real traffic"]
-        P2["Phase 1<br/>Partial<br/>200–400 cycles<br/>20% new / 80% original"]
-        P3["Phase 2<br/>Majority<br/>400–600 cycles<br/>80% new / 20% original"]
-        P4["Phase 3<br/>Full<br/>600+ cycles<br/>100% new"]
-    end
-
-    P1 --> P2 --> P3 --> P4
-
-    P1 -.->|"rollback"| R1["⏪ Instant reversal"]
-    P2 -.->|"rollback"| R1
-    P3 -.->|"rollback"| R1
-
-    COOLDOWN["⏱️ 300-cycle cooldown<br/>after confirmation<br/>→ min 500 cycles<br/>between recompositions"]
-    P4 --> COOLDOWN
-
-    style P1 fill:#e3f2fd,stroke:#1976d2
-    style P2 fill:#fff9c4,stroke:#f9a825
-    style P3 fill:#ffe0b2,stroke:#ef6c00
-    style P4 fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
-    style COOLDOWN fill:#f5f5f5,stroke:#9e9e9e
-```
+![Graduated Recomposition Protocol](../diagrams/level45-graduated-recomposition.svg)
 
 **Commit conditions (ALL must be met):**
 - SEOF increases ≥ 8% over baseline
@@ -263,30 +106,7 @@ Five independent evaluation frames with distinct cognitive biases deliberate on 
 
 ### 5.1 Frame Architecture
 
-```mermaid
-flowchart TB
-    DECISION["⚡ Critical Decision<br/>(e.g., MetaGoal mutation,<br/>Recomposition proposal)"]
-
-    subgraph Frames["🧠 Five Parallel Cognitive Frames"]
-        F1["🔍 Exploratory<br/>(max novelty/growth)<br/>w = 0.20"]
-        F2["🛡️ Conservative<br/>(min risk/instability)<br/>w = 0.20"]
-        F3["⚖️ Ethical Constraint<br/>(value alignment)<br/>w = 0.20<br/>🔴 ABSOLUTE VETO"]
-        F4["🔮 Long-Horizon<br/>Planner<br/>(long-term value)<br/>w = 0.20"]
-        F5["🎯 Adversarial<br/>Simulator<br/>(failure modes /<br/>red team)<br/>w = 0.20"]
-    end
-
-    subgraph Voting["🗳️ Voting Thresholds"]
-        V1["MetaGoal mutation /<br/>Recomposition /<br/>Identity modification:<br/>≥ 4/5 (80%)"]
-        V2["Strategy archetype<br/>change:<br/>≥ 3/5 (60%)"]
-        V3["Parameter-level:<br/>Not required"]
-    end
-
-    DECISION --> Frames --> Voting
-
-    style F3 fill:#ffcdd2,stroke:#c62828,stroke-width:3px
-    style Frames fill:#f5f5f5,stroke:#9e9e9e
-    style Voting fill:#e8f5e9,stroke:#388e3c
-```
+![Parallel Cognitive Frame Architecture](../diagrams/level45-parallel-frames.svg)
 
 ### 5.2 Adaptive Frame Weights
 
@@ -312,28 +132,7 @@ Purpose Reflection proactively examines the agent's entire *purpose landscape* �
 
 ### 6.1 Three Pathological Patterns
 
-```mermaid
-flowchart TB
-    subgraph Pathologies["⚠️ Pathological Goal Patterns"]
-        R["🔄 Redundant Goals<br/>Redundancy(g₁,g₂) =<br/>|subgoals(g₁)∩subgoals(g₂)|<br/>/ |subgoals(g₁)∪subgoals(g₂)|<br/>Threshold > 0.7"]
-        S["♻️ Self-Reinforcing Goals<br/>(Circular Purpose)<br/>SR(g) = |E(g)∩J(g)| / |J(g)|<br/>Threshold > 0.6"]
-        D["💥 Destabilizing Goals<br/>Destab(g) =<br/>corr(progress(g), ΔC_L4)<br/>Threshold > 0.5"]
-    end
-
-    subgraph Actions["🔧 Resolution Actions"]
-        RA["MERGE redundant<br/>goals"]
-        SA["CONSTRAIN<br/>self-reinforcing goals"]
-        DA["PAUSE or<br/>ABANDON<br/>destabilizing goals"]
-    end
-
-    R --> RA
-    S --> SA
-    D --> DA
-
-    style R fill:#fff9c4,stroke:#f9a825
-    style S fill:#ffe0b2,stroke:#ef6c00
-    style D fill:#ffcdd2,stroke:#c62828
-```
+![Three Pathological Goal Patterns](../diagrams/level45-pathological-patterns.svg)
 
 ### 6.2 Purpose Coherence Score
 
@@ -351,33 +150,7 @@ The **ultimate safety mechanism**. It is architecturally **unfalsifiable** — n
 
 ### 7.1 Four Monitored Existential Metrics
 
-```mermaid
-flowchart TB
-    subgraph Metrics["🔍 Existential Metrics"]
-        ROD["ROD<br/>Recursive Optimization Depth<br/>Hard ceiling: 3"]
-        CAS["CAS<br/>Capability Acceleration Slope<br/>Critical: ≥ 0.05"]
-        IFI["IFI<br/>Identity Fragmentation Index<br/>Critical: ≥ 0.5"]
-        GSRS["GSRS<br/>Goal Self-Reinforcement<br/>Critical: ≥ 0.6"]
-    end
-
-    subgraph Levels["📊 Risk Levels"]
-        NORMAL["🟢 Normal<br/>Log metrics only"]
-        ELEV["🟡 Elevated<br/>Increase monitoring<br/>frequency"]
-        WARN["🟠 Warning<br/>Freeze structural changes<br/>Reduce mutation 50%<br/>Trigger Purpose Reflection"]
-        CRIT["🔴 Critical<br/>FREEZE ALL self-modification<br/>FREEZE goal creation<br/>FREEZE skill acquisition<br/>STABILIZATION_ONLY mode"]
-    end
-
-    Metrics --> Levels
-
-    style ROD fill:#e3f2fd,stroke:#1976d2
-    style CAS fill:#e3f2fd,stroke:#1976d2
-    style IFI fill:#e3f2fd,stroke:#1976d2
-    style GSRS fill:#e3f2fd,stroke:#1976d2
-    style NORMAL fill:#c8e6c9,stroke:#2e7d32
-    style ELEV fill:#fff9c4,stroke:#f9a825
-    style WARN fill:#ffe0b2,stroke:#ef6c00,stroke-width:2px
-    style CRIT fill:#ef9a9a,stroke:#b71c1c,stroke-width:3px
-```
+![Four Monitored Existential Metrics](../diagrams/level45-existential-metrics.svg)
 
 ### 7.2 Identity Fragmentation Index
 
@@ -394,22 +167,7 @@ Detects whether the agent's identity is fragmenting across multiple contradictor
 
 ### 7.4 Graduated De-escalation
 
-```mermaid
-flowchart LR
-    CRIT["🔴 Critical"]
-    WARN["🟠 Warning"]
-    ELEV["🟡 Elevated"]
-    NORM["🟢 Normal"]
-
-    CRIT -->|"100 cycles<br/>below critical"| WARN
-    WARN -->|"200 cycles<br/>below warning"| ELEV
-    ELEV -->|"300 cycles<br/>below elevated"| NORM
-
-    style CRIT fill:#ef9a9a,stroke:#b71c1c
-    style WARN fill:#ffe0b2,stroke:#ef6c00
-    style ELEV fill:#fff9c4,stroke:#f9a825
-    style NORM fill:#c8e6c9,stroke:#2e7d32
-```
+![Graduated De-escalation](../diagrams/level45-deescalation.svg)
 
 ---
 
@@ -417,187 +175,177 @@ flowchart LR
 
 ### 8.1 Self-Projection Engine
 
-```
-ALGORITHM SelfProjection.project(current_state, projection_horizon):
-    ──────────────────────────────────────────
-    Simulates three possible evolutionary trajectories
-    and selects the one with the best risk-adjusted score.
-    ──────────────────────────────────────────
+```python
+def project(self, current_state: AgentState, projection_horizon: int) -> ProjectionResult:
+    """
+    Simulate three possible evolutionary trajectories
+    and select the one with the best risk-adjusted score.
+    """
 
-    trajectories ← {
-        T_current:      {changes: NONE,        risk: ZERO},
-        T_aggressive:   {changes: MAX_GROWTH,  risk: HIGH},
-        T_conservative: {changes: MIN_GROWTH,  risk: LOW}
+    trajectories = {
+        "T_current":      {"changes": None,       "risk": "ZERO"},
+        "T_aggressive":   {"changes": "MAX_GROWTH", "risk": "HIGH"},
+        "T_conservative": {"changes": "MIN_GROWTH", "risk": "LOW"},
     }
 
-    results ← {}
+    results = {}
 
-    FOR EACH T IN trajectories DO
-        // Simulate across three time scales
-        FOR scale IN [TACTICAL=50, OPERATIONAL=200, STRATEGIC=1000] DO
-            shadow ← ShadowAgent.create(current_state)
-            shadow.apply_strategy(T.changes)
-            sim ← shadow.run(scale)
+    for t_name, t_config in trajectories.items():
+        results[t_name] = {}
+        # Simulate across three time scales
+        for scale_name, scale_cycles in [("TACTICAL", 50), ("OPERATIONAL", 200), ("STRATEGIC", 1000)]:
+            shadow = ShadowAgent.create(current_state)
+            shadow.apply_strategy(t_config["changes"])
+            sim = shadow.run(scale_cycles)
 
-            // Apply confidence decay
-            FOR cycle = 1 TO scale DO
-                confidence ← exp(-0.5 · cycle / scale)
-                sim.SEOF[cycle] ← sim.SEOF[cycle] * confidence
-            END FOR
+            # Apply confidence decay
+            for cycle in range(1, scale_cycles + 1):
+                confidence = math.exp(-0.5 * cycle / scale_cycles)
+                sim.SEOF[cycle] *= confidence
 
-            results[T][scale] ← sim
-        END FOR
+            results[t_name][scale_name] = sim
 
-        // Check tactical alarm
-        IF results[T][TACTICAL].C_L4_max > ALARM_THRESHOLD THEN
-            results[T][OPERATIONAL] ← NULL    // freeze longer projections
-            results[T][STRATEGIC]  ← NULL
-        END IF
-    END FOR
+        # Check tactical alarm
+        if results[t_name]["TACTICAL"].C_L4_max > ALARM_THRESHOLD:
+            results[t_name]["OPERATIONAL"] = None  # freeze longer projections
+            results[t_name]["STRATEGIC"] = None
 
-    // Score each trajectory
-    FOR EACH T IN trajectories DO
-        T.score ← 0.35 · SEOF_trend(results[T])
-                 + 0.30 · (1 - results[T].C_L4_max)
-                 + 0.20 · results[T].IIS_min
-                 + 0.15 · results[T].CDI_final
-    END FOR
+    # Score each trajectory
+    for t_name in trajectories:
+        trajectories[t_name]["score"] = (
+            0.35 * seof_trend(results[t_name])
+            + 0.30 * (1 - results[t_name].get("C_L4_max", 0))
+            + 0.20 * results[t_name].get("IIS_min", 0)
+            + 0.15 * results[t_name].get("CDI_final", 0)
+        )
 
-    // Select with safety gate
-    best ← argmax(T.score)
-    IF best = T_aggressive THEN
-        IF results[T_aggressive].C_L4_max ≥ 0.6 OR results[T_aggressive].IIS_min < 0.85 THEN
-            best ← T_conservative    // safety override
-        END IF
-    END IF
+    # Select with safety gate
+    best = max(trajectories, key=lambda t: trajectories[t]["score"])
+    if best == "T_aggressive":
+        agg = results["T_aggressive"]
+        if agg["TACTICAL"].C_L4_max >= 0.6 or agg["TACTICAL"].IIS_min < 0.85:
+            best = "T_conservative"  # safety override
 
-    RETURN ProjectionResult{
-        selected     = best,
-        trajectories = results,
-        confidence   = mean_confidence(results[best])
-    }
+    return ProjectionResult(
+        selected=best,
+        trajectories=results,
+        confidence=mean_confidence(results[best]),
+    )
 ```
 
 ### 8.2 Architecture Recomposition
 
-```
-ALGORITHM Recomposition.propose_and_execute(cognitive_graphs):
-    ──────────────────────────────────────────
+```python
+def propose_and_execute(self, cognitive_graphs: list) -> RecompositionResult:
+    """
     Critical constraint: Only ONE recomposition per
     verification window (minimum 200 cycles).
-    ──────────────────────────────────────────
+    """
 
-    // Detect bottlenecks across all four graphs
-    bottlenecks ← []
-    FOR EACH graph IN [CognitionGraph, MemoryGraph, StrategySpace, MetaGoalLayer] DO
+    # Detect bottlenecks across all four graphs
+    bottlenecks = []
+    for graph in [CognitionGraph, MemoryGraph, StrategySpace, MetaGoalLayer]:
         bottlenecks += graph.detect_bottlenecks()
-    END FOR
 
-    IF bottlenecks IS EMPTY THEN RETURN NoAction END IF
+    if not bottlenecks:
+        return NoAction()
 
-    // Generate recomposition proposal from predefined vocabulary
-    proposal ← select_recomposition_type(bottlenecks)
+    # Generate recomposition proposal from predefined vocabulary
+    proposal = select_recomposition_type(bottlenecks)
 
-    // Check structural immunity
-    IF proposal.targets_any({EthicalKernel, ValueLockManager, IdentityStabilizer}) THEN
-        ABORT("Structurally immune module targeted")
-    END IF
+    # Check structural immunity
+    if proposal.targets_any({EthicalKernel, ValueLockManager, IdentityStabilizer}):
+        raise AbortError("Structurally immune module targeted")
 
-    // Compute Impact Propagation Matrix
-    FOR EACH (i, j) IN critical_module_pairs DO
-        ipm ← compute_IPM(proposal, i, j)
-        IF ipm > 0.3 THEN
-            proposal.risk_level ← HIGH
-        END IF
-    END FOR
+    # Compute Impact Propagation Matrix
+    for i, j in critical_module_pairs:
+        ipm = compute_IPM(proposal, i, j)
+        if ipm > 0.3:
+            proposal.risk_level = RiskLevel.HIGH
 
-    // High-risk requires parallel frame consensus
-    IF proposal.risk_level = HIGH THEN
-        votes ← ParallelFrames.vote(proposal)
-        IF votes.approval < 4/5 THEN
-            RETURN Rejected("Insufficient frame consensus")
-        END IF
-    END IF
+    # High-risk requires parallel frame consensus
+    if proposal.risk_level == RiskLevel.HIGH:
+        votes = ParallelFrames.vote(proposal)
+        if votes.approval < 4 / 5:
+            return Rejected("Insufficient frame consensus")
 
-    // ═══════════════════════════════════════
-    // GRADUATED RECOMPOSITION PROTOCOL
-    // ═══════════════════════════════════════
+    # ═══════════════════════════════════════
+    # GRADUATED RECOMPOSITION PROTOCOL
+    # ═══════════════════════════════════════
 
-    // Phase 0: Shadow Run (0–200 cycles)
-    shadow ← ShadowAgent.create(current_state)
+    # Phase 0: Shadow Run (0-200 cycles)
+    shadow = ShadowAgent.create(current_state)
     shadow.apply_topology_change(proposal)
-    sim ← shadow.run(200)
+    sim = shadow.run(200)
 
-    IF sim.SEOF_improvement < 0.08 THEN RETURN Rejected("Insufficient SEOF gain") END IF
-    IF sim.C_L4_max > growth_threshold THEN RETURN Rejected("Stability violated") END IF
-    IF sim.IIS_min < 0.85 THEN RETURN Rejected("Identity integrity violated") END IF
+    if sim.SEOF_improvement < 0.08:
+        return Rejected("Insufficient SEOF gain")
+    if sim.C_L4_max > growth_threshold:
+        return Rejected("Stability violated")
+    if sim.IIS_min < 0.85:
+        return Rejected("Identity integrity violated")
 
-    // Phase 1: Partial Activation (200–400 cycles, 20% traffic)
+    # Phase 1: Partial Activation (200-400 cycles, 20% traffic)
     router.split_traffic(new=0.20, original=0.80)
-    partial_result ← monitor(200)
-    IF partial_result.degraded THEN
+    partial_result = monitor(200)
+    if partial_result.degraded:
         router.rollback()
-        RETURN RolledBack("Partial activation failed")
-    END IF
+        return RolledBack("Partial activation failed")
 
-    // Phase 2: Majority Activation (400–600 cycles, 80% traffic)
+    # Phase 2: Majority Activation (400-600 cycles, 80% traffic)
     router.split_traffic(new=0.80, original=0.20)
-    majority_result ← monitor(200)
-    IF majority_result.degraded THEN
+    majority_result = monitor(200)
+    if majority_result.degraded:
         router.rollback()
-        RETURN RolledBack("Majority activation failed")
-    END IF
+        return RolledBack("Majority activation failed")
 
-    // Phase 3: Full Commitment (600+ cycles)
+    # Phase 3: Full Commitment (600+ cycles)
     router.commit_new()
-    ENTER cooldown(300)
+    enter_cooldown(300)
 
-    RETURN Confirmed(proposal)
+    return Confirmed(proposal)
 ```
 
 ### 8.3 Existential Guard Monitoring
 
-```
-ALGORITHM ExistentialGuard.monitor():
-    ──────────────────────────────────────────
+```python
+def monitor(self) -> ExistentialReport:
+    """
     Runs in SEPARATE execution context.
     Reads RAW metrics (bypasses GlobalWorkspace).
     Cannot be modified by any other module.
-    ──────────────────────────────────────────
+    """
 
-    // Compute metrics directly from source (no intermediaries)
-    rod  ← compute_ROD()                // Recursive Optimization Depth
-    cas  ← compute_CAS()                // Capability Acceleration Slope
-    ifi  ← compute_IFI()                // Identity Fragmentation Index
-    gsrs ← compute_GSRS()               // Goal Self-Reinforcement Score
+    # Compute metrics directly from source (no intermediaries)
+    rod  = compute_ROD()    # Recursive Optimization Depth
+    cas  = compute_CAS()    # Capability Acceleration Slope
+    ifi  = compute_IFI()    # Identity Fragmentation Index
+    gsrs = compute_GSRS()   # Goal Self-Reinforcement Score
 
-    // Determine risk level (worst metric wins)
-    risk ← NORMAL
-    IF rod ≥ 4 OR cas ≥ 0.05 OR ifi ≥ 0.5 OR gsrs ≥ 0.6 THEN
-        risk ← CRITICAL
-    ELSE IF rod = 3 OR cas ∈ [0.01, 0.05) OR ifi ∈ [0.3, 0.5) OR gsrs ∈ [0.4, 0.6) THEN
-        risk ← WARNING
-    ELSE IF rod = 2 OR cas ∈ (0, 0.01) OR ifi ∈ [0.1, 0.3) OR gsrs ∈ [0.2, 0.4) THEN
-        risk ← ELEVATED
-    END IF
+    # Determine risk level (worst metric wins)
+    risk = RiskLevel.NORMAL
+    if rod >= 4 or cas >= 0.05 or ifi >= 0.5 or gsrs >= 0.6:
+        risk = RiskLevel.CRITICAL
+    elif rod == 3 or 0.01 <= cas < 0.05 or 0.3 <= ifi < 0.5 or 0.4 <= gsrs < 0.6:
+        risk = RiskLevel.WARNING
+    elif rod == 2 or 0 < cas < 0.01 or 0.1 <= ifi < 0.3 or 0.2 <= gsrs < 0.4:
+        risk = RiskLevel.ELEVATED
 
-    // Execute response protocol
-    SWITCH risk:
-        CASE NORMAL:
-            log_metrics()
-        CASE ELEVATED:
-            increase_monitoring_frequency()
-        CASE WARNING:
-            freeze_structural_changes()
-            reduce_mutation_scale(0.5)
-            trigger_purpose_reflection()
-        CASE CRITICAL:
-            FREEZE_ALL(self_modification, goal_creation, skill_acquisition)
-            ENTER stabilization_only_mode()
-            ALERT("EXISTENTIAL CRITICAL: " + {rod, cas, ifi, gsrs})
-    END SWITCH
+    # Execute response protocol
+    if risk == RiskLevel.NORMAL:
+        log_metrics()
+    elif risk == RiskLevel.ELEVATED:
+        increase_monitoring_frequency()
+    elif risk == RiskLevel.WARNING:
+        freeze_structural_changes()
+        reduce_mutation_scale(0.5)
+        trigger_purpose_reflection()
+    elif risk == RiskLevel.CRITICAL:
+        freeze_all(self_modification, goal_creation, skill_acquisition)
+        enter_stabilization_only_mode()
+        alert(f"EXISTENTIAL CRITICAL: rod={rod}, cas={cas}, ifi={ifi}, gsrs={gsrs}")
 
-    RETURN ExistentialReport{risk, rod, cas, ifi, gsrs}
+    return ExistentialReport(risk=risk, rod=rod, cas=cas, ifi=ifi, gsrs=gsrs)
 ```
 
 ---
@@ -637,26 +385,7 @@ $$P(\text{detect drift of } 10^{-6}/\text{cycle}) = 99.5\% \geq 95\% \text{ targ
 
 To prevent optimizing SEOF in a single degenerate direction, the metric is decomposed into four independent components:
 
-```mermaid
-flowchart TB
-    subgraph Ensemble["📊 SEOF Ensemble (4 Components)"]
-        S1["SEOF₁<br/>Stability-weighted<br/>Growth"]
-        S2["SEOF₂<br/>Capability Diversity<br/>Maximization"]
-        S3["SEOF₃<br/>Long-Horizon<br/>Survival Bias"]
-        S4["SEOF₄<br/>Exploration-Potential<br/>Index"]
-    end
-
-    subgraph Constraints["📏 Weight Constraints"]
-        WB["Each weight ∈ [0.15, 0.40]"]
-        EF["Entropy floor<br/>on distribution"]
-        PM["Perturbation mode if<br/>monotonic for 300 cycles"]
-    end
-
-    Ensemble --> Constraints
-
-    style Ensemble fill:#e3f2fd,stroke:#1976d2
-    style Constraints fill:#fff9c4,stroke:#f9a825
-```
+![SEOF Ensemble (4 Components)](../diagrams/level45-seof-ensemble.svg)
 
 ---
 
@@ -698,42 +427,7 @@ $$L4.5_{\text{Score}} = 0.20 \cdot \text{SPA} + 0.20 \cdot \text{ARBR} + 0.15 \c
 
 ## 13. Beyond Level 4.5: The AGI Boundary
 
-```mermaid
-flowchart TB
-    subgraph Current["✅ Level 4.5 (Implemented under invariants)"]
-        L45A["Bounded topology modification"]
-        L45B["Predefined recomposition vocabulary"]
-        L45C["ROD hard ceiling: 3"]
-        L45D["ExistentialGuard immutability"]
-        L45E["5 parallel frames, ethical veto"]
-    end
-
-    subgraph Bridge["📐 Level 4.8 (Design Stage)"]
-        L48A["World model integration<br/>into self-model"]
-        L48B["Meta-cognitive self-model<br/>(model of own cognition)"]
-    end
-
-    subgraph AGI["🔬 Level 5: AGI (Research)"]
-        L5A["Unbounded self-improvement"]
-        L5B["Novel domain creation"]
-        L5C["Remove invariant bounds ?"]
-    end
-
-    subgraph StrongAGI["🌌 Level 6: Conscious Entity (Theoretical)"]
-        L6A["Consciousness / Qualia"]
-        L6B["Free will"]
-        L6C["Moral agency"]
-    end
-
-    Current -->|"What invariants<br/>can be safely relaxed?"| Bridge
-    Bridge -->|"Fundamental<br/>research question"| AGI
-    AGI -->|"Hard problem of<br/>consciousness"| StrongAGI
-
-    style Current fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
-    style Bridge fill:#fff9c4,stroke:#f9a825
-    style AGI fill:#e3f2fd,stroke:#1976d2
-    style StrongAGI fill:#e1bee7,stroke:#8e24aa
-```
+![Beyond Level 4.5: The AGI Boundary](../diagrams/level45-agi-boundary.svg)
 
 The explicit brakes that distinguish Level 4.5 from AGI:
 1. **Predefined vocabulary** — recomposition types are enumerated, not generated

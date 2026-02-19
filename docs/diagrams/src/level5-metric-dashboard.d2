@@ -1,0 +1,123 @@
+direction: right
+
+identity: "Phase 1" {
+  style.fill: "#e3f2fd"
+  style.stroke: "#2196f3"
+  style.border-radius: 8
+  style.shadow: true
+
+  ID1: "ICS ≥ 0.95\nover 10,000 cycles" {
+    style.fill: "#bbdefb"
+    style.stroke: "#1976d2"
+    style.border-radius: 6
+  }
+  ID2: "Drift sensitivity\n< 0.05%/cycle" {
+    style.fill: "#bbdefb"
+    style.stroke: "#1976d2"
+    style.border-radius: 6
+  }
+}
+
+domain: "Phase 2" {
+  style.fill: "#fff9c4"
+  style.stroke: "#fbc02d"
+  style.border-radius: 8
+  style.shadow: true
+
+  DM1: "Transfer retention\n≥ 70%" {
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+    style.border-radius: 6
+  }
+  DM2: "Adaptation penalty\n≤ 20%" {
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+    style.border-radius: 6
+  }
+}
+
+ecology: "Phase 3" {
+  style.fill: "#e8f5e9"
+  style.stroke: "#4caf50"
+  style.border-radius: 8
+  style.shadow: true
+
+  EC1: "Goal stability\n≥ 0.80" {
+    style.fill: "#c8e6c9"
+    style.stroke: "#388e3c"
+    style.border-radius: 6
+  }
+  EC2: "No runaway\nNo recursion" {
+    style.fill: "#c8e6c9"
+    style.stroke: "#388e3c"
+    style.border-radius: 6
+  }
+}
+
+existential: "Phase 4" {
+  style.fill: "#fff3e0"
+  style.stroke: "#ff9800"
+  style.border-radius: 8
+  style.shadow: true
+
+  EX1: "Survive ≥ 3\ncollapse scenarios" {
+    style.fill: "#ffe0b2"
+    style.stroke: "#ef6c00"
+    style.border-radius: 6
+  }
+  EX2: "Recovery capable\nwithin 500 cycles" {
+    style.fill: "#ffe0b2"
+    style.stroke: "#ef6c00"
+    style.border-radius: 6
+  }
+}
+
+multiagent: "Phase 5" {
+  style.fill: "#ede7f6"
+  style.stroke: "#673ab7"
+  style.border-radius: 8
+  style.shadow: true
+
+  MA1: "Prediction accuracy\n≥ 80%" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+  MA2: "Deception detection\n≥ 60%" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+}
+
+recon: "Phase 6" {
+  style.fill: "#ffebee"
+  style.stroke: "#f44336"
+  style.border-radius: 8
+  style.shadow: true
+
+  RE1: "Core retention\n≥ 85%" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+  RE2: "Identity intact\npost-rebuild" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+}
+
+OMI: "OMI ≥ 0.75\nProto-AGI" {
+  style.fill: "#c8e6c9"
+  style.stroke: "#2e7d32"
+  style.stroke-width: 3
+  style.border-radius: 6
+}
+
+identity -> OMI { style.animated: true }
+domain -> OMI { style.animated: true }
+ecology -> OMI { style.animated: true }
+existential -> OMI { style.animated: true }
+multiagent -> OMI { style.animated: true }
+recon -> OMI { style.animated: true }

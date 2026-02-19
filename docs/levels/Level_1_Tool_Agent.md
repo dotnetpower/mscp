@@ -30,78 +30,11 @@ Level 1 represents the **baseline cognitive architecture** for AI agents. A Tool
 
 ### 2.1 High-Level Architecture
 
-```mermaid
-flowchart LR
-    subgraph Input["🟢 Input"]
-        U["👤 User Request"]
-    end
-
-    subgraph Processing["⚙️ Processing Pipeline"]
-        IR["Intent<br/>Router"]
-        TP["Tool<br/>Parser"]
-        TD["Tool<br/>Dispatcher"]
-    end
-
-    subgraph Tools["🔧 External Tools"]
-        T1["🔍 Search"]
-        T2["🧮 Calculator"]
-        T3["🌐 API Client"]
-        T4["📁 File System"]
-    end
-
-    subgraph Output["🔵 Output"]
-        LLM["LLM Response<br/>Generator"]
-        R["📝 Response"]
-    end
-
-    U --> IR --> TP --> TD
-    TD --> T1 & T2 & T3 & T4
-    T1 & T2 & T3 & T4 --> LLM --> R
-
-    style Input fill:#e8f5e9,stroke:#4caf50
-    style Processing fill:#e3f2fd,stroke:#2196f3
-    style Tools fill:#fff3e0,stroke:#ff9800
-    style Output fill:#f3e5f5,stroke:#9c27b0
-```
+![Level 1 High-Level Architecture](../diagrams/level1-high-level-architecture.svg)
 
 ### 2.2 Detailed Component Architecture
 
-```mermaid
-flowchart TB
-    subgraph UserLayer["User Interaction Layer"]
-        REQ["Incoming Request<br/>(text / structured)"]
-        RES["Outgoing Response<br/>(text / structured)"]
-    end
-
-    subgraph IntentLayer["Intent Classification Layer"]
-        IC["Intent Classifier"]
-        PT["Pattern Matcher<br/>(keyword / regex)"]
-        CF["Confidence Scorer<br/>(0.0–1.0)"]
-        IC --> PT --> CF
-    end
-
-    subgraph ToolLayer["Tool Execution Layer"]
-        TR["Tool Registry<br/>(name → schema)"]
-        TV["Parameter<br/>Validator"]
-        TE["Tool Executor<br/>(sync / async)"]
-        EH["Error Handler<br/>(retry / fallback)"]
-        TR --> TV --> TE --> EH
-    end
-
-    subgraph ResponseLayer["Response Generation Layer"]
-        RC["Result Collector<br/>(merge tool outputs)"]
-        RF["Response Formatter<br/>(template / LLM)"]
-    end
-
-    REQ --> IC
-    CF --> TR
-    EH --> RC --> RF --> RES
-
-    style UserLayer fill:#e8f5e9,stroke:#4caf50
-    style IntentLayer fill:#e3f2fd,stroke:#2196f3
-    style ToolLayer fill:#fff3e0,stroke:#ff9800
-    style ResponseLayer fill:#f3e5f5,stroke:#9c27b0
-```
+![Level 1 Detailed Component Architecture](../diagrams/level1-component-architecture.svg)
 
 ---
 
@@ -109,66 +42,11 @@ flowchart TB
 
 ### 3.1 Request Processing Sequence
 
-```mermaid
-sequenceDiagram
-    participant U as 👤 User
-    participant IR as Intent Router
-    participant TV as Tool Validator
-    participant TD as Tool Dispatcher
-    participant T as External Tool
-    participant RG as Response Generator
-    participant LLM as LLM Backend
-
-    U->>IR: "What's the weather in Seoul?"
-    
-    rect rgb(227, 242, 253)
-        Note over IR: Intent Classification
-        IR->>IR: classify(input)
-        IR->>IR: confidence = 0.85
-        IR->>IR: suggested_tool = "search"
-    end
-
-    IR->>TV: IntentResult{tool_call, ["search"], params}
-    TV->>TV: validate(params, tool_schema)
-    TV->>TD: ValidatedAction{tool="search", query="Seoul weather"}
-
-    rect rgb(255, 243, 224)
-        Note over TD,T: Tool Execution
-        TD->>T: execute(query="Seoul weather")
-        T-->>TD: ToolResult{success=true, data="Sunny, 15°C"}
-    end
-
-    TD->>RG: ToolResult
-    RG->>LLM: format_response(tool_result, user_query)
-    LLM-->>RG: "The weather in Seoul is sunny with a temperature of 15°C."
-    RG-->>U: Final Response
-```
+![Level 1 Request Processing Sequence](../diagrams/level1-request-sequence.svg)
 
 ### 3.2 Error Handling Sequence
 
-```mermaid
-sequenceDiagram
-    participant U as 👤 User
-    participant IR as Intent Router
-    participant TD as Tool Dispatcher
-    participant EH as Error Handler
-    participant RG as Response Generator
-
-    U->>IR: "Calculate xyz!@#"
-    IR->>TD: IntentResult{tool_call, ["calculator"]}
-
-    rect rgb(255, 235, 238)
-        Note over TD,EH: Error Path
-        TD->>TD: execute("xyz!@#")
-        TD->>TD: ❌ InvalidExpression
-        TD->>EH: Error{type="parse_error", msg="Invalid expression"}
-        EH->>EH: retry_count < max_retries?
-        EH->>EH: No → generate error response
-    end
-
-    EH->>RG: ErrorResult{message="Cannot parse expression"}
-    RG-->>U: "I couldn't calculate that. Please provide a valid expression like '2 + 3'."
-```
+![Level 1 Error Handling Sequence](../diagrams/level1-error-sequence.svg)
 
 ---
 
@@ -176,118 +54,113 @@ sequenceDiagram
 
 ### 4.1 Core Agent Loop
 
-```
-ALGORITHM Level1_AgentLoop(user_input):
-    ──────────────────────────────────────────
-    INPUT:  user_input : string
-    OUTPUT: response : string
-    ──────────────────────────────────────────
+```python
+def level1_agent_loop(user_input: str) -> str:
+    """
+    Level 1 core agent loop.
+    Input:  user_input — user request string
+    Output: response string
+    """
 
-    // Step 1: Intent Classification
-    intent ← IntentRouter.classify(user_input)
-    
-    IF intent.type = UNSUPPORTED THEN
-        RETURN "I'm unable to help with that request."
-    END IF
+    # Step 1: Intent Classification
+    intent = IntentRouter.classify(user_input)
 
-    // Step 2: Direct response (no tool needed)
-    IF intent.type = DIRECT_RESPONSE THEN
-        RETURN LLM.generate(user_input)
-    END IF
+    if intent.type == IntentType.UNSUPPORTED:
+        return "I'm unable to help with that request."
 
-    // Step 3: Tool Execution
-    results ← []
-    FOR EACH tool_name IN intent.suggested_tools DO
-        params ← ParameterExtractor.extract(user_input, tool_name)
-        
-        IF NOT ToolRegistry.has(tool_name) THEN
-            results.append(Error("Unknown tool: " + tool_name))
-            CONTINUE
-        END IF
+    # Step 2: Direct response (no tool needed)
+    if intent.type == IntentType.DIRECT_RESPONSE:
+        return LLM.generate(user_input)
 
-        tool ← ToolRegistry.get(tool_name)
-        result ← tool.execute(params)
+    # Step 3: Tool Execution
+    results = []
+    for tool_name in intent.suggested_tools:
+        params = ParameterExtractor.extract(user_input, tool_name)
+
+        if not ToolRegistry.has(tool_name):
+            results.append(Error(f"Unknown tool: {tool_name}"))
+            continue
+
+        tool = ToolRegistry.get(tool_name)
+        result = tool.execute(params)
         results.append(result)
-    END FOR
 
-    // Step 4: Response Generation
-    response ← ResponseGenerator.format(user_input, results)
-    RETURN response
+    # Step 4: Response Generation
+    response = ResponseGenerator.format(user_input, results)
+    return response
 ```
 
 ### 4.2 Intent Router
 
-```
-ALGORITHM IntentRouter.classify(user_input):
-    ──────────────────────────────────────────
-    INPUT:  user_input : string
-    OUTPUT: IntentResult{type, confidence, suggested_tools, params}
-    ──────────────────────────────────────────
+```python
+def classify(self, user_input: str) -> IntentResult:
+    """
+    Classify user input into an intent.
+    Input:  user_input — user request string
+    Output: IntentResult with type, confidence, suggested_tools, params
+    """
 
-    input_lower ← lowercase(user_input)
+    input_lower = user_input.lower()
 
-    // Pattern matching against tool registry
-    matched_tools ← []
-    FOR EACH (tool_name, patterns) IN TOOL_PATTERNS DO
-        IF any(pattern IN input_lower FOR pattern IN patterns) THEN
+    # Pattern matching against tool registry
+    matched_tools = []
+    for tool_name, patterns in TOOL_PATTERNS.items():
+        if any(pattern in input_lower for pattern in patterns):
             matched_tools.append(tool_name)
-        END IF
-    END FOR
 
-    IF matched_tools IS NOT EMPTY THEN
-        RETURN IntentResult{
-            type       = TOOL_CALL,
-            confidence = 0.8,
-            suggested_tools = matched_tools,
-            params     = extract_parameters(user_input)
-        }
-    END IF
+    if matched_tools:
+        return IntentResult(
+            type=IntentType.TOOL_CALL,
+            confidence=0.8,
+            suggested_tools=matched_tools,
+            params=extract_parameters(user_input),
+        )
 
-    RETURN IntentResult{
-        type       = DIRECT_RESPONSE,
-        confidence = 0.6,
-        suggested_tools = [],
-        params     = {}
-    }
+    return IntentResult(
+        type=IntentType.DIRECT_RESPONSE,
+        confidence=0.6,
+        suggested_tools=[],
+        params={},
+    )
 ```
 
 ### 4.3 Tool Dispatcher
 
-```
-ALGORITHM ToolDispatcher.dispatch(tool_name, params):
-    ──────────────────────────────────────────
-    INPUT:  tool_name : string, params : map
-    OUTPUT: ToolResult{success, data, error, execution_time_ms}
-    ──────────────────────────────────────────
+```python
+def dispatch(self, tool_name: str, params: dict) -> ToolResult:
+    """
+    Dispatch a tool call with validation and error handling.
+    Input:  tool_name — registered tool name, params — parameter dict
+    Output: ToolResult with success, data, error, execution_time_ms
+    """
 
-    IF tool_name NOT IN registry THEN
-        RETURN ToolResult{success=false, error="Unknown tool"}
-    END IF
+    if tool_name not in self.registry:
+        return ToolResult(success=False, error="Unknown tool")
 
-    tool ← registry[tool_name]
-    start_time ← now()
+    tool = self.registry[tool_name]
+    start_time = time.monotonic()
 
-    TRY
-        // Validate parameters against tool schema
-        validated_params ← tool.schema.validate(params)
-        
-        // Execute with timeout
-        result ← tool.execute(validated_params, timeout=30s)
-        
-        RETURN ToolResult{
-            success         = true,
-            data            = result,
-            execution_time  = now() - start_time
-        }
+    try:
+        # Validate parameters against tool schema
+        validated_params = tool.schema.validate(params)
 
-    CATCH TimeoutError
-        RETURN ToolResult{success=false, error="Tool execution timed out"}
+        # Execute with timeout
+        result = tool.execute(validated_params, timeout=30)
 
-    CATCH ValidationError AS e
-        RETURN ToolResult{success=false, error="Invalid params: " + e.message}
+        return ToolResult(
+            success=True,
+            data=result,
+            execution_time=time.monotonic() - start_time,
+        )
 
-    CATCH ANY error
-        RETURN ToolResult{success=false, error="Execution failed: " + error.message}
+    except TimeoutError:
+        return ToolResult(success=False, error="Tool execution timed out")
+
+    except ValidationError as e:
+        return ToolResult(success=False, error=f"Invalid params: {e}")
+
+    except Exception as e:
+        return ToolResult(success=False, error=f"Execution failed: {e}")
 ```
 
 ---
@@ -296,31 +169,7 @@ ALGORITHM ToolDispatcher.dispatch(tool_name, params):
 
 Level 1 has fundamental limitations that motivate the transition to Level 2:
 
-```mermaid
-flowchart TB
-    subgraph Limitations["⚠️ Level 1 Fundamental Limitations"]
-        L1["❌ No State<br/>Forgets everything<br/>between requests"]
-        L2["❌ No Goals<br/>Cannot set its own<br/>objectives"]
-        L3["❌ No Context<br/>No understanding of<br/>conversation history"]
-        L4["❌ No Emotion Awareness<br/>Cannot detect or respond<br/>to user sentiment"]
-        L5["❌ No Self-Awareness<br/>No model of its own<br/>capabilities or identity"]
-    end
-
-    subgraph Consequences["📉 Behavioral Consequences"]
-        C1["Identical repeated<br/>questions get<br/>identical answers"]
-        C2["Cannot proactively<br/>offer relevant<br/>information"]
-        C3["Cannot learn from<br/>previous interactions<br/>or mistakes"]
-        C4["Cannot adapt<br/>response style to<br/>user's emotional state"]
-    end
-
-    L1 --> C1
-    L2 --> C2
-    L3 --> C3
-    L4 --> C4
-
-    style Limitations fill:#ffebee,stroke:#f44336
-    style Consequences fill:#fff3e0,stroke:#ff9800
-```
+![Level 1 Structural Limitations](../diagrams/level1-limitations.svg)
 
 ### 5.1 Behavioral Example: Repeated Question
 
@@ -348,35 +197,7 @@ Interaction 3 (5 minutes later):
 
 ### 6.1 Required Capabilities
 
-```mermaid
-flowchart LR
-    subgraph L1["Level 1: Tool Agent"]
-        A1["Stateless"]
-        A2["Reactive"]
-        A3["Tool-Dependent"]
-        A4["No Memory"]
-    end
-
-    subgraph Gap["🔑 Transition Requirements"]
-        G1["+ World Model<br/>(persistent state)"]
-        G2["+ Entity Tracker<br/>(who/what tracking)"]
-        G3["+ Goal System<br/>(autonomous objectives)"]
-        G4["+ Temporal Model<br/>(time-aware facts)"]
-    end
-
-    subgraph L2["Level 2: Autonomous Agent"]
-        B1["Stateful"]
-        B2["Goal-Directed"]
-        B3["Context-Aware"]
-        B4["Long-Term Memory"]
-    end
-
-    L1 --> Gap --> L2
-
-    style L1 fill:#ffebee,stroke:#f44336
-    style Gap fill:#fff9c4,stroke:#fbc02d
-    style L2 fill:#e8f5e9,stroke:#4caf50
-```
+![Level 1 to Level 2 Transition](../diagrams/level1-transition.svg)
 
 ### 6.2 Architecture Delta
 

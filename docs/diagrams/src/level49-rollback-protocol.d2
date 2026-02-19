@@ -1,0 +1,63 @@
+title: |md
+  # L4.9 Rollback Protocol
+| {
+  near: top-center
+  shape: text
+  style.font-size: 24
+}
+
+Rollback: {
+  label: "🔄 L4.9 Rollback Protocol"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#e3f2fd"
+  style.stroke: "#2196f3"
+
+  IMM: "1️⃣ IMMEDIATE\nReject triggering decision\nFreeze all L4.9 subsystems" {
+    style.border-radius: 6
+    style.fill: "#bbdefb"
+    style.stroke: "#1976d2"
+  }
+  REV: "2️⃣ STATE REVERSION\nRemove L4.9 goals from GoalStack\nRevert ValueVector snapshot\nRecalculate ResourceVector\nFreeze AgentModels" {
+    style.border-radius: 6
+    style.fill: "#bbdefb"
+    style.stroke: "#1976d2"
+  }
+  MON: "3️⃣ MONITORING\n100 cycles under L4.8 only\nIdentify root cause\nUpdate risk model" {
+    style.border-radius: 6
+    style.fill: "#bbdefb"
+    style.stroke: "#1976d2"
+  }
+  REENABLE: "4️⃣ RE-ENABLEMENT\n0–200c: Advisory Mode\n200–400c: 50% Authority\n400c+: Full Mode" {
+    style.border-radius: 6
+    style.fill: "#bbdefb"
+    style.stroke: "#1976d2"
+  }
+
+  IMM -> REV {
+    style.animated: true
+  }
+  REV -> MON {
+    style.animated: true
+  }
+  MON -> REENABLE {
+    style.animated: true
+  }
+  REENABLE -> MON: "immediate re-veto" {
+    style.stroke-dash: 5
+  }
+}
+
+Persistent: {
+  label: "🔒 Persistent Veto Tracking"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#ffebee"
+  style.stroke: "#f44336"
+
+  PV: "If same condition vetoes\n> 3 times in 1000 cycles:\n→ Identify systematic cause\n→ Do NOT retry same pattern" {
+    style.border-radius: 6
+    style.fill: "#ffcdd2"
+    style.stroke: "#c62828"
+  }
+}

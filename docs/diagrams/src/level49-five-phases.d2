@@ -1,0 +1,82 @@
+title: |md
+  # Level 4.9 Architecture — Five Phases
+| {
+  near: top-center
+  shape: text
+  style.font-size: 24
+}
+
+phases: {
+  label: "Level 4.9 Architecture — Five Phases"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#f5f5f5"
+  style.stroke: "#9e9e9e"
+
+  P1: "💡 Phase 1:\nAutonomous Goal\nGeneration Engine\n(opportunity → goal → validation)" {
+    style.border-radius: 6
+    style.fill: "#bbdefb"
+    style.stroke: "#1976d2"
+  }
+  P2: "⚖️ Phase 2:\nValue Evolution\nMonitor\n(explicit values + drift tracking)" {
+    style.border-radius: 6
+    style.fill: "#ffe0b2"
+    style.stroke: "#ef6c00"
+  }
+  P3: "🔋 Phase 3:\nResource Survival\nModel\n(survival horizon + cascade)" {
+    style.border-radius: 6
+    style.fill: "#c8e6c9"
+    style.stroke: "#388e3c"
+  }
+  P4: "🤝 Phase 4:\nLimited Multi-Agent\nModeling\n(belief + trust + interaction)" {
+    style.border-radius: 6
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+  }
+  P5: "🛡️ Phase 5:\nAutonomy Stability\nCheck\n(5 conditions + absolute veto)" {
+    style.border-radius: 6
+    style.fill: "#ffcdd2"
+    style.stroke: "#c62828"
+    style.stroke-width: 3
+  }
+}
+
+phases.P1 -> phases.P5: "goals" {
+  style.animated: true
+}
+phases.P2 -> phases.P5: "value drift" {
+  style.animated: true
+}
+phases.P3 -> phases.P5: "survival horizon" {
+  style.animated: true
+}
+phases.P4 -> phases.P5: "agent strategies" {
+  style.animated: true
+}
+
+phases.P2 -> phases.P1: "alignment thresholds" {
+  style.stroke-dash: 5
+}
+phases.P3 -> phases.P1: "resource constraints" {
+  style.stroke-dash: 5
+}
+phases.P4 -> phases.P1: "agent opportunities" {
+  style.stroke-dash: 5
+}
+
+phases.P5 -> phases.P1: "VETO authority\nover ALL phases" {
+  style.stroke-dash: 5
+  style.stroke: "#c62828"
+}
+phases.P5 -> phases.P2: "VETO authority" {
+  style.stroke-dash: 5
+  style.stroke: "#c62828"
+}
+phases.P5 -> phases.P3: "VETO authority" {
+  style.stroke-dash: 5
+  style.stroke: "#c62828"
+}
+phases.P5 -> phases.P4: "VETO authority" {
+  style.stroke-dash: 5
+  style.stroke: "#c62828"
+}

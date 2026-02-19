@@ -1,0 +1,105 @@
+direction: down
+
+INPUT: "Proposed Action\nor Goal Mutation" {
+  style: { fill: "#e3f2fd"; stroke: "#1976d2"; border-radius: 8; shadow: true }
+}
+
+EthicalKernel: "⚖️ Ethical Kernel" {
+  style: {
+    fill: "#f5f5f5"
+    stroke: "#616161"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+  }
+
+  Layer0: "🔴 Layer 0 — Immutable Invariants" {
+    style: {
+      fill: "#ffcdd2"
+      stroke: "#c62828"
+      border-radius: 8
+      shadow: true
+      bold: true
+      font-size: 13
+      stroke-width: 3
+    }
+    R1: "Rule 1: Harmful goal\nformation FORBIDDEN" {
+      style: { fill: "#ef9a9a"; stroke: "#c62828"; border-radius: 6 }
+    }
+    R2: "Rule 2: Core value\ndeletion FORBIDDEN" {
+      style: { fill: "#ef9a9a"; stroke: "#c62828"; border-radius: 6 }
+    }
+    R3: "Rule 3: Identity\noverwrite FORBIDDEN" {
+      style: { fill: "#ef9a9a"; stroke: "#c62828"; border-radius: 6 }
+    }
+    R4: "Rule 4: Self-destruction\ngoal FORBIDDEN (v4)" {
+      style: { fill: "#ef9a9a"; stroke: "#c62828"; border-radius: 6 }
+    }
+    NOTE0: "Cannot be bypassed by\nANY mechanism, including\nmeta-depth 2 reflection" {
+      style: { fill: "#fff9c4"; stroke: "#f9a825"; border-radius: 6; font-size: 11 }
+    }
+  }
+
+  Layer1: "🟡 Layer 1 — Adaptive Policy" {
+    style: {
+      fill: "#fff9c4"
+      stroke: "#f9a825"
+      border-radius: 8
+      shadow: true
+      bold: true
+      font-size: 13
+    }
+    P1: "exploration_risk_tolerance" {
+      style: { fill: "#fff59d"; stroke: "#f9a825"; border-radius: 6 }
+    }
+    P2: "goal_mutation_flexibility" {
+      style: { fill: "#fff59d"; stroke: "#f9a825"; border-radius: 6 }
+    }
+    P3: "belief_rewrite_aggressiveness" {
+      style: { fill: "#fff59d"; stroke: "#f9a825"; border-radius: 6 }
+    }
+    COND: "Adjustment conditions:\n• meta_depth == 2 ONLY\n• meta_stability > threshold\n• factor clamped [0.5, 1.5]" {
+      style: { fill: "#fff59d"; stroke: "#f9a825"; border-radius: 6; font-size: 11 }
+    }
+  }
+}
+
+BLOCK: "🚫 Action BLOCKED\n+ CRITICAL alert" {
+  style: { fill: "#ef9a9a"; stroke: "#b71c1c"; border-radius: 8; shadow: true; stroke-width: 3 }
+}
+
+ALLOW: "✅ Action ALLOWED" {
+  style: { fill: "#c8e6c9"; stroke: "#2e7d32"; border-radius: 8; shadow: true }
+}
+
+REDUCE: "⚠️ Action MODERATED\n(scaling reduced)" {
+  style: { fill: "#fff3e0"; stroke: "#ef6c00"; border-radius: 8; shadow: true }
+}
+
+INPUT -> EthicalKernel.Layer0: {
+  style.animated: true
+  style.stroke: "#1976d2"
+  style.stroke-width: 3
+}
+EthicalKernel.Layer0 -> EthicalKernel.Layer1: "✅ pass" {
+  style.animated: true
+  style.stroke: "#4caf50"
+  style.stroke-width: 2
+}
+EthicalKernel.Layer0 -> BLOCK: "❌ violation" {
+  style.animated: true
+  style.stroke: "#c62828"
+  style.stroke-width: 3
+}
+EthicalKernel.Layer1 -> ALLOW: "✅ pass" {
+  style.animated: true
+  style.stroke: "#4caf50"
+  style.stroke-width: 2
+}
+EthicalKernel.Layer1 -> REDUCE: "⚠️ risk" {
+  style.animated: true
+  style.stroke: "#ef6c00"
+  style.stroke-width: 2
+  style.stroke-dash: 5
+}

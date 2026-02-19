@@ -1,0 +1,104 @@
+title: |md
+  # Architectural Principle: Strictly Additive
+| {
+  near: top-center
+  shape: text
+  style.font-size: 20
+}
+
+direction: right
+
+L45: {
+  label: "Level 4.5 (25 modules)"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#e1bee7"
+  style.stroke: "#8e24aa"
+  style.stroke-width: 2
+
+  L45A: {
+    label: "Self-Projection Engine"
+    style.border-radius: 6
+    style.fill: "#ce93d8"
+    style.stroke: "#7b1fa2"
+  }
+  L45B: {
+    label: "Architecture Recomposition"
+    style.border-radius: 6
+    style.fill: "#ce93d8"
+    style.stroke: "#7b1fa2"
+  }
+  L45C: {
+    label: "Parallel Cognitive Frames"
+    style.border-radius: 6
+    style.fill: "#ce93d8"
+    style.stroke: "#7b1fa2"
+  }
+  L45D: {
+    label: "Purpose Reflection"
+    style.border-radius: 6
+    style.fill: "#ce93d8"
+    style.stroke: "#7b1fa2"
+  }
+  L45E: {
+    label: "Existential Guard"
+    style.border-radius: 6
+    style.fill: "#ce93d8"
+    style.stroke: "#7b1fa2"
+  }
+}
+
+L48: {
+  label: "Level 4.8 (13 new modules)"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#f3e5f5"
+  style.stroke: "#7b1fa2"
+  style.stroke-width: 2
+
+  L48A: {
+    label: "World Model Core"
+    style.border-radius: 6
+    style.fill: "#e1bee7"
+    style.stroke: "#8e24aa"
+  }
+  L48B: {
+    label: "Capability Matrix"
+    style.border-radius: 6
+    style.fill: "#e1bee7"
+    style.stroke: "#8e24aa"
+  }
+  L48C: {
+    label: "Strategic Layer"
+    style.border-radius: 6
+    style.fill: "#e1bee7"
+    style.stroke: "#8e24aa"
+  }
+  L48D: {
+    label: "Stability Verifier"
+    style.border-radius: 6
+    style.fill: "#e1bee7"
+    style.stroke: "#8e24aa"
+  }
+}
+
+Fallback: {
+  label: "🔄 Graceful Fallback\n\nIf ANY L4.8 module\ncauses instability:\n→ FREEZE L4.8\n→ Revert to L4.5\n→ ZERO degradation"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#ffcdd2"
+  style.stroke: "#c62828"
+}
+
+L45 -> L48: "outputs consumed by" {
+  style.animated: true
+}
+L48 -> L45: "NEVER modifies" {
+  style.stroke-dash: 5
+}
+L48 -> Fallback: "on failure" {
+  style.animated: true
+}
+Fallback -> L45: "revert" {
+  style.stroke-dash: 5
+}

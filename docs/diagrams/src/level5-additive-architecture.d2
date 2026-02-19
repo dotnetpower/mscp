@@ -1,0 +1,105 @@
+direction: right
+
+L49M: "Level 4.9 (15 modules)" {
+  style.fill: "#e1bee7"
+  style.stroke: "#8e24aa"
+  style.stroke-width: 2
+  style.border-radius: 8
+  style.shadow: true
+
+  GGL: "Goal Generation" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+  VEM: "Value Evolution" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+  RSM: "Resource Survival" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+  MAM: "Agent Modeling" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+  ASC: "Autonomy Stability" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+}
+
+L5M: "Level 5 (7 new modules)" {
+  style.fill: "#ede7f6"
+  style.stroke: "#673ab7"
+  style.stroke-width: 2
+  style.border-radius: 8
+  style.shadow: true
+
+  ICT: "Identity Tracker" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+  CDG: "Domain Generalizer" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+  GE: "Goal Ecology" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+  EP: "Existential Planner" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+  SMA: "Strategic Multi-Agent" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+  SR: "Self-Reconstructor" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+  L5O: "L5 Orchestrator" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+}
+
+fallback: "Graceful Fallback" {
+  style.fill: "#ffebee"
+  style.stroke: "#f44336"
+  style.border-radius: 8
+  style.shadow: true
+
+  FB2: "If ANY L5 module\ncauses instability:\n→ FREEZE L5\n→ Revert to L4.9\n→ ZERO degradation" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+}
+
+L49M -> L5M: "outputs consumed by" {
+  style.animated: true
+}
+L5M -> L49M: "NEVER modifies" {
+  style.stroke-dash: 5
+}
+L5M -> fallback: "on failure" {
+  style.animated: true
+}
+fallback -> L49M: "revert" {
+  style.stroke-dash: 5
+}

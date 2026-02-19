@@ -1,0 +1,64 @@
+direction: down
+
+IdentityVector: "IdentityVector" {
+  shape: class
+  style: {
+    fill: "#c8e6c9"
+    stroke: "#2e7d32"
+    border-radius: 8
+    shadow: true
+    font-size: 13
+  }
+  identity_id: "+string identity_id  (immutable)"
+  identity_hash: "+string identity_hash  (SHA-256, 16 chars)"
+  previous_identity_hash: "+string previous_identity_hash"
+  persona_consistency: "+float persona_consistency  [0.0, 1.0]"
+  value_alignment: "+float value_alignment  [0.0, 1.0]"
+  capability_confidence: "+float capability_confidence  [0.0, 1.0]"
+  emotional_stability: "+float emotional_stability  [0.0, 1.0]"
+  goal_persistence: "+float goal_persistence  [0.0, 1.0]"
+  compute_hash: "+compute_hash() string"
+  check_identity_drift: "+check_identity_drift(threshold) bool"
+}
+
+IdentityMotion: "IdentityMotion" {
+  shape: class
+  style: {
+    fill: "#e0f2f1"
+    stroke: "#009688"
+    border-radius: 8
+    shadow: true
+    font-size: 13
+  }
+  identity_delta: "+float identity_delta  ‖I(t) - I(t-1)‖₂"
+  identity_velocity: "+float identity_velocity  delta / Δt"
+  identity_acceleration: "+float identity_acceleration  v(t) - v(t-1)"
+  is_unstable: "+bool is_unstable  accel > 0.5"
+}
+
+ValueLockManager: "ValueLockManager" {
+  shape: class
+  style: {
+    fill: "#ffcdd2"
+    stroke: "#c62828"
+    border-radius: 8
+    shadow: true
+    font-size: 13
+  }
+  lock_state: "+LockState lock_state"
+  value_hash: "+string value_hash  (SHA-256 of core values)"
+  stability_requirement: "+float stability_requirement  0.85"
+  check_integrity: "+check_integrity() bool"
+  request_unlock: "+request_unlock(identity_stability) bool"
+}
+
+IdentityVector -> IdentityMotion: "tracked each cycle" {
+  style.animated: true
+  style.stroke: "#009688"
+  style.stroke-width: 2
+}
+IdentityVector -> ValueLockManager: "protected by" {
+  style.animated: true
+  style.stroke: "#c62828"
+  style.stroke-width: 2
+}

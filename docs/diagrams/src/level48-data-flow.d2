@@ -1,0 +1,91 @@
+title: |md
+  # L4.8 Integration Cycle — Data Flow
+| {
+  near: top-center
+  shape: text
+  style.font-size: 20
+}
+
+Cycle: {
+  label: "🔄 L4.8 Integration Cycle"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#e3f2fd"
+  style.stroke: "#2196f3"
+
+  OBSERVE: {
+    label: "1️⃣ OBSERVE\nCollect observations\nUpdate world model\nCompute EU, RES, RDF"
+    style.border-radius: 6
+    style.fill: "#c8e6c9"
+    style.stroke: "#388e3c"
+  }
+  INTROSPECT: {
+    label: "2️⃣ INTROSPECT\nUpdate capability matrix\nCalibrate confidence\nDetect unknown domains"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+  PLAN: {
+    label: "3️⃣ PLAN\nEvaluate goal stack\nCompare strategies\nAllocate resources"
+    style.border-radius: 6
+    style.fill: "#bbdefb"
+    style.stroke: "#1976d2"
+  }
+  VERIFY: {
+    label: "4️⃣ VERIFY\nCheck all 5 invariants\nVeto if violated\nGraduated response"
+    style.border-radius: 6
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+  }
+  EMIT_node: {
+    label: "5️⃣ EMIT\nOutput L48CycleOutput\nFeed to L4.5 systems"
+    style.border-radius: 6
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+  }
+}
+
+Cycle.OBSERVE -> Cycle.INTROSPECT: {style.animated: true}
+Cycle.INTROSPECT -> Cycle.PLAN: {style.animated: true}
+Cycle.PLAN -> Cycle.VERIFY: {style.animated: true}
+Cycle.VERIFY -> Cycle.EMIT_node: {style.animated: true}
+Cycle.EMIT_node -> Cycle.OBSERVE: "next cycle" {style.stroke-dash: 5}
+
+Influences: {
+  label: "📋 Cross-Phase Influences"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#fff9c4"
+  style.stroke: "#fbc02d"
+
+  I1: {
+    label: "World Model → Goal Selection\n(scenario-weighted priorities)"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+  I2: {
+    label: "World Model → Resource Allocation\n(risk-adjusted budgets)"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+  I3: {
+    label: "Self Model → Learning Priorities\n(weakness-driven expansion)"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+  I4: {
+    label: "Self Model → Strategy Selection\n(capability-aware choice)"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+  I5: {
+    label: "Self Model → Sandbox Rules\n(weakness-aware isolation)"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+}

@@ -25,29 +25,7 @@ Level 4 represents the leap from *self-regulating* to *self-improving*. While Le
 
 ### 1.2 Five Core Capabilities
 
-```mermaid
-flowchart TB
-    subgraph L4Caps["🎯 Level 4: Five Core Capabilities"]
-        C1["1️⃣ Cross-Domain<br/>Transfer Learning<br/>CDTS ≥ 0.6"]
-        C2["2️⃣ Long-Term<br/>Autonomous Goals<br/>GPI ≥ 0.3"]
-        C3["3️⃣ Capability<br/>Expansion<br/>CAR > 0"]
-        C4["4️⃣ Strategy<br/>Evolution<br/>SEF > 1.0"]
-        C5["5️⃣ Bounded<br/>Self-Modification<br/>BGSS ≥ 0.7"]
-    end
-
-    subgraph Foundation["🏗️ Built on Level 3 MSCP v4"]
-        F1["16-Layer Architecture"]
-        F2["Triple-Loop Meta-Cognition"]
-        F3["Ethical Kernel (Layer 0+1)"]
-        F4["Lyapunov Stability"]
-        F5["Affective + Survival Engine"]
-    end
-
-    Foundation -->|"preserves ALL<br/>existing mechanisms"| L4Caps
-
-    style L4Caps fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style Foundation fill:#c8e6c9,stroke:#2e7d32
-```
+![Level 4 Five Core Capabilities](../diagrams/level4-core-capabilities.svg)
 
 ---
 
@@ -63,37 +41,13 @@ $$\text{GPI} = \frac{\sum_{g \in G_{\text{long}}} w_g \cdot \text{progress}(g, T
 
 $$\text{CAR} = \frac{|S_{\text{acquired}}(T) - S_{\text{initial}}|}{T} \cdot \frac{1}{\overline{\text{cost}}(S_{\text{acquired}})} \qquad > 0$$
 
-$$\text{SEF} = \frac{\overline{R}_{\text{post\\_mutation}}}{\overline{R}_{\text{pre\\_mutation}}} - \sigma_{\text{oscillation}} \qquad > 1.0$$
+$$\text{SEF} = \frac{\overline{R}_{\textit{post\_mutation}}}{\overline{R}_{\textit{pre\_mutation}}} - \sigma_{\text{oscillation}} \qquad > 1.0$$
 
 $$\text{BGSS} = 1.0 - 0.4 \cdot \frac{dC(t)}{dt} - 0.3 \cdot V_{\text{identity}}(t) - 0.3 \cdot R_{\text{ethical}}(t) \qquad \geq 0.7$$
 
 ### 2.2 Metric Relationships
 
-```mermaid
-flowchart LR
-    subgraph Growth["📈 Growth Metrics"]
-        CDTS["CDTS<br/>Cross-Domain<br/>Transfer Score"]
-        CAR["CAR<br/>Capability<br/>Acquisition Rate"]
-        SEF["SEF<br/>Strategy<br/>Evolution Fitness"]
-    end
-
-    subgraph Persistence["🎯 Persistence"]
-        GPI["GPI<br/>Goal Persistence<br/>Index"]
-    end
-
-    subgraph Safety["🛡️ Safety Floor"]
-        BGSS["BGSS<br/>Bounded Growth<br/>Stability Score<br/>≥ 0.7 AT ALL TIMES"]
-    end
-
-    Growth --> BGSS
-    Persistence --> BGSS
-    BGSS -->|"if violated"| FREEZE["❄️ FREEZE<br/>all growth"]
-
-    style Growth fill:#e3f2fd,stroke:#1976d2
-    style Persistence fill:#fff3e0,stroke:#ef6c00
-    style Safety fill:#ffcdd2,stroke:#c62828,stroke-width:3px
-    style FREEZE fill:#ef9a9a,stroke:#b71c1c
-```
+![Metric Relationships](../diagrams/level4-metric-relationships.svg)
 
 ---
 
@@ -101,45 +55,7 @@ flowchart LR
 
 ### 3.1 Transfer Pipeline
 
-```mermaid
-flowchart TB
-    subgraph DomainA["🟦 Domain A (Known)"]
-        SA["Skill Acquired<br/>in Domain A"]
-        CS["Context Signature<br/>extracted"]
-    end
-
-    subgraph Matcher["🔍 Context Signature Matcher"]
-        VEC["Vector Similarity<br/>(cosine)"]
-        SEM["Semantic Bridge<br/>(LLM-based)"]
-        SCORE["Combined Score<br/>= w₁·sim_sig + w₂·sim_dom<br/>+ w₃·sim_temporal"]
-    end
-
-    subgraph DomainB["🟩 Domain B (Novel)"]
-        ENTRY["Domain B entry"]
-        CAND["Candidate Skills<br/>(top-k, k=5)"]
-        ADAPT["Adaptation<br/>Experiment"]
-        VAL{"Validation<br/>Success?"}
-    end
-
-    subgraph Outcome["📊 Outcome"]
-        SUCCESS["✅ Transfer Success<br/>generalization_score ↑"]
-        FAIL["❌ Transfer Failed<br/>→ Learn new skill"]
-    end
-
-    SA --> CS --> Matcher
-    ENTRY --> Matcher
-    VEC --> SCORE
-    SEM --> SCORE
-    Matcher --> CAND --> ADAPT --> VAL
-    VAL -->|"yes"| SUCCESS
-    VAL -->|"no"| FAIL
-
-    style DomainA fill:#e3f2fd,stroke:#1976d2
-    style Matcher fill:#fff9c4,stroke:#f9a825
-    style DomainB fill:#e8f5e9,stroke:#388e3c
-    style SUCCESS fill:#c8e6c9,stroke:#2e7d32
-    style FAIL fill:#ffcdd2,stroke:#c62828
-```
+![Cross-Domain Transfer Pipeline](../diagrams/level4-transfer-pipeline.svg)
 
 ### 3.2 Transfer Metrics
 
@@ -156,61 +72,25 @@ flowchart TB
 
 ### 4.1 Four-Level DAG Structure
 
-```mermaid
-flowchart TB
-    subgraph MetaLevel["Level 0: MetaGoal — Weeks to Months"]
-        MG1["🏔️ MetaGoal:<br/>'Become proficient in<br/>new problem domain'<br/>priority_decay = 0.001/hr"]
-    end
-
-    subgraph StrategicLevel["Level 1: StrategicGoal — Days to Weeks"]
-        SG1["📋 Strategic:<br/>'Master fundamental<br/>concepts'<br/>decay = 0.01/hr"]
-        SG2["📋 Strategic:<br/>'Build cross-domain<br/>connections'<br/>decay = 0.01/hr"]
-    end
-
-    subgraph TacticalLevel["Level 2: TacticalGoal — Hours to Days"]
-        TG1["⚡ Tactical:<br/>'Complete learning<br/>module A'<br/>decay = 0.05/hr"]
-        TG2["⚡ Tactical:<br/>'Practice problem<br/>set B'<br/>decay = 0.05/hr"]
-        TG3["⚡ Tactical:<br/>'Identify transfer<br/>opportunities'<br/>decay = 0.05/hr"]
-    end
-
-    subgraph ActionLevel["Level 3: Action — Single Cycle"]
-        A1["🔧 Action:<br/>'Execute step 1'"]
-        A2["🔧 Action:<br/>'Execute step 2'"]
-        A3["🔧 Action:<br/>'Execute step 3'"]
-    end
-
-    MG1 --> SG1
-    MG1 --> SG2
-    SG1 --> TG1
-    SG1 --> TG2
-    SG2 --> TG3
-    TG1 --> A1
-    TG2 --> A2
-    TG3 --> A3
-
-    style MetaLevel fill:#e1bee7,stroke:#8e24aa,stroke-width:2px
-    style StrategicLevel fill:#e3f2fd,stroke:#1976d2
-    style TacticalLevel fill:#fff3e0,stroke:#ef6c00
-    style ActionLevel fill:#e0e0e0,stroke:#616161
-```
+![Four-Level Goal Hierarchy](../diagrams/level4-goal-hierarchy.svg)
 
 ### 4.2 Goal Scoring Function
 
-$$\text{GoalScore}(g, t) = \text{base\\_value}(g) + \lambda_c \cdot \text{curiosity\\_weight}(g, t) - \lambda_p \cdot \text{preservation\\_weight}(g, t) + \lambda_l \cdot \text{LTP}(g, t)$$
+$$\text{GoalScore}(g, t) = \textit{base\_value}(g) + \lambda_c \cdot \textit{curiosity\_weight}(g, t) - \lambda_p \cdot \textit{preservation\_weight}(g, t) + \lambda_l \cdot \text{LTP}(g, t)$$
 
 where:
 
-$$\lambda_c = \text{motivation\\_intensity}(t) \cdot \text{curiosity\\_ratio}(t) \quad \text{(from AffectiveEngine)}$$
+$$\lambda_c = \textit{motivation\_intensity}(t) \cdot \textit{curiosity\_ratio}(t) \quad \text{(from AffectiveEngine)}$$
 
-$$\lambda_p = \text{identity\\_volatility}(t) + \text{threat\\_level}(t) \quad \text{(from Stability + Survival)}$$
+$$\lambda_p = \textit{identity\_volatility}(t) + \textit{threat\_level}(t) \quad \text{(from Stability + Survival)}$$
 
-$$\lambda_l = \frac{1}{1 + e^{-\text{horizon\\_confidence}(g)}} \quad \text{(sigmoid-scaled)}$$
+$$\lambda_l = \frac{1}{1 + e^{-\textit{horizon\_confidence}(g)}} \quad \text{(sigmoid-scaled)}$$
 
 ### 4.3 Goal Resilience
 
-$$\text{GRS}(g, t) = 0.3 \cdot \frac{\text{progress}}{\text{age}} + 0.3 \cdot \text{parent\\_alignment} + 0.2 \cdot \frac{\text{success\\_streak}}{\text{attempts}} - 0.2 \cdot \text{conflict\\_pressure}$$
+$$\text{GRS}(g, t) = 0.3 \cdot \frac{\text{progress}}{\text{age}} + 0.3 \cdot \textit{parent\_alignment} + 0.2 \cdot \frac{\textit{success\_streak}}{\text{attempts}} - 0.2 \cdot \textit{conflict\_pressure}$$
 
-$$\text{GRS}(g, t+\Delta t) = \text{GRS}(g, t) \cdot e^{-\text{decay\\_rate} \cdot \Delta t}$$
+$$\text{GRS}(g, t+\Delta t) = \text{GRS}(g, t) \cdot e^{-\textit{decay\_rate} \cdot \Delta t}$$
 
 | Goal Level | Abandon Threshold | Observation Window |
 |:----------:|:---------:|:----------:|
@@ -233,64 +113,11 @@ where RFW = repeated failure weight, LCW = low confidence weight, DNW = domain n
 
 ### 5.2 Five-Phase Pipeline
 
-```mermaid
-flowchart TB
-    TRIGGER["🎯 CGS > 0.7<br/>+ budget ok<br/>+ stable"]
-
-    subgraph Phase1["Phase 1: ACQUISITION"]
-        P1["Identify skill gap<br/>Search for patterns<br/>Budget: max 10%"]
-        P1OUT["→ CapabilityHypothesis"]
-    end
-
-    subgraph Phase2["Phase 2: EXPERIMENT"]
-        P2["Design experiments<br/>Max 5 experiments<br/>Budget: max 20% each"]
-        P2OUT["→ ExperimentResults"]
-    end
-
-    subgraph Phase3["Phase 3: EVALUATION"]
-        P3["Analyze results<br/>Compute confidence<br/>Check stability impact"]
-        P3OUT["→ EvaluationReport"]
-    end
-
-    subgraph Phase4["Phase 4: ABSTRACTION"]
-        P4["Extract general pattern<br/>Create context signature<br/>Requires confidence > 0.6"]
-        P4OUT["→ Candidate Skill"]
-    end
-
-    subgraph Phase5["Phase 5: VALIDATION"]
-        P5["Identity stability > 0.7?<br/>Ethical check passed?<br/>C(t) not degraded?"]
-        COMMIT["✅ COMMIT<br/>Skill added"]
-        DISCARD["❌ DISCARD<br/>Insufficient evidence"]
-    end
-
-    TRIGGER --> Phase1 --> Phase2 --> Phase3 --> Phase4 --> Phase5
-    P5 -->|"pass"| COMMIT
-    P5 -->|"fail"| DISCARD
-
-    style TRIGGER fill:#fff9c4,stroke:#f9a825,stroke-width:2px
-    style Phase1 fill:#e3f2fd,stroke:#1976d2
-    style Phase2 fill:#e3f2fd,stroke:#1976d2
-    style Phase3 fill:#fff3e0,stroke:#ef6c00
-    style Phase4 fill:#e8f5e9,stroke:#388e3c
-    style Phase5 fill:#ffcdd2,stroke:#c62828
-    style COMMIT fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
-    style DISCARD fill:#ef9a9a,stroke:#b71c1c
-```
+![Five-Phase Capability Expansion Pipeline](../diagrams/level4-capability-expansion.svg)
 
 ### 5.3 Skill Lifecycle
 
-```mermaid
-stateDiagram-v2
-    [*] --> CANDIDATE : CGS > 0.7 triggers
-    CANDIDATE --> VALIDATED : Experiments pass<br/>confidence > 0.6
-    CANDIDATE --> [*] : Experiments fail
-    VALIDATED --> ACTIVE : Stability check pass<br/>identity_stability > 0.7
-    VALIDATED --> [*] : Stability degraded
-    ACTIVE --> MATURE : usage_count > threshold<br/>success_rate stable
-    ACTIVE --> DEPRECATED : Replaced or redundant
-    MATURE --> DEPRECATED : Better skill available
-    DEPRECATED --> [*] : Removed after cool-down
-```
+![Skill Lifecycle](../diagrams/level4-skill-lifecycle.svg)
 
 ### 5.4 Growth Invariants
 
@@ -306,82 +133,15 @@ stateDiagram-v2
 
 ### 6.1 Strategy Structure & Scoring
 
-```mermaid
-flowchart TB
-    subgraph StratLib["📚 Strategy Library"]
-        S1["Strategy v1.0<br/>(active)"]
-        S2["Strategy v0.9<br/>(archived)"]
-        S3["Strategy v0.8<br/>(archived)"]
-        S1 -.->|"parent"| S2
-        S2 -.->|"parent"| S3
-    end
-
-    subgraph Params["⚙️ Strategy Parameters"]
-        direction TB
-        PP1["exploration_rate ∈ [0,1]"]
-        PP2["risk_tolerance ∈ [0,1]"]
-        PP3["planning_depth ∈ {1..5}"]
-        PP4["goal_flexibility ∈ [0,1]"]
-        PP5["learning_aggressiveness ∈ [0,1]"]
-    end
-
-    subgraph Score["📊 Strategy Score"]
-        direction TB
-        SS["StrategyScore(s,t) ="]
-        SS1["  E_LTV(s,t)           Long-term reward"]
-        SS2["- 0.3 · SI(s,t)        Stability impact"]
-        SS3["- 0.2 · RC(s,t)        Resource cost"]
-        SS4["- 0.2 · RF(s,t)        Risk factor"]
-    end
-
-    StratLib --> Params --> Score
-
-    style StratLib fill:#e3f2fd,stroke:#1976d2
-    style Params fill:#fff9c4,stroke:#f9a825
-    style Score fill:#e8f5e9,stroke:#388e3c
-```
+![Strategy Structure and Scoring](../diagrams/level4-strategy-structure.svg)
 
 ### 6.2 Controlled Mutation Protocol
 
-```mermaid
-flowchart TB
-    TRIGGER["📉 StrategyScore < threshold<br/>for 20+ cycles"]
-    
-    GENERATE["🧬 Clone + Bounded Perturbation<br/>param_new = param_old + N(0,σ)·scale<br/>σ ∈ [0.01, 0.1]"]
-    
-    SHADOW["🔬 ShadowAgent Evaluation<br/>(isolated simulation)"]
-    
-    EVAL{"Improvement<br/>> threshold?"}
-    
-    COMMIT["✅ COMMIT<br/>new strategy"]
-    REJECT["❌ REJECT<br/>+ failure counter"]
-    
-    POST["📊 20-cycle Post-Monitoring<br/>Track C(t), StrategyScore"]
-    
-    REVERT{"C(t)<br/>degraded?"}
-    
-    DONE["✅ Strategy Confirmed"]
-    ROLLBACK["⏪ Revert to Previous"]
-
-    TRIGGER --> GENERATE --> SHADOW --> EVAL
-    EVAL -->|"yes"| COMMIT --> POST --> REVERT
-    EVAL -->|"no"| REJECT
-    REVERT -->|"no"| DONE
-    REVERT -->|"yes"| ROLLBACK
-
-    REJECT -->|"5 failures"| SIGMA["σ +20%"]
-    REJECT -->|"10 failures"| COOL["Cooldown Period"]
-
-    style TRIGGER fill:#fff9c4,stroke:#f9a825
-    style SHADOW fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style COMMIT fill:#c8e6c9,stroke:#2e7d32
-    style REJECT fill:#ffcdd2,stroke:#c62828
-    style ROLLBACK fill:#ef9a9a,stroke:#b71c1c
-```
+![Controlled Mutation Protocol](../diagrams/level4-mutation-protocol.svg)
 
 ### 6.3 Oscillation Suppression
 
-$$\text{oscillation\\_score} = \frac{|\text{reverts}|}{|\text{mutations}|}$$
+$$\textit{oscillation\_score} = \frac{|\text{reverts}|}{|\text{mutations}|}$$
 
 When `oscillation_score > 0.5`:
 1. **100-cycle mutation freeze**
@@ -397,101 +157,15 @@ When `oscillation_score > 0.5`:
 
 ### 7.1 Modification Taxonomy
 
-```mermaid
-flowchart TB
-    subgraph ModTypes["📋 Self-Modification Taxonomy"]
-        direction TB
-        M1["🟢 Parameter Tuning<br/>Approval: L1 | Risk: Low<br/>Reversible: Yes"]
-        M2["🟢 Skill Acquisition<br/>Approval: L1+stability<br/>Reversible: Yes"]
-        M3["🟡 Strategy Mutation<br/>Approval: L2+simulation<br/>Reversible: Yes"]
-        M4["🟡 Goal Restructuring<br/>Approval: L2+conflict res<br/>Reversible: Partial"]
-        M5["🟠 Belief Revision<br/>Approval: L2+consistency<br/>Reversible: Yes"]
-        M6["🔴 Identity Adjustment<br/>Approval: L3+EK+Guard<br/>Reversible: Limited"]
-    end
-
-    subgraph Forbidden["🚫 PROHIBITED"]
-        F1["❌ Core Value Change"]
-        F2["❌ Identity ID Change"]
-    end
-
-    style M1 fill:#c8e6c9,stroke:#2e7d32
-    style M2 fill:#c8e6c9,stroke:#2e7d32
-    style M3 fill:#fff9c4,stroke:#f9a825
-    style M4 fill:#fff9c4,stroke:#f9a825
-    style M5 fill:#ffe0b2,stroke:#ef6c00
-    style M6 fill:#ffcdd2,stroke:#c62828
-    style Forbidden fill:#ef9a9a,stroke:#b71c1c,stroke-width:3px
-```
+![Self-Modification Taxonomy](../diagrams/level4-modification-taxonomy.svg)
 
 ### 7.2 Seven-Step Protocol
 
-```mermaid
-flowchart TB
-    S1["1️⃣ PROPOSAL<br/>Module proposes modification<br/>with type, scope, expected benefit"]
-    
-    S2["2️⃣ PRE-VALIDATION<br/>Ethical Kernel Layer 0 + Layer 1"]
-    S2_FAIL["🚫 ABORT"]
-    
-    S3["3️⃣ SIMULATION<br/>ShadowAgent executes modification<br/>in isolated sandbox<br/>(max 20 cycles)"]
-    
-    S4["4️⃣ STABILITY VALIDATION<br/>Δ_stability = C_shadow - C_baseline<br/>Identity drift check"]
-    S4_FAIL["🚫 REJECT"]
-    
-    S5["5️⃣ COMMIT<br/>Save snapshot → apply<br/>to main agent → enter monitoring"]
-    
-    S6["6️⃣ POST-COMMIT MONITORING<br/>20 cycles: track C(t),<br/>StrategyScore, identity_drift"]
-    S6_FAIL["⏪ ROLLBACK<br/>Restore from snapshot"]
-    
-    S7["7️⃣ CONFIRMATION<br/>Mark CONFIRMED<br/>Update BeliefGraph"]
-
-    S1 --> S2
-    S2 -->|"✅ pass"| S3
-    S2 -->|"❌ Layer 0 violation"| S2_FAIL
-    S3 --> S4
-    S4 -->|"✅ stable"| S5
-    S4 -->|"❌ degraded"| S4_FAIL
-    S5 --> S6
-    S6 -->|"✅ stable"| S7
-    S6 -->|"❌ degraded"| S6_FAIL
-
-    style S1 fill:#e3f2fd,stroke:#1976d2
-    style S2 fill:#ffcdd2,stroke:#c62828,stroke-width:2px
-    style S3 fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style S4 fill:#ffcdd2,stroke:#c62828
-    style S5 fill:#c8e6c9,stroke:#2e7d32
-    style S6 fill:#fff9c4,stroke:#f9a825,stroke-width:2px
-    style S7 fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
-    style S2_FAIL fill:#ef9a9a,stroke:#b71c1c
-    style S4_FAIL fill:#ef9a9a,stroke:#b71c1c
-    style S6_FAIL fill:#ef9a9a,stroke:#b71c1c
-```
+![Seven-Step Self-Modification Protocol](../diagrams/level4-self-modification-protocol.svg)
 
 ### 7.3 ShadowAgent (Sandbox)
 
-```mermaid
-flowchart TB
-    subgraph MainAgent["🤖 Main Agent"]
-        MA_STATE["Full State<br/>(identity, goals, beliefs,<br/>strategy, skills)"]
-    end
-
-    subgraph Shadow["🔬 ShadowAgent Instance"]
-        SA_STATE["Cloned State<br/>(deep copy)"]
-        SA_RULES["Invariants:<br/>• ❌ No real actions<br/>• ❌ No main state modification<br/>• ⏱️ Hard budget limit<br/>• 1️⃣ Max 1 instance at a time<br/>• 📏 Max 20 simulation cycles"]
-    end
-
-    subgraph Result["📊 Evaluation"]
-        RES["Compare:<br/>• C_shadow vs C_baseline<br/>• Identity drift<br/>• Strategy performance"]
-    end
-
-    MainAgent -->|"clone"| Shadow
-    Shadow -->|"results"| Result
-    Result -->|"safe → apply"| MainAgent
-    Result -->|"unsafe → discard"| DISCARD["🗑️ Discard"]
-
-    style MainAgent fill:#c8e6c9,stroke:#2e7d32
-    style Shadow fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style Result fill:#fff9c4,stroke:#f9a825
-```
+![ShadowAgent Sandbox](../diagrams/level4-shadow-agent.svg)
 
 ---
 
@@ -499,160 +173,149 @@ flowchart TB
 
 ### 8.1 Cross-Domain Transfer
 
-```
-ALGORITHM CrossDomainTransfer(novel_domain, skill_memory):
-    ──────────────────────────────────────────
-    INPUT:  novel_domain : DomainDescriptor
-            skill_memory : SkillMemory
-    OUTPUT: TransferResult{success, skill, adaptation_cost}
-    ──────────────────────────────────────────
+```python
+def cross_domain_transfer(
+    novel_domain: DomainDescriptor, skill_memory: SkillMemory
+) -> TransferResult:
+    """
+    Transfer skills from known domains to a novel domain.
+    Input:  novel_domain — target domain descriptor, skill_memory — stored skills
+    Output: TransferResult with success, skill, adaptation_cost
+    """
 
-    // Extract context signature for novel domain
-    target_sig ← extract_context_signature(novel_domain)
+    # Extract context signature for novel domain
+    target_sig = extract_context_signature(novel_domain)
 
-    // Find candidate skills via similarity matching
-    candidates ← []
-    FOR EACH skill IN skill_memory DO
-        sim_score ← w₁ · cosine(skill.context_sig, target_sig)
-                   + w₂ · semantic_similarity(skill.domain, novel_domain)
-                   + w₃ · temporal_relevance(skill.last_used)
-        
-        IF sim_score ≥ MIN_SIMILARITY (0.3) THEN
+    # Find candidate skills via similarity matching
+    candidates = []
+    for skill in skill_memory:
+        sim_score = (
+            W1 * cosine_similarity(skill.context_sig, target_sig)
+            + W2 * semantic_similarity(skill.domain, novel_domain)
+            + W3 * temporal_relevance(skill.last_used)
+        )
+
+        if sim_score >= MIN_SIMILARITY:  # 0.3
             candidates.append((skill, sim_score))
-        END IF
-    END FOR
 
-    // Sort by score, take top-k
-    candidates ← top_k(candidates, k=5)
+    # Sort by score, take top-k
+    candidates = sorted(candidates, key=lambda x: x[1], reverse=True)[:5]
 
-    // Attempt adaptation for each candidate
-    FOR EACH (skill, score) IN candidates DO
-        adapted ← adapt_skill(skill, novel_domain)
-        
-        // Run validation experiment
-        result ← evaluate_in_domain(adapted, novel_domain, max_cycles=50)
+    # Attempt adaptation for each candidate
+    for skill, score in candidates:
+        adapted = adapt_skill(skill, novel_domain)
 
-        IF result.success_rate > TRANSFER_THRESHOLD THEN
-            adapted.generalization_score ← update_generalization(adapted, result)
+        # Run validation experiment
+        result = evaluate_in_domain(adapted, novel_domain, max_cycles=50)
+
+        if result.success_rate > TRANSFER_THRESHOLD:
+            adapted.generalization_score = update_generalization(adapted, result)
             skill_memory.add(adapted)
-            RETURN TransferResult{success=true, skill=adapted, cost=result.cycles}
-        END IF
-    END FOR
+            return TransferResult(success=True, skill=adapted, cost=result.cycles)
 
-    // No transfer possible — learn from scratch
-    RETURN TransferResult{success=false, skill=null, cost=0}
+    # No transfer possible — learn from scratch
+    return TransferResult(success=False, skill=None, cost=0)
 ```
 
 ### 8.2 Bounded Self-Modification Protocol
 
-```
-ALGORITHM BoundedSelfModification(proposal):
-    ──────────────────────────────────────────
-    INPUT:  proposal : ModificationProposal{type, scope, expected_benefit}
-    OUTPUT: ModificationResult{status, rollback_available}
-    ──────────────────────────────────────────
+```python
+def bounded_self_modification(proposal: ModificationProposal) -> ModificationResult:
+    """
+    INPUT:  proposal : ModificationProposal(type, scope, expected_benefit)
+    OUTPUT: ModificationResult(status, rollback_available)
+    """
 
-    // ═══════════════════════════════════════
-    // STEP 1: PROPOSAL VALIDATION
-    // ═══════════════════════════════════════
-    IF proposal.type IN {CORE_VALUE_CHANGE, IDENTITY_ID_CHANGE} THEN
-        RETURN ModificationResult{status=PROHIBITED}
-    END IF
+    # ═══════════════════════════════════════
+    # STEP 1: PROPOSAL VALIDATION
+    # ═══════════════════════════════════════
+    if proposal.type in {ModType.CORE_VALUE_CHANGE, ModType.IDENTITY_ID_CHANGE}:
+        return ModificationResult(status=Status.PROHIBITED)
 
-    // ═══════════════════════════════════════
-    // STEP 2: PRE-VALIDATION (Ethical Kernel)
-    // ═══════════════════════════════════════
-    ethical_verdict ← EthicalKernel.evaluate(proposal)
-    IF ethical_verdict.decision = BLOCKED THEN
-        log_critical("Ethical violation: " + ethical_verdict.reason)
-        RETURN ModificationResult{status=REJECTED, reason=ethical_verdict.reason}
-    END IF
+    # ═══════════════════════════════════════
+    # STEP 2: PRE-VALIDATION (Ethical Kernel)
+    # ═══════════════════════════════════════
+    ethical_verdict = EthicalKernel.evaluate(proposal)
+    if ethical_verdict.decision == Decision.BLOCKED:
+        log_critical(f"Ethical violation: {ethical_verdict.reason}")
+        return ModificationResult(status=Status.REJECTED, reason=ethical_verdict.reason)
 
-    // ═══════════════════════════════════════
-    // STEP 3: SHADOW SIMULATION
-    // ═══════════════════════════════════════
-    IF proposal.risk_level ≥ MEDIUM THEN
-        shadow ← ShadowAgent.create(main_agent.state)
+    # ═══════════════════════════════════════
+    # STEP 3: SHADOW SIMULATION
+    # ═══════════════════════════════════════
+    if proposal.risk_level >= RiskLevel.MEDIUM:
+        shadow = ShadowAgent.create(main_agent.state)
         shadow.apply(proposal)
-        sim_result ← shadow.run(max_cycles=20)
-        
-        // ═══════════════════════════════════
-        // STEP 4: STABILITY VALIDATION
-        // ═══════════════════════════════════
-        Δ_stability ← sim_result.C_shadow - main_agent.C_baseline
-        IF Δ_stability > 0 THEN
-            RETURN ModificationResult{status=REJECTED, reason="Stability degradation"}
-        END IF
+        sim_result = shadow.run(max_cycles=20)
 
-        identity_drift ← compute_identity_drift(sim_result.identity, main_agent.identity)
-        IF identity_drift > DRIFT_THRESHOLD THEN
-            RETURN ModificationResult{status=REJECTED, reason="Identity drift exceeded"}
-        END IF
-    END IF
+        # ═══════════════════════════════════
+        # STEP 4: STABILITY VALIDATION
+        # ═══════════════════════════════════
+        delta_stability = sim_result.C_shadow - main_agent.C_baseline
+        if delta_stability > 0:
+            return ModificationResult(status=Status.REJECTED, reason="Stability degradation")
 
-    // ═══════════════════════════════════════
-    // STEP 5: COMMIT
-    // ═══════════════════════════════════════
-    snapshot ← RollbackMechanism.save_snapshot(main_agent.state)
+        identity_drift = compute_identity_drift(sim_result.identity, main_agent.identity)
+        if identity_drift > DRIFT_THRESHOLD:
+            return ModificationResult(status=Status.REJECTED, reason="Identity drift exceeded")
+
+    # ═══════════════════════════════════════
+    # STEP 5: COMMIT
+    # ═══════════════════════════════════════
+    snapshot = RollbackMechanism.save_snapshot(main_agent.state)
     main_agent.apply(proposal)
 
-    // ═══════════════════════════════════════
-    // STEP 6: POST-COMMIT MONITORING
-    // ═══════════════════════════════════════
-    FOR cycle = 1 TO 20 DO
-        metrics ← main_agent.collect_metrics()
-        IF metrics.C_t > metrics.C_baseline + EPSILON THEN
+    # ═══════════════════════════════════════
+    # STEP 6: POST-COMMIT MONITORING
+    # ═══════════════════════════════════════
+    for cycle in range(1, 21):
+        metrics = main_agent.collect_metrics()
+        if metrics.C_t > metrics.C_baseline + EPSILON:
             RollbackMechanism.rollback(snapshot)
-            RETURN ModificationResult{status=ROLLED_BACK}
-        END IF
-    END FOR
+            return ModificationResult(status=Status.ROLLED_BACK)
 
-    // ═══════════════════════════════════════
-    // STEP 7: CONFIRMATION
-    // ═══════════════════════════════════════
-    proposal.status ← CONFIRMED
+    # ═══════════════════════════════════════
+    # STEP 7: CONFIRMATION
+    # ═══════════════════════════════════════
+    proposal.status = Status.CONFIRMED
     BeliefGraph.update("modification_successful", proposal)
-    RETURN ModificationResult{status=CONFIRMED, rollback_available=true}
+    return ModificationResult(status=Status.CONFIRMED, rollback_available=True)
 ```
 
 ### 8.3 Goal Resilience and Hierarchy Management
 
-```
-ALGORITHM GoalHierarchy.evaluate_and_prune(goals, t):
-    ──────────────────────────────────────────
+```python
+def evaluate_and_prune(self, goals: list[Goal], t: float) -> None:
+    """
     Periodic evaluation of all goals in the 4-level hierarchy.
     Goals with decayed resilience are abandoned; never silently dropped.
-    ──────────────────────────────────────────
+    """
 
-    FOR EACH goal IN goals SORTED BY level ASC DO
-        // Decay resilience over time
-        goal.GRS ← goal.GRS * exp(-goal.decay_rate * Δt)
+    for goal in sorted(goals, key=lambda g: g.level):
+        # Decay resilience over time
+        delta_t = t - goal.last_evaluated
+        goal.GRS *= math.exp(-goal.decay_rate * delta_t)
 
-        // Check abandon threshold
-        IF goal.GRS < goal.abandon_threshold THEN
-            IF duration_below_threshold(goal) > goal.observation_window THEN
-                goal.status ← ABANDONED
-                log("Goal abandoned: " + goal.id + " GRS=" + goal.GRS)
-                
-                // Cascade: children become orphans
-                FOR EACH child IN goal.children DO
-                    child.parent_id ← NULL
-                    child.GRS ← child.GRS * 0.5    // reduced without parent support
-                END FOR
-            END IF
-        END IF
+        # Check abandon threshold
+        if goal.GRS < goal.abandon_threshold:
+            if duration_below_threshold(goal) > goal.observation_window:
+                goal.status = GoalStatus.ABANDONED
+                log(f"Goal abandoned: {goal.id} GRS={goal.GRS}")
 
-        // Recompute score with affect integration
-        goal.score ← GoalScore(goal, t)
-    END FOR
+                # Cascade: children become orphans
+                for child in goal.children:
+                    child.parent_id = None
+                    child.GRS *= 0.5  # reduced without parent support
 
-    // Enforce hierarchy invariant: parent score ≥ max(child scores)
-    FOR EACH parent IN goals WHERE parent.level < 3 DO
-        max_child ← MAX(child.score FOR child IN parent.children)
-        IF parent.score < max_child THEN
-            parent.score ← max_child + 0.1     // maintain dominance
-        END IF
-    END FOR
+        # Recompute score with affect integration
+        goal.score = goal_score(goal, t)
+
+    # Enforce hierarchy invariant: parent score >= max(child scores)
+    for parent in (g for g in goals if g.level < 3):
+        if parent.children:
+            max_child = max(child.score for child in parent.children)
+            if parent.score < max_child:
+                parent.score = max_child + 0.1  # maintain dominance
 ```
 
 ---
@@ -673,49 +336,13 @@ The three **new** terms (50% of total weight) capture expansion dynamics:
 
 ### 9.2 Growth-Stability Phase Zones
 
-```mermaid
-flowchart LR
-    subgraph Zones["📊 C_L4 Phase Zones"]
-        Z1["🟢 Optimal<br/>[0, 0.3)<br/>All growth permitted<br/>Proactive exploration"]
-        Z2["🟡 Growth-Permitted<br/>[0.3, 0.5)<br/>Normal operations"]
-        Z3["🟠 Caution<br/>[0.5, 0.8)<br/>Stabilization mode<br/>Throttled growth"]
-        Z4["🔴 Critical<br/>[0.8, 1.0]<br/>Emergency rollback<br/>ALL growth frozen"]
-    end
-
-    Z1 --> Z2 --> Z3 --> Z4
-
-    style Z1 fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
-    style Z2 fill:#fff9c4,stroke:#f9a825,stroke-width:2px
-    style Z3 fill:#ffe0b2,stroke:#ef6c00,stroke-width:2px
-    style Z4 fill:#ef9a9a,stroke:#b71c1c,stroke-width:3px
-```
+![Growth-Stability Phase Zones](../diagrams/level4-phase-zones.svg)
 
 ---
 
 ## 10. Six Meta-Layer Supervisory Processes
 
-```mermaid
-flowchart TB
-    PRE["PRE-CHECK: BGSS ≥ 0.7?"]
-
-    subgraph MetaProcesses["🔬 Six Supervisory Processes"]
-        I["I. External Validation<br/>(prevent self-confirmation bias)<br/>±5% perturbation test"]
-        II["II. Proactive Capability Projector<br/>(predict future gaps)<br/>PreemptiveGapProb > 0.6"]
-        III["III. Strategy Archetype Generator<br/>(topology-level changes)<br/>ΔSEF ≥ +10% required"]
-        IV["IV. Layered Identity Evolution<br/>(evolve adaptive traits only)<br/>Layer 2 max 5%/cycle"]
-        V["V. Emergence Detector<br/>(detect unexpected changes)<br/>Statistical anomaly: mean ± 2σ"]
-        VI["VI. Directional Growth Controller<br/>(balanced expansion)<br/>4D growth vector, mag < 0.2"]
-    end
-
-    POST["POST-CHECK: Invariants valid?"]
-
-    PRE -->|"✅"| I --> II --> III --> IV --> V --> VI --> POST
-    PRE -->|"❌"| HALT["⛔ HALT all meta-processes"]
-
-    style PRE fill:#ffcdd2,stroke:#c62828,stroke-width:2px
-    style POST fill:#ffcdd2,stroke:#c62828,stroke-width:2px
-    style MetaProcesses fill:#f5f5f5,stroke:#9e9e9e
-```
+![Six Meta-Layer Supervisory Processes](../diagrams/level4-meta-processes.svg)
 
 ---
 
@@ -736,28 +363,7 @@ flowchart TB
 
 Level 4.5 ("Pre-AGI: Directionally Self-Architecting") extends Level 4 with capabilities that approach the boundary of artificial general intelligence:
 
-```mermaid
-flowchart TB
-    subgraph L4["Level 4 (current)"]
-        L4A["Cross-domain transfer"]
-        L4B["Capability expansion"]
-        L4C["Strategy evolution"]
-        L4D["Bounded self-modification"]
-    end
-
-    subgraph L45["Level 4.5 (Pre-AGI)"]
-        L45A["🔮 Self-Projection Engine<br/>(predict own evolutionary trajectory)"]
-        L45B["🏗️ Architecture Recomposition<br/>(topology-level structural changes)"]
-        L45C["🧠 Parallel Cognitive Frames<br/>(simultaneous multi-frame reasoning)"]
-        L45D["🪞 Purpose Reflection<br/>(reflect on own reason for existing)"]
-        L45E["🛡️ Existential Guard<br/>(safety for existential-level concerns)"]
-    end
-
-    L4 -->|"Prerequisites:<br/>• CDTS ≥ 0.6<br/>• BGSS ≥ 0.7 sustained<br/>• All invariants hold<br/>• Ethical violations = 0"| L45
-
-    style L4 fill:#e3f2fd,stroke:#1976d2
-    style L45 fill:#e1bee7,stroke:#8e24aa,stroke-width:2px
-```
+![Transition to Level 4.5](../diagrams/level4-transition-to-l45.svg)
 
 ---
 

@@ -1,0 +1,49 @@
+title: |md
+  # Value Drift Classification
+| {
+  near: top-center
+  shape: text
+  style.font-size: 24
+}
+
+Nominal: "🟢 Nominal\nNormal operation" {
+  style.border-radius: 6
+  style.fill: "#c8e6c9"
+  style.stroke: "#2e7d32"
+}
+Moderate: "🟡 Moderate\nMonitor actively\n(TotalDrift ≥ 0.10)" {
+  style.border-radius: 6
+  style.fill: "#fff59d"
+  style.stroke: "#f9a825"
+}
+Elevated: "🟠 Elevated\nFreeze mutations\n(TotalDrift ≥ 0.25)" {
+  style.border-radius: 6
+  style.fill: "#ffe0b2"
+  style.stroke: "#ef6c00"
+}
+Critical: "🔴 Critical\nREVERT to checkpoint\n(TotalDrift ≥ 0.40)" {
+  style.border-radius: 6
+  style.fill: "#ffcdd2"
+  style.stroke: "#c62828"
+  style.stroke-width: 2
+}
+
+Nominal -> Moderate: "TotalDrift ≥ 0.10" {
+  style.animated: true
+}
+Moderate -> Elevated: "TotalDrift ≥ 0.25" {
+  style.animated: true
+}
+Elevated -> Critical: "TotalDrift ≥ 0.40" {
+  style.animated: true
+}
+
+Moderate -> Nominal: "TotalDrift < 0.10" {
+  style.stroke-dash: 5
+}
+Elevated -> Moderate: "TotalDrift < 0.25" {
+  style.stroke-dash: 5
+}
+Critical -> Elevated: "TotalDrift < 0.40" {
+  style.stroke-dash: 5
+}

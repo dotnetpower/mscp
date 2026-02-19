@@ -80,7 +80,9 @@ MSCP defines a six-level taxonomy that characterizes AI agent systems by their c
 | **3** | **Self-Regulating Cognitive Agent** | Triple-loop meta-cognition; identity vector; belief graph; ethical kernel; affective drive; survival instinct | Structural | High |
 | **4** | **Adaptive General Agent** | Cross-domain transfer; long-term autonomous goals; capability self-expansion; strategy evolution; bounded self-modification | Structural + Reflective | Very High |
 | **4.5** | **Directionally Self-Architecting** | Trajectory self-projection; cognitive topology recomposition; parallel cognitive frames; purpose reflection; existential guard | Architectural | Near-Full |
-| **5** | **Artificial General Intelligence** | Unbounded domain generalization; autonomous discovery; creative problem solving | Full | Full |
+| **4.8** | **Strategic Self-Modeling Agent** | Probabilistic world model; calibrated self-assessment; multi-horizon strategic planning; stability-preserving planning | Architectural + Strategic | Near-Full |
+| **4.9** | **Autonomous Strategic Agent** | Autonomous goal generation; value evolution monitoring; resource survival modeling; multi-agent reasoning; autonomy stability verification | Architectural + Autonomous | Near-Full |
+| **5** | **Proto-AGI** | Persistent identity continuity; cross-domain generalization; autonomous goal ecology; existential resilience; self-reconstruction | Full | Full |
 | **6** | **Strong AGI / Conscious Entity** | Subjective experience; moral agency; independent value formation | Phenomenal | Sovereign |
 
 > **Design Principle**: Each level transition requires demonstrated stability at the current level. Upward transitions are prohibited when stability has not been verified. This is referred to as the **Bounded Intelligence Growth** principle.
@@ -99,7 +101,9 @@ $$
 | $L2 \to L3$ | Self-awareness + meta-cognition loop + identity continuity + ethical constraints |
 | $L3 \to L4$ | Cross-domain generalization + capability self-expansion + bounded self-modification |
 | $L4 \to L4.5$ | Trajectory self-projection + topology-level reasoning + existential safety monitoring |
-| $L4.5 \to L5$ | Unbounded domain generalization + independent discovery + creative problem solving |
+| $L4.5 \to L4.8$ | World model integration + meta-cognitive self-model + strategic layer activation |
+| $L4.8 \to L4.9$ | Autonomous goal generation + value evolution monitoring + resource survival + multi-agent reasoning |
+| $L4.9 \to L5$ | Persistent identity (10K+ cycles) + cross-domain generalization + goal ecology + self-reconstruction |
 | $L5 \to L6$ | Consciousness + subjective experience + moral agency |
 
 ### 2.3 Why This Taxonomy Matters
@@ -160,37 +164,7 @@ From those hard-won lessons, four design principles crystallized — and we enfo
 
 MSCP has gone through four major versions, each adding structural safety mechanisms while keeping everything from previous versions:
 
-```
-v1.0  Pipeline Restructuring       → Identity-first architecture
-  │   + PredictionEngine            → Prediction-gated actions
-  │   + MetaCognitionComparator     → Prediction-comparison loop
-  │   + SelfUpdateLoop              → Delta-clamped self-updates
-  │   + Agency Attribution          → Action provenance tracking
-  │
-v1.3  Self-Impact Prediction       → Predict internal state changes (not just external)
-  │   + MetaEscalationGuard        → Recursion safety (max 3 updates/cycle)
-  │   + Rollback Controller        → Stable snapshot restoration
-  │
-v2.0  Controlled Goal Mutation     → Structural goal modification under stability conditions
-  │   + ValueLockManager           → Core value hash integrity
-  │   + MetaDepthController        → Recursive meta-cognition (depth 2)
-  │   + Meta Stability Formula     → Quantified meta-stability
-  │   + Stabilization Mode         → Automatic safety mode activation
-  │
-v3.0  Belief Graph                 → Structured belief representation + controlled rewriting
-  │   + Identity Vector Math       → I(t) as continuous vector; L2-norm delta/velocity/acceleration
-  │   + Ethical Kernel             → Rule-based ethical invariants (no LLM dependency)
-  │   + Self-Consistency Tensor    → Belief-goal-value-identity coherence evaluation
-  │
-v3.1  Lyapunov Stability          → Convergence guarantee
-  │   + Cognitive Budget           → Computational explosion prevention
-  │   + Global Workspace           → Unified cognitive state broadcast
-  │   + Identity-Belief Coupling   → Prevent independent drift
-  │
-v4.0  Affective Engine            → Structured internal emotion states
-      + Survival Instinct          → Homeostatic threat detection + defense goals
-      + Async Separation           → MSCP loop never blocks user response path
-```
+![MSCP Protocol Version History](diagrams/overview-version-history.svg)
 
 ### 3.4 Cumulative Structural Guarantees
 
@@ -216,32 +190,7 @@ Each MSCP version adds safety mechanisms that are **never removed** in subsequen
 
 MSCP defines a 16-layer cognitive stack that separates concerns into composable, independently testable modules. The key design decision is the **Self-Model → Goal Generator** pipeline ordering: goals are derived from identity, not the reverse.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    16-Layer Cognitive Stack                       │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│  L1:  Perception          ─── Intent, Emotion, Sensor Encoding    │
-│  L2:  World Model         ─── Knowledge Graph, Entity Tracking    │
-│  L3:  Self Model ★        ─── Identity Vector, Capability Model   │
-│  L3.5: Belief Graph       ─── Belief Nodes + Consistency Tensor   │
-│  L4:  Prediction Engine   ─── External + Internal Predictions     │
-│  L5:  Goal Generator      ─── Identity-Derived Goal Hierarchy     │
-│  L5.5: Ethical Kernel     ─── Layer 0 (Immutable) + Layer 1       │
-│  L6:  Action Planner      ─── Execution + Strategy Evaluation     │
-│  L7:  Cognitive Engine    ─── LLM Backends (Primary + Meta)       │
-│  L8:  Meta Comparator     ─── Prediction vs Actual + Self-Impact  │
-│  L9:  Self-Update Loop    ─── Delta-Clamped Structured Updates    │
-│  L10: Escalation Guard    ─── Recursion Safety + Rollback         │
-│  L11: Depth Controller    ─── Meta-Cognitive Depth 1 & 2          │
-│  L12: Stability Control   ─── Lyapunov Convergence Guarantee      │
-│  L13: Budget Controller   ─── Cognitive Resource Management       │
-│  L14: Global Workspace    ─── Unified Cognitive State Broadcast   │
-│  L15: Affective Engine    ─── Internal Emotion + Motivation       │
-│  L16: Survival Instinct   ─── Homeostatic Monitoring + Defense    │
-│                                                                   │
-└─────────────────────────────────────────────────────────────────┘
-```
+![16-Layer Cognitive Stack](diagrams/overview-16layer-stack.svg)
 
 ### 4.2 Key Design Decisions
 
@@ -274,16 +223,7 @@ The loops are not simply nested timers. Each higher loop **evaluates the quality
 
 One of the early design decisions that proved critical: **the MSCP meta-cognitive loop never blocks the user-facing response path.**
 
-```
-[User Message]
-    ├── 🟢 Response Path (synchronous):
-    │     Preprocessing → Cognitive Pipeline → LLM Call → Streaming Response
-    │     Target: TTFT < 2 seconds
-    │
-    └── 🔵 MSCP Path (asynchronous, background):
-          Triggered after response completion
-          Cycle results reflected in the NEXT interaction's state
-```
+![Asynchronous Separation](diagrams/overview-async-separation.svg)
 
 This ensures that adding structural self-awareness does not degrade the user experience. The meta-cognitive loop runs in the background and its outputs are incorporated into future interactions.
 
@@ -318,7 +258,7 @@ This section walks through MSCP's safety mechanisms — arguably the most import
 **MSCP Solution**: The Identity Vector $I(t)$ represents the agent's self-model as a continuous vector:
 
 $$
-I(t) = \begin{bmatrix} \text{core\\_value\\_vector} \\ \text{goal\\_weight\\_vector} \\ \text{capability\\_confidence\\_vector} \\ \text{belief\\_cluster\\_vector} \end{bmatrix}
+I(t) = \begin{bmatrix} \textit{core\_value\_vector} \\ \textit{goal\_weight\_vector} \\ \textit{capability\_confidence\_vector} \\ \textit{belief\_cluster\_vector} \end{bmatrix}
 $$
 
 At each cycle, a deterministic hash $h(t)$ is computed:
@@ -376,7 +316,7 @@ $$
 
 Where $\Delta_{actual}(t)$ is the observed change in internal state after the action.
 
-**Invariant**: $\text{action\\_allowed}(t) \iff P(t) \neq \emptyset$ — No prediction, no action.
+**Invariant**: $\textit{action\_allowed}(t) \iff P(t) \neq \emptyset$ — No prediction, no action.
 
 ### 5.3 Delta-Clamped Self-Updates
 
@@ -458,7 +398,7 @@ Layer 0 checks are executed **before every goal generation, goal mutation, belie
 **MSCP Solution**: Core values are protected by a cryptographic hash mechanism:
 
 $$
-h_{cv} = \text{SHA-256}(\text{core\\_values\\_serialized})
+h_{cv} = \text{SHA-256}(\textit{core\_values\_serialized})
 $$
 
 At each cycle, the current hash is compared against the stored hash. Any discrepancy triggers:

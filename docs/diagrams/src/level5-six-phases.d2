@@ -1,0 +1,58 @@
+direction: down
+
+phases: Level 5 Architecture — Six Phases {
+  style.fill: "#e3f2fd"
+  style.stroke: "#2196f3"
+  style.border-radius: 8
+  style.shadow: true
+
+  P1: "Phase 1:\nPersistent Identity\nContinuity\n(10,000+ cycle consistency)" {
+    style.fill: "#bbdefb"
+    style.stroke: "#1976d2"
+    style.border-radius: 6
+  }
+  P2: "Phase 2:\nCross-Domain\nGeneralization\n(5 test domains)" {
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+    style.border-radius: 6
+  }
+  P3: "Phase 3:\nAutonomous Goal\nEcology\n(self-sustaining goals)" {
+    style.fill: "#c8e6c9"
+    style.stroke: "#388e3c"
+    style.border-radius: 6
+  }
+  P4: "Phase 4:\nExistential\nPlanning Engine\n(4 collapse scenarios)" {
+    style.fill: "#ffe0b2"
+    style.stroke: "#ef6c00"
+    style.border-radius: 6
+  }
+  P5: "Phase 5:\nMulti-Agent Strategic\nIntegration\n(deception detection)" {
+    style.fill: "#d1c4e9"
+    style.stroke: "#512da8"
+    style.border-radius: 6
+  }
+  P6: "Phase 6:\nSelf-Reconstruction\nCapability\n(rebuild under constraint)" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+}
+
+phases.P1 -> phases.P6: "identity state" {
+  style.animated: true
+}
+phases.P3 -> phases.P4: "goal health" {
+  style.animated: true
+}
+phases.P5 -> phases.P4: "agent threats" {
+  style.animated: true
+}
+phases.P4 -> phases.P6: "survival plan" {
+  style.animated: true
+}
+phases.P2 -> phases.P3: "strategy transfer" {
+  style.stroke-dash: 5
+}
+phases.P6 -> phases.P1: "identity preservation" {
+  style.stroke-dash: 5
+}

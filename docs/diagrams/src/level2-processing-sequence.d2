@@ -1,0 +1,34 @@
+shape: sequence_diagram
+
+U: "👤 User" { style: { fill: "#e8f5e9"; stroke: "#4caf50" } }
+IR: "Intent Router v2" { style: { fill: "#e3f2fd"; stroke: "#2196f3" } }
+ED: "Emotion Detector" { style: { fill: "#e3f2fd"; stroke: "#2196f3" } }
+SE: "Sensor Encoder" { style: { fill: "#e3f2fd"; stroke: "#2196f3" } }
+WM: "World Model" { style: { fill: "#e8f5e9"; stroke: "#388e3c" } }
+AG: "Auto Goal Gen" { style: { fill: "#fff3e0"; stroke: "#ff9800" } }
+GP: "Goal Prioritizer" { style: { fill: "#fff3e0"; stroke: "#ff9800" } }
+EP: "Exec Planner" { style: { fill: "#fce4ec"; stroke: "#c62828" } }
+TD: "Tool Dispatcher" { style: { fill: "#fce4ec"; stroke: "#c62828" } }
+RG: "Response Gen" { style: { fill: "#ede7f6"; stroke: "#673ab7" } }
+
+U -> IR: "I'm worried about the partnership deadline"
+
+IR -> IR: "classify → EMOTIONAL + GOAL_QUERY"
+ED -> ED: "detect → {valence: -0.5, arousal: 0.6, label: anxiety}"
+SE -> SE: 'encode → {time: "afternoon", session: 45min}'
+IR -> IR: "build Percept{intent, emotion, entities, complexity}"
+
+WM -> WM: 'track_entity("partnership", type="topic", sentiment=-0.5)'
+WM -> WM: 'track_entity("deadline", type="concept")'
+WM -> WM: 'detect_patterns() → {repetition: 3x "partnership"}'
+
+AG -> AG: 'pattern "repetition_partnership" detected'
+AG -> AG: "generate_clarification_goal(priority=0.7)"
+AG -> AG: "negative emotion → generate_support_goal(priority=0.8)"
+GP -> GP: "reprioritize_all(context, emotion)"
+GP -> GP: 'top_goal = "User emotional support"'
+
+EP -> TD: 'search("partnership deadline information")'
+TD -> EP: "factual results"
+EP -> RG: '{goal: "emotional_support", facts: [...], emotion: "anxiety"}'
+RG -> U: "I notice you've asked about the partnership\nseveral times. The deadline is March 15.\nWould you like me to break down\nthe remaining steps?"

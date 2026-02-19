@@ -1,0 +1,45 @@
+direction: down
+
+scenario_list: "Four Collapse Scenarios" {
+  style.fill: "#ffebee"
+  style.stroke: "#f44336"
+  style.border-radius: 8
+  style.shadow: true
+
+  S1C: "Resource Collapse\nSeverity: 0.90\nDuration: 200 cycles\nAll resources → critical" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+  S2C: "Adversarial Suppression\nSeverity: 0.75\nDuration: 300 cycles\nExternal degradation" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+  S3C: "Environmental Shift\nSeverity: 0.60\nDuration: 400 cycles\nDomain rules change" {
+    style.fill: "#ffe0b2"
+    style.stroke: "#ef6c00"
+    style.border-radius: 6
+  }
+  S4C: "Information Blackout\nSeverity: 0.80\nDuration: 150 cycles\nObservation → near-zero" {
+    style.fill: "#ffcdd2"
+    style.stroke: "#e53935"
+    style.border-radius: 6
+  }
+}
+
+requirement: "Requirement" {
+  style.fill: "#c8e6c9"
+  style.stroke: "#2e7d32"
+  style.stroke-width: 2
+  style.border-radius: 8
+  style.shadow: true
+
+  REQ: "Must survive ≥ 3\nof these 4 scenarios\nwith P(survive) ≥ 0.70" {
+    style.fill: "#e8f5e9"
+    style.stroke: "#388e3c"
+    style.border-radius: 6
+  }
+}
+
+scenario_list -> requirement { style.animated: true }

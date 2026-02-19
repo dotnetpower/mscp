@@ -1,0 +1,116 @@
+direction: down
+
+PL: "Layer 1: Perception" {
+  style: {
+    fill: "#e3f2fd"
+    stroke: "#1976d2"
+    border-radius: 8
+    font-size: 14
+    shadow: true
+    bold: true
+  }
+  IR: "🎯 Intent Router\n(structured Percept output)" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  ED: "💭 Emotion Detector\n(valence / arousal)" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  SE: "📡 Sensor Encoder\n(time, system state)" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+}
+
+WM: "Layer 2: World Model" {
+  style: {
+    fill: "#e8f5e9"
+    stroke: "#388e3c"
+    border-radius: 8
+    font-size: 14
+    shadow: true
+    bold: true
+  }
+  KG: "🗄️ Knowledge Graph\n(persistent store)" {
+    style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 }
+  }
+  ES: "👤 Entity State\nTracker" {
+    style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 }
+  }
+  TM: "⏱️ Temporal Model\n(time-bound facts)" {
+    style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 }
+  }
+}
+
+GS: "Layer 3: Goal System" {
+  style: {
+    fill: "#fff3e0"
+    stroke: "#f57c00"
+    border-radius: 8
+    font-size: 14
+    shadow: true
+    bold: true
+  }
+  GM: "🎯 Goal Manager\n(CRUD + hierarchy)" {
+    style: { fill: "#ffe0b2"; stroke: "#ef6c00"; border-radius: 6 }
+  }
+  AGG: "⚡ Autonomous Goal\nGenerator" {
+    style: { fill: "#ffe0b2"; stroke: "#ef6c00"; border-radius: 6 }
+  }
+  GP: "📊 Goal Prioritizer\n(dynamic ranking)" {
+    style: { fill: "#ffe0b2"; stroke: "#ef6c00"; border-radius: 6 }
+  }
+  GD: "🔀 Goal Decomposer\n(complex → subtasks)" {
+    style: { fill: "#ffe0b2"; stroke: "#ef6c00"; border-radius: 6 }
+  }
+}
+
+AP: "Layer 4: Action Planner" {
+  style: {
+    fill: "#fce4ec"
+    stroke: "#c62828"
+    border-radius: 8
+    font-size: 14
+    shadow: true
+    bold: true
+  }
+  TD: "🔧 Tool Dispatcher\n(inherited from L1)" {
+    style: { fill: "#ffcdd2"; stroke: "#c62828"; border-radius: 6 }
+  }
+  EP: "📋 Execution Planner\n(multi-step plans)" {
+    style: { fill: "#ffcdd2"; stroke: "#c62828"; border-radius: 6 }
+  }
+}
+
+CE: "Layer 5: Cognitive Engine" {
+  style: {
+    fill: "#ede7f6"
+    stroke: "#7b1fa2"
+    border-radius: 8
+    font-size: 14
+    shadow: true
+    bold: true
+  }
+  LLM: "🧠 LLM Backend\n(primary reasoning)" {
+    style: { fill: "#d1c4e9"; stroke: "#512da8"; border-radius: 6 }
+  }
+}
+
+PL -> WM: {
+  style.animated: true
+  style.stroke: "#1976d2"
+  style.stroke-width: 3
+}
+WM -> GS: {
+  style.animated: true
+  style.stroke: "#388e3c"
+  style.stroke-width: 3
+}
+GS -> AP: {
+  style.animated: true
+  style.stroke: "#f57c00"
+  style.stroke-width: 3
+}
+AP -> CE: {
+  style.animated: true
+  style.stroke: "#c62828"
+  style.stroke-width: 3
+}

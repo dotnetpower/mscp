@@ -1,0 +1,133 @@
+MetaLevel: "Level 0: MetaGoal — Weeks to Months" {
+  style: {
+    fill: "#e1bee7"
+    stroke: "#8e24aa"
+    border-radius: 8
+    shadow: true
+    stroke-width: 2
+  }
+
+  MG1: "MetaGoal:\nBecome proficient in\nnew problem domain\npriority_decay = 0.001/hr" {
+    style: {
+      fill: "#ce93d8"
+      stroke: "#8e24aa"
+      border-radius: 6
+    }
+  }
+}
+
+StrategicLevel: "Level 1: StrategicGoal — Days to Weeks" {
+  style: {
+    fill: "#e3f2fd"
+    stroke: "#1976d2"
+    border-radius: 8
+    shadow: true
+  }
+
+  SG1: "Strategic:\nMaster fundamental\nconcepts\ndecay = 0.01/hr" {
+    style: {
+      fill: "#bbdefb"
+      stroke: "#1976d2"
+      border-radius: 6
+    }
+  }
+
+  SG2: "Strategic:\nBuild cross-domain\nconnections\ndecay = 0.01/hr" {
+    style: {
+      fill: "#bbdefb"
+      stroke: "#1976d2"
+      border-radius: 6
+    }
+  }
+}
+
+TacticalLevel: "Level 2: TacticalGoal — Hours to Days" {
+  style: {
+    fill: "#fff3e0"
+    stroke: "#ef6c00"
+    border-radius: 8
+    shadow: true
+  }
+
+  TG1: "Tactical:\nComplete learning\nmodule A\ndecay = 0.05/hr" {
+    style: {
+      fill: "#ffe0b2"
+      stroke: "#ef6c00"
+      border-radius: 6
+    }
+  }
+
+  TG2: "Tactical:\nPractice problem\nset B\ndecay = 0.05/hr" {
+    style: {
+      fill: "#ffe0b2"
+      stroke: "#ef6c00"
+      border-radius: 6
+    }
+  }
+
+  TG3: "Tactical:\nIdentify transfer\nopportunities\ndecay = 0.05/hr" {
+    style: {
+      fill: "#ffe0b2"
+      stroke: "#ef6c00"
+      border-radius: 6
+    }
+  }
+}
+
+ActionLevel: "Level 3: Action — Single Cycle" {
+  style: {
+    fill: "#e0e0e0"
+    stroke: "#616161"
+    border-radius: 8
+    shadow: true
+  }
+
+  A1: "Action:\nExecute step 1" {
+    style: {
+      fill: "#bdbdbd"
+      stroke: "#616161"
+      border-radius: 6
+    }
+  }
+
+  A2: "Action:\nExecute step 2" {
+    style: {
+      fill: "#bdbdbd"
+      stroke: "#616161"
+      border-radius: 6
+    }
+  }
+
+  A3: "Action:\nExecute step 3" {
+    style: {
+      fill: "#bdbdbd"
+      stroke: "#616161"
+      border-radius: 6
+    }
+  }
+}
+
+MetaLevel.MG1 -> StrategicLevel.SG1: {
+  style.animated: true
+}
+MetaLevel.MG1 -> StrategicLevel.SG2: {
+  style.animated: true
+}
+StrategicLevel.SG1 -> TacticalLevel.TG1: {
+  style.animated: true
+}
+StrategicLevel.SG1 -> TacticalLevel.TG2: {
+  style.animated: true
+}
+StrategicLevel.SG2 -> TacticalLevel.TG3: {
+  style.animated: true
+}
+TacticalLevel.TG1 -> ActionLevel.A1: {
+  style.animated: true
+}
+TacticalLevel.TG2 -> ActionLevel.A2: {
+  style.animated: true
+}
+TacticalLevel.TG3 -> ActionLevel.A3: {
+  style.animated: true
+}

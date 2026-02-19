@@ -1,0 +1,132 @@
+S1: "1. PROPOSAL\nModule proposes modification\nwith type, scope, expected benefit" {
+  style: {
+    fill: "#e3f2fd"
+    stroke: "#1976d2"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+S2: "2. PRE-VALIDATION\nEthical Kernel Layer 0 + Layer 1" {
+  style: {
+    fill: "#ffcdd2"
+    stroke: "#c62828"
+    border-radius: 8
+    shadow: true
+    stroke-width: 2
+  }
+}
+
+S2_FAIL: "ABORT" {
+  style: {
+    fill: "#ef9a9a"
+    stroke: "#b71c1c"
+    border-radius: 6
+  }
+}
+
+S3: "3. SIMULATION\nShadowAgent executes modification\nin isolated sandbox\n(max 20 cycles)" {
+  style: {
+    fill: "#e3f2fd"
+    stroke: "#1976d2"
+    border-radius: 8
+    shadow: true
+    stroke-width: 2
+  }
+}
+
+S4: "4. STABILITY VALIDATION\ndelta_stability = C_shadow - C_baseline\nIdentity drift check" {
+  style: {
+    fill: "#ffcdd2"
+    stroke: "#c62828"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+S4_FAIL: "REJECT" {
+  style: {
+    fill: "#ef9a9a"
+    stroke: "#b71c1c"
+    border-radius: 6
+  }
+}
+
+S5: "5. COMMIT\nSave snapshot -> apply\nto main agent -> enter monitoring" {
+  style: {
+    fill: "#c8e6c9"
+    stroke: "#2e7d32"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+S6: "6. POST-COMMIT MONITORING\n20 cycles: track C(t),\nStrategyScore, identity_drift" {
+  style: {
+    fill: "#fff9c4"
+    stroke: "#f9a825"
+    border-radius: 8
+    shadow: true
+    stroke-width: 2
+  }
+}
+
+S6_FAIL: "ROLLBACK\nRestore from snapshot" {
+  style: {
+    fill: "#ef9a9a"
+    stroke: "#b71c1c"
+    border-radius: 6
+  }
+}
+
+S7: "7. CONFIRMATION\nMark CONFIRMED\nUpdate BeliefGraph" {
+  style: {
+    fill: "#c8e6c9"
+    stroke: "#2e7d32"
+    border-radius: 8
+    shadow: true
+    stroke-width: 2
+  }
+}
+
+S1 -> S2: {
+  style.animated: true
+}
+
+S2 -> S3: "pass" {
+  style.animated: true
+  style.stroke: "#2e7d32"
+}
+
+S2 -> S2_FAIL: "Layer 0 violation" {
+  style.animated: true
+  style.stroke: "#c62828"
+}
+
+S3 -> S4: {
+  style.animated: true
+}
+
+S4 -> S5: "stable" {
+  style.animated: true
+  style.stroke: "#2e7d32"
+}
+
+S4 -> S4_FAIL: "degraded" {
+  style.animated: true
+  style.stroke: "#c62828"
+}
+
+S5 -> S6: {
+  style.animated: true
+}
+
+S6 -> S7: "stable" {
+  style.animated: true
+  style.stroke: "#2e7d32"
+}
+
+S6 -> S6_FAIL: "degraded" {
+  style.animated: true
+  style.stroke: "#c62828"
+}

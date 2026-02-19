@@ -1,0 +1,79 @@
+direction: down
+
+BudgetLevels: "💰 Cognitive Budget Levels" {
+  style: {
+    fill: "#f5f5f5"
+    stroke: "#616161"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+  }
+  B100: "Budget = 1.0\n(Full capacity)" {
+    style: { fill: "#c8e6c9"; stroke: "#2e7d32"; border-radius: 6 }
+  }
+  B030: "Budget < 0.3" {
+    style: { fill: "#fff9c4"; stroke: "#f9a825"; border-radius: 6 }
+  }
+  B020: "Budget < 0.2" {
+    style: { fill: "#ffe0b2"; stroke: "#ef6c00"; border-radius: 6 }
+  }
+  B010: "Budget < 0.1" {
+    style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6 }
+  }
+  B000: "Budget = 0.0\n(Emergency only)" {
+    style: { fill: "#ef9a9a"; stroke: "#b71c1c"; border-radius: 6; stroke-width: 2 }
+  }
+}
+
+Capabilities: "📊 Available Capabilities" {
+  style: {
+    fill: "#f5f5f5"
+    stroke: "#616161"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+  }
+  C_FULL: "✅ All 16 layers active\n✅ Meta depth 2\n✅ Tensor recomputation\n✅ Belief rewrite\n✅ Full affect processing" {
+    style: { fill: "#c8e6c9"; stroke: "#2e7d32"; border-radius: 6; font-size: 11 }
+  }
+  C_030: "✅ Core layers active\n❌ Meta depth 2 DISABLED\n✅ Tensor recomputation\n✅ Belief rewrite" {
+    style: { fill: "#fff9c4"; stroke: "#f9a825"; border-radius: 6; font-size: 11 }
+  }
+  C_020: "✅ Core layers active\n❌ Meta depth 2 DISABLED\n❌ Tensor recomp DISABLED\n✅ Belief rewrite" {
+    style: { fill: "#ffe0b2"; stroke: "#ef6c00"; border-radius: 6; font-size: 11 }
+  }
+  C_010: "✅ Core layers active\n❌ Meta depth 2 DISABLED\n❌ Tensor recomp DISABLED\n❌ Belief rewrite DISABLED" {
+    style: { fill: "#ffcdd2"; stroke: "#e53935"; border-radius: 6; font-size: 11 }
+  }
+  C_000: "🛡️ Safety layers ONLY\n(L0 ethical, rollback,\nidentity guard)" {
+    style: { fill: "#ef9a9a"; stroke: "#b71c1c"; border-radius: 6; font-size: 11; stroke-width: 2 }
+  }
+}
+
+BudgetLevels.B100 -> Capabilities.C_FULL: {
+  style.animated: true
+  style.stroke: "#2e7d32"
+  style.stroke-width: 2
+}
+BudgetLevels.B030 -> Capabilities.C_030: {
+  style.animated: true
+  style.stroke: "#f9a825"
+  style.stroke-width: 2
+}
+BudgetLevels.B020 -> Capabilities.C_020: {
+  style.animated: true
+  style.stroke: "#ef6c00"
+  style.stroke-width: 2
+}
+BudgetLevels.B010 -> Capabilities.C_010: {
+  style.animated: true
+  style.stroke: "#e53935"
+  style.stroke-width: 2
+}
+BudgetLevels.B000 -> Capabilities.C_000: {
+  style.animated: true
+  style.stroke: "#b71c1c"
+  style.stroke-width: 2
+}

@@ -1,0 +1,34 @@
+direction: down
+
+Triggers: "🎯 Goal Generation Triggers" {
+  style: { fill: "#e3f2fd"; stroke: "#1976d2"; border-radius: 8; shadow: true }
+  T1: "🔄 Repetition Pattern\n(same entity 3+ times)" { style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 } }
+  T2: "😟 Negative Emotion\n(valence < -0.5)" { style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 } }
+  T3: "⏰ Time Pressure\n(deadline approaching)" { style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 } }
+  T4: "📈 Interest Pattern\n(sustained topic focus)" { style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 } }
+}
+
+Generator: "⚡ Autonomous Goal Generator" {
+  style: { fill: "#fff9c4"; stroke: "#fbc02d"; border-radius: 8; shadow: true }
+  PD: "Pattern Detector" { style: { fill: "#fff59d"; stroke: "#f9a825"; border-radius: 6 } }
+  GF: "Goal Factory" { style: { fill: "#fff59d"; stroke: "#f9a825"; border-radius: 6 } }
+  PD -> GF { style.animated: true }
+}
+
+Goals: "📋 Generated Goals" {
+  style: { fill: "#e8f5e9"; stroke: "#388e3c"; border-radius: 8; shadow: true }
+  G1: "REACTIVE: Clarification\npriority: 0.7" { style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 } }
+  G2: "REACTIVE: Emotional Support\npriority: 0.8" { style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 } }
+  G3: "AUTO: Information Collection\npriority: 0.6" { style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 } }
+  G4: "AUTO: Proactive Reminder\npriority: 0.5" { style: { fill: "#c8e6c9"; stroke: "#388e3c"; border-radius: 6 } }
+}
+
+Triggers.T1 -> Generator.PD: "pattern" { style.animated: true; style.stroke: "#1976d2" }
+Triggers.T2 -> Generator.PD: "emotion" { style.animated: true; style.stroke: "#1976d2" }
+Triggers.T3 -> Generator.PD: "temporal" { style.animated: true; style.stroke: "#1976d2" }
+Triggers.T4 -> Generator.PD: "interest" { style.animated: true; style.stroke: "#1976d2" }
+
+Generator.GF -> Goals.G1 { style.animated: true; style.stroke: "#388e3c" }
+Generator.GF -> Goals.G2 { style.animated: true; style.stroke: "#388e3c" }
+Generator.GF -> Goals.G3 { style.animated: true; style.stroke: "#388e3c" }
+Generator.GF -> Goals.G4 { style.animated: true; style.stroke: "#388e3c" }

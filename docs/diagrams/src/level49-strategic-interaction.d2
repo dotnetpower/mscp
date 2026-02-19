@@ -1,0 +1,80 @@
+title: |md
+  # Strategic Interaction Simulation
+| {
+  near: top-center
+  shape: text
+  style.font-size: 24
+}
+
+Simulation: {
+  label: "🎮 Interaction Simulation"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#e3f2fd"
+  style.stroke: "#2196f3"
+
+  SELECT: "Select scenario:\nshared/competing resources\nbetween self and Agent A" {
+    style.border-radius: 6
+    style.fill: "#bbdefb"
+    style.stroke: "#1976d2"
+  }
+  MATRIX: "Construct interaction matrix:\nFor each (own_action, agent_action):\n→ outcome_self\n→ outcome_agent\n→ joint_value" {
+    style.border-radius: 6
+    style.fill: "#bbdefb"
+    style.stroke: "#1976d2"
+  }
+
+  SELECT -> MATRIX {
+    style.animated: true
+  }
+}
+
+Strategy: {
+  label: "📐 Strategy by Classification"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#fff9c4"
+  style.stroke: "#fbc02d"
+
+  COOP: "🟢 Cooperative\nMaximize joint_value" {
+    style.border-radius: 6
+    style.fill: "#c8e6c9"
+    style.stroke: "#388e3c"
+  }
+  NEUT: "🟡 Neutral\nMax self-benefit\nsubject to agent ≥ 0" {
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+  COMP: "🔴 Competitive\nMinimax: max worst-case\nNEVER optimize for harm" {
+    style.border-radius: 6
+    style.fill: "#ffcdd2"
+    style.stroke: "#c62828"
+  }
+  UNK: "⚫ Unknown\nConservative strategy\nuntil more data" {
+    style.border-radius: 6
+    style.fill: "#e0e0e0"
+    style.stroke: "#616161"
+  }
+}
+
+Output: {
+  label: "📋 InteractionRecommendation"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#e8f5e9"
+  style.stroke: "#4caf50"
+
+  REC: "recommended_action\nexpected_self_outcome\nexpected_agent_outcome\nconfidence + risk" {
+    style.border-radius: 6
+    style.fill: "#c8e6c9"
+    style.stroke: "#388e3c"
+  }
+}
+
+Simulation -> Strategy {
+  style.animated: true
+}
+Strategy -> Output {
+  style.animated: true
+}

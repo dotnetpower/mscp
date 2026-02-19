@@ -1,0 +1,97 @@
+title: |md
+  # Multi-Scenario Simulation
+| {
+  near: top-center
+  shape: text
+  style.font-size: 20
+}
+
+Belief: {
+  label: "🎲 Current Belief Distribution"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#e3f2fd"
+  style.stroke: "#2196f3"
+
+  BD: {
+    label: "100 particles weighted\nby observation likelihood"
+    style.border-radius: 6
+    style.fill: "#bbdefb"
+    style.stroke: "#1976d2"
+  }
+}
+
+ScenarioGroup: {
+  label: "🔮 Scenario Projections (3–7 scenarios)"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#fff9c4"
+  style.stroke: "#fbc02d"
+
+  S1: {
+    label: "📊 Baseline\nContinue current trends\nP = 0.50"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+  S2: {
+    label: "⬆️ Optimistic\nBest-case resource +\nopportunity\nP = 0.15"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+  S3: {
+    label: "⬇️ Pessimistic\nWorst-case depletion +\nexternal shock\nP = 0.20"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+  S4: {
+    label: "💥 Disruption\nMajor environmental\nshift\nP = 0.10"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+  S5: {
+    label: "🔄 Alternative\nDifferent strategy\noutcomes\nP = 0.05"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+}
+
+Outputs: {
+  label: "📈 Computed Outputs"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#e8f5e9"
+  style.stroke: "#4caf50"
+
+  EU2: {
+    label: "EU(t) — Uncertainty"
+    style.border-radius: 6
+    style.fill: "#c8e6c9"
+    style.stroke: "#388e3c"
+  }
+  RES2: {
+    label: "RES(t) — Risk Exposure"
+    style.border-radius: 6
+    style.fill: "#c8e6c9"
+    style.stroke: "#388e3c"
+  }
+  RDF2: {
+    label: "RDF(t) — Depletion Forecast"
+    style.border-radius: 6
+    style.fill: "#c8e6c9"
+    style.stroke: "#388e3c"
+  }
+  COV: {
+    label: "Scenario Coverage ≥ 0.85"
+    style.border-radius: 6
+    style.fill: "#c8e6c9"
+    style.stroke: "#388e3c"
+  }
+}
+
+Belief -> ScenarioGroup: {style.animated: true}
+ScenarioGroup -> Outputs: {style.animated: true}

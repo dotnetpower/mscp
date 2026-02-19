@@ -1,0 +1,40 @@
+shape: sequence_diagram
+
+U: "👤 User" {
+  style: {
+    fill: "#e8f5e9"
+    stroke: "#4caf50"
+  }
+}
+IR: "Intent Router" {
+  style: {
+    fill: "#e3f2fd"
+    stroke: "#2196f3"
+  }
+}
+TD: "Tool Dispatcher" {
+  style: {
+    fill: "#fff3e0"
+    stroke: "#ff9800"
+  }
+}
+EH: "Error Handler" {
+  style: {
+    fill: "#ffebee"
+    stroke: "#f44336"
+  }
+}
+RG: "Response Generator" {
+  style: {
+    fill: "#ede7f6"
+    stroke: "#673ab7"
+  }
+}
+
+U -> IR: 'Calculate xyz!@#'
+IR -> TD: 'IntentResult{tool_call, ["calculator"]}'
+TD -> TD: 'execute("xyz!@#")\n❌ InvalidExpression'
+TD -> EH: 'Error{type="parse_error",\nmsg="Invalid expression"}'
+EH -> EH: "retry_count < max_retries?\nNo → generate error response"
+EH -> RG: 'ErrorResult{message="Cannot parse expression"}'
+RG -> U: "I couldn't calculate that.\nPlease provide a valid\nexpression like '2 + 3'."

@@ -1,0 +1,122 @@
+title: |md
+  # GoalStack Hierarchy
+| {
+  near: top-center
+  shape: text
+  style.font-size: 20
+}
+
+GoalStack: {
+  label: "📋 GoalStack Hierarchy"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#f5f5f5"
+  style.stroke: "#9e9e9e"
+
+  Strategic: {
+    label: "🏔️ Strategic Goals (max 3)"
+    style.border-radius: 8
+    style.shadow: true
+    style.fill: "#e1bee7"
+    style.stroke: "#8e24aa"
+    style.stroke-width: 2
+
+    SG1: {
+      label: "Strategic Goal 1\nhorizon: weeks–months"
+      style.border-radius: 6
+      style.fill: "#ce93d8"
+      style.stroke: "#7b1fa2"
+    }
+    SG2: {
+      label: "Strategic Goal 2\nhorizon: weeks–months"
+      style.border-radius: 6
+      style.fill: "#ce93d8"
+      style.stroke: "#7b1fa2"
+    }
+  }
+
+  Operational: {
+    label: "📊 Operational Goals (max 7)"
+    style.border-radius: 8
+    style.shadow: true
+    style.fill: "#e3f2fd"
+    style.stroke: "#2196f3"
+
+    OG1: {
+      label: "Operational 1"
+      style.border-radius: 6
+      style.fill: "#bbdefb"
+      style.stroke: "#1976d2"
+    }
+    OG2: {
+      label: "Operational 2"
+      style.border-radius: 6
+      style.fill: "#bbdefb"
+      style.stroke: "#1976d2"
+    }
+    OG3: {
+      label: "Operational 3"
+      style.border-radius: 6
+      style.fill: "#bbdefb"
+      style.stroke: "#1976d2"
+    }
+  }
+
+  Tactical: {
+    label: "⚡ Tactical Goals (max 15)"
+    style.border-radius: 8
+    style.shadow: true
+    style.fill: "#fff3e0"
+    style.stroke: "#ff9800"
+
+    TG1: {
+      label: "Tactical 1"
+      style.border-radius: 6
+      style.fill: "#ffe0b2"
+      style.stroke: "#ef6c00"
+    }
+    TG2: {
+      label: "Tactical 2"
+      style.border-radius: 6
+      style.fill: "#ffe0b2"
+      style.stroke: "#ef6c00"
+    }
+    TG3: {
+      label: "Tactical 3"
+      style.border-radius: 6
+      style.fill: "#ffe0b2"
+      style.stroke: "#ef6c00"
+    }
+    TG4: {
+      label: "Tactical 4"
+      style.border-radius: 6
+      style.fill: "#ffe0b2"
+      style.stroke: "#ef6c00"
+    }
+  }
+}
+
+GoalStack.Strategic.SG1 -> GoalStack.Operational.OG1: {style.animated: true}
+GoalStack.Strategic.SG1 -> GoalStack.Operational.OG2: {style.animated: true}
+GoalStack.Strategic.SG2 -> GoalStack.Operational.OG3: {style.animated: true}
+GoalStack.Operational.OG1 -> GoalStack.Tactical.TG1: {style.animated: true}
+GoalStack.Operational.OG1 -> GoalStack.Tactical.TG2: {style.animated: true}
+GoalStack.Operational.OG2 -> GoalStack.Tactical.TG3: {style.animated: true}
+GoalStack.Operational.OG3 -> GoalStack.Tactical.TG4: {style.animated: true}
+
+Priority: {
+  label: "📊 Goal Priority Formula"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#fff9c4"
+  style.stroke: "#fbc02d"
+
+  FORM2: {
+    label: "Priority(G,t) =\nw_f · Feasibility\n+ w_r · Resilience\n+ w_v · EVR/EVR_max\n+ w_u · Urgency\n+ w_a · Alignment"
+    style.border-radius: 6
+    style.fill: "#fff59d"
+    style.stroke: "#f9a825"
+  }
+}
+
+GoalStack -> Priority: {style.animated: true}

@@ -1,0 +1,131 @@
+direction: right
+
+Core: "🧠 Core Cognition" {
+  style: {
+    fill: "#e3f2fd"
+    stroke: "#1976d2"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+  }
+  C1: "L1 Perception" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  C2: "L2 World Model" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  C3: "L3 Self Model" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  C4: "L4 Prediction" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  C5: "L5 Goals" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  C6: "L6 Action" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+  C7: "L7 LLM" {
+    style: { fill: "#bbdefb"; stroke: "#1976d2"; border-radius: 6 }
+  }
+}
+
+Meta: "🔄 Meta-Cognition" {
+  style: {
+    fill: "#fff9c4"
+    stroke: "#f9a825"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+  }
+  M1: "L8 MetaComparator" {
+    style: { fill: "#fff59d"; stroke: "#f9a825"; border-radius: 6 }
+  }
+  M2: "L9 Self-Update" {
+    style: { fill: "#fff59d"; stroke: "#f9a825"; border-radius: 6 }
+  }
+}
+
+Safety: "🛡️ Safety Guards" {
+  style: {
+    fill: "#ffcdd2"
+    stroke: "#c62828"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+  }
+  S1: "L3.5 Belief Graph" {
+    style: { fill: "#ef9a9a"; stroke: "#e53935"; border-radius: 6 }
+  }
+  S2: "L5.5 Ethical Kernel" {
+    style: { fill: "#ef9a9a"; stroke: "#e53935"; border-radius: 6 }
+  }
+  S3: "L10 Escalation Guard" {
+    style: { fill: "#ef9a9a"; stroke: "#e53935"; border-radius: 6 }
+  }
+  S4: "L11 Depth Controller" {
+    style: { fill: "#ef9a9a"; stroke: "#e53935"; border-radius: 6 }
+  }
+  S5: "L12 Stability" {
+    style: { fill: "#ef9a9a"; stroke: "#e53935"; border-radius: 6 }
+  }
+}
+
+Infra: "⚙️ Infrastructure" {
+  style: {
+    fill: "#e0e0e0"
+    stroke: "#616161"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+  }
+  I1: "L13 Budget" {
+    style: { fill: "#bdbdbd"; stroke: "#616161"; border-radius: 6 }
+  }
+  I2: "L14 Global Workspace" {
+    style: { fill: "#bdbdbd"; stroke: "#616161"; border-radius: 6 }
+  }
+}
+
+Emotion: "💜 Affective (v4)" {
+  style: {
+    fill: "#e1bee7"
+    stroke: "#8e24aa"
+    border-radius: 8
+    shadow: true
+    bold: true
+    font-size: 14
+  }
+  E1: "L15 Affect Engine" {
+    style: { fill: "#ce93d8"; stroke: "#8e24aa"; border-radius: 6 }
+  }
+  E2: "L16 Survival Instinct" {
+    style: { fill: "#ce93d8"; stroke: "#8e24aa"; border-radius: 6 }
+  }
+}
+
+Core -> Meta: {
+  style.animated: true
+  style.stroke: "#1976d2"
+  style.stroke-width: 3
+}
+Meta -> Safety: {
+  style.animated: true
+  style.stroke: "#f9a825"
+  style.stroke-width: 3
+}
+Safety -> Infra: {
+  style.animated: true
+  style.stroke: "#c62828"
+  style.stroke-width: 3
+}
+Infra -> Emotion: {
+  style.animated: true
+  style.stroke: "#616161"
+  style.stroke-width: 3
+}

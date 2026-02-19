@@ -8,26 +8,7 @@
 
 The **Minimal Self-Consciousness Protocol (MSCP)** defines a six-level taxonomy of agent cognition, from simple tool-calling agents to the theoretical boundary of artificial general intelligence. Each level document includes architecture diagrams, pseudocode, and safety analysis based on what we've explored so far.
 
-```mermaid
-flowchart LR
-    L1["L1<br/>Tool<br/>Agent"]
-    L2["L2<br/>Autonomous<br/>Agent"]
-    L3["L3<br/>Self-Regulating<br/>Agent<br/>★ MSCP Core"]
-    L4["L4<br/>Adaptive<br/>General Agent"]
-    L45["L4.5<br/>Pre-AGI<br/>Self-Architecting"]
-    L5["L5<br/>AGI"]
-    L6["L6<br/>Conscious<br/>Entity"]
-
-    L1 --> L2 --> L3 --> L4 --> L45 --> L5 --> L6
-
-    style L1 fill:#e3f2fd,stroke:#1976d2
-    style L2 fill:#e3f2fd,stroke:#1976d2
-    style L3 fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
-    style L4 fill:#fff3e0,stroke:#ef6c00
-    style L45 fill:#e1bee7,stroke:#8e24aa,stroke-width:2px
-    style L5 fill:#f5f5f5,stroke:#9e9e9e
-    style L6 fill:#f5f5f5,stroke:#9e9e9e
-```
+![MSCP Agent Cognition Level Progression](../diagrams/readme-level-progression.svg)
 
 ---
 
@@ -40,43 +21,16 @@ flowchart LR
 | **3** | **Self-Regulating Cognitive Agent** | 16-layer architecture; triple-loop meta-cognition; identity vector; ethical kernel; Lyapunov stability; affect + survival engines | [Level_3_Self_Regulating_Agent.md](Level_3_Self_Regulating_Agent.md) |
 | **4** | **Adaptive General Agent** | Cross-domain transfer; long-term goal hierarchy; 5-phase capability expansion; strategy evolution; 7-step bounded self-modification | [Level_4_Adaptive_General_Agent.md](Level_4_Adaptive_General_Agent.md) |
 | **4.5** | **Pre-AGI: Self-Architecting** | Self-projection engine (SEOF); architecture recomposition; parallel cognitive frames; purpose reflection; existential guard | [Level_4_5_Self_Architecting.md](Level_4_5_Self_Architecting.md) |
-| 5 | AGI | Unbounded self-improvement; novel domain creation | *Theoretical — not documented* |
+| **4.8** | **Strategic Self-Modeling Agent** | World model integration; meta-cognitive self-model; long-horizon strategic planning; stability-preserving planning | [Level_4_8_Strategic_Self_Modeling.md](Level_4_8_Strategic_Self_Modeling.md) |
+| **4.9** | **Autonomous Strategic Agent** | Autonomous goal generation; value evolution monitoring; resource survival modeling; multi-agent reasoning; autonomy stability verification | [Level_4_9_Autonomous_Strategic_Agent.md](Level_4_9_Autonomous_Strategic_Agent.md) |
+| **5** | **Proto-AGI** | Persistent identity continuity; cross-domain generalization; autonomous goal ecology; existential resilience; self-reconstruction | [Level_5_Proto_AGI.md](Level_5_Proto_AGI.md) |
 | 6 | Conscious Entity | Consciousness; qualia; free will; moral agency | *Theoretical — not documented* |
 
 ---
 
 ## Cumulative Safety Mechanisms by Level
 
-```mermaid
-flowchart TB
-    subgraph L1S["Level 1"]
-        S1["Input validation<br/>Error handling"]
-    end
-
-    subgraph L2S["Level 2 (adds)"]
-        S2["Persistent world model<br/>Goal priority management"]
-    end
-
-    subgraph L3S["Level 3 (adds)"]
-        S3["Identity hash tracking<br/>Delta-clamped updates (0.05)<br/>Prediction-gated actions<br/>Escalation guard (max 3)<br/>Ethical Kernel (L0+L1)<br/>Value lock (SHA-256)<br/>Lyapunov convergence C(t)<br/>Cognitive budget + degradation<br/>Belief graph consistency<br/>Affective inertia + decay<br/>Survival instinct bounds"]
-    end
-
-    subgraph L4S["Level 4 (adds)"]
-        S4["BGSS ≥ 0.7 floor<br/>ShadowAgent simulation<br/>7-step modification protocol<br/>Single-mod atomicity<br/>Strategy oscillation suppression<br/>Skill lifecycle management<br/>Growth-stability zones<br/>6 meta-supervisory processes"]
-    end
-
-    subgraph L45S["Level 4.5 (adds)"]
-        S5["Existential Guard (unfalsifiable)<br/>Parallel frame ethical veto<br/>Graduated recomposition protocol<br/>ROD ceiling (depth 3)<br/>SEOF ensemble (anti-overfitting)<br/>Purpose coherence monitoring<br/>Identity fragmentation detection<br/>8 global invariants"]
-    end
-
-    L1S --> L2S --> L3S --> L4S --> L45S
-
-    style L1S fill:#e3f2fd,stroke:#1976d2
-    style L2S fill:#e3f2fd,stroke:#1976d2
-    style L3S fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
-    style L4S fill:#fff3e0,stroke:#ef6c00
-    style L45S fill:#e1bee7,stroke:#8e24aa,stroke-width:2px
-```
+![Cumulative Safety Mechanisms by Level](../diagrams/readme-safety-mechanisms.svg)
 
 ---
 
@@ -97,6 +51,20 @@ flowchart TB
 | IIS | L4.5 | Identity integrity | ≥ 0.85 |
 | PCS | L4.5 | Purpose coherence | ≥ 0.6 |
 | ESR | L4.5 | Existential safety record | ≥ 0.99 |
+| WMA | L4.8 | World model accuracy | ≥ 0.70 |
+| SCA | L4.8 | Self-capability assessment accuracy | ≥ 0.75 |
+| SPE | L4.8 | Strategic planning effectiveness | ≥ 0.60 |
+| SMS | L4.8 | Strategic meta-stability | ≥ 0.70 |
+| AGQ | L4.9 | Autonomous goal quality | ≥ 0.60 |
+| VES | L4.9 | Value evolution stability | ≥ 0.90 |
+| RSA | L4.9 | Resource survival accuracy | ≥ 0.70 |
+| MASR | L4.9 | Multi-agent strategic reasoning | ≥ 0.60 |
+| ASV | L4.9 | Autonomy stability verification | ≥ 0.85 |
+| ICS | L5 | Identity continuity score | ≥ 0.95 over 10K cycles |
+| GS | L5 | Generalization score | ≥ 0.70 transfer retention |
+| GSS | L5 | Goal stability score | Stable over 5K cycles |
+| RI | L5 | Resilience index | Survive 3+ collapse scenarios |
+| FR | L5 | Functional retention | ≥ 0.85 core function retained |
 
 ---
 
@@ -105,6 +73,9 @@ flowchart TB
 - **New to MSCP?** Start with the [MSCP Overview](../MSCP_Overview.md) for a conceptual overview, then read Level 1 → Level 3
 - **Interested in safety?** Focus on Level 3 (sections 4, 6, 9) and Level 4.5 (Phase V: Existential Guard)
 - **Interested in self-improvement?** Focus on Level 4 (sections 5–7) and Level 4.5 (Phases I–II)
+- **Interested in strategic planning?** Focus on Level 4.8 (Phases 1–3) for world modeling and strategic layer
+- **Interested in autonomous agency?** Focus on Level 4.9 (Phases 1–5) for autonomous goal generation and value evolution
+- **Interested in AGI architecture?** Focus on Level 5 for persistent identity and cross-domain generalization
 - **Interested in affect/emotion?** Focus on Level 3 (section 7) for the foundational design
 
 ---

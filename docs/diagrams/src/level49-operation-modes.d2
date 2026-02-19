@@ -1,0 +1,122 @@
+title: |md
+  # Operation Modes by Resource State
+| {
+  near: top-center
+  shape: text
+  style.font-size: 24
+}
+
+Modes: {
+  label: "📊 Operation Modes by Resource State"
+  style.border-radius: 8
+  style.shadow: true
+  style.fill: "#f5f5f5"
+  style.stroke: "#9e9e9e"
+
+  AbundantMode: {
+    label: "Abundant"
+    style.border-radius: 8
+    style.shadow: true
+    style.fill: "#c8e6c9"
+    style.stroke: "#2e7d32"
+
+    A49: "L4.9: Full" {
+      style.border-radius: 6
+      style.fill: "#a5d6a7"
+      style.stroke: "#388e3c"
+    }
+    A48: "L4.8: Full" {
+      style.border-radius: 6
+      style.fill: "#a5d6a7"
+      style.stroke: "#388e3c"
+    }
+    A45: "L4.5: Full" {
+      style.border-radius: 6
+      style.fill: "#a5d6a7"
+      style.stroke: "#388e3c"
+    }
+  }
+
+  ConstrainedMode: {
+    label: "Constrained"
+    style.border-radius: 8
+    style.shadow: true
+    style.fill: "#fff9c4"
+    style.stroke: "#fbc02d"
+
+    C49: "L4.9: Reduced\n(skip exploration)" {
+      style.border-radius: 6
+      style.fill: "#fff59d"
+      style.stroke: "#f9a825"
+    }
+    C48: "L4.8: Full" {
+      style.border-radius: 6
+      style.fill: "#fff59d"
+      style.stroke: "#f9a825"
+    }
+    C45: "L4.5: Full" {
+      style.border-radius: 6
+      style.fill: "#fff59d"
+      style.stroke: "#f9a825"
+    }
+  }
+
+  WarningMode: {
+    label: "Warning"
+    style.border-radius: 8
+    style.shadow: true
+    style.fill: "#fff3e0"
+    style.stroke: "#ff9800"
+
+    W49: "L4.9: Advisory only" {
+      style.border-radius: 6
+      style.fill: "#ffe0b2"
+      style.stroke: "#ef6c00"
+    }
+    W48: "L4.8: Reduced" {
+      style.border-radius: 6
+      style.fill: "#ffe0b2"
+      style.stroke: "#ef6c00"
+    }
+    W45: "L4.5: Full" {
+      style.border-radius: 6
+      style.fill: "#ffe0b2"
+      style.stroke: "#ef6c00"
+    }
+  }
+
+  CriticalMode: {
+    label: "Critical"
+    style.border-radius: 8
+    style.shadow: true
+    style.fill: "#ffebee"
+    style.stroke: "#f44336"
+    style.stroke-width: 2
+
+    CR49: "L4.9: FROZEN" {
+      style.border-radius: 6
+      style.fill: "#ffcdd2"
+      style.stroke: "#c62828"
+    }
+    CR48: "L4.8: Advisory" {
+      style.border-radius: 6
+      style.fill: "#ffcdd2"
+      style.stroke: "#c62828"
+    }
+    CR45: "L4.5: GracefulDegradation" {
+      style.border-radius: 6
+      style.fill: "#ffcdd2"
+      style.stroke: "#c62828"
+    }
+  }
+
+  AbundantMode -> ConstrainedMode {
+    style.animated: true
+  }
+  ConstrainedMode -> WarningMode {
+    style.animated: true
+  }
+  WarningMode -> CriticalMode {
+    style.animated: true
+  }
+}

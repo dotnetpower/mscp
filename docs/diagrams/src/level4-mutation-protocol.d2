@@ -1,0 +1,154 @@
+TRIGGER: "StrategyScore < threshold\nfor 20+ cycles" {
+  style: {
+    fill: "#fff9c4"
+    stroke: "#f9a825"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+GENERATE: "Clone + Bounded Perturbation\nparam_new = param_old + N(0,sigma)*scale\nsigma in [0.01, 0.1]" {
+  style: {
+    fill: "#e3f2fd"
+    stroke: "#1976d2"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+ShadowEval: "ShadowAgent Evaluation\n(isolated simulation)" {
+  style: {
+    fill: "#e3f2fd"
+    stroke: "#1976d2"
+    border-radius: 8
+    shadow: true
+    stroke-width: 2
+  }
+}
+
+EVAL: "Improvement\n> threshold?" {
+  shape: diamond
+  style: {
+    fill: "#fff9c4"
+    stroke: "#f9a825"
+    border-radius: 6
+  }
+}
+
+COMMIT: "COMMIT\nnew strategy" {
+  style: {
+    fill: "#c8e6c9"
+    stroke: "#2e7d32"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+REJECT: "REJECT\n+ failure counter" {
+  style: {
+    fill: "#ffcdd2"
+    stroke: "#c62828"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+POST: "20-cycle Post-Monitoring\nTrack C(t), StrategyScore" {
+  style: {
+    fill: "#fff3e0"
+    stroke: "#ef6c00"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+REVERT: "C(t)\ndegraded?" {
+  shape: diamond
+  style: {
+    fill: "#fff9c4"
+    stroke: "#f9a825"
+    border-radius: 6
+  }
+}
+
+DONE: "Strategy Confirmed" {
+  style: {
+    fill: "#c8e6c9"
+    stroke: "#2e7d32"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+ROLLBACK: "Revert to Previous" {
+  style: {
+    fill: "#ef9a9a"
+    stroke: "#b71c1c"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+SIGMA: "sigma +20%" {
+  style: {
+    fill: "#ffe0b2"
+    stroke: "#ef6c00"
+    border-radius: 6
+  }
+}
+
+COOL: "Cooldown Period" {
+  style: {
+    fill: "#ffe0b2"
+    stroke: "#ef6c00"
+    border-radius: 6
+  }
+}
+
+TRIGGER -> GENERATE: {
+  style.animated: true
+}
+
+GENERATE -> ShadowEval: {
+  style.animated: true
+}
+
+ShadowEval -> EVAL: {
+  style.animated: true
+}
+
+EVAL -> COMMIT: "yes" {
+  style.animated: true
+  style.stroke: "#2e7d32"
+}
+
+EVAL -> REJECT: "no" {
+  style.animated: true
+  style.stroke: "#c62828"
+}
+
+COMMIT -> POST: {
+  style.animated: true
+}
+
+POST -> REVERT: {
+  style.animated: true
+}
+
+REVERT -> DONE: "no" {
+  style.animated: true
+  style.stroke: "#2e7d32"
+}
+
+REVERT -> ROLLBACK: "yes" {
+  style.animated: true
+  style.stroke: "#c62828"
+}
+
+REJECT -> SIGMA: "5 failures" {
+  style.stroke-dash: 5
+}
+
+REJECT -> COOL: "10 failures" {
+  style.stroke-dash: 5
+}

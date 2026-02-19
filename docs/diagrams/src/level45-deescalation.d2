@@ -1,0 +1,41 @@
+direction: right
+
+CRIT: "🔴 Critical" {
+  style: {
+    fill: "#ef9a9a"
+    stroke: "#b71c1c"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+WARN: "🟠 Warning" {
+  style: {
+    fill: "#ffe0b2"
+    stroke: "#ef6c00"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+ELEV: "🟡 Elevated" {
+  style: {
+    fill: "#fff9c4"
+    stroke: "#f9a825"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+NORM: "🟢 Normal" {
+  style: {
+    fill: "#c8e6c9"
+    stroke: "#2e7d32"
+    border-radius: 8
+    shadow: true
+  }
+}
+
+CRIT -> WARN: "100 cycles\nbelow critical" {style.animated: true}
+WARN -> ELEV: "200 cycles\nbelow warning" {style.animated: true}
+ELEV -> NORM: "300 cycles\nbelow elevated" {style.animated: true}

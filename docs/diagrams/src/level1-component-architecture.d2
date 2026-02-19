@@ -1,0 +1,144 @@
+direction: down
+
+UserLayer: "User Interaction Layer" {
+  style: {
+    fill: "#e8f5e9"
+    stroke: "#4caf50"
+    border-radius: 8
+    font-size: 14
+    shadow: true
+  }
+  REQ: "Incoming Request\n(text / structured)" {
+    style: {
+      fill: "#c8e6c9"
+      stroke: "#388e3c"
+      border-radius: 6
+    }
+  }
+  RES: "Outgoing Response\n(text / structured)" {
+    style: {
+      fill: "#c8e6c9"
+      stroke: "#388e3c"
+      border-radius: 6
+    }
+  }
+}
+
+IntentLayer: "Intent Classification Layer" {
+  style: {
+    fill: "#e3f2fd"
+    stroke: "#2196f3"
+    border-radius: 8
+    font-size: 14
+    shadow: true
+  }
+  IC: "Intent Classifier" {
+    style: {
+      fill: "#bbdefb"
+      stroke: "#1976d2"
+      border-radius: 6
+    }
+  }
+  PT: "Pattern Matcher\n(keyword / regex)" {
+    style: {
+      fill: "#bbdefb"
+      stroke: "#1976d2"
+      border-radius: 6
+    }
+  }
+  CF: "Confidence Scorer\n(0.0–1.0)" {
+    style: {
+      fill: "#bbdefb"
+      stroke: "#1976d2"
+      border-radius: 6
+    }
+  }
+  IC -> PT -> CF {
+    style.animated: true
+  }
+}
+
+ToolLayer: "Tool Execution Layer" {
+  style: {
+    fill: "#fff3e0"
+    stroke: "#ff9800"
+    border-radius: 8
+    font-size: 14
+    shadow: true
+  }
+  TR: "Tool Registry\n(name → schema)" {
+    style: {
+      fill: "#ffe0b2"
+      stroke: "#ef6c00"
+      border-radius: 6
+    }
+  }
+  TV: "Parameter\nValidator" {
+    style: {
+      fill: "#ffe0b2"
+      stroke: "#ef6c00"
+      border-radius: 6
+    }
+  }
+  TE: "Tool Executor\n(sync / async)" {
+    style: {
+      fill: "#ffe0b2"
+      stroke: "#ef6c00"
+      border-radius: 6
+    }
+  }
+  EH: "Error Handler\n(retry / fallback)" {
+    style: {
+      fill: "#ffe0b2"
+      stroke: "#ef6c00"
+      border-radius: 6
+    }
+  }
+  TR -> TV -> TE -> EH {
+    style.animated: true
+  }
+}
+
+ResponseLayer: "Response Generation Layer" {
+  style: {
+    fill: "#ede7f6"
+    stroke: "#673ab7"
+    border-radius: 8
+    font-size: 14
+    shadow: true
+  }
+  RC: "Result Collector\n(merge tool outputs)" {
+    style: {
+      fill: "#d1c4e9"
+      stroke: "#512da8"
+      border-radius: 6
+    }
+  }
+  RF: "Response Formatter\n(template / LLM)" {
+    style: {
+      fill: "#d1c4e9"
+      stroke: "#512da8"
+      border-radius: 6
+    }
+  }
+  RC -> RF {
+    style.animated: true
+  }
+}
+
+UserLayer.REQ -> IntentLayer.IC: {
+  style.animated: true
+  style.stroke: "#4caf50"
+}
+IntentLayer.CF -> ToolLayer.TR: {
+  style.animated: true
+  style.stroke: "#2196f3"
+}
+ToolLayer.EH -> ResponseLayer.RC: {
+  style.animated: true
+  style.stroke: "#ff9800"
+}
+ResponseLayer.RF -> UserLayer.RES: {
+  style.animated: true
+  style.stroke: "#673ab7"
+}
