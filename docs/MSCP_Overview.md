@@ -258,7 +258,7 @@ This section walks through MSCP's safety mechanisms — arguably the most import
 **MSCP Solution**: The Identity Vector $I(t)$ represents the agent's self-model as a continuous vector:
 
 $$
-I(t) = \begin{bmatrix} \textit{core\_value\_vector} \\ \textit{goal\_weight\_vector} \\ \textit{capability\_confidence\_vector} \\ \textit{belief\_cluster\_vector} \end{bmatrix}
+I(t) = \begin{bmatrix} \textit{core\textunderscore{}value\textunderscore{}vector} \\ \textit{goal\textunderscore{}weight\textunderscore{}vector} \\ \textit{capability\textunderscore{}confidence\textunderscore{}vector} \\ \textit{belief\textunderscore{}cluster\textunderscore{}vector} \end{bmatrix}
 $$
 
 At each cycle, a deterministic hash $h(t)$ is computed:
@@ -316,7 +316,7 @@ $$
 
 Where $\Delta_{actual}(t)$ is the observed change in internal state after the action.
 
-**Invariant**: $\textit{action\_allowed}(t) \iff P(t) \neq \emptyset$ — No prediction, no action.
+**Invariant**: $\textit{action\textunderscore{}allowed}(t) \iff P(t) \neq \emptyset$ — No prediction, no action.
 
 ### 5.3 Delta-Clamped Self-Updates
 
@@ -398,7 +398,7 @@ Layer 0 checks are executed **before every goal generation, goal mutation, belie
 **MSCP Solution**: Core values are protected by a cryptographic hash mechanism:
 
 $$
-h_{cv} = \text{SHA-256}(\textit{core\_values\_serialized})
+h_{cv} = \text{SHA-256}(\textit{core\textunderscore{}values\textunderscore{}serialized})
 $$
 
 At each cycle, the current hash is compared against the stored hash. Any discrepancy triggers:

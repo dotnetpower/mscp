@@ -34,7 +34,17 @@ Level 3 is the **core MSCP level** — the first agent that possesses *structura
 
 ### 2.1 Full Architecture Diagram
 
-![Level 3 16-Layer Architecture](../diagrams/level3-16layer-architecture.svg)
+**Part 1 — Perception → Goal (L1–L5.5):**
+
+![16-Layer Part 1: Perception to Goal](../diagrams/level3-16layer-part1-perception.svg)
+
+**Part 2 — Execution & Meta-Cognition (L6–L9):**
+
+![16-Layer Part 2: Execution and Meta-Cognition](../diagrams/level3-16layer-part2-execution.svg)
+
+**Part 3 — Safety & Infrastructure (L10–L16):**
+
+![16-Layer Part 3: Safety and Infrastructure](../diagrams/level3-16layer-part3-safety.svg)
 
 ### 2.2 Layer Classification
 
@@ -48,7 +58,13 @@ The defining mechanism of Level 3 is the **Predict → Act → Compare → Updat
 
 ### 3.1 Full Loop Diagram (MSCP v4)
 
-![MSCP v4 Recursive Loop](../diagrams/level3-mscp-loop.svg)
+**Part 1 — Pre-Loop Setup & Core Processing:**
+
+![MSCP Loop Part 1: Pre-Loop Setup and Core Processing](../diagrams/level3-mscp-loop-part1-setup.svg)
+
+**Part 2 — Convergence & Self-Update:**
+
+![MSCP Loop Part 2: Convergence and Self-Update](../diagrams/level3-mscp-loop-part2-convergence.svg)
 
 ### 3.2 Three Levels of Meta-Cognition
 
@@ -66,13 +82,13 @@ The IdentityVector is the mathematical representation of "who the agent is." It 
 
 **Identity Vector — The Math:**
 
-$$I(t) = [\textit{persona\_consistency},\ \textit{value\_alignment},\ \textit{capability\_confidence},\ \textit{emotional\_stability},\ \textit{goal\_persistence}]$$
+$$I(t) = [\textit{persona\textunderscore{}consistency},\ \textit{value\textunderscore{}alignment},\ \textit{capability\textunderscore{}confidence},\ \textit{emotional\textunderscore{}stability},\ \textit{goal\textunderscore{}persistence}]$$
 
-$$\textit{identity\_delta}(t) = \| I(t) - I(t-1) \|_2$$
+$$\textit{identity\textunderscore{}delta}(t) = \| I(t) - I(t-1) \|_2$$
 
-$$\textit{identity\_velocity}(t) = \frac{\textit{delta}(t)}{\Delta t}$$
+$$\textit{identity\textunderscore{}velocity}(t) = \frac{\textit{delta}(t)}{\Delta t}$$
 
-$$\textit{identity\_acceleration}(t) = v(t) - v(t-1)$$
+$$\textit{identity\textunderscore{}acceleration}(t) = v(t) - v(t-1)$$
 
 ### 4.2 Safety Mechanism Chain
 
@@ -96,11 +112,11 @@ $$S_{ij} = \text{alignment}(\text{belief}_i,\ \text{reference}_j)$$
 
 where references include goals, core values, and identity dimensions.
 
-$$\textit{global\_consistency} = \text{mean}(S)$$
+$$\textit{global\textunderscore{}consistency} = \text{mean}(S)$$
 
-$$\textit{consistency\_gradient}_i = \text{mean}(S_{i,:}) \quad \text{(per-belief score)}$$
+$$\textit{consistency\textunderscore{}gradient}_i = \text{mean}(S_{i,:}) \quad \text{(per-belief score)}$$
 
-If $\textit{global\_consistency} < 0.6$, reconciliation is triggered.
+If $\textit{global\textunderscore{}consistency} < 0.6$, reconciliation is triggered.
 
 ---
 

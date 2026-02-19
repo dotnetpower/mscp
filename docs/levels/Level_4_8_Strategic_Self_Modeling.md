@@ -48,7 +48,7 @@ $$\text{RDF}(t) = \frac{R_{\text{current}}(t)}{R_{\text{consumption}}(t) + \epsi
 
 **Phase 2 — Self Model:**
 
-$$\text{MCE} = \frac{1}{N} \sum_{i=1}^{N} \left| \text{confidence}_i - \textit{success\_rate}_i \right| \qquad \text{(Mean Calibration Error)}$$
+$$\text{MCE} = \frac{1}{N} \sum_{i=1}^{N} \left| \text{confidence}_i - \textit{success\textunderscore{}rate}_i \right| \qquad \text{(Mean Calibration Error)}$$
 
 **Phase 3 — Strategic Layer:**
 

@@ -42,11 +42,47 @@ Level 1 represents the **baseline cognitive architecture** for AI agents. A Tool
 
 ### 3.1 Request Processing Sequence
 
-![Level 1 Request Processing Sequence](../diagrams/level1-request-sequence.svg)
+```mermaid
+sequenceDiagram
+    actor U as 👤 User
+    participant IR as Intent Router
+    participant TV as Tool Validator
+    participant TD as Tool Dispatcher
+    participant T as External Tool
+    participant RG as Response Generator
+    participant LLM as LLM Backend
+
+    U->>IR: "What's the weather in Seoul?"
+    IR->>IR: classify(input)<br/>confidence = 0.85<br/>suggested_tool = search
+    IR->>TV: IntentResult{tool_call, [search], params}
+    TV->>TV: validate(params, tool_schema)
+    TV->>TD: ValidatedAction{tool="search", query="Seoul weather"}
+    TD->>T: execute(query="Seoul weather")
+    T-->>TD: ToolResult{success=true, data="Sunny, 15°C"}
+    TD->>RG: ToolResult
+    RG->>LLM: format_response(tool_result, user_query)
+    LLM-->>RG: "The weather in Seoul is sunny<br/>with a temperature of 15°C."
+    RG-->>U: Final Response
+```
 
 ### 3.2 Error Handling Sequence
 
-![Level 1 Error Handling Sequence](../diagrams/level1-error-sequence.svg)
+```mermaid
+sequenceDiagram
+    actor U as 👤 User
+    participant IR as Intent Router
+    participant TD as Tool Dispatcher
+    participant EH as Error Handler
+    participant RG as Response Generator
+
+    U->>IR: "Calculate xyz!@#"
+    IR->>TD: IntentResult{tool_call, ["calculator"]}
+    TD->>TD: execute("xyz!@#")<br/>❌ InvalidExpression
+    TD->>EH: Error{type="parse_error",<br/>msg="Invalid expression"}
+    EH->>EH: retry_count < max_retries?<br/>No → generate error response
+    EH->>RG: ErrorResult{message="Cannot parse expression"}
+    RG-->>U: "I couldn't calculate that.<br/>Please provide a valid<br/>expression like '2 + 3'."
+```
 
 ---
 

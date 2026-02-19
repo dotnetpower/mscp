@@ -47,7 +47,53 @@ Level 2 agents are **stateful processes**: `f(input, world_state, goals) → (ou
 
 ### 3.1 Full Processing Sequence
 
-![Level 2 Processing Sequence](../diagrams/level2-processing-sequence.svg)
+```mermaid
+sequenceDiagram
+    actor U as 👤 User
+    participant IR as Intent Router v2
+    participant ED as Emotion Detector
+    participant SE as Sensor Encoder
+    participant WM as World Model
+    participant AG as Auto Goal Gen
+    participant GP as Goal Prioritizer
+    participant EP as Exec Planner
+    participant TD as Tool Dispatcher
+    participant RG as Response Gen
+
+    U->>IR: "I'm worried about the partnership deadline"
+
+    rect rgb(227, 242, 253)
+        Note over IR,SE: Perception Phase
+        IR->>IR: classify → EMOTIONAL + GOAL_QUERY
+        ED->>ED: detect → {valence: -0.5, arousal: 0.6, label: anxiety}
+        SE->>SE: encode → {time: "afternoon", session: 45min}
+        IR->>IR: build Percept{intent, emotion, entities, complexity}
+    end
+
+    rect rgb(200, 230, 201)
+        Note over WM: World Model Update
+        WM->>WM: track_entity("partnership", type="topic", sentiment=-0.5)
+        WM->>WM: track_entity("deadline", type="concept")
+        WM->>WM: detect_patterns() → {repetition: 3x "partnership"}
+    end
+
+    rect rgb(255, 243, 224)
+        Note over AG,GP: Goal Generation
+        AG->>AG: pattern "repetition_partnership" detected
+        AG->>AG: generate_clarification_goal(priority=0.7)
+        AG->>AG: negative emotion → generate_support_goal(priority=0.8)
+        GP->>GP: reprioritize_all(context, emotion)
+        GP->>GP: top_goal = "User emotional support"
+    end
+
+    rect rgb(237, 231, 246)
+        Note over EP,RG: Execution & Response
+        EP->>TD: search("partnership deadline information")
+        TD-->>EP: factual results
+        EP->>RG: {goal: "emotional_support", facts: [...], emotion: "anxiety"}
+        RG-->>U: "I notice you've asked about the partnership<br/>several times. The deadline is March 15.<br/>Would you like me to break down<br/>the remaining steps?"
+    end
+```
 
 ### 3.2 Autonomous Goal Generation Flow
 
