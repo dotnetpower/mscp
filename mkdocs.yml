@@ -94,8 +94,35 @@ nav:
 # ============================================================
 plugins:
   - search:
-      lang: en
+      lang:
+        - en
+        - ko
       separator: '[\s\-\.]+'
+  - i18n:
+      docs_structure: suffix
+      fallback_to_default: true
+      reconfigure_material: false
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: ko
+          name: 한국어
+          build: true
+          nav_translations:
+            Home: 홈
+            MSCP Overview: MSCP 개요
+            Agent Levels: 에이전트 레벨
+            Level Series: 레벨 시리즈
+            "L1: Tool Agent": "L1: 도구 에이전트"
+            "L2: Autonomous Agent": "L2: 자율 에이전트"
+            "L3: Self-Regulating Agent": "L3: 자기조절 에이전트"
+            "L4: Adaptive General Agent": "L4: 적응형 범용 에이전트"
+            "L4.5: Self-Architecting": "L4.5: 자기설계"
+            "L4.8: Strategic Self-Modeling": "L4.8: 전략적 자기모델링"
+            "L4.9: Autonomous Strategic": "L4.9: 자율 전략"
+            "L5: Proto-AGI": "L5: 프로토-AGI"
   - minify:
       minify_html: true
 
@@ -114,6 +141,9 @@ markdown_extensions:
   - toc:
       permalink: true
       toc_depth: 3
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
 
   # --- PyMdown Extensions ---
   - pymdownx.arithmatex:
@@ -160,6 +190,14 @@ extra_javascript:
 # Extra — SEO, Social, Analytics
 # ============================================================
 extra:
+  alternate:
+    - name: English
+      link: /mscp/
+      lang: en
+    - name: 한국어
+      link: /mscp/ko/
+      lang: ko
+
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/dotnetpower/mscp
