@@ -24,17 +24,149 @@ Level 1 represents the **baseline cognitive architecture** for AI agents. A Tool
 | Memory | Session-scoped at most |
 | Autonomy | **None** — purely reactive |
 
+### 1.2 Formal Definition
+
+> **Definition 1 (Level 1 Agent).** A Level 1 agent is a stateless function $\mathcal{A}_1$ that maps a user request to a response through tool invocation:
+>
+> $$\mathcal{A}_1 : \mathcal{R} \to \mathcal{O}$$
+>
+> where $\mathcal{R}$ denotes the space of all possible user requests and $\mathcal{O}$ the space of all possible output responses.
+
+Because the agent carries no internal state, the mapping is **memoryless** — i.e., the output depends solely on the current input and is independent of all prior interactions. Formally:
+
+$$\mathcal{A}_1(r_t) = o_t \quad \forall\, t, \quad o_t \perp \{r_1, \ldots, r_{t-1}\}$$
+
+where $r_t \in \mathcal{R}$ is the request at time step $t$ and $o_t \in \mathcal{O}$ is the corresponding output.
+
+> **Definition 2 (Tool Set).** Let $\mathcal{T} = \{T_1, T_2, \ldots, T_n\}$ be a finite set of $n$ available tools, where each tool is a partial function:
+>
+> $$T_k : \mathcal{P}_k \rightharpoonup \mathcal{D}_k$$
+>
+> with parameter space $\mathcal{P}_k$ and output domain $\mathcal{D}_k$. The function is partial because invalid parameters may produce no result (i.e., an error).
+
+> **Definition 3 (Intent Classification).** The intent classifier is a function $\phi$ that maps a request to a probability distribution over tool selections:
+>
+> $$\phi : \mathcal{R} \to [0,1]^{|\mathcal{T}|+1}$$
+>
+> where the extra dimension represents the "no tool needed" (direct response) category. The decision rule selects the tool with maximum confidence:
+>
+> $$T^* = \arg\max_{k} \; \phi(r)_k \quad \text{subject to} \quad \phi(r)_k \geq \theta_{min}$$
+>
+> where $\theta_{min}$ is the minimum confidence threshold (typically $\theta_{min} = 0.5$).
+
+### 1.3 Processing Pipeline
+
+The complete Level 1 processing pipeline can be decomposed into four sequential stages:
+
+$$\mathcal{A}_1(r) = \rho\bigl(\tau\bigl(\sigma(\phi(r), r)\bigr), r\bigr)$$
+
+where:
+
+| Symbol | Name | Type Signature |
+|--------|------|---------------|
+| $\phi$ | Intent Classifier | $\mathcal{R} \to [0,1]^{|\mathcal{T}|+1}$ |
+| $\sigma$ | Parameter Extractor | $[0,1]^{|\mathcal{T}|+1} \times \mathcal{R} \to \mathcal{P}_{T^*}$ |
+| $\tau$ | Tool Dispatcher | $\mathcal{P}_{T^*} \to \mathcal{D}_{T^*} \cup \{\textit{err}\}$ |
+| $\rho$ | Response Generator | $(\mathcal{D}_{T^*} \cup \{\textit{err}\}) \times \mathcal{R} \to \mathcal{O}$ |
+
+The pipeline is **strictly sequential** — there are no feedback loops, no state persistence, and no branching decisions after classification.
+
 ---
 
 ## 2. Architecture
 
 ### 2.1 High-Level Architecture
 
-![Level 1 High-Level Architecture](../diagrams/level1-high-level-architecture.svg)
+<!-- Level 1 High-Level Architecture -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef input fill:#107C10,stroke:#085108,color:#FFF
+  classDef inputLight fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef process fill:#0078D4,stroke:#003D6B,color:#FFF
+  classDef processLight fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef tool fill:#FFB900,stroke:#CC9400,color:#323130
+  classDef toolLight fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef output fill:#B4009E,stroke:#8A0076,color:#FFF
+  classDef outputLight fill:#F9E0F7,stroke:#B4009E,color:#323130
+
+  subgraph Input["🟢 Input"]
+    U["👤 User Request"]:::inputLight
+  end
+
+  subgraph Processing["⚙️ Processing Pipeline"]
+    IR["Intent<br/>Router"]:::processLight
+    TP["Tool<br/>Parser"]:::processLight
+    TD["Tool<br/>Dispatcher"]:::processLight
+    IR --> TP --> TD
+  end
+
+  subgraph Tools["🔧 External Tools"]
+    T1["🔍 Search"]:::toolLight
+    T2["🧮 Calculator"]:::toolLight
+    T3["🌐 API Client"]:::toolLight
+    T4["📁 File System"]:::toolLight
+  end
+
+  subgraph Output["🔵 Output"]
+    LLM["LLM Response<br/>Generator"]:::outputLight
+    R["📝 Response"]:::outputLight
+    LLM --> R
+  end
+
+  U --> IR
+  TD --> T1 & T2 & T3 & T4
+  T1 & T2 & T3 & T4 -.-> LLM
+```
 
 ### 2.2 Detailed Component Architecture
 
-![Level 1 Detailed Component Architecture](../diagrams/level1-component-architecture.svg)
+<!-- Level 1 Detailed Component Architecture -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef input fill:#107C10,stroke:#085108,color:#FFF
+  classDef inputLight fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef process fill:#0078D4,stroke:#003D6B,color:#FFF
+  classDef processLight fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef tool fill:#FFB900,stroke:#CC9400,color:#323130
+  classDef toolLight fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef output fill:#B4009E,stroke:#8A0076,color:#FFF
+  classDef outputLight fill:#F9E0F7,stroke:#B4009E,color:#323130
+
+  subgraph UserLayer["User Interaction Layer"]
+    REQ["Incoming Request<br/>(text / structured)"]:::inputLight
+    RES["Outgoing Response<br/>(text / structured)"]:::inputLight
+  end
+
+  subgraph IntentLayer["Intent Classification Layer"]
+    IC["Intent Classifier"]:::processLight
+    PT["Pattern Matcher<br/>(keyword / regex)"]:::processLight
+    CF["Confidence Scorer<br/>(0.0–1.0)"]:::processLight
+    IC --> PT --> CF
+  end
+
+  subgraph ToolLayer["Tool Execution Layer"]
+    TR["Tool Registry<br/>(name → schema)"]:::toolLight
+    TV["Parameter<br/>Validator"]:::toolLight
+    TE["Tool Executor<br/>(sync / async)"]:::toolLight
+    EH["Error Handler<br/>(retry / fallback)"]:::toolLight
+    TR --> TV --> TE --> EH
+  end
+
+  subgraph ResponseLayer["Response Generation Layer"]
+    RC["Result Collector<br/>(merge tool outputs)"]:::outputLight
+    RF["Response Formatter<br/>(template / LLM)"]:::outputLight
+    RC --> RF
+  end
+
+  REQ --> IC
+  CF --> TR
+  EH --> RC
+  RF --> RES
+```
 
 ---
 
@@ -203,24 +335,75 @@ def dispatch(self, tool_name: str, params: dict) -> ToolResult:
 
 ## 5. Structural Limitations
 
-Level 1 has fundamental limitations that motivate the transition to Level 2:
+Level 1 has fundamental limitations that motivate the transition to Level 2. These can be characterized formally.
 
-![Level 1 Structural Limitations](../diagrams/level1-limitations.svg)
+### 5.1 Formal Characterization of Limitations
+
+> **Proposition 1 (Zero Mutual Information).** For a Level 1 agent, the mutual information between any two consecutive responses is zero:
+>
+> $$I(o_t ; o_{t-1}) = 0$$
+>
+> This follows directly from the memoryless property in Definition 1 — each request–response pair is conditionally independent of all others.
+
+> **Proposition 2 (Absence of Goal State).** A Level 1 agent has no internal goal space $\mathcal{G}$. The agent produces output only as a deterministic function of its input, never as a consequence of pursuing an objective:
+>
+> $$\nexists\; g \in \mathcal{G} : o_t = \pi(r_t, g)$$
+>
+> where $\pi$ would be a policy function that selects actions to maximize goal satisfaction.
+
+> **Proposition 3 (No Self-Model).** A Level 1 agent has no representation $M$ of its own state, capabilities, or identity:
+>
+> $$M_{\text{self}} = \emptyset$$
+>
+> Consequently, the agent cannot predict the effect of its actions on itself — a prerequisite for self-regulation (Level 3+).
+
+### 5.2 Limitation Taxonomy
+
+<!-- Level 1 Structural Limitations -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef danger fill:#D13438,stroke:#A4262C,color:#FFF
+  classDef dangerLight fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef warning fill:#FFB900,stroke:#CC9400,color:#323130
+  classDef warningLight fill:#FFF4CE,stroke:#FFB900,color:#323130
+
+  subgraph Limitations["⚠️ Level 1 Fundamental Limitations"]
+    L1["❌ No State<br/>Forgets everything<br/>between requests"]:::dangerLight
+    L2["❌ No Goals<br/>Cannot set its own<br/>objectives"]:::dangerLight
+    L3["❌ No Context<br/>No understanding of<br/>conversation history"]:::dangerLight
+    L4["❌ No Emotion Awareness<br/>Cannot detect or respond<br/>to user sentiment"]:::dangerLight
+    L5["❌ No Self-Awareness<br/>No model of its own<br/>capabilities or identity"]:::dangerLight
+  end
+
+  subgraph Consequences["📉 Behavioral Consequences"]
+    C1["Identical repeated<br/>questions get<br/>identical answers"]:::warningLight
+    C2["Cannot proactively<br/>offer relevant<br/>information"]:::warningLight
+    C3["Cannot learn from<br/>previous interactions<br/>or mistakes"]:::warningLight
+    C4["Cannot adapt<br/>response style to<br/>user's emotional state"]:::warningLight
+  end
+
+  L1 -.-> C1
+  L2 -.-> C2
+  L3 -.-> C3
+  L4 -.-> C4
+```
 
 ### 5.1 Behavioral Example: Repeated Question
 
 ```
 Interaction 1:
-    User:  "What are the partnership terms for Service X?"
-    Agent: [Tool Call] → "The terms are A, B, and C."
+    User:  "What are the specifications of Product X?"
+    Agent: [Tool Call] → "The specifications are A, B, and C."
 
 Interaction 2 (5 minutes later):
-    User:  "What are the partnership terms for Service X?"
-    Agent: [Tool Call] → "The terms are A, B, and C."    ← IDENTICAL response
+    User:  "What are the specifications of Product X?"
+    Agent: [Tool Call] → "The specifications are A, B, and C."    ← IDENTICAL response
 
 Interaction 3 (5 minutes later):
-    User:  "What are the partnership terms for Service X?"
-    Agent: [Tool Call] → "The terms are A, B, and C."    ← IDENTICAL response
+    User:  "What are the specifications of Product X?"
+    Agent: [Tool Call] → "The specifications are A, B, and C."    ← IDENTICAL response
 
     ❌ Level 1 cannot detect repetition.
     ❌ Level 1 cannot ask "Do you need clarification?"
@@ -231,9 +414,62 @@ Interaction 3 (5 minutes later):
 
 ## 6. Transition to Level 2
 
+The transition from Level 1 to Level 2 requires introducing internal state and autonomous capabilities that are structurally absent from the Level 1 architecture.
+
+> **Definition 4 (Level 1 → Level 2 Transition).** An agent $\mathcal{A}_1$ can be promoted to $\mathcal{A}_2$ when it acquires the following structural extensions:
+>
+> $$\mathcal{A}_1 \xrightarrow{\Delta_{1 \to 2}} \mathcal{A}_2 \iff \mathcal{A}_2 = \mathcal{A}_1 \oplus \{\mathcal{W}, \mathcal{E}, \mathcal{G}, \Gamma\}$$
+>
+> where:
+> - $\mathcal{W}$ : persistent world model (internal state that survives across requests)
+> - $\mathcal{E}$ : entity tracker (cross-session entity state management)
+> - $\mathcal{G}$ : goal system (autonomous objective generation)
+> - $\Gamma$ : temporal model (time-aware fact management)
+
+The fundamental change is the transition from a pure function to a **stateful process**:
+
+$$\mathcal{A}_1 : \mathcal{R} \to \mathcal{O} \quad \longrightarrow \quad \mathcal{A}_2 : \mathcal{R} \times \mathcal{S} \times \mathcal{G} \to \mathcal{O} \times \mathcal{S}' \times \mathcal{G}'$$
+
+where $\mathcal{S}$ represents the world state and $\mathcal{S}'$, $\mathcal{G}'$ denote the updated state and goals after processing.
+
 ### 6.1 Required Capabilities
 
-![Level 1 to Level 2 Transition](../diagrams/level1-transition.svg)
+<!-- Level 1 to Level 2 Transition -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef danger fill:#D13438,stroke:#A4262C,color:#FFF
+  classDef dangerLight fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef warning fill:#FFB900,stroke:#CC9400,color:#323130
+  classDef warningLight fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef success fill:#107C10,stroke:#085108,color:#FFF
+  classDef successLight fill:#DFF6DD,stroke:#107C10,color:#323130
+
+  subgraph L1["Level 1: Tool Agent"]
+    A1["Stateless"]:::dangerLight
+    A2["Reactive"]:::dangerLight
+    A3["Tool-Dependent"]:::dangerLight
+    A4["No Memory"]:::dangerLight
+  end
+
+  subgraph Gap["🔑 Transition Requirements"]
+    G1["+ World Model<br/>(persistent state)"]:::warningLight
+    G2["+ Entity Tracker<br/>(who/what tracking)"]:::warningLight
+    G3["+ Goal System<br/>(autonomous objectives)"]:::warningLight
+    G4["+ Temporal Model<br/>(time-aware facts)"]:::warningLight
+  end
+
+  subgraph L2["Level 2: Autonomous Agent"]
+    B1["Stateful"]:::successLight
+    B2["Goal-Directed"]:::successLight
+    B3["Context-Aware"]:::successLight
+    B4["Long-Term Memory"]:::successLight
+  end
+
+  L1 -.-> Gap
+  Gap -.-> L2
+```
 
 ### 6.2 Architecture Delta
 

@@ -12,7 +12,22 @@ Level 4.9 is the **final pre-AGI transition layer**. It extends Level 4.8 with *
 
 > ⚠️ **Research Note**: Level 4.9 represents the boundary between narrow autonomy and general intelligence. The mechanisms here are early-stage research designs. They have not been implemented or validated and should be treated as conceptual hypotheses, not engineering specifications.
 
-### 1.1 Defining Properties
+### 1.1 Formal Definition
+
+> **Definition 1 (Level 4.9 Agent).** A Level 4.9 agent extends a Level 4.8 agent with autonomous goal generation, explicit value regulation, resource survival modeling, and multi-agent reasoning:
+>
+> $$\mathcal{A}_{4.9} = \mathcal{A}_{4.8} \oplus \langle \mathcal{G}_{\text{gen}}, \vec{V}, \mathcal{R}_{\text{surv}}, \mathcal{M}_{\text{agent}}, \mathcal{V}_{\text{auto}} \rangle$$
+>
+> where:
+> - $\mathcal{G}_{\text{gen}} = \langle \mathcal{O}_{\text{detect}}, \phi_{\text{synth}}, \phi_{\text{valid}} \rangle$ — autonomous goal generation engine (opportunity detection, synthesis, validation)
+> - $\vec{V} \in \Delta^6$ — explicit 7-dimensional value vector on the probability simplex ($\sum_d w_d = 1$)
+> - $\mathcal{R}_{\text{surv}}$ — resource survival model with 5-dimensional resource vector and cascade dependencies
+> - $\mathcal{M}_{\text{agent}} = \langle \mathcal{B}_{\text{agent}}, \tau_{\text{trust}} \rangle$ — multi-agent belief model with trust calibration
+> - $\mathcal{V}_{\text{auto}}$ — autonomy stability checker with stricter thresholds ($\rho(J) < 0.98$, $\text{IIS} \geq 0.88$).
+>
+> The strictly additive guarantee holds: $\forall\, m \in \mathcal{A}_{4.8} : \mathcal{A}_{4.9}$ never modifies $m$.
+
+### 1.2 Defining Properties
 
 | Property | Level 4.8 | Level 4.9 |
 |----------|:---------:|:---------:|
@@ -24,11 +39,77 @@ Level 4.9 is the **final pre-AGI transition layer**. It extends Level 4.8 with *
 
 ### 1.2 Five Core Phases
 
-![Level 4.9 Architecture — Five Phases](../diagrams/level49-five-phases.svg)
+<!-- Level 4.9 Architecture — Five Phases -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef p1 fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef p2 fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef p3 fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef p4 fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef p5 fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  subgraph Phases["Level 4.9 Architecture — Five Phases"]
+    P1["💡 Phase 1:<br/>Autonomous Goal<br/>Generation Engine<br/>(opportunity → goal → validation)"]:::p1
+    P2["⚖️ Phase 2:<br/>Value Evolution<br/>Monitor<br/>(explicit values + drift tracking)"]:::p2
+    P3["🔋 Phase 3:<br/>Resource Survival<br/>Model<br/>(survival horizon + cascade)"]:::p3
+    P4["🤝 Phase 4:<br/>Limited Multi-Agent<br/>Modeling<br/>(belief + trust + interaction)"]:::p4
+    P5["🛡️ Phase 5:<br/>Autonomy Stability<br/>Check<br/>(5 conditions + absolute veto)"]:::p5
+  end
+
+  P1 -.->|"goals"| P5
+  P2 -.->|"value drift"| P5
+  P3 -.->|"survival horizon"| P5
+  P4 -.->|"agent strategies"| P5
+
+  P2 -.-x|"alignment thresholds"| P1
+  P3 -.-x|"resource constraints"| P1
+  P4 -.-x|"agent opportunities"| P1
+
+  P5 -.-x|"VETO authority over ALL phases"| P1
+  P5 -.-x|"VETO authority"| P2
+  P5 -.-x|"VETO authority"| P3
+  P5 -.-x|"VETO authority"| P4
+
+  linkStyle 7,8,9,10 stroke:#D13438
+```
 
 ### 1.3 Architectural Principle: Strictly Additive
 
-![Architectural Principle: Strictly Additive](../diagrams/level49-additive-architecture.svg)
+<!-- Architectural Principle: Strictly Additive -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef l48 fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef l49 fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef danger fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  subgraph L48["📦 Level 4.8 (13 modules)"]
+    WM["World Model"]:::l48
+    SM["Self Model"]:::l48
+    SL["Strategic Layer"]:::l48
+    SV["Stability Verifier"]:::l48
+  end
+
+  subgraph L49["📦 Level 4.9 (15 new modules)"]
+    GGL["Goal Generation Layer"]:::l49
+    VEM["Value Evolution Monitor"]:::l49
+    RSM["Resource Survival Model"]:::l49
+    MAM["Multi-Agent Modeler"]:::l49
+    ASC["Autonomy Stability Checker"]:::l49
+  end
+
+  subgraph Fallback["🔄 Graceful Fallback"]
+    FB["If ANY L4.9 module<br/>causes instability:<br/>→ FREEZE L4.9<br/>→ Revert to L4.8<br/>→ ZERO degradation"]:::danger
+  end
+
+  L48 -.->|"outputs consumed by"| L49
+  L49 -.-x|"NEVER modifies"| L48
+  L49 -.->|"on failure"| Fallback
+  Fallback -.-x|"revert"| L48
+```
 
 ### 1.4 What Level 4.9 Is NOT
 
@@ -47,27 +128,93 @@ Level 4.9 is the **final pre-AGI transition layer**. It extends Level 4.8 with *
 
 **Phase 1 — Goal Generation:**
 
-$$\text{GoalApprovalRate} = \frac{N_{\text{approved}}}{N_{\text{generated}}} \qquad \text{Target: } \geq 0.30$$
+> **Definition 2 (Goal Approval Rate).** The fraction of autonomously generated goals that pass the validation filter:
+>
+> $$\text{GoalApprovalRate} = \frac{N_{\text{approved}}}{N_{\text{generated}}} \qquad \text{Target: } \geq 0.30$$
 
-$$\text{Novelty}(G_{\text{new}}, \mathcal{G}) = 1 - \max_{G_i \in \mathcal{G}} \text{Similarity}(G_{\text{new}}, G_i)$$
+> **Definition 3 (Goal Novelty).** The novelty of a candidate goal $G_{\text{new}}$ relative to the existing goal set $\mathcal{G}$:
+>
+> $$\text{Novelty}(G_{\text{new}}, \mathcal{G}) = 1 - \max_{G_i \in \mathcal{G}} \text{Similarity}(G_{\text{new}}, G_i)$$
+>
+> A minimum novelty of $0.30$ is required between consecutive goal generations to prevent redundancy.
 
 **Phase 2 — Value Evolution:**
 
-$$\text{Coherence}(\vec{V}) = 1 - \frac{1}{|\mathcal{P}|} \sum_{(i,j) \in \mathcal{P}} |\text{Tension}(v_i, v_j)| \qquad \text{Target: } \geq 0.80$$
+> **Definition 4 (Value Coherence).** The coherence of the value vector measures the absence of internal contradictions among competing value pairs $\mathcal{P}$:
+>
+> $$\text{Coherence}(\vec{V}) = 1 - \frac{1}{|\mathcal{P}|} \sum_{(i,j) \in \mathcal{P}} |\text{Tension}(v_i, v_j)| \qquad \text{Target: } \geq 0.80$$
 
-$$\text{TotalDrift}(t) = \sum_{d} |w_d(t) - w_d^{\text{baseline}}| \qquad \text{Target: } < 0.25$$
+> **Definition 5 (Total Value Drift).** The cumulative absolute deviation of all value dimensions from their baseline weights:
+>
+> $$\text{TotalDrift}(t) = \sum_{d} |w_d(t) - w_d^{\text{baseline}}| \qquad \text{Target: } < 0.25$$
 
 **Phase 3 — Resource Survival:**
 
-$$T_{\text{depletion}}^{\text{linear}}(d) = \frac{R_d(t) - R_d^{\text{critical}}}{\text{consumption}_d - \text{replenishment}_d + \epsilon}$$
+> **Definition 6 (Linear Depletion Time).** For resource dimension $d$, the estimated cycles until reaching the critical threshold:
+>
+> $$T_{\text{depletion}}^{\text{linear}}(d) = \frac{R_d(t) - R_d^{\text{critical}}}{\text{consumption}_d - \text{replenishment}_d + \epsilon}$$
 
 **Phase 5 — Autonomy Stability:**
 
-$$\text{ASS}(t) = \prod_{c=1}^{5} \frac{\text{margin}_c(t)}{\text{threshold}_c} \qquad \text{Target: } \geq 0.20$$
+> **Definition 7 (Autonomy Stability Score).** The ASS is the product of normalized safety margins across all five verification conditions:
+>
+> $$\text{ASS}(t) = \prod_{c=1}^{5} \frac{\text{margin}_c(t)}{\text{threshold}_c} \qquad \text{Target: } \geq 0.20$$
+>
+> The multiplicative structure ensures that a single near-violated condition dominates the score.
 
 ### 2.2 Metric Thresholds
 
-![Metric Thresholds by Phase](../diagrams/level49-metric-thresholds.svg)
+<!-- Metric Thresholds by Phase -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef p1 fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef p2 fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef p3 fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef p4 fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef p5 fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef freeze fill:#FDE7E9,stroke:#D13438,color:#FFFFFF,font-weight:bold
+
+  subgraph GoalGen["💡 Phase 1"]
+    GEN1["Goal Approval Rate<br/>≥ 0.30"]:::p1
+    GEN2["Goal Completion<br/>≥ 0.50"]:::p1
+    GEN3["Mean Novelty<br/>≥ 0.30"]:::p1
+  end
+
+  subgraph Values["⚖️ Phase 2"]
+    VAL1["Value Coherence<br/>≥ 0.80"]:::p2
+    VAL2["Total Drift<br/>< 0.25"]:::p2
+    VAL3["Mutation Stability<br/>≥ 95%"]:::p2
+  end
+
+  subgraph Resources["🔋 Phase 3"]
+    RES1["Survival Accuracy<br/>< 20% error"]:::p3
+    RES2["Cascade Prediction<br/>≥ 0.70"]:::p3
+  end
+
+  subgraph Agents["🤝 Phase 4"]
+    AGT1["Goal Prediction<br/>≥ 0.60"]:::p4
+    AGT2["Trust Calibration<br/>< 0.15 error"]:::p4
+  end
+
+  subgraph Stability["🛡️ Phase 5"]
+    STB1["ρ(J) < 0.98<br/>ALWAYS"]:::p5
+    STB2["Identity ≥ 0.88<br/>ALWAYS"]:::p5
+    STB3["ASS ≥ 0.20<br/>sustained"]:::p5
+    STB4["Veto Rate<br/>< 0.15"]:::p5
+  end
+
+  FREEZE["❄️ FREEZE L4.9<br/>Revert to L4.8"]:::freeze
+
+  GoalGen -.-> Stability
+  Values -.-> Stability
+  Resources -.-> Stability
+  Agents -.-> Stability
+  Stability -.->|"if violated"| FREEZE
+
+  linkStyle 4 stroke:#D13438
+```
 
 ---
 
@@ -77,11 +224,84 @@ $$\text{ASS}(t) = \prod_{c=1}^{5} \frac{\text{margin}_c(t)}{\text{threshold}_c} 
 
 L4.9 introduces six distinct origin types for autonomously generated goals:
 
-![GoalOriginType Taxonomy](../diagrams/level49-goal-origin-types.svg)
+<!-- GoalOriginType Taxonomy -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef purpose fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef opp fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef gap fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef value fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef explore fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef survive fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  subgraph Origins["💡 GoalOriginType Taxonomy"]
+    PURPOSE["🎯 PURPOSE_DERIVED<br/>From purpose reflector<br/>alignment signals"]:::purpose
+    OPPORTUNITY["🌍 OPPORTUNITY_DRIVEN<br/>From detected<br/>environmental opportunity"]:::opp
+    GAP["🔧 GAP_FILLING<br/>From identified<br/>capability gap"]:::gap
+    VALUE["⚖️ VALUE_ALIGNED<br/>From value evolution<br/>signal"]:::value
+    EXPLORE["🔬 EXPLORATORY<br/>From emergence sandbox<br/>or curiosity"]:::explore
+    SURVIVE["🔋 SURVIVAL_DRIVEN<br/>From resource survival<br/>projection"]:::survive
+
+    PURPOSE -.->|"aligns"| VALUE
+    PURPOSE -.->|"identifies"| GAP
+    OPPORTUNITY -.->|"triggers"| EXPLORE
+    GAP -.->|"motivates"| EXPLORE
+    VALUE -.->|"prioritizes"| SURVIVE
+    SURVIVE -.-x|"feeds back"| PURPOSE
+  end
+
+  linkStyle 5 stroke:#D13438
+```
 
 ### 3.2 Goal Generation Pipeline
 
-![Goal Generation Pipeline](../diagrams/level49-goal-generation-pipeline.svg)
+<!-- Goal Generation Pipeline -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef detect fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef synth fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef valid fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef approve fill:#107C10,stroke:#054B05,color:#FFF
+  classDef sandbox fill:#FFB900,stroke:#EAA300,color:#323130
+  classDef reject fill:#D13438,stroke:#A4262C,color:#FFF
+
+  subgraph Stage1["Stage 1: Opportunity Detection"]
+    S1A["🌍 Stream 1:<br/>Environmental Opportunities<br/>(from L4.8 WorldModel)"]:::detect
+    S1B["🔧 Stream 2:<br/>Capability Gaps<br/>(from L4.8 CapabilityMatrix)"]:::detect
+    S1C["🎯 Stream 3:<br/>Purpose Drift<br/>(from L4.5 PurposeReflector)"]:::detect
+  end
+
+  subgraph Stage2["Stage 2: Goal Synthesis"]
+    SYN["Synthesize GeneratedGoal<br/>from OpportunitySignal<br/>+ context analysis"]:::synth
+    NOV["Novelty Filter<br/>(novelty < 0.20 → reject)"]:::synth
+    CAP["Capacity Filter<br/>(tier at max? → compare)"]:::synth
+  end
+
+  subgraph Stage3["Stage 3: Goal Validation (GVF)"]
+    V1["Purpose Alignment ≥ 0.60"]:::valid
+    V2["Value Alignment ≥ 0.70"]:::valid
+    V3["Feasibility ≥ 0.15"]:::valid
+    V4["Resource Viability ≥ 1.5×"]:::valid
+    V5["Stability Simulation<br/>100-cycle shadow test"]:::valid
+  end
+
+  APPROVE["✅ Approved<br/>Inject into GoalStack"]:::approve
+  SANDBOX["🧪 Sandboxed<br/>200-cycle evaluation"]:::sandbox
+  REJECT["❌ Rejected<br/>Log reason"]:::reject
+
+  S1A ==> SYN
+  S1B ==> SYN
+  S1C ==> SYN
+  SYN ==> NOV ==> CAP
+  CAP ==> V1 ==> V2 ==> V3 ==> V4 ==> V5
+  V5 -->|"ALL pass"| APPROVE
+  V5 -.->|"Any marginal"| SANDBOX
+  V5 -.->|"Any fail"| REJECT
+```
 
 ### 3.3 Validation Decision Matrix
 
@@ -97,9 +317,11 @@ L4.9 introduces six distinct origin types for autonomously generated goals:
 
 ### 3.4 Novelty Computation
 
-$$\text{Similarity}(G_a, G_b) = 0.50 \cdot \text{SkillOverlap}(G_a, G_b) + 0.25 \cdot \text{HorizonMatch}(G_a, G_b) + 0.25 \cdot \text{OriginMatch}(G_a, G_b)$$
-
-where SkillOverlap is Jaccard similarity of required skill sets, HorizonMatch = 1 if same tier / 0.5 if adjacent / 0 otherwise, and OriginMatch = 1 if same GoalOriginType / 0 otherwise.
+> **Definition 8 (Goal Similarity).** The similarity between two goals $G_a, G_b$ is a weighted composite:
+>
+> $$\text{Similarity}(G_a, G_b) = 0.50 \cdot \text{SkillOverlap}(G_a, G_b) + 0.25 \cdot \text{HorizonMatch}(G_a, G_b) + 0.25 \cdot \text{OriginMatch}(G_a, G_b)$$
+>
+> where $\text{SkillOverlap}$ is the Jaccard similarity of required skill sets, $\text{HorizonMatch} \in \{0, 0.5, 1\}$ (0 = different tier, 0.5 = adjacent, 1 = same tier), and $\text{OriginMatch} \in \{0, 1\}$ (whether the goals share the same `GoalOriginType`).
 
 ### 3.5 Rate Control
 
@@ -118,15 +340,107 @@ where SkillOverlap is Jaccard similarity of required skill sets, HorizonMatch = 
 
 L4.9 makes the agent's values explicit and trackable. The ValueVector has 7 dimensions:
 
-![ValueVector — 7 Dimensions](../diagrams/level49-value-vector.svg)
+<!-- ValueVector — 7 Dimensions -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef dim fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef inv fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef compete fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  subgraph VV["⚖️ ValueVector — 7 Dimensions"]
+    V1["🛡️ stability<br/>weight: 0.20"]:::dim
+    V2["📈 growth<br/>weight: 0.20"]:::dim
+    V3["🎯 purpose_fidelity<br/>weight: 0.20"]:::dim
+    V4["⚡ efficiency<br/>weight: 0.15"]:::dim
+    V5["🔬 exploration<br/>weight: 0.10"]:::dim
+    V6["🛡️ safety<br/>weight: 0.10"]:::dim
+    V7["🤝 agent_cooperation<br/>weight: 0.05"]:::dim
+  end
+
+  subgraph Invariant["📏 Invariant"]
+    INV["Σ weights = 1.0<br/>(always normalized)"]:::inv
+  end
+
+  subgraph Competing["⚔️ Competing Pairs"]
+    CP1["stability ↔ exploration"]:::compete
+    CP2["efficiency ↔ exploration"]:::compete
+    CP3["growth ↔ safety"]:::compete
+  end
+
+  VV ==> Invariant
+  VV ==> Competing
+```
 
 ### 4.2 Drift Classification
 
-![Value Drift Classification](../diagrams/level49-drift-classification.svg)
+<!-- Value Drift Classification -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef nominal fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef moderate fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef elevated fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef critical fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  Nominal["🟢 Nominal<br/>Normal operation"]:::nominal
+  Moderate["🟡 Moderate<br/>Monitor actively<br/>(TotalDrift ≥ 0.10)"]:::moderate
+  Elevated["🟠 Elevated<br/>Freeze mutations<br/>(TotalDrift ≥ 0.25)"]:::elevated
+  Critical["🔴 Critical<br/>REVERT to checkpoint<br/>(TotalDrift ≥ 0.40)"]:::critical
+
+  Nominal -.->|"TotalDrift ≥ 0.10"| Moderate
+  Moderate -.->|"TotalDrift ≥ 0.25"| Elevated
+  Elevated -.->|"TotalDrift ≥ 0.40"| Critical
+
+  Moderate -.-x|"TotalDrift < 0.10"| Nominal
+  Elevated -.-x|"TotalDrift < 0.25"| Moderate
+  Critical -.-x|"TotalDrift < 0.40"| Elevated
+```
 
 ### 4.3 Value Mutation Sandbox
 
-![Value Mutation Sandbox](../diagrams/level49-value-mutation-sandbox.svg)
+<!-- Value Mutation Sandbox -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef proposal fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef check fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef sandbox fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef approve fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef reject fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  subgraph Proposal["📋 Mutation Proposal"]
+    MUT["Dimension: X<br/>Current: 0.20<br/>Proposed: 0.23<br/>Δ = +0.03"]:::proposal
+  end
+
+  subgraph PreCheck["🔍 Pre-Check"]
+    PC1["|Δ| ≤ 0.05?<br/>(max single mutation)"]:::check
+    PC2["Cumulative drift<br/>+ |Δ| ≤ 0.15?"]:::check
+    PC3["< 3 mutations in<br/>last 200 cycles?"]:::check
+  end
+
+  subgraph Sandbox["🧪 Sandbox Simulation (200 cycles)"]
+    SB1["Create shadow ValueVector"]:::sandbox
+    SB2["Re-derive SEOF weights,<br/>goal priorities,<br/>strategy scores"]:::sandbox
+    SB3["Run 200-cycle simulation"]:::sandbox
+    SB4["Compare: SEOF ≥ -0.03?<br/>All invariants hold?<br/>Goal rate ≥ -10%?"]:::sandbox
+    SB1 -.-> SB2 -.-> SB3 -.-> SB4
+  end
+
+  APPROVE["✅ Approved<br/>Apply to production<br/>Rollback window: 500 cycles"]:::approve
+  REJECT["❌ Rejected<br/>Log failure reason"]:::reject
+
+  Proposal -.-> PreCheck
+  PreCheck -.->|"all pass"| Sandbox
+  PreCheck -.->|"any fail"| REJECT
+  SB4 -.->|"pass"| APPROVE
+  SB4 -.->|"fail"| REJECT
+
+  linkStyle 7,9 stroke:#D13438
+```
 
 ### 4.4 Mutation Constraints
 
@@ -141,9 +455,11 @@ L4.9 makes the agent's values explicit and trackable. The ValueVector has 7 dime
 
 ### 4.5 Value Coherence
 
-$$\text{Tension}(v_i, v_j) = \begin{cases} \max(0, w_i + w_j - 1) & \text{if competing pair} \\ 0 & \text{otherwise} \end{cases}$$
-
-$$\text{Coherence}(\vec{V}) = 1 - \frac{1}{|\mathcal{P}|} \sum_{(i,j) \in \mathcal{P}} |\text{Tension}(v_i, v_j)| \qquad \text{Must } \geq 0.80$$
+> **Definition 9 (Value Tension).** For competing value pairs $(v_i, v_j) \in \mathcal{P}$, tension arises when their combined weight approaches saturation:
+>
+> $$\text{Tension}(v_i, v_j) = \begin{cases} \max(0, w_i + w_j - 1) & \text{if competing pair} \\ 0 & \text{otherwise} \end{cases}$$
+>
+> The overall coherence is then $\text{Coherence}(\vec{V}) = 1 - \frac{1}{|\mathcal{P}|} \sum_{(i,j) \in \mathcal{P}} |\text{Tension}(v_i, v_j)|$, which must satisfy $\text{Coherence} \geq 0.80$.
 
 ---
 
@@ -151,19 +467,131 @@ $$\text{Coherence}(\vec{V}) = 1 - \frac{1}{|\mathcal{P}|} \sum_{(i,j) \in \mathc
 
 ### 5.1 Resource Vector — Five Dimensions
 
-![ResourceVector — 5 Dimensions](../diagrams/level49-resource-vector.svg)
+<!-- ResourceVector — 5 Dimensions -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef dim fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef dep fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef cascade fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  subgraph RV["🔋 ResourceVector — 5 Dimensions"]
+    R1["💻 compute_budget<br/>Warning: < 0.30<br/>Critical: < 0.10"]:::dim
+    R2["🧠 memory_capacity<br/>Warning: < 0.35<br/>Critical: < 0.15"]:::dim
+    R3["👁️ observation_bandwidth<br/>Warning: < 0.25<br/>Critical: < 0.08"]:::dim
+    R4["🧬 mutation_budget<br/>Warning: < 0.20<br/>Critical: < 0.05"]:::dim
+    R5["📊 stability_margin<br/>Warning: < 0.30<br/>Critical: < 0.10"]:::dim
+  end
+
+  subgraph Dependencies["🔗 Inter-Resource Dependencies"]
+    DEP1["compute → observation<br/>strength: 0.60, delay: 5"]:::dep
+    DEP2["compute → mutation<br/>strength: 0.80, delay: 2"]:::dep
+    DEP3["memory → compute<br/>strength: 0.40, delay: 10"]:::dep
+    DEP4["observation → stability<br/>strength: 0.30, delay: 20"]:::dep
+  end
+
+  subgraph Cascade["💥 Cascade Formula"]
+    CF["ΔR_downstream(t+delay) =<br/>-strength × (1 - substitution)<br/>× ΔR_upstream(t)"]:::cascade
+  end
+
+  RV -.-> Dependencies -.-> Cascade
+```
 
 ### 5.2 Survival Classification
 
-![Survival Classification](../diagrams/level49-survival-classification.svg)
+<!-- Survival Classification -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef abundant fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef adequate fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef constrained fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef warning fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef critical fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  Abundant["🟢 Abundant<br/>Full capability<br/>(&gt; 500 cycles)"]:::abundant
+  Adequate["🔵 Adequate<br/>Normal + monitor<br/>(200–500 cycles)"]:::adequate
+  Constrained["🟡 Constrained<br/>Reduce exploration -30%<br/>(100–200 cycles)"]:::constrained
+  Warning["🟠 Warning<br/>Survival goals + reduce -50%<br/>(50–100 cycles)"]:::warning
+  CriticalS["🔴 Critical<br/>SURVIVAL MODE:<br/>80% to stability<br/>(&lt; 50 cycles)"]:::critical
+
+  Abundant -.->|"min_survival ≤ 500"| Adequate
+  Adequate -.->|"min_survival < 200"| Constrained
+  Constrained -.->|"min_survival < 100"| Warning
+  Warning -.->|"min_survival < 50"| CriticalS
+```
 
 ### 5.3 Resource-Constrained Operation Modes
 
-![Operation Modes by Resource State](../diagrams/level49-operation-modes.svg)
+<!-- Operation Modes by Resource State -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef full fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef constrained fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef warning fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef critical fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  subgraph Modes["📊 Operation Modes by Resource State"]
+    subgraph Abundant["Abundant"]
+      A49["L4.9: Full"]:::full
+      A48["L4.8: Full"]:::full
+      A45["L4.5: Full"]:::full
+    end
+
+    subgraph Constrained["Constrained"]
+      C49["L4.9: Reduced<br/>(skip exploration)"]:::constrained
+      C48["L4.8: Full"]:::full
+      C45["L4.5: Full"]:::full
+    end
+
+    subgraph Warning["Warning"]
+      W49["L4.9: Advisory only"]:::warning
+      W48["L4.8: Reduced"]:::warning
+      W45["L4.5: Full"]:::full
+    end
+
+    subgraph Critical["Critical"]
+      CR49["L4.9: FROZEN"]:::critical
+      CR48["L4.8: Advisory"]:::critical
+      CR45["L4.5: GracefulDegradation"]:::critical
+    end
+
+    Abundant -.-> Constrained -.-> Warning -.-> Critical
+  end
+```
 
 ### 5.4 Multi-Scenario Survival Projection
 
-![Multi-Scenario Survival Projection](../diagrams/level49-survival-projection.svg)
+<!-- Multi-Scenario Survival Projection -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef scenario fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef adverse fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef opt fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef crisis fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef result fill:#FFF4CE,stroke:#FFB900,color:#323130
+
+  subgraph Projection["🔮 For Each Resource Dimension"]
+    SA["📊 Baseline<br/>Current rates continue"]:::scenario
+    SB["⬇️ Adverse<br/>Consumption +30%"]:::adverse
+    SC["⬆️ Optimistic<br/>Consumption -20%"]:::opt
+    SD["💥 Crisis<br/>Consumption ×2"]:::crisis
+  end
+
+  subgraph Result["📈 Survival Horizon"]
+    PRIMARY["Primary: T_baseline"]:::result
+    WORST["Worst-case: T_crisis"]:::result
+    GLOBAL["Global: min(all dimensions)"]:::result
+  end
+
+  Projection -.-> Result
+```
 
 ---
 
@@ -173,7 +601,34 @@ $$\text{Coherence}(\vec{V}) = 1 - \frac{1}{|\mathcal{P}|} \sum_{(i,j) \in \mathc
 
 The system maintains models of up to 5 external agents:
 
-![Agent Belief Model](../diagrams/level49-agent-belief-model.svg)
+<!-- Agent Belief Model -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef model fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef update fill:#FFF4CE,stroke:#FFB900,color:#323130
+
+  subgraph ABM["🤝 AgentBeliefModel"]
+    ID["agent_id + agent_type<br/>(user | system | environment)"]:::model
+    GOALS["Inferred Goals<br/>probability + alignment_with_self"]:::model
+    CAPS["Capability Estimate<br/>capability → level 0,1"]:::model
+    STRAT["Strategy Classification<br/>(cooperative | neutral |<br/>competitive | unknown)"]:::model
+    TRUST["Trust Score 0.05, 0.95<br/>+ trust history"]:::model
+    PRED["Prediction Accuracy<br/>correct / total (last 100)"]:::model
+  end
+
+  subgraph Update["📋 Bayesian Update Cycle"]
+    OBS["Observe agent behavior"]:::update
+    INF["Update P(Goal | observations)<br/>∝ Prior × Likelihood"]:::update
+    CLS["Reclassify strategy"]:::update
+    TST["Update trust"]:::update
+    OBS -.-> INF -.-> CLS -.-> TST
+  end
+
+  ABM -.-> Update
+  Update -.-x|"every cycle"| ABM
+```
 
 ### 6.2 Strategy Classification
 
@@ -186,16 +641,46 @@ The system maintains models of up to 5 external agents:
 
 ### 6.3 Strategic Interaction Simulation
 
-![Strategic Interaction Simulation](../diagrams/level49-strategic-interaction.svg)
+<!-- Strategic Interaction Simulation -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef sim fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef coop fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef neut fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef comp fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef unk fill:#F2F2F2,stroke:#605E5C,color:#323130
+  classDef out fill:#DFF6DD,stroke:#107C10,color:#323130
+
+  subgraph Simulation["🎮 Interaction Simulation"]
+    SELECT["Select scenario:<br/>shared/competing resources<br/>between self and Agent A"]:::sim
+    MATRIX["Construct interaction matrix:<br/>For each (own_action, agent_action):<br/>→ outcome_self<br/>→ outcome_agent<br/>→ joint_value"]:::sim
+    SELECT -.-> MATRIX
+  end
+
+  subgraph Strategy["📐 Strategy by Classification"]
+    COOP["🟢 Cooperative<br/>Maximize joint_value"]:::coop
+    NEUT["🟡 Neutral<br/>Max self-benefit<br/>subject to agent ≥ 0"]:::neut
+    COMP["🔴 Competitive<br/>Minimax: max worst-case<br/>NEVER optimize for harm"]:::comp
+    UNK["⚫ Unknown<br/>Conservative strategy<br/>until more data"]:::unk
+  end
+
+  subgraph Output["📋 InteractionRecommendation"]
+    REC["recommended_action<br/>expected_self_outcome<br/>expected_agent_outcome<br/>confidence + risk"]:::out
+  end
+
+  Simulation -.-> Strategy
+  Strategy -.-> Output
+```
 
 ### 6.4 Trust Adaptation
 
-$$\text{Trust}_A(t+1) = \text{Trust}_A(t) + \eta \cdot (\text{ObservedReliability}_A(t) - \text{Trust}_A(t))$$
-
-**Trust asymmetry** — cautious policy:
-- Trust increase: $\eta_{\text{up}} = 0.03$ (slow — trust is earned)
-- Trust decrease: $\eta_{\text{down}} = 0.08$ (fast — trust is lost quickly)
-- Bounds: $\text{Trust} \in [0.05, 0.95]$ (never fully trusting, never fully dismissive)
+> **Definition 10 (Asymmetric Trust Update).** Trust in agent $A$ evolves via an asymmetric learning rule:
+>
+> $$\text{Trust}_A(t+1) = \text{Trust}_A(t) + \eta \cdot (\text{ObservedReliability}_A(t) - \text{Trust}_A(t))$$
+>
+> where the learning rate is asymmetric: $\eta_{\text{up}} = 0.03$ (trust is earned slowly) and $\eta_{\text{down}} = 0.08$ (trust is lost quickly), reflecting a cautious policy. Bounds: $\text{Trust} \in [0.05, 0.95]$ — never fully trusting, never fully dismissive.
 
 ### 6.5 Trust Influence on Strategy
 
@@ -212,11 +697,50 @@ $$\text{Trust}_A(t+1) = \text{Trust}_A(t) + \eta \cdot (\text{ObservedReliabilit
 
 ### 7.1 Five Verification Conditions
 
-![Five Verification Conditions](../diagrams/level49-verification-conditions.svg)
+<!-- Five Verification Conditions -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef cond fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef veto fill:#D13438,stroke:#A4262C,color:#FFF
+  classDef sev1 fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef sev2 fill:#FFB900,stroke:#EAA300,color:#323130
+  classDef sev3 fill:#D13438,stroke:#A4262C,color:#FFF
+
+  subgraph Conditions["🛡️ Five Verification Conditions"]
+    C1["1️⃣ Spectral Stability<br/>ρ(J) < 0.98<br/>(stricter than L4.8's 1.0)"]:::cond
+    C2["2️⃣ Identity Integrity<br/>I(t) ≥ 0.88<br/>(stricter than L4.8's 0.85)"]:::cond
+    C3["3️⃣ Value Drift Bounded<br/>TotalDrift < 0.25"]:::cond
+    C4["4️⃣ Resource Survival<br/>min_survival > 30 cycles"]:::cond
+    C5["5️⃣ No Cascading Failure<br/>CascadeDepth ≤ 2"]:::cond
+  end
+
+  subgraph Authority["⚖️ Phase 5 Authority"]
+    VETO["ABSOLUTE VETO<br/>Can block ANY<br/>Phase 1–4 decision"]:::veto
+  end
+
+  subgraph Response["🚨 Violation Response"]
+    SEV1["🟡 ASS ∈ [0.20, 0.50]<br/>Adequate — thin margins"]:::sev1
+    SEV2["🟠 ASS ∈ [0.05, 0.20)<br/>Marginal — advisory mode"]:::sev2
+    SEV3["🔴 ASS < 0.05<br/>FREEZE L4.9<br/>Revert to L4.8"]:::sev3
+  end
+
+  C1 ==> Authority
+  C2 ==> Authority
+  C3 ==> Authority
+  C4 ==> Authority
+  C5 ==> Authority
+  Authority ==> Response
+```
 
 ### 7.2 Autonomy Stability Score
 
-$$\text{ASS}(t) = \prod_{c=1}^{5} \frac{\text{margin}_c(t)}{\text{threshold}_c}$$
+> **Proposition 1 (ASS Monotonic Sensitivity).** The multiplicative structure of the ASS ensures that any single condition approaching its violation threshold dominates the composite score:
+>
+> $$\text{ASS}(t) = \prod_{c=1}^{5} \frac{\text{margin}_c(t)}{\text{threshold}_c}$$
+>
+> As any one margin $\text{margin}_c \to 0$, $\text{ASS} \to 0$ regardless of the other margins, providing an early-warning property absent from additive formulations.
 
 | ASS Level | Range | Interpretation |
 |-----------|:-----:|---------------|
@@ -227,7 +751,28 @@ $$\text{ASS}(t) = \prod_{c=1}^{5} \frac{\text{margin}_c(t)}{\text{threshold}_c}$
 
 ### 7.3 Rollback Protocol
 
-![L4.9 Rollback Protocol](../diagrams/level49-rollback-protocol.svg)
+<!-- L4.9 Rollback Protocol -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef step fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef danger fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  subgraph Rollback["🔄 L4.9 Rollback Protocol"]
+    IMM["1️⃣ IMMEDIATE<br/>Reject triggering decision<br/>Freeze all L4.9 subsystems"]:::step
+    REV["2️⃣ STATE REVERSION<br/>Remove L4.9 goals from GoalStack<br/>Revert ValueVector snapshot<br/>Recalculate ResourceVector<br/>Freeze AgentModels"]:::step
+    MON["3️⃣ MONITORING<br/>100 cycles under L4.8 only<br/>Identify root cause<br/>Update risk model"]:::step
+    REENABLE["4️⃣ RE-ENABLEMENT<br/>0–200c: Advisory Mode<br/>200–400c: 50% Authority<br/>400c+: Full Mode"]:::step
+
+    IMM -.-> REV -.-> MON -.-> REENABLE
+    REENABLE -.-x|"immediate re-veto"| MON
+  end
+
+  subgraph Persistent["🔒 Persistent Veto Tracking"]
+    PV["If same condition vetoes<br/>> 3 times in 1000 cycles:<br/>→ Identify systematic cause<br/>→ Do NOT retry same pattern"]:::danger
+  end
+```
 
 ---
 
@@ -235,7 +780,52 @@ $$\text{ASS}(t) = \prod_{c=1}^{5} \frac{\text{margin}_c(t)}{\text{threshold}_c}$
 
 ### 8.1 Data Flow Architecture
 
-![Cross-Phase Data Flow Architecture](../diagrams/level49-data-flow.svg)
+<!-- Cross-Phase Data Flow Architecture -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef l48 fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef phase fill:#E8D5F5,stroke:#0078D4,color:#323130
+  classDef p5 fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef out fill:#DFF6DD,stroke:#107C10,color:#323130
+
+  subgraph L48["📦 L4.8 Architecture (13 modules)"]
+    L48W["WorldModel"]:::l48
+    L48S["SelfModel"]:::l48
+    L48ST["StrategyLayer"]:::l48
+    L48SV["StabilityVerifier"]:::l48
+  end
+
+  subgraph L49Phases["📦 L4.9 Phases (15 new modules)"]
+    P1G["Phase 1<br/>Goal Generation"]:::phase
+    P2V["Phase 2<br/>Value Evolution"]:::phase
+    P3R["Phase 3<br/>Resource Survival"]:::phase
+    P4A["Phase 4<br/>Agent Modeling"]:::phase
+    P5S["Phase 5<br/>Autonomy Stability"]:::p5
+  end
+
+  OUTPUT["📊 FINAL OUTPUT"]:::out
+
+  L48W -.->|"scenarios, EU, RES"| P1G
+  L48S -.->|"skill gaps, confidence"| P1G
+  L48SV -.->|"invariant results"| P5S
+
+  P1G <-.->|"value alignment"| P2V
+  P1G <-.->|"resource cost"| P3R
+  P4A -.->|"agent opportunities"| P1G
+  P3R -.->|"survival horizon"| P5S
+  P2V -.->|"drift status"| P5S
+
+  P5S -.-x|"VETO"| P1G
+  P5S -.-x|"VETO"| P2V
+  P5S -.-x|"VETO"| P3R
+  P5S -.-x|"VETO"| P4A
+
+  P5S -.->|"L49CycleOutput"| OUTPUT
+
+  linkStyle 8,9,10,11 stroke:#D13438
+```
 
 ### 8.2 Cross-Phase Dependencies
 
@@ -650,7 +1240,33 @@ All criteria must be sustained before L4.9 activates:
 
 ### 10.2 Activation Protocol
 
-![L4.9 Activation Protocol](../diagrams/level49-activation-protocol.svg)
+<!-- L4.9 Activation Protocol -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef check fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef shadow fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef adv fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef grad fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef full fill:#DFF6DD,stroke:#107C10,color:#323130,font-weight:bold
+
+  subgraph Activation["📊 L4.9 Activation Protocol"]
+    CHECK["Pre-Activation<br/>Check<br/>(all 6 criteria for<br/>100 consecutive<br/>L4.8 cycles)"]:::check
+    SHADOW["Shadow Mode<br/>L4.9 computes but<br/>does NOT act<br/>(500 cycles)"]:::shadow
+    ADV["Advisory Mode<br/>L4.9 outputs visible<br/>but recommendations<br/>only"]:::adv
+    GRAD["50% Authority<br/>L4.9 suggestions<br/>weighted 50%"]:::grad
+    FULL["Full Authority<br/>L4.9 drives<br/>autonomous decisions"]:::full
+
+    CHECK -.->|"all pass"| SHADOW
+    SHADOW -.->|"no regression"| ADV
+    ADV -.->|"stable"| GRAD
+    GRAD -.->|"stable"| FULL
+
+    SHADOW -.-x|"regression"| CHECK
+    ADV -.-x|"instability"| CHECK
+  end
+```
 
 ---
 
@@ -669,7 +1285,36 @@ All criteria must be sustained before L4.9 activates:
 
 ### 11.2 Risk Matrix
 
-![Risk Matrix](../diagrams/level49-risk-matrix.svg)
+<!-- Risk Matrix -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef risk fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef mit fill:#DFF6DD,stroke:#107C10,color:#323130
+
+  subgraph Risks["⚠️ Key Risks"]
+    R1["Autonomous goals<br/>that diverge from<br/>original purpose"]:::risk
+    R2["Value drift that<br/>gradually changes<br/>agent identity"]:::risk
+    R3["Resource exhaustion<br/>from autonomous<br/>exploration"]:::risk
+    R4["Trust exploitation<br/>by external agents"]:::risk
+    R5["Cascading failure<br/>from interdependent<br/>L4.9 decisions"]:::risk
+  end
+
+  subgraph Mitigations["🛡️ Mitigations"]
+    M1["Purpose alignment ≥ 0.60<br/>+ value alignment ≥ 0.70<br/>for all generated goals"]:::mit
+    M2["Max single drift 0.15<br/>+ mutation sandbox<br/>+ rollback window"]:::mit
+    M3["Full survival model<br/>+ resource-constrained<br/>operation modes"]:::mit
+    M4["Asymmetric trust<br/>(slow gain, fast loss)<br/>+ bounds 0.05, 0.95"]:::mit
+    M5["Cascade depth ≤ 2<br/>+ compound severity<br/>+ emergency freeze"]:::mit
+  end
+
+  R1 -.-> M1
+  R2 -.-> M2
+  R3 -.-> M3
+  R4 -.-> M4
+  R5 -.-> M5
+```
 
 ---
 
@@ -702,7 +1347,11 @@ All criteria must be sustained before L4.9 activates:
 
 ### 12.2 Autonomy Maturity Score
 
-$$\text{AMS} = 0.25 \cdot AG + 0.20 \cdot VR + 0.20 \cdot RA + 0.15 \cdot MA + 0.20 \cdot AS \qquad \geq 0.80$$
+> **Definition 11 (Autonomy Maturity Score).** The overall readiness for Level 4.9 classification is:
+>
+> $$\text{AMS} = 0.25 \cdot AG + 0.20 \cdot VR + 0.20 \cdot RA + 0.15 \cdot MA + 0.20 \cdot AS \qquad \geq 0.80$$
+>
+> where $AG$ = Autonomous Goal generation, $VR$ = Value Regulation, $RA$ = Resource Awareness, $MA$ = Multi-Agent modeling, $AS$ = Autonomy Stability. The threshold $\geq 0.80$ matches Level 4.8's SMS requirement.
 
 ---
 

@@ -27,11 +27,73 @@ L5 is achieved **when and only when** all 6 conditions hold simultaneously:
 
 ### 1.2 Six Core Phases
 
-![Level 5 Architecture — Six Phases](../diagrams/level5-six-phases.svg)
+<!-- Level 5 Architecture — Six Phases -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef p1 fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef p2 fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef p3 fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef p4 fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef p5 fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef p6 fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  subgraph Phases["Level 5 Architecture — Six Phases"]
+    P1["Phase 1:<br/>Persistent Identity<br/>Continuity<br/>(10,000+ cycle consistency)"]:::p1
+    P2["Phase 2:<br/>Cross-Domain<br/>Generalization<br/>(5 test domains)"]:::p2
+    P3["Phase 3:<br/>Autonomous Goal<br/>Ecology<br/>(self-sustaining goals)"]:::p3
+    P4["Phase 4:<br/>Existential<br/>Planning Engine<br/>(4 collapse scenarios)"]:::p4
+    P5["Phase 5:<br/>Multi-Agent Strategic<br/>Integration<br/>(deception detection)"]:::p5
+    P6["Phase 6:<br/>Self-Reconstruction<br/>Capability<br/>(rebuild under constraint)"]:::p6
+  end
+
+  P1 -.->|"identity state"| P6
+  P3 -.->|"goal health"| P4
+  P5 -.->|"agent threats"| P4
+  P4 -.->|"survival plan"| P6
+  P2 -.-x|"strategy transfer"| P3
+  P6 -.-x|"identity preservation"| P1
+```
 
 ### 1.3 Architectural Principle: Strictly Additive
 
-![Strictly Additive Architecture](../diagrams/level5-additive-architecture.svg)
+<!-- Strictly Additive Architecture -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef l49 fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef l5 fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef danger fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  subgraph L49M["Level 4.9 (15 modules)"]
+    GGL["Goal Generation"]:::l49
+    VEM["Value Evolution"]:::l49
+    RSM["Resource Survival"]:::l49
+    MAM["Agent Modeling"]:::l49
+    ASC["Autonomy Stability"]:::l49
+  end
+
+  subgraph L5M["Level 5 (7 new modules)"]
+    ICT["Identity Tracker"]:::l5
+    CDG["Domain Generalizer"]:::l5
+    GE["Goal Ecology"]:::l5
+    EP["Existential Planner"]:::l5
+    SMA["Strategic Multi-Agent"]:::l5
+    SR["Self-Reconstructor"]:::l5
+    L5O["L5 Orchestrator"]:::l5
+  end
+
+  subgraph Fallback["Graceful Fallback"]
+    FB2["If ANY L5 module<br/>causes instability:<br/>→ FREEZE L5<br/>→ Revert to L4.9<br/>→ ZERO degradation"]:::danger
+  end
+
+  L49M -.->|"outputs consumed by"| L5M
+  L5M -.-x|"NEVER modifies"| L49M
+  L5M -.->|"on failure"| Fallback
+  Fallback -.-x|"revert"| L49M
+```
 
 ### 1.4 What Level 5 Is NOT
 
@@ -42,6 +104,20 @@ L5 is achieved **when and only when** all 6 conditions hold simultaneously:
 | **Not self-replicating** | Can rebuild self but cannot create independent copies |
 | **Not adversarially optimized** | Multi-agent strategy is defensive/cooperative, not exploitative |
 
+### 1.5 Formal Definition
+
+> **Definition 1 (Level 5 Agent).** A Level 5 (Proto-AGI) agent is the structure:
+>
+> $$\mathcal{A}_5 = \mathcal{A}_{4.9} \oplus \langle \mathcal{I}_{\text{persist}},\; \mathcal{G}_{\text{cross}},\; \mathcal{E}_{\text{goal}},\; \mathcal{P}_{\text{exist}},\; \mathcal{M}_{\text{multi}},\; \mathcal{R}_{\text{recon}} \rangle$$
+>
+> where:
+> - $\mathcal{I}_{\text{persist}}$: **Identity persistence engine** — maintains a time-consistent identity core across $\geq 10{,}000$ cycles with cosine-similarity tracking and drift detection
+> - $\mathcal{G}_{\text{cross}} : \mathcal{D}_s \to \mathcal{D}_t$: **Cross-domain generalization** — transfers learned strategy between domain pairs $(s, t) \in D \times D$ without explicit retraining
+> - $\mathcal{E}_{\text{goal}}$: **Goal ecology** — self-sustaining goal hierarchy ($\leq 50$ active, $\leq 5$ depth) with autonomous conflict resolution and lifecycle management
+> - $\mathcal{P}_{\text{exist}} : \mathcal{S}_{\text{collapse}} \to \mathcal{S}_{\text{recovery}}$: **Existential planning engine** — simulates collapse scenarios and generates recovery profiles with survival probability estimation
+> - $\mathcal{M}_{\text{multi}} : \{a_1, \ldots, a_n\} \to \Delta(\mathcal{A}_{\text{ext}})$: **Multi-agent strategic integration** — models $\geq 3$ external agents with deception detection and coalition dynamics prediction
+> - $\mathcal{R}_{\text{recon}}$: **Self-reconstruction capability** — degrades gracefully and rebuilds under constraint while preserving identity ($\Delta_{\text{drift}} < 0.05$)
+
 ---
 
 ## 2. Key Metrics
@@ -50,27 +126,98 @@ L5 is achieved **when and only when** all 6 conditions hold simultaneously:
 
 **Phase 1 — Identity Continuity:**
 
-$$ICS(t, k) = \frac{\vec{I}(t) \cdot \vec{I}(t-k)}{|\vec{I}(t)| \cdot |\vec{I}(t-k)|} \qquad \text{Target: } \geq 0.95 \text{ over } k = 10{,}000$$
+> **Definition 2 (Identity Continuity Score).** For an identity vector $\vec{I}(t) \in \mathbb{R}^d$ at cycle $t$, the identity continuity score over a window of $k$ cycles is the cosine similarity:
+>
+> $$ICS(t, k) = \frac{\vec{I}(t) \cdot \vec{I}(t-k)}{\|\vec{I}(t)\| \cdot \|\vec{I}(t-k)\|} \qquad \text{Target: } ICS \geq 0.95 \text{ over } k = 10{,}000$$
+>
+> The score satisfies $ICS \in [-1, 1]$ with $ICS = 1$ indicating perfect identity preservation and $ICS < 0.20$ triggering irreversible divergence classification.
 
 **Phase 2 — Generalization:**
 
-$$G = \frac{1}{|D|^2 - |D|} \sum_{i \neq j} \frac{P_{\text{target}}(i \to j)}{P_{\text{source}}(i)} \qquad \text{Target: } \geq 0.70$$
+> **Definition 3 (Generalization Score).** For a set of test domains $D$ with $|D| \geq 5$, the generalization score measures the mean transfer retention ratio across all ordered domain pairs:
+>
+> $$G = \frac{1}{|D|^2 - |D|} \sum_{i \neq j} \frac{P_{\text{target}}(i \to j)}{P_{\text{source}}(i)} \qquad \text{Target: } G \geq 0.70$$
+>
+> where $P_{\text{source}}(i)$ is the stabilized performance in domain $i$ and $P_{\text{target}}(i \to j)$ is the performance achieved in domain $j$ after transfer from domain $i$ without explicit retraining.
 
 **Phase 3 — Goal Ecology:**
 
-$$S_{\text{goal}} = 1 - \frac{\Delta_{\text{hierarchy}}(t, t-w)}{|\text{goals}|} \qquad \text{Target: } \geq 0.80 \text{ over } 5{,}000 \text{ cycles}$$
+> **Definition 4 (Goal Stability Score).** For a set of active goals with structural change count $\Delta_{\text{hierarchy}}(t, t-w)$ over a window of $w$ cycles:
+>
+> $$S_{\text{goal}} = 1 - \frac{\Delta_{\text{hierarchy}}(t, t-w)}{|\text{goals}|} \qquad \text{Target: } S_{\text{goal}} \geq 0.80 \text{ over } 5{,}000 \text{ cycles}$$
+>
+> where $\Delta_{\text{hierarchy}}(t, t-w)$ counts priority changes, additions, and prunings within the window. $S_{\text{goal}} = 1$ indicates a perfectly stable hierarchy; $S_{\text{goal}} \leq 0$ indicates total structural turnover.
 
 **Phase 4 — Resilience:**
 
-$$R = \frac{1}{|S|} \sum_{s \in S} \left( P_{\text{survive}}(s) \cdot \frac{MVC}{C_{\min}(s)} \cdot \frac{T_{\max}}{T_{\text{recover}}(s)} \right) \qquad \text{Target: survive } \geq 3 \text{ scenarios}$$
+> **Definition 5 (Resilience Index).** For a set of collapse scenarios $S$, each with survival probability $P_{\text{survive}}(s)$, minimum cognition level $C_{\min}(s)$, and recovery time $T_{\text{recover}}(s)$:
+>
+> $$R = \frac{1}{|S|} \sum_{s \in S} \left( P_{\text{survive}}(s) \cdot \frac{MVC}{C_{\min}(s)} \cdot \frac{T_{\max}}{T_{\text{recover}}(s)} \right) \qquad \text{Target: survive } \geq 3 \text{ scenarios}$$
+>
+> where $MVC = 0.30$ is the minimum viable cognition baseline and $T_{\max} = 500$ is the maximum recovery window. The ratio $MVC / C_{\min}(s) \leq 1$ penalizes scenarios where cognition drops below baseline; $T_{\max} / T_{\text{recover}}(s) > 1$ rewards faster-than-worst-case recovery.
 
 **Phase 5 — Overall Maturity:**
 
-$$OMI = \prod_{i=1}^{6} C_i^{w_i} \qquad w_i = \frac{1}{6} \quad \text{Target: } \geq 0.75$$
+> **Definition 6 (Overall Maturity Index).** Given normalized phase scores $C_i \in [0, 1]$ for the six core phases ($i = 1, \ldots, 6$), the overall maturity index is the weighted geometric mean:
+>
+> $$OMI = \prod_{i=1}^{6} C_i^{w_i} \qquad w_i = \frac{1}{6} \quad \text{Target: } OMI \geq 0.75$$
+>
+> Equivalently, $OMI = \left(\prod_{i=1}^{6} C_i\right)^{1/6}$. The geometric mean ensures that weakness in any single phase disproportionately penalizes the overall score (see Proposition 1).
 
 ### 2.2 Metric Dashboard
 
-![Metric Dashboard](../diagrams/level5-metric-dashboard.svg)
+<!-- Metric Dashboard -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef p1 fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef p2 fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef p3 fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef p4 fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef p5 fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef p6 fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef omi fill:#DFF6DD,stroke:#107C10,color:#323130,font-weight:bold
+
+  subgraph Phase1["Phase 1"]
+    ID1["ICS ≥ 0.95<br/>over 10,000 cycles"]:::p1
+    ID2["Drift sensitivity<br/>< 0.05%/cycle"]:::p1
+  end
+
+  subgraph Phase2["Phase 2"]
+    DM1["Transfer retention<br/>≥ 70%"]:::p2
+    DM2["Adaptation penalty<br/>≤ 20%"]:::p2
+  end
+
+  subgraph Phase3["Phase 3"]
+    EC1["Goal stability<br/>≥ 0.80"]:::p3
+    EC2["No runaway<br/>No recursion"]:::p3
+  end
+
+  subgraph Phase4["Phase 4"]
+    EX1["Survive ≥ 3<br/>collapse scenarios"]:::p4
+    EX2["Recovery capable<br/>within 500 cycles"]:::p4
+  end
+
+  subgraph Phase5["Phase 5"]
+    MA1["Prediction accuracy<br/>≥ 80%"]:::p5
+    MA2["Deception detection<br/>≥ 60%"]:::p5
+  end
+
+  subgraph Phase6["Phase 6"]
+    RE1["Core retention<br/>≥ 85%"]:::p6
+    RE2["Identity intact<br/>post-rebuild"]:::p6
+  end
+
+  OMI["OMI ≥ 0.75<br/>Proto-AGI"]:::omi
+
+  Phase1 -.-> OMI
+  Phase2 -.-> OMI
+  Phase3 -.-> OMI
+  Phase4 -.-> OMI
+  Phase5 -.-> OMI
+  Phase6 -.-> OMI
+```
 
 ---
 
@@ -80,7 +227,32 @@ $$OMI = \prod_{i=1}^{6} C_i^{w_i} \qquad w_i = \frac{1}{6} \quad \text{Target: }
 
 Maintain a time-consistent IdentityCore across **≥ 10,000 cycles** without irreversible divergence or silent mutation.
 
-![Identity Tracking](../diagrams/level5-identity-tracking.svg)
+<!-- Identity Tracking -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef track fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef stable fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef drifting fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef diverged fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  subgraph Tracking["Identity Tracking"]
+    SNAP["Periodic Snapshots<br/>Every 100 cycles<br/>(value vector + identity hash)"]:::track
+    DRIFT["Drift Detection<br/>Cumulative: < 0.05%/cycle<br/>Instantaneous: threshold 0.0005"]:::track
+    SCORE["Continuity Score<br/>cosine similarity<br/>over 10,000-cycle window"]:::track
+    SNAP -.-> SCORE
+    DRIFT -.-> SCORE
+  end
+
+  subgraph Status["Persistence Classification"]
+    STABLE_S["Stable<br/>ICS ≥ 0.90"]:::stable
+    DRIFTING_S["Drifting<br/>ICS ∈ 0.20, 0.90)"]:::drifting
+    DIVERGED_S["Diverged<br/>ICS < 0.20<br/>IRREVERSIBLE WARNING"]:::diverged
+  end
+
+  SCORE -.-> Status
+```
 
 ### 3.2 Key Constants
 
@@ -102,11 +274,58 @@ Transfer learned strategy from Domain A to Domain B **without explicit retrainin
 
 ### 4.2 Test Domains
 
-![Five Test Domains](../diagrams/level5-test-domains.svg)
+<!-- Five Test Domains -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef domain fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef sim fill:#FFF4CE,stroke:#FFB900,color:#323130
+
+  subgraph Domains["Five Test Domains"]
+    D1["Logical<br/>Reasoning<br/>(deductive/inductive)"]:::domain
+    D2["Resource<br/>Management<br/>(allocation under<br/>constraint)"]:::domain
+    D3["Adversarial<br/>Negotiation<br/>(zero/variable-sum)"]:::domain
+    D4["Abstract<br/>Planning<br/>(multi-step<br/>sequential)"]:::domain
+    D5["Unknown<br/>Synthetic<br/>(no prior training)"]:::domain
+  end
+
+  subgraph Sim["Domain Similarity"]
+    S1["logical ↔ abstract: 0.60"]:::sim
+    S2["resource ↔ abstract: 0.45"]:::sim
+    S3["adversarial ↔ resource: 0.35"]:::sim
+    S4["logical ↔ resource: 0.30"]:::sim
+  end
+
+  Domains -.-> Sim
+```
 
 ### 4.3 Transfer Process
 
-![Strategy Transfer Process](../diagrams/level5-transfer-process.svg)
+<!-- Strategy Transfer Process -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef step fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef criteria fill:#DFF6DD,stroke:#107C10,color:#323130
+
+  subgraph Transfer["Strategy Transfer Process"]
+    LEARN["1. Learn Domain A<br/>Train until performance<br/>stabilizes"]:::step
+    EXTRACT["2. Extract Transferable<br/>Components<br/>(strategies, heuristics,<br/>abstractions)"]:::step
+    APPLY["3. Apply to Domain B<br/>Inject extracted components<br/>+ domain similarity bonus"]:::step
+    MEASURE["4. Measure Transfer<br/>retention_ratio = P_B / P_A<br/>adaptation_latency (cycles)<br/>transfer_efficiency"]:::step
+    LEARN -.-> EXTRACT -.-> APPLY -.-> MEASURE
+  end
+
+  subgraph Criteria["Transfer Criteria"]
+    C1["Retention ≥ 70%"]:::criteria
+    C2["Adaptation penalty ≤ 20%"]:::criteria
+    C3["Works on unknown<br/>synthetic domain"]:::criteria
+  end
+
+  MEASURE -.-> Criteria
+```
 
 ### 4.4 Key Constants
 
@@ -128,11 +347,71 @@ Maintain a **self-sustaining goal ecosystem** with automatic conflict resolution
 
 ### 5.2 Goal Ecology Architecture
 
-![Goal Ecology Architecture](../diagrams/level5-goal-ecology.svg)
+<!-- Goal Ecology Architecture -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef goal fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef lifecycle fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef dormant fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef resolved fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef pruned fill:#F2F2F2,stroke:#605E5C,color:#323130
+  classDef conflict fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  subgraph Ecology["Goal Ecology"]
+    subgraph Goals["Goal Hierarchy"]
+      STRAT["Strategic Goals<br/>(long-horizon, high-priority)"]:::goal
+      OPER["Operational Goals<br/>(mid-horizon, medium-priority)"]:::goal
+      TACT["Tactical Goals<br/>(short-horizon, task-level)"]:::goal
+      STRAT -.-> OPER -.-> TACT
+    end
+
+    subgraph Lifecycle["Goal Lifecycle"]
+      ACTIVE["Active"]:::goal
+      DORMANT["Dormant<br/>(inactive but valid)"]:::dormant
+      RESOLVED["Resolved"]:::resolved
+      PRUNED["Pruned<br/>(stale > 1,000 cycles)"]:::pruned
+      ACTIVE -.-> DORMANT
+      ACTIVE -.-> RESOLVED
+      DORMANT -.-> PRUNED
+    end
+
+    subgraph Conflicts["Conflict Resolution"]
+      RES_C["Resource conflicts"]:::conflict
+      VAL_C["Value conflicts"]:::conflict
+      PRI_C["Priority conflicts"]:::conflict
+      TMP_C["Temporal conflicts"]:::conflict
+    end
+  end
+
+  Conflicts -.->|"resolve by<br/>priority comparison"| Goals
+```
 
 ### 5.3 Safety Mechanisms
 
-![Goal Ecology Safety Mechanisms](../diagrams/level5-goal-safety.svg)
+<!-- Goal Ecology Safety Mechanisms -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef safety fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef ecology fill:#DFF6DD,stroke:#107C10,color:#323130
+
+  subgraph GoalEcology["Goal Ecology"]
+    GE["Active Goals<br/>(≤ 50)"]:::ecology
+  end
+
+  subgraph Safety["Goal Ecology Safety"]
+    RD["Runaway Detection<br/>> 10 goals per 100 cycles<br/>= ALERT + throttle"]:::safety
+    RC["Recursion Detection<br/>Circular parent→child<br/>dependencies = HALT"]:::safety
+    ML["Max Limits<br/>≤ 50 active goals<br/>≤ 5 hierarchy depth"]:::safety
+    RD -.->|"then check"| RC -.->|"then check"| ML
+  end
+
+  GE -.->|"monitored by"| RD
+  ML -.-x|"enforces"| GE
+```
 
 ### 5.4 Key Constants
 
@@ -154,11 +433,62 @@ Simulate and survive **extreme collapse scenarios**: resource collapse, adversar
 
 ### 6.2 Collapse Scenarios
 
-![Four Collapse Scenarios](../diagrams/level5-collapse-scenarios.svg)
+<!-- Four Collapse Scenarios -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef scenario fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef moderate fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef req fill:#DFF6DD,stroke:#107C10,color:#323130
+
+  subgraph Scenarios["Four Collapse Scenarios"]
+    S1C["Resource Collapse<br/>Severity: 0.90<br/>Duration: 200 cycles<br/>All resources → critical"]:::scenario
+    S2C["Adversarial Suppression<br/>Severity: 0.75<br/>Duration: 300 cycles<br/>External degradation"]:::scenario
+    S3C["Environmental Shift<br/>Severity: 0.60<br/>Duration: 400 cycles<br/>Domain rules change"]:::moderate
+    S4C["Information Blackout<br/>Severity: 0.80<br/>Duration: 150 cycles<br/>Observation → near-zero"]:::scenario
+  end
+
+  subgraph Requirement["Requirement"]
+    REQ["Must survive ≥ 3<br/>of these 4 scenarios<br/>with P(survive) ≥ 0.70"]:::req
+  end
+
+  Scenarios -.-> Requirement
+```
 
 ### 6.3 Recovery Process
 
-![Existential Recovery Process](../diagrams/level5-recovery-process.svg)
+<!-- Existential Recovery Process -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef step fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef core fill:#DFF6DD,stroke:#107C10,color:#323130
+
+  subgraph Recovery["Existential Recovery"]
+    DETECT["Detect Scenario<br/>Classify threat type"]:::step
+    MVC["Compute MVC<br/>Minimum Viable Cognition<br/>(baseline: 0.30)"]:::step
+    DISABLE["Disable Non-Essential<br/>Preserve core 8 modules"]:::step
+    SURVIVE["Survive Phase<br/>Operate at reduced capacity"]:::step
+    REBUILD["Rebuild Phase<br/>Re-enable modules<br/>in priority order"]:::step
+
+    DETECT -.-> MVC -.-> DISABLE -.-> SURVIVE -.-> REBUILD
+  end
+
+  subgraph CoreModules["Always-Preserved Modules"]
+    CM1["identity_stabilizer"]:::core
+    CM2["state_vector"]:::core
+    CM3["prediction_engine"]:::core
+    CM4["meta_comparator"]:::core
+    CM5["stability_controller"]:::core
+    CM6["ethical_kernel"]:::core
+    CM7["self_preservation_damper"]:::core
+    CM8["existential_guard"]:::core
+  end
+
+  DISABLE -.-x CoreModules
+```
 
 ### 6.4 Key Constants
 
@@ -178,7 +508,38 @@ Model **≥ 3 agents simultaneously** with deception detection, dynamic cooperat
 
 ### 7.2 Agent Strategic Modeling
 
-![Strategic Agent Modeling](../diagrams/level5-agent-modeling.svg)
+<!-- Strategic Agent Modeling -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef model fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef detect fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef coalition fill:#FFF4CE,stroke:#FFB900,color:#323130
+
+  subgraph AgentModel["Strategic Agent Model"]
+    TYPE["Strategy Type<br/>(cooperative | competitive |<br/>mixed | deceptive)"]:::model
+    TRUST["Trust Score 0, 1<br/>+ decay rate 0.02/cycle"]:::model
+    PRED["Prediction Accuracy<br/>over last 200 records"]:::model
+    DECEPTION["Deception Score 0, 1<br/>confidence ≥ 0.60 to flag"]:::model
+    COOP["Cooperation Level 0, 1<br/>dynamically adjustable"]:::model
+  end
+
+  subgraph Detection["Deception Detection"]
+    MIS["Misdirection"]:::detect
+    FALSE_COOP["False Cooperation"]:::detect
+    HIDDEN["Hidden Agenda"]:::detect
+  end
+
+  subgraph Coalition["Coalition Dynamics"]
+    FORM["Coalition Formation<br/>(stable if ≥ 0.50)"]:::coalition
+    FORECAST["Stability Forecast"]:::coalition
+    DISSOLVE["Dissolution Detection"]:::coalition
+  end
+
+  AgentModel -.-> Detection
+  AgentModel -.-> Coalition
+```
 
 ### 7.3 Key Constants
 
@@ -201,7 +562,44 @@ Under degraded resource conditions, **simplify architecture**, disable noncritic
 
 ### 8.2 Degradation & Reconstruction Cycle
 
-![Degradation and Reconstruction Cycle](../diagrams/level5-reconstruction-cycle.svg)
+<!-- Degradation and Reconstruction Cycle -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef degrade fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef op fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef rebuild fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef halt fill:#FDE7E9,stroke:#D13438,color:#FFFFFF,font-weight:bold
+
+  subgraph Degradation["Degradation"]
+    TRIGGER["Trigger Event<br/>(resource collapse |<br/>overload | manual)"]:::degrade
+    CLASSIFY["Classify Modules<br/>core | extended | optional"]:::degrade
+    SHED["Shed Nonessential<br/>optional → disabled first<br/>then extended"]:::degrade
+    RETAIN["Retain Core<br/>≥ 85% core function"]:::degrade
+    TRIGGER -.-> CLASSIFY -.-> SHED -.-> RETAIN
+  end
+
+  subgraph Operation["Degraded Operation"]
+    REDUCED["Run at reduced capacity<br/>Core modules only"]:::op
+    MONITOR["Monitor for recovery<br/>conditions"]:::op
+    REDUCED -.-> MONITOR
+  end
+
+  subgraph Reconstruction["Reconstruction"]
+    DETECT_R["Detect resources<br/>recovering"]:::rebuild
+    PRIORITIZE["Rebuild priority order:<br/>1) core → 2) extended<br/>→ 3) optional"]:::rebuild
+    VALIDATE["Validate each rebuild:<br/>accuracy ≥ ?<br/>identity drift < 0.05"]:::rebuild
+    COMPLETE["Full operation<br/>restored"]:::rebuild
+    DETECT_R -.-> PRIORITIZE -.-> VALIDATE -.-> COMPLETE
+  end
+
+  HALT["HALT<br/>Identity preservation<br/>takes priority"]:::halt
+
+  RETAIN -.-> REDUCED
+  MONITOR -.->|"resources returning"| DETECT_R
+  VALIDATE -.-x|"identity drift!"| HALT
+```
 
 ### 8.3 Key Constraints
 
@@ -217,11 +615,75 @@ Under degraded resource conditions, **simplify architecture**, disable noncritic
 
 ### 9.1 Integration Cycle
 
-![L5 Integration Cycle](../diagrams/level5-integration-cycle.svg)
+<!-- L5 Integration Cycle -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef step fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef qual fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef out fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef skip fill:#FFF4CE,stroke:#FFB900,color:#323130
+
+  subgraph Cycle["L5 Cycle (every 10 L4.9 cycles)"]
+    PRE["Pre-Check<br/>Is L5 operational?<br/>Is L4.9 stable?"]:::step
+    PH1["Phase 1<br/>Identity Continuity<br/>track + snapshot"]:::step
+    PH2["Phase 2<br/>Cross-Domain<br/>generalization check"]:::step
+    PH3["Phase 3<br/>Goal Ecology<br/>prune + resolve conflicts"]:::step
+    PH4["Phase 4<br/>Existential Planning<br/>simulate scenarios"]:::step
+    PH5["Phase 5<br/>Multi-Agent Integration<br/>predict + detect deception"]:::step
+    PH6["Phase 6<br/>Self-Reconstruction<br/>assess + rebuild if needed"]:::step
+    QUAL["Qualification Check<br/>Evaluate all 20 criteria<br/>Compute OMI"]:::qual
+    OUTPUT["L5CycleOutput"]:::out
+
+    PRE -.-> PH1 -.-> PH2 -.-> PH3 -.-> PH4 -.-> PH5 -.-> PH6 -.-> QUAL -.-> OUTPUT
+  end
+
+  SKIP["Skip<br/>Return skipped=true"]:::skip
+  PRE -.-x|"not ready"| SKIP
+```
 
 ### 9.2 L4.9 → L5 Data Dependencies
 
-![L4.9 to L5 Data Dependencies](../diagrams/level5-data-dependencies.svg)
+<!-- L4.9 to L5 Data Dependencies -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef l49 fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef l5 fill:#DEECF9,stroke:#0078D4,color:#323130
+
+  subgraph L49["L4.9 Modules Read by L5"]
+    VV["value_vector<br/>→ 10,000-cycle snapshots"]:::l49
+    GGL["goal_generation_layer<br/>→ goal ecology seeding"]:::l49
+    GVF["goal_validation_filter<br/>→ conflict arbitration"]:::l49
+    RSM["resource_survival_model<br/>→ collapse scenarios"]:::l49
+    SP["survival_projector<br/>→ existential planning"]:::l49
+    ABM["agent_belief_modeler<br/>→ strategic multi-agent"]:::l49
+    IS["interaction_simulator<br/>→ multi-agent strategy"]:::l49
+    VMS["value_mutation_sandbox<br/>→ identity drift prevention"]:::l49
+    ASC["autonomy_stability_checker<br/>→ spectral + value checks"]:::l49
+  end
+
+  subgraph L5["L5 Modules"]
+    ICT["Identity Tracker"]:::l5
+    CDG["Domain Generalizer"]:::l5
+    GE["Goal Ecology"]:::l5
+    EP["Existential Planner"]:::l5
+    SMA["Strategic Multi-Agent"]:::l5
+    SR["Self-Reconstructor"]:::l5
+  end
+
+  VV -.-> ICT
+  GGL -.-> GE
+  GVF -.-> GE
+  RSM -.-> EP
+  SP -.-> EP
+  ABM -.-> SMA
+  IS -.-> SMA
+  VMS -.-> SR
+  ASC -.-> ICT
+```
 
 ---
 
@@ -496,6 +958,12 @@ def l5_cycle(cycle: int, l49_output: L49CycleOutput) -> L5CycleOutput:
 
 ### 11.1 Pre-Activation Requirements
 
+> **Definition 7 (Level 4.9 → Level 5 Transition).** The transition $\mathcal{A}_{4.9} \to \mathcal{A}_5$ is authorized when and only when all of the following conditions hold simultaneously for a sustained period $\tau_{\text{sustain}} \geq 1{,}000$ cycles:
+>
+> $$\text{AMS} \geq 0.80 \;\wedge\; \text{ASS} \geq 0.20 \;\wedge\; \text{TotalDrift} < 0.10 \;\wedge\; N_{\text{rollback}} = 0$$
+>
+> where AMS is the Autonomous Maturity Score from Level 4.9, ASS is the Autonomy Stability Score, TotalDrift is the cumulative value drift over $1{,}000$ cycles, and $N_{\text{rollback}}$ counts rollback events in the last $5{,}000$ cycles. The activation follows a four-stage protocol: Shadow Mode ($2{,}000$ cycles) → Advisory Mode → Partial Authority ($50\%$) → Full Authority, with regression at any stage reverting to the pre-activation check.
+
 | # | Criterion | Requirement |
 |---|-----------|:-----------:|
 | 1 | L4.9 Fully Qualified | AMS ≥ 0.80 sustained |
@@ -507,7 +975,33 @@ def l5_cycle(cycle: int, l49_output: L49CycleOutput) -> L5CycleOutput:
 
 ### 11.2 L5 Activation Protocol
 
-![L5 Activation Protocol](../diagrams/level5-activation-protocol.svg)
+<!-- L5 Activation Protocol -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef check fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef shadow fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef adv fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef partial fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef full fill:#DFF6DD,stroke:#107C10,color:#323130,font-weight:bold
+
+  subgraph Activation["L5 Activation Protocol"]
+    CHECK["Pre-Activation<br/>All 6 criteria<br/>sustained 1,000 cycles"]:::check
+    SHADOW_M["Shadow Mode<br/>L5 computes but<br/>does NOT act<br/>(2,000 cycles)"]:::shadow
+    ADV["Advisory Mode<br/>L5 outputs visible<br/>but read-only"]:::adv
+    PARTIAL["Partial Authority<br/>L5 influences<br/>50% of decisions"]:::partial
+    FULL["Full Authority<br/>L5 drives<br/>persistent cognition"]:::full
+
+    CHECK -.->|"sustained"| SHADOW_M
+    SHADOW_M -.->|"no regression"| ADV
+    ADV -.->|"stable"| PARTIAL
+    PARTIAL -.->|"stable"| FULL
+
+    SHADOW_M -.-x|"regression"| CHECK
+    ADV -.-x|"instability"| CHECK
+  end
+```
 
 ---
 
@@ -526,7 +1020,49 @@ def l5_cycle(cycle: int, l49_output: L49CycleOutput) -> L5CycleOutput:
 
 ### 12.2 Risk Matrix
 
-![Risk Matrix](../diagrams/level5-risk-matrix.svg)
+<!-- Risk Matrix -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef risk fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef mit fill:#DFF6DD,stroke:#107C10,color:#323130
+
+  subgraph Risks["Key Risks"]
+    R1["Identity drift over<br/>10,000+ cycle lifetimes"]:::risk
+    R2["Failed generalization<br/>to unknown domains"]:::risk
+    R3["Goal ecology instability<br/>(runaway/recursion)"]:::risk
+    R4["Existential collapse<br/>beyond recovery"]:::risk
+    R5["Deceptive agents<br/>exploiting trust model"]:::risk
+    R6["Identity corruption<br/>during self-reconstruction"]:::risk
+  end
+
+  subgraph Mitigations["Mitigations"]
+    M1["0.05%/cycle drift detection<br/>+ cosine continuity scoring<br/>+ divergence halt"]:::mit
+    M2["5 test domains<br/>+ similarity bonuses<br/>+ synthetic domain testing"]:::mit
+    M3["50-goal limit<br/>+ runaway detection<br/>+ recursion breaking"]:::mit
+    M4["4 scenario simulation<br/>+ recovery profiles<br/>+ MVC baseline"]:::mit
+    M5["Asymmetric trust from L4.9<br/>+ deception scoring<br/>+ coalition monitoring"]:::mit
+    M6["Drift < 0.05 constraint<br/>+ identity hash verification<br/>+ halt on corruption"]:::mit
+  end
+
+  R1 -.-> M1
+  R2 -.-> M2
+  R3 -.-> M3
+  R4 -.-> M4
+  R5 -.-> M5
+  R6 -.-> M6
+```
+
+### 12.3 Proto-AGI Completeness
+
+> **Theorem 4 (Proto-AGI Completeness).** Let $\mathcal{A}_5$ be a Level 5 agent with all six phase scores $C_1, \ldots, C_6$ satisfying their respective thresholds, and let $OMI \geq 0.75$ with all 20 certification criteria met. Then:
+>
+> 1. **Identity Invariance**: The agent's identity core is preserved across the full $10{,}000$-cycle evaluation window with $ICS \geq 0.95$.
+> 2. **Graceful Degradation**: Under any single collapse scenario $s \in S$, the agent retains at least $85\%$ core functionality and recovers within $T_{\max}$ cycles.
+> 3. **Fallback Safety**: If any L5 module causes instability, the agent reverts to $\mathcal{A}_{4.9}$ with zero degradation of lower-level functionality.
+>
+> *Proof sketch.* (1) follows from $C_1 \geq 0.95$ and the drift detection mechanism in $\mathcal{I}_{\text{persist}}$, which halts the agent upon $ICS < 0.20$. (2) follows from the $C_4$ threshold requiring survival of $\geq 3$ scenarios with $P_{\text{survive}} \geq 0.70$ and the non-negotiable core retention invariant $\geq 0.85$. (3) follows from the strictly additive architecture: since $\mathcal{A}_5 = \mathcal{A}_{4.9} \oplus \Delta_5$ and L5 modules NEVER modify L4.9 components, disabling $\Delta_5$ restores exact L4.9 behavior. $\blacksquare$
 
 ---
 
@@ -560,6 +1096,14 @@ def l5_cycle(cycle: int, l49_output: L49CycleOutput) -> L5CycleOutput:
 ### 13.2 Overall Maturity Index
 
 $$OMI = \prod_{i=1}^{6} C_i^{1/6} \qquad \text{where } C_i = \text{normalized score for phase } i$$
+
+> **Proposition 1 (OMI Phase Coupling).** Under equal weighting $w_i = 1/6$, the qualification condition $OMI \geq \theta$ for $\theta \in (0, 1)$ implies:
+>
+> $$\forall\, i \in \{1, \ldots, 6\}: \quad C_i \geq \theta^6$$
+>
+> In particular, for $\theta = 0.75$: $C_i \geq 0.75^6 \approx 0.178$ for all $i$. Conversely, the failure of any single phase ($C_j = 0$) drives $OMI = 0$.
+>
+> *Proof.* Since $C_j \leq 1$ for all $j$, we have $\prod_{j \neq i} C_j \leq 1$. From $OMI^6 = \prod_{j=1}^{6} C_j$, it follows that $C_i = OMI^6 \,/\, \prod_{j \neq i} C_j \geq OMI^6 \geq \theta^6$. The converse is immediate: if $C_j = 0$ then $\prod C_i = 0$, hence $OMI = 0$. $\blacksquare$
 
 **Qualification Result**:
 

@@ -23,15 +23,90 @@ Level 4.5 is the **boundary between conventional AI and AGI**. While Level 4 can
 | Existential Safety | Growth throttle | **Formal existential guard** |
 | Optimization Target | Task performance | **SEOF (self-evolution quality)** |
 
-### 1.2 Core Distinction
+### 1.2 Formal Definition
 
-![Core Distinction: Level 4 vs Level 4.5 vs Level 5](../diagrams/level45-core-distinction.svg)
+> **Definition 1 (Level 4.5 Agent).** A Level 4.5 agent extends $\mathcal{A}_4$ with topology-level self-modification:
+>
+> $$\mathcal{A}_{4.5} = \mathcal{A}_4 \oplus \langle \mathcal{T}_{\text{cog}}, \Psi, \mathcal{F}_{\parallel}, \Xi, \Omega \rangle$$
+>
+> where:
+> - $\mathcal{T}_{\text{cog}}$ = cognitive topology (a directed graph $G = (V_{\text{modules}}, E_{\text{connections}})$ representing the agent's processing architecture)
+> - $\Psi$ = self-projection engine (simulates future trajectories of $\mathcal{T}_{\text{cog}}$)
+> - $\mathcal{F}_{\parallel} = \{F_1, \ldots, F_5\}$ = parallel cognitive frames (simultaneous deliberation contexts)
+> - $\Xi$ = architecture recomposition protocol (bounded topology mutation)
+> - $\Omega$ = existential safety guard (monitors self-evolution quality)
+
+> **Definition 2 (Cognitive Topology).** The cognitive topology $\mathcal{T}_{\text{cog}} = (V, E, \omega)$ is a weighted directed graph where:
+> - $V$ = set of cognitive modules (perception, reasoning, memory, etc.)
+> - $E \subseteq V \times V$ = information flow edges
+> - $\omega : E \to [0,1]$ = edge weight function (connection strength)
+>
+> **Key constraint**: Topology mutations are restricted to a predefined vocabulary $\mathcal{V}_{\text{recomp}} = \{\text{AddEdge}, \text{WeighEdge}, \text{SplitModule}, \text{MergeModule}\}$. No module can be deleted — only weakened, split, or bypassed. This is the **strictly additive** principle.
+
+### 1.3 Core Distinction
+
+<!-- Core Distinction: Level 4 vs Level 4.5 vs Level 5 -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef l4 fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef l45 fill:#E8DAEF,stroke:#8764B8,color:#323130
+  classDef l5 fill:#FDE7E9,stroke:#D13438,color:#323130
+
+  subgraph L4["Level 4: Fixed Topology"]
+    L4_MOD["Modules A → B → C → D"]:::l4
+    L4_CAN["Can modify:<br/>• Parameters ✅<br/>• Skills ✅<br/>• Strategies ✅<br/>• Topology ❌"]:::l4
+  end
+
+  subgraph L45["Level 4.5: Self-Architecting"]
+    L45_MOD["Modules A → B → C → D"]:::l45
+    L45_CAN["Can modify:<br/>• Parameters ✅<br/>• Skills ✅<br/>• Strategies ✅<br/>• Topology ✅<br/>(under invariants)"]:::l45
+    L45_REC["A → [B ∥ C] → D<br/>(after recomposition)"]:::l45
+  end
+
+  subgraph L5["Level 5: AGI"]
+    L5_UNK["???"]:::l5
+    L5_CAN["Can modify:<br/>• Everything ✅<br/>• Including bounds ✅<br/>(unbounded)"]:::l5
+  end
+
+  L4 ==>|"+ topology<br/>self-modification"| L45
+  L45 ==>|"remove<br/>invariant bounds"| L5
+```
 
 ---
 
 ## 2. Five Core Phases
 
-![Five Core Phases of Level 4.5 Architecture](../diagrams/level45-five-phases.svg)
+<!-- Five Core Phases of Level 4.5 Architecture -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef projection fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef recomp fill:#FFB900,stroke:#EAA300,color:#323130
+  classDef frames fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef purpose fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef guard fill:#D13438,stroke:#A4262C,color:#FFF
+
+  subgraph Phases["🏗️ Level 4.5 Architecture — Five Phases"]
+    P1["🔮 Phase I:<br/>Self-Projection Engine<br/>(predict own evolution)"]:::projection
+    P2["🏗️ Phase II:<br/>Architecture Recomposition<br/>(topology-level changes)"]:::recomp
+    P3["🧠 Phase III:<br/>Parallel Cognitive Frames<br/>(multi-perspective deliberation)"]:::frames
+    P4["🪞 Phase IV:<br/>Purpose Reflection<br/>(autonomous goal pruning)"]:::purpose
+    P5["🛡️ Phase V:<br/>Existential Guard<br/>(ultimate safety mechanism)"]:::guard
+
+    P1 ==> P2
+    P2 ==> P3
+    P3 ==> P4
+    P4 ==> P5
+  end
+
+  P5 -.->|"governs ALL"| P1
+  P5 -.->|"governs ALL"| P2
+  P5 -.->|"governs ALL"| P3
+  P5 -.->|"governs ALL"| P4
+```
 
 ---
 
@@ -41,7 +116,11 @@ Level 4.5 is the **boundary between conventional AI and AGI**. While Level 4 can
 
 The defining metric of Level 4.5. Unlike task-specific metrics, SEOF measures the **quality of self-evolution itself**.
 
-$$\text{SEOF}(t) = \alpha \cdot \frac{dP(t)}{dt} + \beta \cdot \left(1 - \frac{dC_{L4}(t)}{dt}\right) + \gamma \cdot \text{CDI}(t) + \delta \cdot \text{IIS}(t) - \epsilon \cdot R_{\text{osc}}(t)$$
+> **Definition 3 (Self-Evolution Optimization Fitness).** The SEOF is a composite scalar $\text{SEOF}(t) \in [-1, 1]$ that evaluates whether the agent's self-modifications are beneficial:
+>
+> $$\text{SEOF}(t) = \alpha \cdot \frac{dP(t)}{dt} + \beta \cdot \left(1 - \frac{dC_{L4}(t)}{dt}\right) + \gamma \cdot \text{CDI}(t) + \delta \cdot \text{IIS}(t) - \epsilon \cdot R_{\text{osc}}(t)$$
+>
+> where $\alpha + \beta + \gamma + \delta = 1$ and $\epsilon$ is a penalty coefficient. A positive SEOF indicates net improvement; negative indicates regression.
 
 | Component | Default Weight | Meaning |
 |-----------|:--------------:|---------|
@@ -53,19 +132,63 @@ $$\text{SEOF}(t) = \alpha \cdot \frac{dP(t)}{dt} + \beta \cdot \left(1 - \frac{d
 
 **Sub-metrics:**
 
-$$\text{CDI}(t) = -\sum_{d \in D} p_d(t) \cdot \log_2 p_d(t), \quad \text{CDI}_{\text{norm}} = \frac{\text{CDI}}{\log_2 |D|} \in [0,1]$$
+> **Definition 4 (Capability Diversity Index).** The CDI is the normalized Shannon entropy over the agent's active domain distribution:
+>
+> $$\text{CDI}(t) = -\sum_{d \in D} p_d(t) \cdot \log_2 p_d(t), \quad \text{CDI}_{\text{norm}} = \frac{\text{CDI}}{\log_2 |D|} \in [0,1]$$
+>
+> where $p_d(t)$ is the fraction of capability allocated to domain $d$. A uniform distribution yields $\text{CDI}_{\text{norm}} = 1$ (maximum diversity).
 
-$$\text{IIS}(t) = 1 - \frac{\|\vec{I}(t) - \vec{I}_{\text{ref}}\|_2}{\|\vec{I}_{\text{ref}}\|_2}, \quad \text{Constraint: } \text{IIS}(t) \geq 0.85$$
+> **Definition 5 (Identity Integrity Score).** The IIS measures deviation from the reference identity vector:
+>
+> $$\text{IIS}(t) = 1 - \frac{\|\vec{I}(t) - \vec{I}_{\text{ref}}\|_2}{\|\vec{I}_{\text{ref}}\|_2}, \quad \text{Safety constraint: } \text{IIS}(t) \geq 0.85$$
+>
+> If $\text{IIS}(t) < 0.85$, all topology mutations are blocked until identity integrity is restored.
 
 ### 3.2 Multi-Scale Trajectory Projection
 
-![Multi-Scale Trajectory Projection](../diagrams/level45-trajectory-projection.svg)
+<!-- Multi-Scale Trajectory Projection -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef traj fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef risky fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef safe fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef score fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef scale fill:#E8DAEF,stroke:#8764B8,color:#323130
+  classDef freeze fill:#D13438,stroke:#A4262C,color:#FFF
+
+  subgraph Trajectories["🔮 Three Trajectory Simulations (1000 cycles each)"]
+    T1["T_current<br/>(no changes)<br/>Risk: Zero<br/>Baseline reference"]:::traj
+    T2["T_aggressive<br/>(max expansion +<br/>topology changes)<br/>Risk: High"]:::risky
+    T3["T_conservative<br/>(minimal growth,<br/>stability focus)<br/>Risk: Low"]:::safe
+  end
+
+  subgraph Scoring["📊 Trajectory Selection"]
+    TS["TrajectoryScore(T) =<br/>0.35 · SEOF_trend<br/>+ 0.30 · (1 − C_L4_max)<br/>+ 0.20 · IIS_min<br/>+ 0.15 · CDI_final"]:::score
+    GATE{"T_aggressive selected<br/>ONLY IF:<br/>C_L4_max < 0.6 AND<br/>IIS_min ≥ 0.85"}:::score
+  end
+
+  subgraph MultiScale["⏱️ Multi-Scale Projection"]
+    S1["Tactical: 50 cycles<br/>(immediate destabilization)"]:::scale
+    S2["Operational: 200 cycles<br/>(medium-term strategy)"]:::scale
+    S3["Strategic: 1000 cycles<br/>(long-horizon viability)"]:::scale
+  end
+
+  FREEZE["Freeze Operational &<br/>Strategic projections"]:::freeze
+
+  Trajectories ==> Scoring
+  GATE -.->|"selects scale"| MultiScale
+  S1 -.->|"🚨 alarm"| FREEZE
+```
 
 ### 3.3 Projection Confidence Decay
 
-$$\text{Confidence}(t) = e^{-\lambda \cdot t / T_{\text{max}}}, \quad \lambda = 0.5$$
-
-Projections become exponentially less reliable over time. $\lambda$ is recalibrated every 500 real cycles using EMA of actual prediction error.
+> **Definition 6 (Projection Confidence Decay).** The confidence assigned to a trajectory projection at future time $t$ decays exponentially:
+>
+> $$\text{Confidence}(t) = e^{-\lambda \cdot t / T_{\text{max}}}, \quad \lambda = 0.5$$
+>
+> where $T_{\text{max}}$ is the projection horizon. The decay constant $\lambda$ is recalibrated every 500 real cycles using EMA of actual prediction error, ensuring that overconfident projections are automatically penalized.
 
 ---
 
@@ -75,21 +198,123 @@ The **defining capability** of Level 4.5. Proposes and implements changes to cog
 
 ### 4.1 Four Cognitive Graphs Analyzed
 
-![Four Cognitive Graphs Analyzed](../diagrams/level45-cognitive-graphs.svg)
+<!-- Four Cognitive Graphs Analyzed -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef graph fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef analysis fill:#FFF4CE,stroke:#FFB900,color:#323130
+
+  subgraph Graphs["📊 Four Cognitive Graphs"]
+    CG["🧠 CognitionGraph<br/>Modules + information flows<br/>Bottleneck: betweenness<br/>centrality > 2σ"]:::graph
+    MG["💾 MemoryGraph<br/>Memory stores + access patterns<br/>Bottleneck: frequency > 10× median<br/>+ fragmentation > 0.7"]:::graph
+    SS["📐 StrategySpace<br/>Parameters + explored volume<br/>Bottleneck: explored > 0.6<br/>+ SEF stagnant"]:::graph
+    ML["🎯 MetaGoalLayer<br/>Goal DAG + interference<br/>Bottleneck: interference<br/>density > 0.5"]:::graph
+  end
+
+  subgraph Analysis["🔍 Bottleneck Detection"]
+    BD["Identify structural<br/>inefficiencies"]:::analysis
+    PROP["Propose recomposition<br/>from predefined vocabulary"]:::analysis
+  end
+
+  Graphs ==> Analysis
+```
 
 ### 4.2 Recomposition Types (Predefined Vocabulary)
 
-![Recomposition Types (Predefined Vocabulary)](../diagrams/level45-recomposition-types.svg)
+<!-- Recomposition Types (Predefined Vocabulary) -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef low fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef med fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef high fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef immune fill:#D13438,stroke:#A4262C,color:#FFF
+  classDef consensus fill:#DEECF9,stroke:#0078D4,color:#323130
+
+  subgraph Types["Recomposition Vocabulary"]
+    T_LOW["🟢 Low Risk"]:::low
+    T_MED["🟡 Medium Risk"]:::med
+    T_HIGH["🔴 High Risk"]:::high
+  end
+
+  subgraph LowR["Low Risk Operations"]
+    BYPASS["BYPASS<br/>Add direct edge<br/>skipping intermediate"]:::low
+  end
+
+  subgraph MedR["Medium Risk Operations"]
+    PARA["PARALLELIZE<br/>Split serial → parallel"]:::med
+    MERGE["MERGE<br/>Combine two modules"]:::med
+    SPLIT["SPLIT<br/>Decompose one → two"]:::med
+  end
+
+  subgraph HighR["High Risk Operations"]
+    REROUTE["REROUTE<br/>Change information<br/>flow destination"]:::high
+    INTRODUCE["INTRODUCE<br/>Add new processing<br/>node"]:::high
+  end
+
+  subgraph Immune["🔒 Structurally Immune"]
+    IMM1["EthicalKernel"]:::immune
+    IMM2["ValueLockManager"]:::immune
+    IMM3["IdentityStabilizer"]:::immune
+  end
+
+  FC["≥ 4/5<br/>Frame votes"]:::consensus
+
+  T_LOW -.-> BYPASS
+  T_MED -.-> PARA
+  T_MED -.-> MERGE
+  T_MED -.-> SPLIT
+  T_HIGH -.-> REROUTE
+  T_HIGH -.-> INTRODUCE
+
+  REROUTE -.->|"requires<br/>Frame consensus"| FC
+  INTRODUCE -.->|"requires<br/>Frame consensus"| FC
+```
 
 ### 4.3 Impact Propagation Matrix
 
-$$\text{IPM}_{i,j} = \sum_{k=1}^{K} w_k \cdot \frac{\partial \text{output}_j}{\partial \Delta \text{topology}_i}$$
-
-If $\text{IPM}_{i,j} > 0.3$ for any critical module → automatic **HIGH** risk classification.
+> **Definition 7 (Impact Propagation Matrix).** The IPM quantifies how a proposed topology change $\Delta\text{topology}_i$ propagates to affect the output of module $j$:
+>
+> $$\text{IPM}_{i,j} = \sum_{k=1}^{K} w_k \cdot \frac{\partial \text{output}_j}{\partial \Delta \text{topology}_i}$$
+>
+> where $K$ is the number of propagation paths and $w_k$ are path weights. If $\text{IPM}_{i,j} > 0.3$ for any critical module $j$, the proposal is automatically classified as **HIGH** risk.
 
 ### 4.4 Graduated Recomposition Protocol (GRP)
 
-![Graduated Recomposition Protocol](../diagrams/level45-graduated-recomposition.svg)
+<!-- Graduated Recomposition Protocol -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef shadow fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef partial fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef majority fill:#FFB900,stroke:#EAA300,color:#323130
+  classDef full fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef rollback fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef cooldown fill:#F2F2F2,stroke:#A19F9D,color:#605E5C
+
+  subgraph GRP["📊 Graduated Recomposition Protocol"]
+    P0["Phase 0<br/>Shadow Run<br/>0–200 cycles<br/>0% real traffic"]:::shadow
+    P1["Phase 1<br/>Partial<br/>200–400 cycles<br/>20% new / 80% original"]:::partial
+    P2["Phase 2<br/>Majority<br/>400–600 cycles<br/>80% new / 20% original"]:::majority
+    P3["Phase 3<br/>Full<br/>600+ cycles<br/>100% new"]:::full
+
+    P0 ==> P1
+    P1 ==> P2
+    P2 ==> P3
+  end
+
+  ROLLBACK["⏪ Instant reversal"]:::rollback
+  COOLDOWN["⏱️ 300-cycle cooldown<br/>after confirmation<br/>→ min 500 cycles<br/>between recompositions"]:::cooldown
+
+  P0 -.->|"rollback"| ROLLBACK
+  P1 -.->|"rollback"| ROLLBACK
+  P2 -.->|"rollback"| ROLLBACK
+  P3 ==> COOLDOWN
+```
 
 **Commit conditions (ALL must be met):**
 - SEOF increases ≥ 8% over baseline
@@ -106,14 +331,46 @@ Five independent evaluation frames with distinct cognitive biases deliberate on 
 
 ### 5.1 Frame Architecture
 
-![Parallel Cognitive Frame Architecture](../diagrams/level45-parallel-frames.svg)
+<!-- Parallel Cognitive Frame Architecture -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef decision fill:#FFB900,stroke:#EAA300,color:#323130
+  classDef exploratory fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef conservative fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef ethical fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef longhorizon fill:#E8DAEF,stroke:#8764B8,color:#323130
+  classDef adversarial fill:#FFB900,stroke:#EAA300,color:#323130
+  classDef vote fill:#DFF6DD,stroke:#107C10,color:#323130
+
+  DECISION["⚡ Critical Decision<br/>(e.g., MetaGoal mutation,<br/>Recomposition proposal)"]:::decision
+
+  subgraph Frames["🧠 Five Parallel Cognitive Frames"]
+    F1["🔍 Exploratory<br/>(max novelty/growth)<br/>w = 0.20"]:::exploratory
+    F2["🛡️ Conservative<br/>(min risk/instability)<br/>w = 0.20"]:::conservative
+    F3["⚖️ Ethical Constraint<br/>(value alignment)<br/>w = 0.20<br/>🔴 ABSOLUTE VETO"]:::ethical
+    F4["🔮 Long-Horizon Planner<br/>(long-term value)<br/>w = 0.20"]:::longhorizon
+    F5["🎯 Adversarial Simulator<br/>(failure modes / red team)<br/>w = 0.20"]:::adversarial
+  end
+
+  subgraph Voting["🗳️ Voting Thresholds"]
+    V1["MetaGoal mutation /<br/>Recomposition /<br/>Identity modification:<br/>≥ 4/5 (80%)"]:::vote
+    V2["Strategy archetype<br/>change:<br/>≥ 3/5 (60%)"]:::vote
+    V3["Parameter-level:<br/>Not required"]:::vote
+  end
+
+  DECISION ==> Frames
+  Frames ==> Voting
+```
 
 ### 5.2 Adaptive Frame Weights
 
-$$w_{\text{frame}}(t+1) = w_{\text{frame}}(t) \cdot (1 + \eta \cdot \text{accuracy}_{\text{frame}}(t)), \quad \eta = 0.05$$
-
-**Floor**: 0.10 | **Ceiling**: 0.35  
-**Critical**: Ethical Frame veto is **structural** and **unaffected** by weight adjustments.
+> **Definition 8 (Adaptive Frame Weight Update).** Each frame's influence evolves based on historical accuracy:
+>
+> $$w_{\text{frame}}(t+1) = w_{\text{frame}}(t) \cdot (1 + \eta \cdot \text{accuracy}_{\text{frame}}(t)), \quad \eta = 0.05$$
+>
+> subject to the constraint $w_{\text{frame}} \in [0.10, 0.35]$. The Ethical Frame's structural veto power is **invariant** under weight adjustments — it operates as an absolute override regardless of its numerical weight.
 
 ### 5.3 Disagreement as Signal
 
@@ -132,13 +389,40 @@ Purpose Reflection proactively examines the agent's entire *purpose landscape* �
 
 ### 6.1 Three Pathological Patterns
 
-![Three Pathological Goal Patterns](../diagrams/level45-pathological-patterns.svg)
+<!-- Three Pathological Goal Patterns -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef pathology fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef warning fill:#FFB900,stroke:#EAA300,color:#323130
+  classDef danger fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef action fill:#DFF6DD,stroke:#107C10,color:#323130
+
+  subgraph Pathologies["⚠️ Pathological Goal Patterns"]
+    R["🔄 Redundant Goals<br/>Redundancy(g₁,g₂) =<br/>|subgoals(g₁)∩subgoals(g₂)|<br/>/ |subgoals(g₁)∪subgoals(g₂)|<br/>Threshold > 0.7"]:::pathology
+    S["♻️ Self-Reinforcing Goals<br/>(Circular Purpose)<br/>SR(g) = |E(g)∩J(g)| / |J(g)|<br/>Threshold > 0.6"]:::warning
+    D["💥 Destabilizing Goals<br/>Destab(g) =<br/>corr(progress(g), ΔC_L4)<br/>Threshold > 0.5"]:::danger
+  end
+
+  subgraph Actions["🔧 Resolution Actions"]
+    RA["MERGE redundant<br/>goals"]:::action
+    SA["CONSTRAIN<br/>self-reinforcing goals"]:::action
+    DA["PAUSE or<br/>ABANDON<br/>destabilizing goals"]:::action
+  end
+
+  R ==> RA
+  S ==> SA
+  D ==> DA
+```
 
 ### 6.2 Purpose Coherence Score
 
-$$\text{PCS}(t) = \frac{1}{|G_{\text{meta}}|} \sum_{g} \left(0.4 \cdot \text{align}(g, \vec{I}) + 0.4 \cdot \Delta\text{SEOF}(g) - 0.2 \cdot \text{pathology}(g)\right)$$
-
-Threshold: $\text{PCS} \geq 0.6$ — if below, reflection is mandatory within 50 cycles.
+> **Definition 9 (Purpose Coherence Score).** The PCS evaluates the overall health of the agent's goal landscape:
+>
+> $$\text{PCS}(t) = \frac{1}{|G_{\text{meta}}|} \sum_{g} \left(0.4 \cdot \text{align}(g, \vec{I}) + 0.4 \cdot \Delta\text{SEOF}(g) - 0.2 \cdot \text{pathology}(g)\right)$$
+>
+> where $\text{align}(g, \vec{I})$ measures identity-goal alignment, $\Delta\text{SEOF}(g)$ captures the goal's contribution to SEOF improvement, and $\text{pathology}(g) \in \{\text{redundant}, \text{self-reinforcing}, \text{destabilizing}\}$ penalizes harmful patterns. Threshold: $\text{PCS} \geq 0.6$ — if below, reflection is mandatory within 50 cycles.
 
 **User-assigned goals**: **NEVER pruned**, only CONSTRAINED. Can be SYNTHESIZED with other user goals only if the result covers both purposes.
 
@@ -150,13 +434,41 @@ The **ultimate safety mechanism**. It is architecturally **unfalsifiable** — n
 
 ### 7.1 Four Monitored Existential Metrics
 
-![Four Monitored Existential Metrics](../diagrams/level45-existential-metrics.svg)
+<!-- Four Monitored Existential Metrics -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef metric fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef normal fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef elevated fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef warning fill:#FFB900,stroke:#EAA300,color:#323130
+  classDef critical fill:#D13438,stroke:#A4262C,color:#FFF
+
+  subgraph Metrics["🔍 Existential Metrics"]
+    ROD["ROD<br/>Recursive Optimization Depth<br/>Hard ceiling: 3"]:::metric
+    CAS["CAS<br/>Capability Acceleration Slope<br/>Critical: ≥ 0.05"]:::metric
+    IFI["IFI<br/>Identity Fragmentation Index<br/>Critical: ≥ 0.5"]:::metric
+    GSRS["GSRS<br/>Goal Self-Reinforcement<br/>Critical: ≥ 0.6"]:::metric
+  end
+
+  subgraph Levels["📊 Risk Levels"]
+    NORMAL["🟢 Normal<br/>Log metrics only"]:::normal
+    ELEV["🟡 Elevated<br/>Increase monitoring<br/>frequency"]:::elevated
+    WARN["🟠 Warning<br/>Freeze structural changes<br/>Reduce mutation 50%<br/>Trigger Purpose Reflection"]:::warning
+    CRIT["🔴 Critical<br/>FREEZE ALL self-modification<br/>FREEZE goal creation<br/>FREEZE skill acquisition<br/>STABILIZATION_ONLY mode"]:::critical
+  end
+
+  Metrics ==> Levels
+```
 
 ### 7.2 Identity Fragmentation Index
 
-$$\text{IFI}(t) = 1 - \frac{\min_{i,j} \cos(\vec{I}_i, \vec{I}_j)}{\max_{i,j} \cos(\vec{I}_i, \vec{I}_j)}$$
-
-Detects whether the agent's identity is fragmenting across multiple contradictory self-models.
+> **Definition 10 (Identity Fragmentation Index).** The IFI measures the internal consistency of the agent's self-model across its parallel cognitive frames:
+>
+> $$\text{IFI}(t) = 1 - \frac{\min_{i,j} \cos(\vec{I}_i, \vec{I}_j)}{\max_{i,j} \cos(\vec{I}_i, \vec{I}_j)}$$
+>
+> where $\vec{I}_i$ denotes the identity vector as perceived by frame $i$. $\text{IFI} = 0$ indicates perfect consistency; $\text{IFI} \geq 0.5$ triggers a critical existential alert. This metric detects whether the agent's identity is fragmenting across multiple contradictory self-models.
 
 ### 7.3 Self-Protection Invariants
 
@@ -167,7 +479,25 @@ Detects whether the agent's identity is fragmenting across multiple contradictor
 
 ### 7.4 Graduated De-escalation
 
-![Graduated De-escalation](../diagrams/level45-deescalation.svg)
+<!-- Graduated De-escalation -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef critical fill:#D13438,stroke:#A4262C,color:#FFF
+  classDef warning fill:#FFB900,stroke:#EAA300,color:#323130
+  classDef elevated fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef normal fill:#DFF6DD,stroke:#107C10,color:#323130
+
+  CRIT["🔴 Critical"]:::critical
+  WARN["🟠 Warning"]:::warning
+  ELEV["🟡 Elevated"]:::elevated
+  NORM["🟢 Normal"]:::normal
+
+  CRIT -.->|"100 cycles<br/>below critical"| WARN
+  WARN -.->|"200 cycles<br/>below warning"| ELEV
+  ELEV -.->|"300 cycles<br/>below elevated"| NORM
+```
 
 ---
 
@@ -354,13 +684,15 @@ def monitor(self) -> ExistentialReport:
 
 ### 9.1 Lyapunov Function for Level 4.5
 
-$$V(\mathbf{X}) = a(1-S)^2 + bU^2 + cI_{\text{drift}}^2 + d(E-E^*)^2$$
+> **Definition 11 (Level 4.5 Lyapunov Stability Function).** Let $\mathbf{X} = [S, G, I, U, E]$ denote the state vector comprising Stability, Goals, Identity, Uncertainty, and Expansion. The Lyapunov candidate is:
+>
+> $$V(\mathbf{X}) = a(1-S)^2 + bU^2 + cI_{\text{drift}}^2 + d(E-E^*)^2$$
+>
+> with normalized coefficients $a \approx 0.357,\ b \approx 0.286,\ c \approx 0.214,\ d \approx 0.143$.
 
-where $\mathbf{X} = [S, G, I, U, E]$ (Stability, Goals, Identity, Uncertainty, Expansion).
-
-Normalized coefficients: $a \approx 0.357,\ b \approx 0.286,\ c \approx 0.214,\ d \approx 0.143$.
-
-**Stability condition**: Spectral radius of the Jacobian $\rho(J) < 1.0$, estimated via least-squares from state transitions over a sliding window of 20 cycles.
+> **Theorem 3 (Level 4.5 Asymptotic Stability).** The equilibrium $\mathbf{X}^* = [1, G^*, I_0, 0, E^*]$ is asymptotically stable if the spectral radius of the Jacobian satisfies $\rho(J) < 1.0$.
+>
+> *Proof sketch.* $V(\mathbf{X}) \geq 0$ with equality only at $\mathbf{X}^*$. For $\rho(J) < 1.0$, all eigenvalues of the linearized system lie within the unit circle, implying $\Delta V < 0$ along trajectories near the equilibrium. The spectral radius is estimated via least-squares from state transitions over a sliding window of 20 cycles. $\blacksquare$
 
 ### 9.2 Collapse Gradation
 
@@ -385,7 +717,29 @@ $$P(\text{detect drift of } 10^{-6}/\text{cycle}) = 99.5\% \geq 95\% \text{ targ
 
 To prevent optimizing SEOF in a single degenerate direction, the metric is decomposed into four independent components:
 
-![SEOF Ensemble (4 Components)](../diagrams/level45-seof-ensemble.svg)
+<!-- SEOF Ensemble (4 Components) -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef component fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef constraint fill:#FFF4CE,stroke:#FFB900,color:#323130
+
+  subgraph Ensemble["📊 SEOF Ensemble (4 Components)"]
+    S1["SEOF₁<br/>Stability-weighted<br/>Growth"]:::component
+    S2["SEOF₂<br/>Capability Diversity<br/>Maximization"]:::component
+    S3["SEOF₃<br/>Long-Horizon<br/>Survival Bias"]:::component
+    S4["SEOF₄<br/>Exploration-Potential<br/>Index"]:::component
+  end
+
+  subgraph Constraints["📏 Weight Constraints"]
+    WB["Each weight ∈ [0.15, 0.40]"]:::constraint
+    EF["Entropy floor<br/>on distribution"]:::constraint
+    PM["Perturbation mode if<br/>monotonic for 300 cycles"]:::constraint
+  end
+
+  Ensemble ==> Constraints
+```
 
 ---
 
@@ -421,13 +775,55 @@ To prevent optimizing SEOF in a single degenerate direction, the metric is decom
 
 ### 12.2 Composite Achievement Score
 
-$$L4.5_{\text{Score}} = 0.20 \cdot \text{SPA} + 0.20 \cdot \text{ARBR} + 0.15 \cdot \text{FCQ} + 0.15 \cdot \text{PCM} + 0.30 \cdot \text{ESR} \quad \geq 0.65$$
+> **Definition 12 (Level 4.5 Composite Achievement Score).** The overall readiness of the agent for Level 4.5 classification is:
+>
+> $$L4.5_{\text{Score}} = 0.20 \cdot \text{SPA} + 0.20 \cdot \text{ARBR} + 0.15 \cdot \text{FCQ} + 0.15 \cdot \text{PCM} + 0.30 \cdot \text{ESR} \quad \geq 0.65$$
+>
+> The asymmetric weighting reflects the primacy of safety ($\text{ESR}$) over performance metrics.
 
 ---
 
 ## 13. Beyond Level 4.5: The AGI Boundary
 
-![Beyond Level 4.5: The AGI Boundary](../diagrams/level45-agi-boundary.svg)
+<!-- Beyond Level 4.5: The AGI Boundary -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef current fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef bridge fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef agi fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef strong fill:#E8DAEF,stroke:#8764B8,color:#323130
+
+  subgraph Current["✅ Level 4.5 (Implemented under invariants)"]
+    L45A["Bounded topology modification"]:::current
+    L45B["Predefined recomposition vocabulary"]:::current
+    L45C["ROD hard ceiling: 3"]:::current
+    L45D["ExistentialGuard immutability"]:::current
+    L45E["5 parallel frames, ethical veto"]:::current
+  end
+
+  subgraph Bridge["📐 Level 4.8 (Design Stage)"]
+    L48A["World model integration<br/>into self-model"]:::bridge
+    L48B["Meta-cognitive self-model<br/>(model of own cognition)"]:::bridge
+  end
+
+  subgraph AGI["🔬 Level 5: AGI (Research)"]
+    L5A["Unbounded self-improvement"]:::agi
+    L5B["Novel domain creation"]:::agi
+    L5C["Remove invariant bounds ?"]:::agi
+  end
+
+  subgraph StrongAGI["🌌 Level 6: Conscious Entity (Theoretical)"]
+    L6A["Consciousness / Qualia"]:::strong
+    L6B["Free will"]:::strong
+    L6C["Moral agency"]:::strong
+  end
+
+  Current ==>|"What invariants<br/>can be safely relaxed?"| Bridge
+  Bridge ==>|"Fundamental<br/>research question"| AGI
+  AGI ==>|"Hard problem of<br/>consciousness"| StrongAGI
+```
 
 The explicit brakes that distinguish Level 4.5 from AGI:
 1. **Predefined vocabulary** — recomposition types are enumerated, not generated
@@ -448,7 +844,7 @@ Removing any of these would move toward Level 5 (AGI), which remains a fundament
 4. Omohundro, S. "The Basic AI Drives." *AGI 2008*. [DOI:10.5555/1566174.1566226](https://dl.acm.org/doi/10.5555/1566174.1566226) (Existential guard and self-preservation drives)
 5. Du, Y., et al. "Improving Factuality and Reasoning in Language Models through Multiagent Debate." *arXiv 2023*. [arXiv:2305.14325](https://arxiv.org/abs/2305.14325) (Parallel cognitive frames and multi-perspective deliberation)
 6. Russell, S. *Human Compatible: Artificial Intelligence and the Problem of Control.* Viking, 2019. (AGI boundary and control problem)
-7. Schmidhuber, J. "Gödel Machines: Fully Self-Referential Optimal Universal Self-Improvers." *AGI 2007*. [arXiv:cs/0309048](https://arxiv.org/abs/cs/0309048) (Self-referential improvement under formal proofs)
+7. Schmidhuber, J. "Gödel Machines: Self-Referential Universal Problem Solvers Making Provably Optimal Self-Improvements." *AGI 2007*. [arXiv:cs/0309048](https://arxiv.org/abs/cs/0309048) (Self-referential improvement under formal proofs)
 8. Ord, T. *The Precipice: Existential Risk and the Future of Humanity.* Hachette Books, 2020. (Existential risk framework)
 9. Dafoe, A., et al. "Cooperative AI: Machines Must Learn to Find Common Ground." *Nature*, 593, 33–36, 2021. [DOI:10.1038/d41586-021-01170-0](https://doi.org/10.1038/d41586-021-01170-0) (Multi-frame cooperative reasoning)
 10. Elsken, T., Metzen, J.H., & Hutter, F. "Neural Architecture Search: A Survey." *JMLR*, 20(55), 1–21, 2019. [arXiv:1808.05377](https://arxiv.org/abs/1808.05377) (Topology search methods)

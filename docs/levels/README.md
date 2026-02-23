@@ -8,7 +8,32 @@
 
 The **Minimal Self-Consciousness Protocol (MSCP)** defines a six-level taxonomy of agent cognition, from simple tool-calling agents to the theoretical boundary of artificial general intelligence. Each level document includes architecture diagrams, pseudocode, and safety analysis based on what we've explored so far.
 
-![MSCP Agent Cognition Level Progression](../diagrams/readme-level-progression.svg)
+<!-- MSCP Agent Cognition Level Progression -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart LR
+  classDef l1 fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef l3 fill:#DFF6DD,stroke:#107C10,color:#323130,font-weight:bold
+  classDef l4 fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef l45 fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef l48 fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef l49 fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef l5 fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef l6 fill:#F2F2F2,stroke:#605E5C,color:#323130
+
+  L1["L1<br/>Tool<br/>Agent"]:::l1
+  L2["L2<br/>Autonomous<br/>Agent"]:::l1
+  L3["L3<br/>Self-Regulating<br/>Agent<br/>★ MSCP Core"]:::l3
+  L4["L4<br/>Adaptive<br/>General Agent"]:::l4
+  L45["L4.5<br/>Pre-AGI<br/>Self-Architecting"]:::l45
+  L48["L4.8<br/>Strategic<br/>Self-Modeling"]:::l48
+  L49["L4.9<br/>Autonomous<br/>Strategic Agent"]:::l49
+  L5["L5<br/>Proto-AGI"]:::l5
+  L6["L6<br/>Conscious<br/>Entity"]:::l6
+
+  L1 -.-> L2 -.-> L3 -.-> L4 -.-> L45 -.-> L48 -.-> L49 -.-> L5 -.-> L6
+```
 
 ---
 
@@ -30,7 +55,53 @@ The **Minimal Self-Consciousness Protocol (MSCP)** defines a six-level taxonomy 
 
 ## Cumulative Safety Mechanisms by Level
 
-![Cumulative Safety Mechanisms by Level](../diagrams/readme-safety-mechanisms.svg)
+<!-- Cumulative Safety Mechanisms by Level -->
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef l1 fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef l3 fill:#DFF6DD,stroke:#107C10,color:#323130
+  classDef l4 fill:#FFF4CE,stroke:#FFB900,color:#323130
+  classDef l45 fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef l48 fill:#E8D5F5,stroke:#8764B8,color:#323130
+  classDef l49 fill:#FDE7E9,stroke:#D13438,color:#323130
+  classDef l5 fill:#FFF4CE,stroke:#FFB900,color:#323130
+
+  subgraph L1S["Level 1"]
+    S1["**Input validation** · Error handling"]:::l1
+  end
+
+  subgraph L2S["Level 2 (adds)"]
+    S2["**Persistent world model** · Goal priority management"]:::l1
+  end
+
+  subgraph L3S["Level 3 (adds)"]
+    S3["**Identity hash tracking** · Delta-clamped updates (0.05)<br/>Prediction-gated actions · Escalation guard (max 3)<br/>Ethical Kernel (L0+L1) · Value lock (SHA-256)<br/>Lyapunov convergence C(t) · Cognitive budget + degradation<br/>Belief graph consistency · Affective inertia + decay<br/>Survival instinct bounds"]:::l3
+  end
+
+  subgraph L4S["Level 4 (adds)"]
+    S4["**BGSS ≥ 0.7 floor** · ShadowAgent simulation<br/>7-step modification protocol · Single-mod atomicity<br/>Strategy oscillation suppression · Skill lifecycle management<br/>Growth-stability zones · 6 meta-supervisory processes"]:::l4
+  end
+
+  subgraph L45S["Level 4.5 (adds)"]
+    S5["**Existential Guard (unfalsifiable)** · Parallel frame ethical veto<br/>Graduated recomposition protocol · ROD ceiling (depth 3)<br/>SEOF ensemble (anti-overfitting) · Purpose coherence monitoring<br/>Identity fragmentation detection · 8 global invariants"]:::l45
+  end
+
+  subgraph L48S["Level 4.8 (adds)"]
+    S6["**Probabilistic world model** · Causal reasoning engine<br/>Capability matrix + weakness mapping<br/>Multi-horizon strategic planning<br/>Resource budget optimization · Stability-preserving planning"]:::l48
+  end
+
+  subgraph L49S["Level 4.9 (adds)"]
+    S7["**Autonomous goal generation** · Value evolution sandbox<br/>Resource survival modeling · Multi-agent belief modeling<br/>Trust calibration · Autonomy stability verification"]:::l49
+  end
+
+  subgraph L5S["Level 5 (adds)"]
+    S8["**Persistent identity (10K+ cycles)** · Cross-domain generalization<br/>Self-sustaining goal ecology · Existential resilience<br/>Deception detection · Self-reconstruction capability"]:::l5
+  end
+
+  L1S -.-> L2S -.-> L3S -.-> L4S -.-> L45S -.-> L48S -.-> L49S -.-> L5S
+```
 
 ---
 
