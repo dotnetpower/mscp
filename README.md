@@ -124,6 +124,11 @@ mscp/
 
 ---
 
+## Author
+
+**Moon Hyuk Choi** — [moonchoi@microsoft.com](mailto:moonchoi@microsoft.com)
+Microsoft Cloud & AI Apps CSA
+
 ## Contributing
 
 This is very much a work in progress. Feedback, critique, and contributions are welcome as we collectively figure out how to build AI agents that are not just more powerful, but fundamentally more trustworthy.

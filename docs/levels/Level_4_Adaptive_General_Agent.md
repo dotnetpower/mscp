@@ -286,31 +286,36 @@ flowchart TD
   TRIGGER["CGS > 0.7<br/>+ budget ok<br/>+ stable"]:::trigger
 
   subgraph Phase1["Phase 1: ACQUISITION"]
-    P1["Identify skill gap<br/>Search for patterns<br/>Budget: max 10%"]:::phase
-    P1OUT["→ CapabilityHypothesis"]:::phase
+    direction LR
+    P1["Identify gap + search patterns"]:::phase
+    P1OUT["→ Hypothesis"]:::phase
     P1 ==> P1OUT
   end
 
   subgraph Phase2["Phase 2: EXPERIMENT"]
-    P2["Design experiments<br/>Max 5 experiments<br/>Budget: max 20% each"]:::phase
-    P2OUT["→ ExperimentResults"]:::phase
+    direction LR
+    P2["Design experiments (max 5)"]:::phase
+    P2OUT["→ Results"]:::phase
     P2 ==> P2OUT
   end
 
   subgraph Phase3["Phase 3: EVALUATION"]
-    P3["Analyze results<br/>Compute confidence<br/>Check stability impact"]:::eval
-    P3OUT["→ EvaluationReport"]:::eval
+    direction LR
+    P3["Analyze + confidence check"]:::eval
+    P3OUT["→ Report"]:::eval
     P3 ==> P3OUT
   end
 
   subgraph Phase4["Phase 4: ABSTRACTION"]
-    P4["Extract general pattern<br/>Create context signature<br/>Requires confidence > 0.6"]:::abstract
+    direction LR
+    P4["Extract pattern (conf > 0.6)"]:::abstract
     P4OUT["→ Candidate Skill"]:::abstract
     P4 ==> P4OUT
   end
 
   subgraph Phase5["Phase 5: VALIDATION"]
-    P5{"Identity stability > 0.7?<br/>Ethical check passed?<br/>C(t) not degraded?"}:::safety
+    direction LR
+    P5{"Identity > 0.7? Ethics? C(t)?"}:::safety
   end
 
   COMMIT["COMMIT<br/>Skill added"]:::commit

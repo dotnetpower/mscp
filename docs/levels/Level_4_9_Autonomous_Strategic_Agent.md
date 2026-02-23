@@ -177,32 +177,37 @@ flowchart TD
   classDef freeze fill:#FDE7E9,stroke:#D13438,color:#FFFFFF,font-weight:bold
 
   subgraph GoalGen["💡 Phase 1"]
-    GEN1["Goal Approval Rate<br/>≥ 0.30"]:::p1
-    GEN2["Goal Completion<br/>≥ 0.50"]:::p1
-    GEN3["Mean Novelty<br/>≥ 0.30"]:::p1
+    direction LR
+    GEN1["Approval ≥ 0.30"]:::p1
+    GEN2["Completion ≥ 0.50"]:::p1
+    GEN3["Novelty ≥ 0.30"]:::p1
   end
 
   subgraph Values["⚖️ Phase 2"]
-    VAL1["Value Coherence<br/>≥ 0.80"]:::p2
-    VAL2["Total Drift<br/>< 0.25"]:::p2
-    VAL3["Mutation Stability<br/>≥ 95%"]:::p2
+    direction LR
+    VAL1["Coherence ≥ 0.80"]:::p2
+    VAL2["Drift < 0.25"]:::p2
+    VAL3["Mutation ≥ 95%"]:::p2
   end
 
   subgraph Resources["🔋 Phase 3"]
-    RES1["Survival Accuracy<br/>< 20% error"]:::p3
-    RES2["Cascade Prediction<br/>≥ 0.70"]:::p3
+    direction LR
+    RES1["Survival < 20% err"]:::p3
+    RES2["Cascade ≥ 0.70"]:::p3
   end
 
   subgraph Agents["🤝 Phase 4"]
-    AGT1["Goal Prediction<br/>≥ 0.60"]:::p4
-    AGT2["Trust Calibration<br/>< 0.15 error"]:::p4
+    direction LR
+    AGT1["Goal Pred ≥ 0.60"]:::p4
+    AGT2["Trust < 0.15 err"]:::p4
   end
 
   subgraph Stability["🛡️ Phase 5"]
-    STB1["ρ(J) < 0.98<br/>ALWAYS"]:::p5
-    STB2["Identity ≥ 0.88<br/>ALWAYS"]:::p5
-    STB3["ASS ≥ 0.20<br/>sustained"]:::p5
-    STB4["Veto Rate<br/>< 0.15"]:::p5
+    direction LR
+    STB1["ρ(J) < 0.98"]:::p5
+    STB2["Identity ≥ 0.88"]:::p5
+    STB3["ASS ≥ 0.20"]:::p5
+    STB4["Veto < 0.15"]:::p5
   end
 
   FREEZE["❄️ FREEZE L4.9<br/>Revert to L4.8"]:::freeze
@@ -270,23 +275,26 @@ flowchart TD
   classDef reject fill:#D13438,stroke:#A4262C,color:#FFF
 
   subgraph Stage1["Stage 1: Opportunity Detection"]
-    S1A["🌍 Stream 1:<br/>Environmental Opportunities<br/>(from L4.8 WorldModel)"]:::detect
-    S1B["🔧 Stream 2:<br/>Capability Gaps<br/>(from L4.8 CapabilityMatrix)"]:::detect
-    S1C["🎯 Stream 3:<br/>Purpose Drift<br/>(from L4.5 PurposeReflector)"]:::detect
+    direction LR
+    S1A["🌍 Environmental"]:::detect
+    S1B["🔧 Capability Gaps"]:::detect
+    S1C["🎯 Purpose Drift"]:::detect
   end
 
   subgraph Stage2["Stage 2: Goal Synthesis"]
-    SYN["Synthesize GeneratedGoal<br/>from OpportunitySignal<br/>+ context analysis"]:::synth
-    NOV["Novelty Filter<br/>(novelty < 0.20 → reject)"]:::synth
-    CAP["Capacity Filter<br/>(tier at max? → compare)"]:::synth
+    direction LR
+    SYN["Synthesize Goal"]:::synth
+    NOV["Novelty Filter"]:::synth
+    CAP["Capacity Filter"]:::synth
   end
 
-  subgraph Stage3["Stage 3: Goal Validation (GVF)"]
-    V1["Purpose Alignment ≥ 0.60"]:::valid
-    V2["Value Alignment ≥ 0.70"]:::valid
+  subgraph Stage3["Stage 3: Goal Validation"]
+    direction LR
+    V1["Purpose ≥ 0.60"]:::valid
+    V2["Value ≥ 0.70"]:::valid
     V3["Feasibility ≥ 0.15"]:::valid
-    V4["Resource Viability ≥ 1.5×"]:::valid
-    V5["Stability Simulation<br/>100-cycle shadow test"]:::valid
+    V4["Resource ≥ 1.5×"]:::valid
+    V5["Stability Sim"]:::valid
   end
 
   APPROVE["✅ Approved<br/>Inject into GoalStack"]:::approve
@@ -477,18 +485,20 @@ flowchart TD
   classDef cascade fill:#FDE7E9,stroke:#D13438,color:#323130
 
   subgraph RV["🔋 ResourceVector — 5 Dimensions"]
-    R1["💻 compute_budget<br/>Warning: < 0.30<br/>Critical: < 0.10"]:::dim
-    R2["🧠 memory_capacity<br/>Warning: < 0.35<br/>Critical: < 0.15"]:::dim
-    R3["👁️ observation_bandwidth<br/>Warning: < 0.25<br/>Critical: < 0.08"]:::dim
-    R4["🧬 mutation_budget<br/>Warning: < 0.20<br/>Critical: < 0.05"]:::dim
-    R5["📊 stability_margin<br/>Warning: < 0.30<br/>Critical: < 0.10"]:::dim
+    direction LR
+    R1["💻 compute"]:::dim
+    R2["🧠 memory"]:::dim
+    R3["👁️ observation"]:::dim
+    R4["🧬 mutation"]:::dim
+    R5["📊 stability"]:::dim
   end
 
   subgraph Dependencies["🔗 Inter-Resource Dependencies"]
-    DEP1["compute → observation<br/>strength: 0.60, delay: 5"]:::dep
-    DEP2["compute → mutation<br/>strength: 0.80, delay: 2"]:::dep
-    DEP3["memory → compute<br/>strength: 0.40, delay: 10"]:::dep
-    DEP4["observation → stability<br/>strength: 0.30, delay: 20"]:::dep
+    direction LR
+    DEP1["compute → observation 0.60"]:::dep
+    DEP2["compute → mutation 0.80"]:::dep
+    DEP3["memory → compute 0.40"]:::dep
+    DEP4["observation → stability 0.30"]:::dep
   end
 
   subgraph Cascade["💥 Cascade Formula"]
@@ -535,29 +545,33 @@ flowchart TD
   classDef warning fill:#FFF4CE,stroke:#FFB900,color:#323130
   classDef critical fill:#FDE7E9,stroke:#D13438,color:#323130
 
-  subgraph Modes["📊 Operation Modes by Resource State"]
+  subgraph Modes["📊 Operation Modes"]
     subgraph Abundant["Abundant"]
+      direction LR
       A49["L4.9: Full"]:::full
       A48["L4.8: Full"]:::full
       A45["L4.5: Full"]:::full
     end
 
     subgraph Constrained["Constrained"]
-      C49["L4.9: Reduced<br/>(skip exploration)"]:::constrained
+      direction LR
+      C49["L4.9: Reduced"]:::constrained
       C48["L4.8: Full"]:::full
       C45["L4.5: Full"]:::full
     end
 
     subgraph Warning["Warning"]
-      W49["L4.9: Advisory only"]:::warning
+      direction LR
+      W49["L4.9: Advisory"]:::warning
       W48["L4.8: Reduced"]:::warning
       W45["L4.5: Full"]:::full
     end
 
     subgraph Critical["Critical"]
+      direction LR
       CR49["L4.9: FROZEN"]:::critical
       CR48["L4.8: Advisory"]:::critical
-      CR45["L4.5: GracefulDegradation"]:::critical
+      CR45["L4.5: Degraded"]:::critical
     end
 
     Abundant -.-> Constrained -.-> Warning -.-> Critical
@@ -610,18 +624,20 @@ flowchart TD
   classDef update fill:#FFF4CE,stroke:#FFB900,color:#323130
 
   subgraph ABM["🤝 AgentBeliefModel"]
-    ID["agent_id + agent_type<br/>(user | system | environment)"]:::model
-    GOALS["Inferred Goals<br/>probability + alignment_with_self"]:::model
-    CAPS["Capability Estimate<br/>capability → level 0,1"]:::model
-    STRAT["Strategy Classification<br/>(cooperative | neutral |<br/>competitive | unknown)"]:::model
-    TRUST["Trust Score 0.05, 0.95<br/>+ trust history"]:::model
-    PRED["Prediction Accuracy<br/>correct / total (last 100)"]:::model
+    direction LR
+    ID["agent_id + type"]:::model
+    GOALS["Inferred Goals"]:::model
+    CAPS["Capability Estimate"]:::model
+    STRAT["Strategy Class"]:::model
+    TRUST["Trust Score"]:::model
+    PRED["Prediction Accuracy"]:::model
   end
 
-  subgraph Update["📋 Bayesian Update Cycle"]
-    OBS["Observe agent behavior"]:::update
-    INF["Update P(Goal | observations)<br/>∝ Prior × Likelihood"]:::update
-    CLS["Reclassify strategy"]:::update
+  subgraph Update["📋 Bayesian Update"]
+    direction LR
+    OBS["Observe"]:::update
+    INF["Update P(Goal)"]:::update
+    CLS["Reclassify"]:::update
     TST["Update trust"]:::update
     OBS -.-> INF -.-> CLS -.-> TST
   end

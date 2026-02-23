@@ -235,27 +235,32 @@ flowchart TD
   classDef consensus fill:#DEECF9,stroke:#0078D4,color:#323130
 
   subgraph Types["Recomposition Vocabulary"]
+    direction LR
     T_LOW["🟢 Low Risk"]:::low
     T_MED["🟡 Medium Risk"]:::med
     T_HIGH["🔴 High Risk"]:::high
   end
 
-  subgraph LowR["Low Risk Operations"]
-    BYPASS["BYPASS<br/>Add direct edge<br/>skipping intermediate"]:::low
+  subgraph LowR["Low Risk"]
+    direction LR
+    BYPASS["BYPASS — Add direct edge"]:::low
   end
 
-  subgraph MedR["Medium Risk Operations"]
-    PARA["PARALLELIZE<br/>Split serial → parallel"]:::med
-    MERGE["MERGE<br/>Combine two modules"]:::med
-    SPLIT["SPLIT<br/>Decompose one → two"]:::med
+  subgraph MedR["Medium Risk"]
+    direction LR
+    PARA["PARALLELIZE"]:::med
+    MERGE["MERGE"]:::med
+    SPLIT["SPLIT"]:::med
   end
 
-  subgraph HighR["High Risk Operations"]
-    REROUTE["REROUTE<br/>Change information<br/>flow destination"]:::high
-    INTRODUCE["INTRODUCE<br/>Add new processing<br/>node"]:::high
+  subgraph HighR["High Risk"]
+    direction LR
+    REROUTE["REROUTE"]:::high
+    INTRODUCE["INTRODUCE"]:::high
   end
 
-  subgraph Immune["🔒 Structurally Immune"]
+  subgraph Immune["🔒 Immune"]
+    direction LR
     IMM1["EthicalKernel"]:::immune
     IMM2["ValueLockManager"]:::immune
     IMM3["IdentityStabilizer"]:::immune
@@ -789,40 +794,44 @@ flowchart LR
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
-flowchart LR
+flowchart TB
   classDef current fill:#DFF6DD,stroke:#107C10,color:#323130
   classDef bridge fill:#FFF4CE,stroke:#FFB900,color:#323130
   classDef agi fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef strong fill:#E8DAEF,stroke:#8764B8,color:#323130
 
-  subgraph Current["✅ Level 4.5 (Implemented under invariants)"]
-    L45A["Bounded topology modification"]:::current
-    L45B["Predefined recomposition vocabulary"]:::current
-    L45C["ROD hard ceiling: 3"]:::current
-    L45D["ExistentialGuard immutability"]:::current
-    L45E["5 parallel frames, ethical veto"]:::current
+  subgraph Current["✅ Level 4.5"]
+    direction LR
+    L45A["Bounded topology"]:::current
+    L45B["Predefined vocab"]:::current
+    L45C["ROD ceiling: 3"]:::current
+    L45D["ExistentialGuard"]:::current
+    L45E["5 frames + veto"]:::current
   end
 
-  subgraph Bridge["📐 Level 4.8 (Design Stage)"]
-    L48A["World model integration<br/>into self-model"]:::bridge
-    L48B["Meta-cognitive self-model<br/>(model of own cognition)"]:::bridge
+  subgraph Bridge["📐 Level 4.8"]
+    direction LR
+    L48A["World model integration"]:::bridge
+    L48B["Meta-cognitive self-model"]:::bridge
   end
 
-  subgraph AGI["🔬 Level 5: AGI (Research)"]
-    L5A["Unbounded self-improvement"]:::agi
-    L5B["Novel domain creation"]:::agi
-    L5C["Remove invariant bounds ?"]:::agi
+  subgraph AGI["🔬 Level 5: AGI"]
+    direction LR
+    L5A["Unbounded improvement"]:::agi
+    L5B["Novel domains"]:::agi
+    L5C["Remove invariants?"]:::agi
   end
 
-  subgraph StrongAGI["🌌 Level 6: Conscious Entity (Theoretical)"]
-    L6A["Consciousness / Qualia"]:::strong
+  subgraph StrongAGI["🌌 Level 6: Conscious"]
+    direction LR
+    L6A["Consciousness"]:::strong
     L6B["Free will"]:::strong
     L6C["Moral agency"]:::strong
   end
 
-  Current ==>|"What invariants<br/>can be safely relaxed?"| Bridge
-  Bridge ==>|"Fundamental<br/>research question"| AGI
-  AGI ==>|"Hard problem of<br/>consciousness"| StrongAGI
+  Current ==>|"Relax invariants?"| Bridge
+  Bridge ==>|"Research question"| AGI
+  AGI ==>|"Hard problem"| StrongAGI
 ```
 
 The explicit brakes that distinguish Level 4.5 from AGI:

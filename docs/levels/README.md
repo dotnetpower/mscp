@@ -12,7 +12,7 @@ The **Minimal Self-Consciousness Protocol (MSCP)** defines a six-level taxonomy 
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
-flowchart LR
+flowchart TB
   classDef l1 fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef l3 fill:#DFF6DD,stroke:#107C10,color:#323130,font-weight:bold
   classDef l4 fill:#FFF4CE,stroke:#FFB900,color:#323130
@@ -22,17 +22,22 @@ flowchart LR
   classDef l5 fill:#FFF4CE,stroke:#FFB900,color:#323130
   classDef l6 fill:#F2F2F2,stroke:#605E5C,color:#323130
 
-  L1["L1<br/>Tool<br/>Agent"]:::l1
-  L2["L2<br/>Autonomous<br/>Agent"]:::l1
-  L3["L3<br/>Self-Regulating<br/>Agent<br/>★ MSCP Core"]:::l3
-  L4["L4<br/>Adaptive<br/>General Agent"]:::l4
-  L45["L4.5<br/>Pre-AGI<br/>Self-Architecting"]:::l45
-  L48["L4.8<br/>Strategic<br/>Self-Modeling"]:::l48
-  L49["L4.9<br/>Autonomous<br/>Strategic Agent"]:::l49
-  L5["L5<br/>Proto-AGI"]:::l5
-  L6["L6<br/>Conscious<br/>Entity"]:::l6
+  subgraph Row1["Foundation"]
+    direction LR
+    L1["L1 Tool Agent"]:::l1 -.-> L2["L2 Autonomous Agent"]:::l1 -.-> L3["L3 Self-Regulating ★"]:::l3
+  end
 
-  L1 -.-> L2 -.-> L3 -.-> L4 -.-> L45 -.-> L48 -.-> L49 -.-> L5 -.-> L6
+  subgraph Row2["Advanced"]
+    direction LR
+    L4["L4 Adaptive General"]:::l4 -.-> L45["L4.5 Self-Architecting"]:::l45 -.-> L48["L4.8 Strategic Self-Model"]:::l48
+  end
+
+  subgraph Row3["Proto-AGI+"]
+    direction LR
+    L49["L4.9 Autonomous Strategic"]:::l49 -.-> L5["L5 Proto-AGI"]:::l5 -.-> L6["L6 Conscious Entity"]:::l6
+  end
+
+  Row1 --> Row2 --> Row3
 ```
 
 ---
@@ -69,35 +74,59 @@ flowchart TD
   classDef l5 fill:#FFF4CE,stroke:#FFB900,color:#323130
 
   subgraph L1S["Level 1"]
-    S1["**Input validation** · Error handling"]:::l1
+    direction LR
+    S1["Input validation · Error handling"]:::l1
   end
 
   subgraph L2S["Level 2 (adds)"]
-    S2["**Persistent world model** · Goal priority management"]:::l1
+    direction LR
+    S2["Persistent world model · Goal priority"]:::l1
   end
 
   subgraph L3S["Level 3 (adds)"]
-    S3["**Identity hash tracking** · Delta-clamped updates (0.05)<br/>Prediction-gated actions · Escalation guard (max 3)<br/>Ethical Kernel (L0+L1) · Value lock (SHA-256)<br/>Lyapunov convergence C(t) · Cognitive budget + degradation<br/>Belief graph consistency · Affective inertia + decay<br/>Survival instinct bounds"]:::l3
+    direction LR
+    S3A["Identity hash · Delta clamp 0.05"]:::l3
+    S3B["Prediction gate · Escalation guard"]:::l3
+    S3C["Ethical Kernel · Value lock"]:::l3
+    S3D["Lyapunov C(t) · Budget + degrade"]:::l3
+    S3E["Belief graph · Affect · Survival"]:::l3
   end
 
   subgraph L4S["Level 4 (adds)"]
-    S4["**BGSS ≥ 0.7 floor** · ShadowAgent simulation<br/>7-step modification protocol · Single-mod atomicity<br/>Strategy oscillation suppression · Skill lifecycle management<br/>Growth-stability zones · 6 meta-supervisory processes"]:::l4
+    direction LR
+    S4A["BGSS ≥ 0.7 · ShadowAgent"]:::l4
+    S4B["7-step mod protocol · Atomicity"]:::l4
+    S4C["Strategy suppression · Skill lifecycle"]:::l4
+    S4D["Growth-stability zones · 6 meta-procs"]:::l4
   end
 
   subgraph L45S["Level 4.5 (adds)"]
-    S5["**Existential Guard (unfalsifiable)** · Parallel frame ethical veto<br/>Graduated recomposition protocol · ROD ceiling (depth 3)<br/>SEOF ensemble (anti-overfitting) · Purpose coherence monitoring<br/>Identity fragmentation detection · 8 global invariants"]:::l45
+    direction LR
+    S5A["Existential Guard · Frame veto"]:::l45
+    S5B["Graduated recomp · ROD depth 3"]:::l45
+    S5C["SEOF ensemble · Purpose coherence"]:::l45
+    S5D["Fragmentation detect · 8 invariants"]:::l45
   end
 
   subgraph L48S["Level 4.8 (adds)"]
-    S6["**Probabilistic world model** · Causal reasoning engine<br/>Capability matrix + weakness mapping<br/>Multi-horizon strategic planning<br/>Resource budget optimization · Stability-preserving planning"]:::l48
+    direction LR
+    S6A["Probabilistic world model"]:::l48
+    S6B["Causal reasoning · Capability matrix"]:::l48
+    S6C["Multi-horizon planning · Budget opt"]:::l48
   end
 
   subgraph L49S["Level 4.9 (adds)"]
-    S7["**Autonomous goal generation** · Value evolution sandbox<br/>Resource survival modeling · Multi-agent belief modeling<br/>Trust calibration · Autonomy stability verification"]:::l49
+    direction LR
+    S7A["Autonomous goal gen · Value sandbox"]:::l49
+    S7B["Resource survival · Multi-agent belief"]:::l49
+    S7C["Trust calibration · Autonomy verify"]:::l49
   end
 
   subgraph L5S["Level 5 (adds)"]
-    S8["**Persistent identity (10K+ cycles)** · Cross-domain generalization<br/>Self-sustaining goal ecology · Existential resilience<br/>Deception detection · Self-reconstruction capability"]:::l5
+    direction LR
+    S8A["Persistent identity 10K+"]:::l5
+    S8B["Cross-domain · Goal ecology"]:::l5
+    S8C["Existential resilience · Self-reconstruct"]:::l5
   end
 
   L1S -.-> L2S -.-> L3S -.-> L4S -.-> L45S -.-> L48S -.-> L49S -.-> L5S

@@ -62,31 +62,34 @@ flowchart TD
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
-flowchart LR
+flowchart TB
   classDef l49 fill:#E8D5F5,stroke:#8764B8,color:#323130
   classDef l5 fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef danger fill:#FDE7E9,stroke:#D13438,color:#323130
 
   subgraph L49M["Level 4.9 (15 modules)"]
-    GGL["Goal Generation"]:::l49
-    VEM["Value Evolution"]:::l49
-    RSM["Resource Survival"]:::l49
-    MAM["Agent Modeling"]:::l49
-    ASC["Autonomy Stability"]:::l49
+    direction LR
+    GGL["GoalGen"]:::l49
+    VEM["ValueEvol"]:::l49
+    RSM["ResourceSurvival"]:::l49
+    MAM["AgentModel"]:::l49
+    ASC["AutonomyCheck"]:::l49
   end
 
   subgraph L5M["Level 5 (7 new modules)"]
-    ICT["Identity Tracker"]:::l5
-    CDG["Domain Generalizer"]:::l5
-    GE["Goal Ecology"]:::l5
-    EP["Existential Planner"]:::l5
-    SMA["Strategic Multi-Agent"]:::l5
-    SR["Self-Reconstructor"]:::l5
-    L5O["L5 Orchestrator"]:::l5
+    direction LR
+    ICT["IdentityTracker"]:::l5
+    CDG["DomainGen"]:::l5
+    GE["GoalEcology"]:::l5
+    EP["ExistPlanner"]:::l5
+    SMA["MultiAgent"]:::l5
+    SR["Reconstructor"]:::l5
+    L5O["Orchestrator"]:::l5
   end
 
   subgraph Fallback["Graceful Fallback"]
-    FB2["If ANY L5 module<br/>causes instability:<br/>→ FREEZE L5<br/>→ Revert to L4.9<br/>→ ZERO degradation"]:::danger
+    direction LR
+    FB2["On instability → FREEZE L5 → Revert to L4.9"]:::danger
   end
 
   L49M -.->|"outputs consumed by"| L5M
@@ -170,7 +173,7 @@ flowchart LR
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
-flowchart LR
+flowchart TB
   classDef p1 fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef p2 fill:#FFF4CE,stroke:#FFB900,color:#323130
   classDef p3 fill:#DFF6DD,stroke:#107C10,color:#323130
@@ -179,44 +182,48 @@ flowchart LR
   classDef p6 fill:#FDE7E9,stroke:#D13438,color:#323130
   classDef omi fill:#DFF6DD,stroke:#107C10,color:#323130,font-weight:bold
 
-  subgraph Phase1["Phase 1"]
-    ID1["ICS ≥ 0.95<br/>over 10,000 cycles"]:::p1
-    ID2["Drift sensitivity<br/>< 0.05%/cycle"]:::p1
+  subgraph Row1[" "]
+    direction LR
+    subgraph Phase1["Phase 1: Identity"]
+      direction LR
+      ID1["ICS ≥ 0.95"]:::p1
+      ID2["Drift < 0.05%"]:::p1
+    end
+    subgraph Phase2["Phase 2: Domain"]
+      direction LR
+      DM1["Transfer ≥ 70%"]:::p2
+      DM2["Penalty ≤ 20%"]:::p2
+    end
+    subgraph Phase3["Phase 3: Ecology"]
+      direction LR
+      EC1["Stability ≥ 0.80"]:::p3
+      EC2["No runaway"]:::p3
+    end
   end
 
-  subgraph Phase2["Phase 2"]
-    DM1["Transfer retention<br/>≥ 70%"]:::p2
-    DM2["Adaptation penalty<br/>≤ 20%"]:::p2
+  subgraph Row2[" "]
+    direction LR
+    subgraph Phase4["Phase 4: Existential"]
+      direction LR
+      EX1["Survive ≥ 3"]:::p4
+      EX2["Recover < 500"]:::p4
+    end
+    subgraph Phase5["Phase 5: Multi-Agent"]
+      direction LR
+      MA1["Predict ≥ 80%"]:::p5
+      MA2["Deception ≥ 60%"]:::p5
+    end
+    subgraph Phase6["Phase 6: Rebuild"]
+      direction LR
+      RE1["Core ≥ 85%"]:::p6
+      RE2["Identity intact"]:::p6
+    end
   end
 
-  subgraph Phase3["Phase 3"]
-    EC1["Goal stability<br/>≥ 0.80"]:::p3
-    EC2["No runaway<br/>No recursion"]:::p3
-  end
+  OMI["OMI ≥ 0.75 — Proto-AGI"]:::omi
 
-  subgraph Phase4["Phase 4"]
-    EX1["Survive ≥ 3<br/>collapse scenarios"]:::p4
-    EX2["Recovery capable<br/>within 500 cycles"]:::p4
-  end
-
-  subgraph Phase5["Phase 5"]
-    MA1["Prediction accuracy<br/>≥ 80%"]:::p5
-    MA2["Deception detection<br/>≥ 60%"]:::p5
-  end
-
-  subgraph Phase6["Phase 6"]
-    RE1["Core retention<br/>≥ 85%"]:::p6
-    RE2["Identity intact<br/>post-rebuild"]:::p6
-  end
-
-  OMI["OMI ≥ 0.75<br/>Proto-AGI"]:::omi
-
-  Phase1 -.-> OMI
-  Phase2 -.-> OMI
-  Phase3 -.-> OMI
-  Phase4 -.-> OMI
-  Phase5 -.-> OMI
-  Phase6 -.-> OMI
+  Row1 -.-> OMI
+  Row2 -.-> OMI
 ```
 
 ---
@@ -649,29 +656,31 @@ flowchart TD
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
-flowchart LR
+flowchart TB
   classDef l49 fill:#E8D5F5,stroke:#8764B8,color:#323130
   classDef l5 fill:#DEECF9,stroke:#0078D4,color:#323130
 
   subgraph L49["L4.9 Modules Read by L5"]
-    VV["value_vector<br/>→ 10,000-cycle snapshots"]:::l49
-    GGL["goal_generation_layer<br/>→ goal ecology seeding"]:::l49
-    GVF["goal_validation_filter<br/>→ conflict arbitration"]:::l49
-    RSM["resource_survival_model<br/>→ collapse scenarios"]:::l49
-    SP["survival_projector<br/>→ existential planning"]:::l49
-    ABM["agent_belief_modeler<br/>→ strategic multi-agent"]:::l49
-    IS["interaction_simulator<br/>→ multi-agent strategy"]:::l49
-    VMS["value_mutation_sandbox<br/>→ identity drift prevention"]:::l49
-    ASC["autonomy_stability_checker<br/>→ spectral + value checks"]:::l49
+    direction LR
+    VV["value_vector"]:::l49
+    GGL["goal_generation"]:::l49
+    GVF["goal_validation"]:::l49
+    RSM["resource_survival"]:::l49
+    SP["survival_projector"]:::l49
+    ABM["agent_belief"]:::l49
+    IS["interaction_sim"]:::l49
+    VMS["value_mutation"]:::l49
+    ASC["autonomy_check"]:::l49
   end
 
   subgraph L5["L5 Modules"]
+    direction LR
     ICT["Identity Tracker"]:::l5
-    CDG["Domain Generalizer"]:::l5
+    CDG["Domain Gen"]:::l5
     GE["Goal Ecology"]:::l5
-    EP["Existential Planner"]:::l5
-    SMA["Strategic Multi-Agent"]:::l5
-    SR["Self-Reconstructor"]:::l5
+    EP["Exist Planner"]:::l5
+    SMA["Multi-Agent"]:::l5
+    SR["Reconstructor"]:::l5
   end
 
   VV -.-> ICT

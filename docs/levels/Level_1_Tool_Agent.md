@@ -137,28 +137,32 @@ flowchart TD
   classDef outputLight fill:#F9E0F7,stroke:#B4009E,color:#323130
 
   subgraph UserLayer["User Interaction Layer"]
-    REQ["Incoming Request<br/>(text / structured)"]:::inputLight
-    RES["Outgoing Response<br/>(text / structured)"]:::inputLight
+    direction LR
+    REQ["Incoming Request"]:::inputLight
+    RES["Outgoing Response"]:::inputLight
   end
 
   subgraph IntentLayer["Intent Classification Layer"]
+    direction LR
     IC["Intent Classifier"]:::processLight
-    PT["Pattern Matcher<br/>(keyword / regex)"]:::processLight
-    CF["Confidence Scorer<br/>(0.0–1.0)"]:::processLight
+    PT["Pattern Matcher"]:::processLight
+    CF["Confidence Scorer"]:::processLight
     IC --> PT --> CF
   end
 
   subgraph ToolLayer["Tool Execution Layer"]
-    TR["Tool Registry<br/>(name → schema)"]:::toolLight
-    TV["Parameter<br/>Validator"]:::toolLight
-    TE["Tool Executor<br/>(sync / async)"]:::toolLight
-    EH["Error Handler<br/>(retry / fallback)"]:::toolLight
+    direction LR
+    TR["Tool Registry"]:::toolLight
+    TV["Param Validator"]:::toolLight
+    TE["Tool Executor"]:::toolLight
+    EH["Error Handler"]:::toolLight
     TR --> TV --> TE --> EH
   end
 
   subgraph ResponseLayer["Response Generation Layer"]
-    RC["Result Collector<br/>(merge tool outputs)"]:::outputLight
-    RF["Response Formatter<br/>(template / LLM)"]:::outputLight
+    direction LR
+    RC["Result Collector"]:::outputLight
+    RF["Response Formatter"]:::outputLight
     RC --> RF
   end
 

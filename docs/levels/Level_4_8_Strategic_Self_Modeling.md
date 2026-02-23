@@ -435,22 +435,25 @@ flowchart TD
   classDef formula fill:#FFF4CE,stroke:#FFB900,color:#323130
 
   subgraph GoalStack["📋 GoalStack Hierarchy"]
-    subgraph Strategic["🏔️ Strategic Goals (max 3)"]
-      SG1["Strategic Goal 1<br/>horizon: weeks–months"]:::strategic
-      SG2["Strategic Goal 2<br/>horizon: weeks–months"]:::strategic
+    subgraph Strategic["🏔️ Strategic (max 3)"]
+      direction LR
+      SG1["Goal 1"]:::strategic
+      SG2["Goal 2"]:::strategic
     end
 
-    subgraph Operational["📊 Operational Goals (max 7)"]
-      OG1["Operational 1"]:::operational
-      OG2["Operational 2"]:::operational
-      OG3["Operational 3"]:::operational
+    subgraph Operational["📊 Operational (max 7)"]
+      direction LR
+      OG1["Op 1"]:::operational
+      OG2["Op 2"]:::operational
+      OG3["Op 3"]:::operational
     end
 
-    subgraph Tactical["⚡ Tactical Goals (max 15)"]
-      TG1["Tactical 1"]:::tactical
-      TG2["Tactical 2"]:::tactical
-      TG3["Tactical 3"]:::tactical
-      TG4["Tactical 4"]:::tactical
+    subgraph Tactical["⚡ Tactical (max 15)"]
+      direction LR
+      TG1["T1"]:::tactical
+      TG2["T2"]:::tactical
+      TG3["T3"]:::tactical
+      TG4["T4"]:::tactical
     end
   end
 
@@ -658,28 +661,30 @@ flowchart TD
   classDef l45mod fill:#E8DAEF,stroke:#8764B8,color:#323130
   classDef l48mod fill:#B4009E,stroke:#8E0082,color:#FFF
 
-  subgraph L45Modules["Level 4.5 Modules (unchanged)"]
-    SPE["Self-Projection<br/>Engine"]:::l45mod
-    ARC["Architecture<br/>Recomposition"]:::l45mod
-    PCF["Parallel Cognitive<br/>Frames"]:::l45mod
-    PR["Purpose<br/>Reflection"]:::l45mod
-    EG["Existential<br/>Guard"]:::l45mod
+  subgraph L45Modules["L4.5 Modules"]
+    direction LR
+    SPE["Self-Projection"]:::l45mod
+    ARC["Recomposition"]:::l45mod
+    PCF["Cognitive Frames"]:::l45mod
+    PR["Purpose Reflect"]:::l45mod
+    EG["Existential Guard"]:::l45mod
   end
 
-  subgraph L48Modules["Level 4.8 Modules (13 new)"]
-    WM["World Model<br/>Core"]:::l48mod
-    BU["Belief<br/>Updater"]:::l48mod
-    CM["Capability<br/>Matrix"]:::l48mod
-    CC["Confidence<br/>Calibrator"]:::l48mod
-    UDD["Unknown Domain<br/>Detector"]:::l48mod
-    SGA["Skill Gap<br/>Analyzer"]:::l48mod
-    WKM["Weakness<br/>Map"]:::l48mod
-    GS["Goal<br/>Stack"]:::l48mod
-    SRA["Strategic Resource<br/>Allocator"]:::l48mod
-    DRE["Delayed Reward<br/>Evaluator"]:::l48mod
-    SC["Strategy<br/>Comparator"]:::l48mod
-    SV["Stability<br/>Verifier"]:::l48mod
-    ORCH["L48<br/>Orchestrator"]:::l48mod
+  subgraph L48Modules["L4.8 Modules (13 new)"]
+    direction LR
+    WM["WorldModel"]:::l48mod
+    BU["BeliefUpdater"]:::l48mod
+    CM["CapabilityMatrix"]:::l48mod
+    CC["Calibrator"]:::l48mod
+    UDD["UnknownDetect"]:::l48mod
+    SGA["SkillGap"]:::l48mod
+    WKM["WeaknessMap"]:::l48mod
+    GS["GoalStack"]:::l48mod
+    SRA["ResourceAlloc"]:::l48mod
+    DRE["DelayedReward"]:::l48mod
+    SC["StrategyComp"]:::l48mod
+    SV["StabilityVerify"]:::l48mod
+    ORCH["Orchestrator"]:::l48mod
   end
 
   SPE ==>|"SEOF data"| WM

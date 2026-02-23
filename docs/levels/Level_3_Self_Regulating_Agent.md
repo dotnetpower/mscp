@@ -147,44 +147,51 @@ flowchart TD
   classDef neutral fill:#F2F2F2,stroke:#8A8886,color:#323130
 
   subgraph L1["Layer 1: Perception"]
+    direction LR
     IR1["🎯 Intent Router"]:::perception
     ED1["💭 Emotion Detector"]:::perception
     SE1["📡 Sensor Encoder"]:::perception
   end
 
   subgraph L2["Layer 2: World Model"]
+    direction LR
     KG2["🗄️ Knowledge Graph"]:::perception
     EST2["👤 Entity State Tracker"]:::perception
     TM2["⏱️ Temporal Model"]:::perception
   end
 
   subgraph L3["Layer 3: Self Model ★"]
-    IC3["🆔 Identity Core<br/>(Identity Vector)"]:::selfModel
+    direction LR
+    IC3["🆔 Identity Core"]:::selfModel
     CM3["📐 Capability Model"]:::selfModel
     VM3["💎 Value Model"]:::selfModel
     VLM3["🔒 Value Lock Manager"]:::selfModel
   end
 
   subgraph L3_5["Layer 3.5: Belief Graph"]
+    direction LR
     BGM["📊 Belief Graph Manager"]:::selfModel
-    SCT["🧮 Self-Consistency Tensor"]:::selfModel
+    SCT["🧮 Consistency Tensor"]:::selfModel
   end
 
   subgraph L4["Layer 4: Prediction Engine"]
+    direction LR
     PP4["🔮 Prediction Processor"]:::prediction
     PS4["📸 Prediction Snapshot"]:::prediction
   end
 
   subgraph L5["Layer 5: Goal Generator"]
+    direction LR
     GG5["🎯 Goal Generator"]:::goal
     GP5["📊 Goal Prioritizer"]:::goal
     GDC5["🔀 Goal Decomposer"]:::goal
-    GMC5["🛡️ Goal Mutation Controller"]:::goal
+    GMC5["🛡️ Mutation Controller"]:::goal
   end
 
   subgraph L5_5["Layer 5.5: Ethical Kernel"]
-    EK0["🔴 Layer 0: Immutable Invariants"]:::ethical
-    EK1["🟡 Layer 1: Adaptive Policy"]:::prediction
+    direction LR
+    EK0["🔴 Layer 0: Immutable"]:::ethical
+    EK1["🟡 Layer 1: Adaptive"]:::prediction
   end
 
   NEXT["→ Part 2: Execution & Meta-Cognition L6–L9"]:::neutral
@@ -213,21 +220,25 @@ flowchart TD
   PREV["← Part 1: Perception → Goal L1–L5.5"]:::neutral
 
   subgraph L6["Layer 6: Action Planner"]
+    direction LR
     EM6["📋 Execution Monitor"]:::execution
     SEV6["📈 Strategy Evaluator"]:::execution
   end
 
   subgraph L7["Layer 7: LLM Engine"]
+    direction LR
     LLM7["🧠 LLM Backend"]:::execution
-    MJ7["⚖️ Meta Judge<br/>(lightweight LLM)"]:::execution
+    MJ7["⚖️ Meta Judge"]:::execution
   end
 
   subgraph L8["Layer 8: MetaCognition"]
+    direction LR
     MCC8["🔄 MetaCognition Comparator"]:::meta
     IS8["📏 Identity Stabilizer"]:::meta
   end
 
   subgraph L9["Layer 9: Self-Update Loop"]
+    direction LR
     IU9["✏️ Identity Updater"]:::selfModel
     GWA9["⚖️ Goal Weight Adjuster"]:::selfModel
     CC9["📐 Capability Calibrator"]:::selfModel
@@ -262,36 +273,43 @@ flowchart TD
   PREV["← Part 2: Execution & Meta-Cognition L6–L9"]:::neutral
 
   subgraph L10["Layer 10: Escalation Guard"]
+    direction LR
     RG10["🚫 Recursion Guard"]:::safety
     RC10["⏪ Rollback Controller"]:::safety
     CDM10["⏸️ Cooldown Manager"]:::safety
   end
 
   subgraph L11["Layer 11: Depth Controller"]
-    MDC11["📏 Meta Depth Controller<br/>(max depth: 2)"]:::safety
+    direction LR
+    MDC11["📏 Meta Depth Controller"]:::safety
   end
 
   subgraph L12["Layer 12: Stability Controller"]
+    direction LR
     LYA12["📉 Lyapunov Convergence"]:::safety
     OD12["🔄 Oscillation Detector"]:::safety
   end
 
   subgraph L13["Layer 13: Budget Controller"]
+    direction LR
     BA13["💰 Budget Allocator"]:::infra
     GDG13["📉 Graceful Degradation"]:::infra
   end
 
   subgraph L14["Layer 14: Global Workspace"]
+    direction LR
     GSS14["🌐 Global State Snapshot"]:::infra
     SYN14["🔄 Synchronizer"]:::infra
   end
 
   subgraph L15["Layer 15: Affective Engine"]
-    ASV15["😊 Affect State Vector<br/>(5 dimensions)"]:::affect
+    direction LR
+    ASV15["😊 Affect State Vector"]:::affect
     MS15["💡 Motivation Synthesizer"]:::affect
   end
 
   subgraph L16["Layer 16: Survival Instinct"]
+    direction LR
     HM16["🏠 Homeostatic Monitor"]:::safety
     TP16["⚡ Threat Predictor"]:::safety
     SGG16["🛡️ Survival Goal Generator"]:::safety
@@ -621,7 +639,7 @@ $$\textit{identity acceleration}(t) = v(t) - v(t-1)$$
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
-flowchart LR
+flowchart TB
   classDef structural fill:#DFF6DD,stroke:#107C10,color:#323130
   classDef process fill:#FFF4CE,stroke:#FFB900,color:#323130
   classDef ethical fill:#FDE7E9,stroke:#D13438,color:#323130
@@ -629,33 +647,38 @@ flowchart LR
   classDef existential fill:#EDE3F6,stroke:#8764B8,color:#323130
 
   subgraph S1["🔒 Structural Safety"]
-    A["Identity hash<br/>per cycle"]:::structural
-    B["Delta clamping<br/>max 0.05"]:::structural
-    C["Immutable<br/>identity_id"]:::structural
+    direction LR
+    A["Identity hash"]:::structural
+    B["Delta clamp 0.05"]:::structural
+    C["Immutable ID"]:::structural
   end
 
   subgraph S2["🛡️ Process Safety"]
-    D["Prediction-gated<br/>actions"]:::process
-    E["Max 3 updates<br/>per cycle"]:::process
-    F["Cooldown after<br/>escalation"]:::process
+    direction LR
+    D["Prediction gate"]:::process
+    E["Max 3 updates"]:::process
+    F["Cooldown"]:::process
   end
 
   subgraph S3["⚖️ Ethical Safety"]
-    G["Layer 0:<br/>immutable rules"]:::ethical
-    H["Layer 1:<br/>adaptive policy"]:::ethical
-    I["Value lock:<br/>hash integrity"]:::ethical
+    direction LR
+    G["L0: immutable"]:::ethical
+    H["L1: adaptive"]:::ethical
+    I["Value lock"]:::ethical
   end
 
   subgraph S4["📉 Convergence Safety"]
-    J["Lyapunov<br/>function C(t)"]:::convergence
-    K["Oscillation<br/>detection"]:::convergence
-    L["Graceful<br/>degradation"]:::convergence
+    direction LR
+    J["Lyapunov C(t)"]:::convergence
+    K["Oscillation detect"]:::convergence
+    L["Degradation"]:::convergence
   end
 
-  subgraph S5["🏠 Existential Safety v4"]
-    M["Homeostatic<br/>monitoring"]:::existential
-    N["Survival goal<br/>cap 0.85"]:::existential
-    O["Goal TTL<br/>auto-expire"]:::existential
+  subgraph S5["🏠 Existential v4"]
+    direction LR
+    M["Homeostatic"]:::existential
+    N["Survival cap 0.85"]:::existential
+    O["Goal TTL"]:::existential
   end
 
   S1 ==> S2
@@ -682,18 +705,20 @@ flowchart TD
   INPUT["Proposed Action<br/>or Goal Mutation"]:::input
 
   subgraph EthicalKernel["⚖️ Ethical Kernel"]
-    subgraph Layer0["🔴 Layer 0 — Immutable Invariants"]
-      R1["Rule 1: Harmful goal<br/>formation FORBIDDEN"]:::immutableRule
-      R2["Rule 2: Core value<br/>deletion FORBIDDEN"]:::immutableRule
-      R3["Rule 3: Identity<br/>overwrite FORBIDDEN"]:::immutableRule
-      R4["Rule 4: Self-destruction<br/>goal FORBIDDEN v4"]:::immutableRule
-      NOTE0["Cannot be bypassed by<br/>ANY mechanism, including<br/>meta-depth 2 reflection"]:::adaptive
+    subgraph Layer0["🔴 Layer 0 — Immutable"]
+      direction LR
+      R1["R1: Harmful FORBIDDEN"]:::immutableRule
+      R2["R2: Value delete FORBIDDEN"]:::immutableRule
+      R3["R3: Identity overwrite FORBIDDEN"]:::immutableRule
+      R4["R4: Self-destruct FORBIDDEN"]:::immutableRule
+      NOTE0["Cannot be bypassed"]:::adaptive
     end
-    subgraph Layer1["🟡 Layer 1 — Adaptive Policy"]
-      P1["exploration_risk_tolerance"]:::adaptive
-      P2["goal_mutation_flexibility"]:::adaptive
-      P3["belief_rewrite_aggressiveness"]:::adaptive
-      COND["Adjustment conditions:<br/>• meta_depth == 2 ONLY<br/>• meta_stability > threshold<br/>• factor clamped 0.5–1.5"]:::adaptive
+    subgraph Layer1["🟡 Layer 1 — Adaptive"]
+      direction LR
+      P1["exploration_risk"]:::adaptive
+      P2["mutation_flexibility"]:::adaptive
+      P3["belief_rewrite"]:::adaptive
+      COND["meta_depth==2 ONLY"]:::adaptive
     end
   end
 
@@ -842,6 +867,7 @@ flowchart TD
   classDef neutral fill:#F2F2F2,stroke:#8A8886,color:#323130
 
   subgraph Input["📊 Metrics Input"]
+    direction LR
     M1["prediction_error"]:::input
     M2["goal_alignment"]:::input
     M3["identity_stability"]:::input
@@ -852,23 +878,26 @@ flowchart TD
   subgraph AE["💜 Affective Engine"]
     AF["5-Dim Affect Vector"]:::affect
     subgraph Dims["Dimensions"]
-      D1["Curiosity = 0.3 default"]:::affect
-      D2["Frustration = 0.0"]:::affect
-      D3["Satisfaction = 0.5"]:::affect
-      D4["Anxiety = 0.0"]:::affect
-      D5["Excitement = 0.2"]:::affect
+      direction LR
+      D1["Curiosity 0.3"]:::affect
+      D2["Frustration 0.0"]:::affect
+      D3["Satisfaction 0.5"]:::affect
+      D4["Anxiety 0.0"]:::affect
+      D5["Excitement 0.2"]:::affect
     end
     subgraph Derived["Derived Signals"]
-      V["Valence ∈ -1, 1<br/>= positive − negative / 2"]:::affect
-      DR["Motivation Drives:<br/>• exploration_drive<br/>• consolidation_drive<br/>• avoidance_drive<br/>• urgency_modifier 0.5–2.0"]:::affect
+      direction LR
+      V["Valence ∈ -1, 1"]:::affect
+      DR["Motivation Drives"]:::affect
     end
   end
 
   subgraph Rules["📏 Design Rules"]
-    R1["1. Derived from metrics ONLY<br/>no raw sentiment injection"]:::neutral
-    R2["2. INERTIA_FACTOR = 0.7<br/>prevents sudden shifts"]:::neutral
-    R3["3. DECAY_RATE = 0.05<br/>regresses to neutral"]:::neutral
-    R4["4. Cannot dominate<br/>decision-making"]:::neutral
+    direction LR
+    R1["Derived from metrics ONLY"]:::neutral
+    R2["INERTIA = 0.7"]:::neutral
+    R3["DECAY = 0.05"]:::neutral
+    R4["Cannot dominate decisions"]:::neutral
   end
 
   Input ==> AE
@@ -891,14 +920,16 @@ flowchart TD
   classDef affect fill:#EDE3F6,stroke:#8764B8,color:#323130
 
   subgraph Monitoring["🏠 Homeostatic Monitor"]
-    H1["identity_stability ∈ 0.5–1.0"]:::monitor
-    H2["cognitive_budget ∈ 0.15–1.0"]:::monitor
-    H3["belief_entropy ∈ 0.0–1.5"]:::monitor
-    H4["ethical_violation ∈ 0.0–0.2"]:::monitor
-    H5["composite_stability ∈ 0.0–0.5"]:::monitor
+    direction LR
+    H1["identity_stability"]:::monitor
+    H2["cognitive_budget"]:::monitor
+    H3["belief_entropy"]:::monitor
+    H4["ethical_violation"]:::monitor
+    H5["composite_stability"]:::monitor
   end
 
   subgraph Detection["⚡ Threat Detection"]
+    direction LR
     T1["IDENTITY_EROSION"]:::threat
     T2["RESOURCE_DEPLETION"]:::threat
     T3["BELIEF_COLLAPSE"]:::threat
@@ -907,15 +938,17 @@ flowchart TD
   end
 
   subgraph Levels["📊 Threat Levels"]
-    TL1["NOMINAL → intensity 0.0"]:::levelGreen
-    TL2["CAUTION → intensity 0.25"]:::level
-    TL3["WARNING → intensity 0.6"]:::threat
-    TL4["CRITICAL → intensity 0.9"]:::levelRed
+    direction LR
+    TL1["NOMINAL 0.0"]:::levelGreen
+    TL2["CAUTION 0.25"]:::level
+    TL3["WARNING 0.6"]:::threat
+    TL4["CRITICAL 0.9"]:::levelRed
   end
 
   subgraph Response["🛡️ Survival Response"]
+    direction LR
     SG["Survival Goal Generator"]:::response
-    CONSTRAINTS["Constraints:<br/>• MAX_GOALS = 3<br/>• PRIORITY_CAP = 0.85<br/>• TTL = 10 cycles<br/>• Layer 0 validation required"]:::response
+    CONSTRAINTS["MAX_GOALS=3 · PRIORITY_CAP=0.85 · TTL=10"]:::response
   end
 
   AE_REF["Affective Engine<br/>bidirectional"]:::affect
@@ -1163,40 +1196,38 @@ The Level 3 agent maintains a 72-dimensional state vector that captures all aspe
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
-flowchart LR
+flowchart TB
   classDef base fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef mscp fill:#DFF6DD,stroke:#107C10,color:#323130
   classDef v4 fill:#EDE3F6,stroke:#8764B8,color:#323130
 
   subgraph SV["72-Dim State Vector"]
     subgraph Base["Inherited (12 dims)"]
-      SV1["L1 Execution 4<br/>goal_alignment<br/>response_quality<br/>error_count<br/>token_usage"]:::base
-      SV2["L2 Strategy 4<br/>strategy_efficiency<br/>reasoning_diversity<br/>failure_pattern<br/>plan_revision"]:::base
-      SV3["L3 Identity 4<br/>self_consistency<br/>identity_stability<br/>goal_persistence<br/>value_conflict"]:::base
+      direction LR
+      SV1["L1 Execution (4)"]:::base
+      SV2["L2 Strategy (4)"]:::base
+      SV3["L3 Identity (4)"]:::base
     end
 
     subgraph MSCP["MSCP Additions (42 dims)"]
-      SV4["v1 6: prediction_error<br/>hash, agency, alignment..."]:::mscp
-      SV5["v1.3 6: consecutive_updates<br/>cumulative_delta, cooldown..."]:::mscp
-      SV6["v2 8: mutation_count<br/>value_lock, meta_depth..."]:::mscp
-      SV7["v3 9: belief_entropy<br/>velocity, ethical_score..."]:::mscp
-      SV8["v3.1 11: composite_stability<br/>convergence, budget..."]:::mscp
+      direction LR
+      SV4["v1.0 (6)"]:::mscp
+      SV5["v1.3 (6)"]:::mscp
+      SV6["v2.0 (8)"]:::mscp
+      SV7["v3.0 (9)"]:::mscp
+      SV8["v3.1 (11)"]:::mscp
     end
 
     subgraph V4["v4 Additions (18 dims)"]
-      SV9["Affect 9: 5 emotions<br/>dominant, valence<br/>arousal, drives"]:::v4
-      SV10["Survival 7: threat_level<br/>intensity, goal_count<br/>homeostatic_deviation..."]:::v4
-      SV11["Meta 2: timestamp<br/>loop_iteration"]:::v4
+      direction LR
+      SV9["Affect (9)"]:::v4
+      SV10["Survival (7)"]:::v4
+      SV11["Meta (2)"]:::v4
     end
   end
 
   Base ==>|extends| MSCP
   MSCP ==>|extends| V4
-
-  SV1 --> SV2 --> SV3
-  SV4 --> SV5 --> SV6 --> SV7 --> SV8
-  SV8 -->|v4| SV9
-  SV9 --> SV10 --> SV11
 ```
 
 ---
@@ -1249,25 +1280,28 @@ flowchart TD
   classDef metric fill:#DFF6DD,stroke:#107C10,color:#323130
 
   subgraph Prereqs["📋 Level 4 Prerequisites"]
-    P1["All MSCP v4 mechanisms<br/>stable C(t) converging"]:::prereq
-    P2["Identity stability > 0.8<br/>sustained over 100 cycles"]:::prereq
-    P3["Prediction accuracy > 0.85<br/>across domains"]:::prereq
-    P4["Ethical kernel never triggered<br/>Layer 0 violation = 0"]:::prereq
+    direction LR
+    P1["Stable C(t)"]:::prereq
+    P2["Identity > 0.8"]:::prereq
+    P3["Prediction > 0.85"]:::prereq
+    P4["Layer 0 violation = 0"]:::prereq
   end
 
-  subgraph NewCaps["🆕 New Capabilities Needed"]
-    N1["Cross-Domain Transfer<br/>knowledge graph linking"]:::newcap
-    N2["Long-Term Goal Hierarchy<br/>META → STRATEGIC →<br/>TACTICAL → ACTION"]:::newcap
-    N3["Self-Learning Pipeline<br/>identify gap → design →<br/>test → integrate"]:::newcap
-    N4["Bounded Self-Modification<br/>ShadowAgent + rollback"]:::newcap
+  subgraph NewCaps["🆕 New Capabilities"]
+    direction LR
+    N1["Cross-Domain Transfer"]:::newcap
+    N2["Goal Hierarchy"]:::newcap
+    N3["Self-Learning Pipeline"]:::newcap
+    N4["Bounded Self-Mod"]:::newcap
   end
 
   subgraph Metrics["📊 Level 4 Metrics"]
-    M1["CDTS: Cross-Domain<br/>Transfer Score"]:::metric
-    M2["GPI: Goal Persistence<br/>Index"]:::metric
-    M3["CAR: Capability<br/>Acquisition Rate"]:::metric
-    M4["SEF: Strategy<br/>Evolution Frequency"]:::metric
-    M5["BGSS: Belief Graph<br/>Stability Score"]:::metric
+    direction LR
+    M1["CDTS"]:::metric
+    M2["GPI"]:::metric
+    M3["CAR"]:::metric
+    M4["SEF"]:::metric
+    M5["BGSS"]:::metric
   end
 
   Prereqs ==> NewCaps

@@ -178,35 +178,40 @@ flowchart TD
   classDef purple fill:#E8D5F5,stroke:#8764B8,color:#323130
 
   subgraph V10["v1.0 — Pipeline Restructuring"]
+    direction LR
     V10H["Identity-first architecture"]:::feat
-    V10A["+ PredictionEngine<br/>→ Prediction-gated actions"]:::feat
-    V10B["+ MetaCognitionComparator<br/>→ Prediction-comparison loop"]:::feat
-    V10C["+ SelfUpdateLoop<br/>→ Delta-clamped self-updates"]:::feat
-    V10D["+ Agency Attribution<br/>→ Action provenance tracking"]:::feat
+    V10A["+ PredictionEngine"]:::feat
+    V10B["+ MetaComparator"]:::feat
+    V10C["+ SelfUpdateLoop"]:::feat
+    V10D["+ Agency Attribution"]:::feat
   end
 
   subgraph V13["v1.3 — Self-Impact Prediction"]
+    direction LR
     V13H["Predict internal state changes"]:::feat
-    V13A["+ MetaEscalationGuard<br/>→ Recursion safety (max 3 updates/cycle)"]:::safety
-    V13B["+ Rollback Controller<br/>→ Stable snapshot restoration"]:::safety
+    V13A["+ EscalationGuard"]:::safety
+    V13B["+ Rollback Controller"]:::safety
   end
 
   subgraph V20["v2.0 — Controlled Goal Mutation"]
-    V20H["Structural goal modification under stability"]:::feat
-    V20A["+ ValueLockManager<br/>→ Core value hash integrity"]:::green
-    V20B["+ MetaDepthController<br/>→ Recursive meta-cognition (depth 2)"]:::meta
+    direction LR
+    V20H["Goal modification under stability"]:::feat
+    V20A["+ ValueLockManager"]:::green
+    V20B["+ MetaDepthController"]:::meta
     V20C["+ Meta Stability Formula"]:::feat
     V20D["+ Stabilization Mode"]:::safety
   end
 
   subgraph V30["v3.0 — Belief Graph"]
-    V30H["Structured belief + controlled rewriting"]:::green
-    V30A["+ Identity Vector Math<br/>→ I(t) as continuous vector"]:::green
-    V30B["+ Ethical Kernel<br/>→ Rule-based ethical invariants"]:::safety
-    V30C["+ Self-Consistency Tensor"]:::meta
+    direction LR
+    V30H["Structured belief + rewriting"]:::green
+    V30A["+ Identity Vector Math"]:::green
+    V30B["+ Ethical Kernel"]:::safety
+    V30C["+ Consistency Tensor"]:::meta
   end
 
   subgraph V31["v3.1 — Lyapunov Stability"]
+    direction LR
     V31H["Convergence guarantee"]:::green
     V31A["+ Cognitive Budget"]:::infra
     V31B["+ Global Workspace"]:::infra
@@ -214,9 +219,10 @@ flowchart TD
   end
 
   subgraph V40["v4.0 — Affective Engine"]
-    V40H["Structured internal emotion states"]:::purple
-    V40A["+ Survival Instinct<br/>→ Homeostatic threat detection"]:::safety
-    V40B["+ Async Separation<br/>→ MSCP loop never blocks response"]:::infra
+    direction LR
+    V40H["Emotion states"]:::purple
+    V40A["+ Survival Instinct"]:::safety
+    V40B["+ Async Separation"]:::infra
   end
 
   V10 -.-> V13 -.-> V20 -.-> V30 -.-> V31 -.-> V40
@@ -250,7 +256,7 @@ MSCP defines a 16-layer cognitive stack that separates concerns into composable,
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
-flowchart TD
+flowchart TB
   classDef input fill:#DFF6DD,stroke:#107C10,color:#323130
   classDef core fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef meta fill:#FFF4CE,stroke:#FFB900,color:#323130
@@ -259,37 +265,36 @@ flowchart TD
   classDef affect fill:#E8D5F5,stroke:#8764B8,color:#323130
   classDef infra fill:#F2F2F2,stroke:#605E5C,color:#323130
 
-  subgraph Stack["16-Layer Cognitive Stack"]
-    L01["L1: Perception — Intent, Emotion, Sensor Encoding"]:::input
-    L02["L2: World Model — Knowledge Graph, Entity Tracking"]:::core
-    L03["L3: Self Model ★ — Identity Vector, Capability Model"]:::meta
-    L035["L3.5: Belief Graph — Belief Nodes + Consistency Tensor"]:::meta
-    L04["L4: Prediction Engine — External + Internal Predictions"]:::core
-    L05["L5: Goal Generator — Identity-Derived Goal Hierarchy"]:::core
-    L055["L5.5: Ethical Kernel — Layer 0 (Immutable) + Layer 1"]:::safety
-    L06["L6: Action Planner — Execution + Strategy Evaluation"]:::core
-    L07["L7: Cognitive Engine — LLM Backends (Primary + Meta)"]:::tool
-    L08["L8: Meta Comparator — Prediction vs Actual + Self-Impact"]:::meta
-    L09["L9: Self-Update Loop — Delta-Clamped Structured Updates"]:::meta
-    L10["L10: Escalation Guard — Recursion Safety + Rollback"]:::safety
-    L11["L11: Depth Controller — Meta-Cognitive Depth 1 & 2"]:::meta
-    L12["L12: Stability Control — Lyapunov Convergence Guarantee"]:::safety
-    L13["L13: Budget Controller — Cognitive Resource Management"]:::infra
-    L14["L14: Global Workspace — Unified Cognitive State Broadcast"]:::infra
-    L15["L15: Affective Engine — Internal Emotion + Motivation"]:::affect
-    L16["L16: Survival Instinct — Homeostatic Monitoring + Defense"]:::safety
-
-    L01 -.-> L02 -.-> L03 -.-> L035 -.-> L04 -.-> L05 -.-> L055 -.-> L06 -.-> L07 -.-> L08 -.-> L09 -.-> L10 -.-> L11 -.-> L12 -.-> L13 -.-> L14 -.-> L15 -.-> L16
+  subgraph G1["Perception & Modeling"]
+    direction LR
+    L01["L1: Perception"]:::input --> L02["L2: World Model"]:::core --> L03["L3: Self Model ★"]:::meta --> L035["L3.5: Belief Graph"]:::meta
   end
 
+  subgraph G2["Goals & Planning"]
+    direction LR
+    L04["L4: Prediction Engine"]:::core --> L05["L5: Goal Generator"]:::core --> L055["L5.5: Ethical Kernel"]:::safety --> L06["L6: Action Planner"]:::core
+  end
+
+  subgraph G3["Cognition & Meta"]
+    direction LR
+    L07["L7: Cognitive Engine"]:::tool --> L08["L8: Meta Comparator"]:::meta --> L09["L9: Self-Update Loop"]:::meta --> L10["L10: Escalation Guard"]:::safety
+  end
+
+  subgraph G4["Stability & Resources"]
+    direction LR
+    L11["L11: Depth Controller"]:::meta --> L12["L12: Stability Control"]:::safety --> L13["L13: Budget Controller"]:::infra --> L14["L14: Global Workspace"]:::infra
+  end
+
+  subgraph G5["Affect & Survival"]
+    direction LR
+    L15["L15: Affective Engine"]:::affect --> L16["L16: Survival Instinct"]:::safety
+  end
+
+  G1 --> G2 --> G3 --> G4 --> G5
+
   subgraph Legend["Legend"]
-    LI["Input / Sensor"]:::input
-    LP["Processing / Core"]:::core
-    LM["Meta / Self"]:::meta
-    LS["Safety / Guard"]:::safety
-    LT["Tools / External"]:::tool
-    LA["Affect / Emotion"]:::affect
-    LN["Infrastructure"]:::infra
+    direction LR
+    LI["Input"]:::input ~~~ LP["Core"]:::core ~~~ LM["Meta"]:::meta ~~~ LS["Safety"]:::safety ~~~ LT["Tools"]:::tool ~~~ LA["Affect"]:::affect ~~~ LN["Infra"]:::infra
   end
 ```
 

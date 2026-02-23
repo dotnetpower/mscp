@@ -123,31 +123,36 @@ flowchart TD
   classDef cognitiveLight fill:#F9E0F7,stroke:#B4009E,color:#323130
 
   subgraph PL["Layer 1: Perception"]
-    IR["🎯 Intent Router<br/>(structured Percept output)"]:::perceptionLight
-    ED["💭 Emotion Detector<br/>(valence / arousal)"]:::perceptionLight
-    SE["📡 Sensor Encoder<br/>(time, system state)"]:::perceptionLight
+    direction LR
+    IR["🎯 Intent Router"]:::perceptionLight
+    ED["💭 Emotion Detector"]:::perceptionLight
+    SE["📡 Sensor Encoder"]:::perceptionLight
   end
 
   subgraph WM["Layer 2: World Model"]
-    KG["🗄️ Knowledge Graph<br/>(persistent store)"]:::worldLight
-    ES["👤 Entity State<br/>Tracker"]:::worldLight
-    TM["⏱️ Temporal Model<br/>(time-bound facts)"]:::worldLight
+    direction LR
+    KG["🗄️ Knowledge Graph"]:::worldLight
+    ES["👤 Entity State Tracker"]:::worldLight
+    TM["⏱️ Temporal Model"]:::worldLight
   end
 
   subgraph GS["Layer 3: Goal System"]
-    GM["🎯 Goal Manager<br/>(CRUD + hierarchy)"]:::goalLight
-    AGG["⚡ Autonomous Goal<br/>Generator"]:::goalLight
-    GP["📊 Goal Prioritizer<br/>(dynamic ranking)"]:::goalLight
-    GD["🔀 Goal Decomposer<br/>(complex → subtasks)"]:::goalLight
+    direction LR
+    GM["🎯 Goal Manager"]:::goalLight
+    AGG["⚡ Autonomous Goal Gen"]:::goalLight
+    GP["📊 Goal Prioritizer"]:::goalLight
+    GD["🔀 Goal Decomposer"]:::goalLight
   end
 
   subgraph AP["Layer 4: Action Planner"]
-    TD["🔧 Tool Dispatcher<br/>(inherited from L1)"]:::actionLight
-    EP["📋 Execution Planner<br/>(multi-step plans)"]:::actionLight
+    direction LR
+    TD["🔧 Tool Dispatcher"]:::actionLight
+    EP["📋 Execution Planner"]:::actionLight
   end
 
   subgraph CE["Layer 5: Cognitive Engine"]
-    LLM["🧠 LLM Backend<br/>(primary reasoning)"]:::cognitiveLight
+    direction LR
+    LLM["🧠 LLM Backend"]:::cognitiveLight
   end
 
   PL ==> WM
@@ -172,6 +177,7 @@ flowchart TD
   classDef feedback fill:#F2F2F2,stroke:#8A8886,color:#323130
 
   subgraph Perception["Layer 1: Perception"]
+    direction LR
     UserInput["👤 User Input"]:::perceptionLight
     IRv2["Intent Router v2"]:::perceptionLight
     EDv2["Emotion Detector v2"]:::perceptionLight
@@ -182,17 +188,19 @@ flowchart TD
   end
 
   subgraph WorldModel["Layer 2: World Model"]
+    direction LR
     EST["Entity State Tracker"]:::worldLight
     TML["Temporal Model"]:::worldLight
     KG["Knowledge Graph"]:::worldLight
-    WS["World Snapshot<br/>(unified state)"]:::worldAccent
+    WS["World Snapshot"]:::worldAccent
     EST --> WS
     TML --> WS
     KG --> WS
   end
 
   subgraph GoalSystem["Layer 3: Goal System"]
-    AGG["Autonomous Goal<br/>Generator"]:::goalLight
+    direction LR
+    AGG["Autonomous Goal Gen"]:::goalLight
     GMgr["Goal Manager"]:::goalLight
     GP["Goal Prioritizer"]:::goalLight
     GD["Goal Decomposer"]:::goalLight
@@ -201,6 +209,7 @@ flowchart TD
   end
 
   subgraph ActionPlanner["Layer 4: Action Planner"]
+    direction LR
     EP["Execution Planner"]:::actionLight
     TD["Tool Dispatcher"]:::actionLight
   end
@@ -552,25 +561,30 @@ flowchart TD
   classDef dangerLight fill:#FDE7E9,stroke:#D13438,color:#323130
   classDef successLight fill:#DFF6DD,stroke:#107C10,color:#323130
 
-  subgraph Scenario["📝 Scenario: User asks the same question 3 times"]
-    Q1["Q1: 'What are the terms<br/>for Service X?'"]:::perceptionLight
-    Q2["Q2: 'What are the terms<br/>for Service X?'"]:::perceptionLight
-    Q3["Q3: 'What are the terms<br/>for Service X?'"]:::perceptionLight
+  subgraph Scenario["📝 Scenario: Same question asked 3 times"]
+    direction LR
+    Q1["Q1"]:::perceptionLight
+    Q2["Q2"]:::perceptionLight
+    Q3["Q3"]:::perceptionLight
   end
 
   subgraph L1Response["❌ Level 1 Response"]
-    L1R1["'The terms are A, B, C.'"]:::dangerLight
-    L1R2["'The terms are A, B, C.'"]:::dangerLight
-    L1R3["'The terms are A, B, C.'"]:::dangerLight
-    L1Note["Each response is IDENTICAL.<br/>No memory of previous answers.<br/>No pattern detection."]:::dangerLight
+    direction LR
+    L1R1["Same answer"]:::dangerLight
+    L1R2["Same answer"]:::dangerLight
+    L1R3["Same answer"]:::dangerLight
   end
 
+  L1Note["No memory · No pattern detection"]:::dangerLight
+
   subgraph L2Response["✅ Level 2 Response"]
-    L2R1["'The terms are A, B, C.'"]:::successLight
-    L2R2["'As I mentioned, the terms are A, B, C.<br/>Would you like more detail<br/>on any specific term?'"]:::successLight
-    L2R3["'You've asked about this several times.<br/>Is there a specific concern about<br/>the terms? I can explain each one.'"]:::successLight
-    L2Note["Detects repetition pattern.<br/>Generates clarification goal.<br/>Adapts response proactively."]:::successLight
+    direction LR
+    L2R1["Standard answer"]:::successLight
+    L2R2["Acknowledges repetition"]:::successLight
+    L2R3["Proactive clarification"]:::successLight
   end
+
+  L2Note["Detects repetition · Generates goal · Adapts"]:::successLight
 
   Q1 -.-> L1R1
   Q2 -.-> L1R2
@@ -618,19 +632,21 @@ flowchart TD
   classDef successLight fill:#DFF6DD,stroke:#107C10,color:#323130
 
   subgraph Limitations["⚠️ Level 2 Limitations"]
-    L1["❌ No Self-Model<br/>Doesn't know its own<br/>capabilities or values"]:::dangerLight
-    L2["❌ No Prediction Loop<br/>Cannot predict consequences<br/>of its actions on itself"]:::dangerLight
-    L3["❌ No Identity Continuity<br/>Goal drift and value drift<br/>are undetected"]:::dangerLight
-    L4["❌ No Ethical Constraints<br/>No formal mechanism to<br/>reject harmful goals"]:::dangerLight
-    L5["❌ No Meta-Cognition<br/>Cannot evaluate the quality<br/>of its own decisions"]:::dangerLight
+    direction LR
+    L1["❌ No Self-Model"]:::dangerLight
+    L2["❌ No Prediction Loop"]:::dangerLight
+    L3["❌ No Identity Continuity"]:::dangerLight
+    L4["❌ No Ethical Constraints"]:::dangerLight
+    L5["❌ No Meta-Cognition"]:::dangerLight
   end
 
   subgraph L3Additions["✅ Level 3 Adds"]
-    A1["Identity Vector<br/>+ capability model<br/>+ value model"]:::successLight
-    A2["PredictionEngine<br/>+ self-impact prediction"]:::successLight
-    A3["Identity hash tracking<br/>+ drift detection<br/>+ rollback"]:::successLight
-    A4["Ethical Kernel<br/>(Layer 0: immutable<br/>Layer 1: adaptive)"]:::successLight
-    A5["Triple-Loop<br/>Meta-Cognition<br/>(L1/L2/L3 cycles)"]:::successLight
+    direction LR
+    A1["Identity Vector"]:::successLight
+    A2["PredictionEngine"]:::successLight
+    A3["Identity Hash + Rollback"]:::successLight
+    A4["Ethical Kernel (L0+L1)"]:::successLight
+    A5["Triple-Loop Meta-Cognition"]:::successLight
   end
 
   L1 -.-> A1
@@ -673,6 +689,7 @@ flowchart TD
   classDef l3New fill:#107C10,stroke:#085108,color:#FFF
 
   subgraph L2Arch["Level 2 Architecture"]
+    direction LR
     P2["Perception"]:::l2Light
     W2["World Model"]:::l2Light
     G2["Goal System"]:::l2Light
@@ -682,11 +699,12 @@ flowchart TD
   end
 
   subgraph NewModules["🆕 New Modules for Level 3"]
-    SM["Self Model<br/>(Identity + Capability + Value)"]:::newModule
-    PE["Prediction Engine<br/>(external + internal)"]:::newModule
-    MC["MetaCognition Comparator<br/>(predict vs actual)"]:::newModule
-    SUL["Self-Update Loop<br/>(delta-clamped)"]:::newModule
-    EK["Ethical Kernel<br/>(Layer 0 + Layer 1)"]:::newModule
+    direction LR
+    SM["Self Model"]:::newModule
+    PE["Prediction Engine"]:::newModule
+    MC["MetaCognition Comparator"]:::newModule
+    SUL["Self-Update Loop"]:::newModule
+    EK["Ethical Kernel"]:::newModule
     SM --> PE --> MC --> SUL --> EK
   end
 
