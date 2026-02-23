@@ -111,7 +111,7 @@ flowchart TD
 |--------|:----------:|---------|:---------:|
 | Prediction Error | L3 v1.0 | actual vs predicted | < 0.1 (converged) |
 | Identity Delta | L3 v1.1 | $\lVert I(t) - I(t-1)\rVert_2$ | max 0.05/cycle |
-| Meta Stability Index | L3 v2.0 | $1 - 0.4V_{id} - 0.3M_{goal} - 0.3\sigma^2_{pred}$ | > 0.5 |
+| Meta Stability Index | L3 v2.0 | $1 - 0.4V\_{id} - 0.3M\_{goal} - 0.3\sigma^2\_{pred}$ | > 0.5 |
 | Composite Stability C(t) | L3 v3.1 | 4-term weighted sum | C(t+1) ≤ C(t) + 0.05 |
 | CDTS | L4 | Transfer performance ratio | ≥ 0.6 |
 | GPI | L4 | Long-horizon goal progress | ≥ 0.3 |
