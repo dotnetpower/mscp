@@ -1,3 +1,7 @@
+---
+title: "레벨 4: 적응형 범용 에이전트"
+description: "MSCP 레벨 4 — 변이 연산자, 그림자 에이전트 검증, 기술 생명주기 관리, 전이 학습 파이프라인, 형식적 안전 보장을 갖춘 자기수정 프로토콜."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

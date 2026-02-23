@@ -1,3 +1,7 @@
+---
+title: "레벨 3: 자기조절 인지 에이전트"
+description: "MSCP 레벨 3 — 정체성 벡터, 신념 그래프, 윤리적 커널, 정동 엔진, 생존 본능, 메타인지, 랴프노프 안정성 증명을 갖춘 16계층 인지 아키텍처."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

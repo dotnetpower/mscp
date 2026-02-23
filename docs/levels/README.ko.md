@@ -1,3 +1,7 @@
+---
+title: "에이전트 인지 수준 시리즈"
+description: "MSCP 에이전트 인지 수준 분류 체계 완전 가이드 — 레벨 1 도구 에이전트부터 레벨 5 프로토-AGI까지. 각 수준의 아키텍처, 안전 메커니즘, 형식적 속성을 정의합니다."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

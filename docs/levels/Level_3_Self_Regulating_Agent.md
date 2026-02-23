@@ -1,3 +1,7 @@
+---
+title: "Level 3: Self-Regulating Cognitive Agent"
+description: "MSCP Level 3 — 16-layer cognitive architecture with identity vector, belief graph, ethical kernel, affective engine, survival instinct, meta-cognition, and Lyapunov stability proofs."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

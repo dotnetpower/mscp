@@ -1,3 +1,7 @@
+---
+title: "레벨 4.8: 전략적 자기모델링"
+description: "MSCP 레벨 4.8 — 내부 자기모델 구축, 시뮬레이션을 통한 전략적 계획, 반사실적 추론, 마음 이론 능력, 예측적 자기인식."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

@@ -1,3 +1,7 @@
+---
+title: "Level 4: Adaptive General Agent"
+description: "MSCP Level 4 — self-modification protocol with mutation operators, shadow agent verification, skill lifecycle management, transfer learning pipeline, and formal safety guarantees."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

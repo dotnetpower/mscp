@@ -1,3 +1,7 @@
+---
+title: "Level 1: Tool Agent"
+description: "MSCP Level 1 Tool Agent — deterministic request-response architecture with zero autonomy. Formal definitions, 3-layer processing pipeline, error handling, and transition criteria to Level 2."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

@@ -1,3 +1,7 @@
+---
+title: "Level 2: Autonomous Agent"
+description: "MSCP Level 2 Autonomous Agent — goal-directed architecture with 5-layer processing, internal goal generation, percept structures, and behavioral analysis. Transition criteria to Level 3."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

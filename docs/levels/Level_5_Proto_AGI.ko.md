@@ -1,3 +1,7 @@
+---
+title: "레벨 5: 프로토-AGI"
+description: "MSCP 레벨 5 프로토-AGI — 창발적 의식 지표, 자기인식 지표, 메타인지 자율성, 세계 모델 통합, 인공 일반 지능의 형식적 경계."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

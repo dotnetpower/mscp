@@ -1,3 +1,7 @@
+---
+title: "Agent Cognition Level Series"
+description: "Complete guide to the MSCP Agent Cognition Level taxonomy — from Level 1 Tool Agents to Level 5 Proto-AGI. Each level defines architecture, safety mechanisms, and formal properties."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

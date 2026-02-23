@@ -1,3 +1,7 @@
+---
+title: "Level 4.5: Self-Architecting Intelligence"
+description: "MSCP Level 4.5 — cognitive graph rewriting, meta-architecture emergence, AGI boundary analysis, and the transition from adaptive to self-architecting intelligence."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

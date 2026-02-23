@@ -1,3 +1,7 @@
+---
+title: "MSCP 개요"
+description: "최소 자기의식 프로토콜(MSCP) — 구조적으로 자기인식하는 AI 에이전트를 위한 안전 지향 프레임워크. 6단계 인지 분류 체계, 16계층 인지 아키텍처, 30개 이상의 안전 메커니즘, 71개 형식 정의, 144개 학술 참고문헌."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

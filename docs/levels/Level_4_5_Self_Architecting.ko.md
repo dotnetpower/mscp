@@ -1,3 +1,7 @@
+---
+title: "레벨 4.5: 자기설계 지능"
+description: "MSCP 레벨 4.5 — 인지 그래프 재작성, 메타아키텍처 창발, AGI 경계 분석, 적응형에서 자기설계 지능으로의 전환."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

@@ -72,6 +72,8 @@ theme:
     repo: fontawesome/brands/github
     logo: material/brain
 
+  favicon: assets/images/favicon.png
+
 # ============================================================
 # Navigation
 # ============================================================
@@ -110,6 +112,8 @@ plugins:
         - locale: ko
           name: 한국어
           build: true
+          theme:
+            language: ko
           nav_translations:
             Home: 홈
             MSCP Overview: MSCP 개요
@@ -206,32 +210,11 @@ extra:
       link: mailto:moonchoi@microsoft.com
       name: Contact the author
 
+  analytics:
+    provider: google
+    property: G-HCKE5F50NS
+
   generator: false
 
-  # Open Graph / SEO meta
-  meta:
-    - name: keywords
-      content: >-
-        MSCP, AI safety, self-aware agents, cognitive architecture,
-        agent cognition, proto-AGI, self-modification, AI alignment,
-        Lyapunov stability, ethical AI, identity continuity,
-        meta-cognition, predictive processing
-    - name: author
-      content: Moon Hyuk Choi
-    - property: og:type
-      content: website
-    - property: og:title
-      content: "MSCP — Minimal Self-Consciousness Protocol"
-    - property: og:description
-      content: >-
-        A safety-oriented framework for structurally self-aware AI agents.
-        Six-level cognition taxonomy, 16-layer architecture, 30+ safety mechanisms.
-    - property: og:image
-      content: https://dotnetpower.github.io/mscp/assets/og-image.png
-    - name: twitter:card
-      content: summary_large_image
-    - name: twitter:title
-      content: "MSCP — Minimal Self-Consciousness Protocol"
-    - name: twitter:description
-      content: >-
-        A safety-oriented framework for structurally self-aware AI agents.
+  # Note: All OG/Twitter/SEO meta tags are rendered via docs/overrides/main.html
+  # with per-page dynamic values. No extra.meta needed here.

@@ -1,3 +1,7 @@
+---
+title: "레벨 1: 도구 에이전트"
+description: "MSCP 레벨 1 도구 에이전트 — 자율성이 없는 결정론적 요청-응답 아키텍처. 형식 정의, 3계층 처리 파이프라인, 오류 처리, 레벨 2 전환 기준."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

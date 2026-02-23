@@ -1,3 +1,7 @@
+---
+title: "레벨 2: 자율 에이전트"
+description: "MSCP 레벨 2 자율 에이전트 — 5계층 처리, 내부 목표 생성, 지각 구조, 행동 분석을 갖춘 목표 지향 아키텍처. 레벨 3 전환 기준."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

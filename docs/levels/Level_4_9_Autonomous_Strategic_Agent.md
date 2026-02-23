@@ -1,3 +1,7 @@
+---
+title: "Level 4.9: Autonomous Strategic Agent"
+description: "MSCP Level 4.9 — strategic autonomy with self-directed goal generation, meta-strategy optimization, autonomous resource management, and self-evaluation capabilities."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

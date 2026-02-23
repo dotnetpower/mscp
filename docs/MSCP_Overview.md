@@ -1,3 +1,7 @@
+---
+title: "MSCP Overview"
+description: "Minimal Self-Consciousness Protocol — a safety-oriented framework for structurally self-aware AI agents. Six-level cognition taxonomy, 16-layer cognitive architecture, 30+ safety mechanisms, 71 formal definitions, and 144 academic references."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

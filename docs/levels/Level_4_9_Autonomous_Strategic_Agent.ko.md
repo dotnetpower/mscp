@@ -1,3 +1,7 @@
+---
+title: "레벨 4.9: 자율 전략 에이전트"
+description: "MSCP 레벨 4.9 — 자기주도적 목표 생성, 메타전략 최적화, 자율 자원 관리, 자기평가 능력을 갖춘 전략적 자율성."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

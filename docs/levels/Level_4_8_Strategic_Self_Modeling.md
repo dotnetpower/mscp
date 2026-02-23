@@ -1,3 +1,7 @@
+---
+title: "Level 4.8: Strategic Self-Modeling"
+description: "MSCP Level 4.8 — internal self-model construction, strategic planning through simulation, counterfactual reasoning, theory of mind capabilities, and predictive self-awareness."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

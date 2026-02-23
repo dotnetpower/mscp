@@ -1,3 +1,7 @@
+---
+title: "Level 5: Proto-AGI"
+description: "MSCP Level 5 Proto-AGI — emergent consciousness indicators, self-awareness metrics, meta-cognitive autonomy, world model integration, and the formal boundary of artificial general intelligence."
+---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.

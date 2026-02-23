@@ -1,16 +1,44 @@
 {% extends "base.html" %}
 
+{% set is_korean = page and page.canonical_url and '/ko/' in page.canonical_url %}
+
 {% block extrahead %}
   <!-- Google Search Console -->
   <meta name="google-site-verification" content="jHE9O63_qT7gVGACSA-OA_2d1wzkue6urJ99MGSCzY8">
 
+  <!-- Resource Hints -->
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <!-- Primary SEO Meta Tags -->
   <meta name="robots" content="index, follow">
+  <meta name="keywords" content="MSCP, AI safety, self-aware agents, cognitive architecture, agent cognition, proto-AGI, self-modification, AI alignment, Lyapunov stability, ethical AI, identity continuity, meta-cognition, predictive processing">
+
+  <!-- hreflang alternate links -->
+  {% if page and page.canonical_url %}
+    {% if is_korean %}
+      <link rel="alternate" hreflang="ko" href="{{ page.canonical_url }}">
+      <link rel="alternate" hreflang="en" href="{{ page.canonical_url | replace('/ko/', '/') }}">
+      <link rel="alternate" hreflang="x-default" href="{{ page.canonical_url | replace('/ko/', '/') }}">
+    {% else %}
+      <link rel="alternate" hreflang="en" href="{{ page.canonical_url }}">
+      <link rel="alternate" hreflang="ko" href="{{ page.canonical_url | replace('/mscp/', '/mscp/ko/') }}">
+      <link rel="alternate" hreflang="x-default" href="{{ page.canonical_url }}">
+    {% endif %}
+  {% endif %}
 
   <!-- Open Graph -->
   <meta property="og:site_name" content="MSCP — Minimal Self-Consciousness Protocol">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="en_US">
+  {% set is_home = page and page.title and (page.title == 'Home' or page.title == '홈') %}
+  <meta property="og:type" content="{{ 'website' if is_home else 'article' }}">
+  {% if not is_home %}
+  <meta property="article:published_time" content="2026-02-23">
+  <meta property="article:modified_time" content="2026-02-23">
+  <meta property="article:author" content="Moon Hyuk Choi">
+  <meta property="article:section" content="AI Safety Research">
+  {% endif %}
+  <meta property="og:locale" content="{{ 'ko_KR' if is_korean else 'en_US' }}">
+  <meta property="og:locale:alternate" content="{{ 'en_US' if is_korean else 'ko_KR' }}">
   {% if page and page.title %}
     <meta property="og:title" content="{{ page.title }} — MSCP">
   {% else %}
@@ -22,9 +50,13 @@
     <meta property="og:description" content="A safety-oriented framework for structurally self-aware AI agents. Six-level cognition taxonomy, 30+ safety mechanisms, 144 references.">
   {% endif %}
   <meta property="og:url" content="{{ page.canonical_url }}">
+  <meta property="og:image" content="https://dotnetpower.github.io/mscp/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://dotnetpower.github.io/mscp/assets/images/og-image.png">
   {% if page and page.title %}
     <meta name="twitter:title" content="{{ page.title }} — MSCP">
   {% else %}
@@ -36,31 +68,87 @@
     <meta name="twitter:description" content="A safety-oriented framework for structurally self-aware AI agents.">
   {% endif %}
 
-  <!-- JSON-LD Structured Data -->
+  <!-- JSON-LD: TechArticle -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "{{ page.title | default('MSCP — Minimal Self-Consciousness Protocol') }}",
+    {% if page and page.meta and page.meta.description %}
+    "description": "{{ page.meta.description }}",
+    {% else %}
     "description": "A safety-oriented framework for structurally self-aware AI agents with six-level cognition taxonomy and 30+ safety mechanisms.",
+    {% endif %}
     "author": {
       "@type": "Person",
-      "name": "Moon Hyuk Choi",
-      "email": "moonchoi@microsoft.com",
-      "jobTitle": "Cloud & AI Apps CSA",
-      "affiliation": {
-        "@type": "Organization",
-        "name": "Microsoft"
-      }
+      "name": "Moon Hyuk Choi"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "MSCP Project",
+      "url": "https://dotnetpower.github.io/mscp/"
     },
     "datePublished": "2026-02-23",
     "dateModified": "2026-02-23",
     "license": "https://opensource.org/licenses/MIT",
     "url": "{{ page.canonical_url }}",
-    "keywords": ["AI safety", "cognitive architecture", "self-aware agents", "MSCP", "AGI", "Lyapunov stability", "ethical AI"],
-    "inLanguage": "en"
+    "mainEntityOfPage": "{{ page.canonical_url }}",
+    "keywords": ["AI safety", "cognitive architecture", "self-aware agents", "MSCP", "AGI", "Lyapunov stability", "ethical AI", "proto-AGI", "self-modification", "meta-cognition"],
+    "inLanguage": "{{ 'ko' if is_korean else 'en' }}"
   }
   </script>
+
+  <!-- JSON-LD: WebSite (for sitelinks search box) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "MSCP — Minimal Self-Consciousness Protocol",
+    "url": "https://dotnetpower.github.io/mscp/",
+    "description": "A safety-oriented framework for structurally self-aware AI agents. Six-level cognition taxonomy, 16-layer cognitive architecture, 30+ safety mechanisms.",
+    "author": {
+      "@type": "Person",
+      "name": "Moon Hyuk Choi"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  {% if page %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "MSCP",
+        "item": "https://dotnetpower.github.io/mscp/"
+      }
+      {% if page.parent %}
+      ,{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "{{ page.parent.title }}",
+        "item": "https://dotnetpower.github.io/mscp/{{ page.parent.url }}"
+      }
+      ,{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "{{ page.title }}"
+      }
+      {% elif page.title != "Home" %}
+      ,{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "{{ page.title }}"
+      }
+      {% endif %}
+    ]
+  }
+  </script>
+  {% endif %}
 
   <!-- Canonical URL -->
   <link rel="canonical" href="{{ page.canonical_url }}">
