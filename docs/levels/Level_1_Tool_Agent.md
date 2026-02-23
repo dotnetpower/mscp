@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2026 Moonhyuk Choi
+Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.
 See LICENSE file in the repository root for full license information.
 
@@ -74,7 +74,7 @@ where:
 |--------|------|---------------|
 | $\phi$ | Intent Classifier | $\mathcal{R} \to [0,1]^{\lvert\mathcal{T}\rvert+1}$ |
 | $\sigma$ | Parameter Extractor | $[0,1]^{\lvert\mathcal{T}\rvert+1} \times \mathcal{R} \to \mathcal{P}_{T^{\ast}}$ |
-| $\tau$ | Tool Dispatcher | $\mathcal{P}\_{T^{\ast}} \to \mathcal{D}\_{T^{\ast}} \cup \lbrace\textit{err}\rbrace$ |
+| $\tau$ | Tool Dispatcher | $\mathcal{P}_{T^{\ast}} \to \mathcal{D}_{T^{\ast}} \cup \lbrace\textit{err}\rbrace$ |
 | $\rho$ | Response Generator | $(\mathcal{D}_{T^{\ast}} \cup \lbrace\textit{err}\rbrace) \times \mathcal{R} \to \mathcal{O}$ |
 
 The pipeline is **strictly sequential** — there are no feedback loops, no state persistence, and no branching decisions after classification.

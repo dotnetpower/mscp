@@ -2,6 +2,15 @@
    MSCP — Custom Styles for MkDocs Material
    ============================================================ */
 
+/* --- Wide layout: use full screen width --- */
+.md-grid {
+  max-width: 100%;
+}
+
+.md-content {
+  max-width: none;
+}
+
 /* --- Card grid layout (Insiders-free alternative) --- */
 .grid.cards {
   display: grid;

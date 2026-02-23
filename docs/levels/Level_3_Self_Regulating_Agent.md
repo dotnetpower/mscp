@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2026 Moonhyuk Choi
+Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.
 See LICENSE file in the repository root for full license information.
 

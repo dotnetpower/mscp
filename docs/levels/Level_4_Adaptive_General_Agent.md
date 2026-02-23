@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2026 Moonhyuk Choi
+Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.
 See LICENSE file in the repository root for full license information.
 
@@ -187,9 +187,9 @@ flowchart LR
 
 | Metric | Formula | Threshold |
 |--------|---------|-----------|
-| DTSR (Domain Transfer Success Rate) | $\lvert T\_{\text{success}}\rvert / \lvert T\_{\text{total}}\rvert$ | ≥ 0.5 |
-| AS (Adaptation Speed) | $\text{cycles}\_{\text{baseline}} / \text{cycles}\_{\text{agent}}$ | ≥ 0.3 in 2/4 domains |
-| SNI (Strategy Novelty Index) | $\lvert S\_{\text{novel}}\rvert / \lvert S\_{\text{total}}\rvert$ | ≥ 0.2 |
+| DTSR (Domain Transfer Success Rate) | $\lvert T_{\text{success}}\rvert / \lvert T_{\text{total}}\rvert$ | ≥ 0.5 |
+| AS (Adaptation Speed) | $\text{cycles}_{\text{baseline}} / \text{cycles}_{\text{agent}}$ | ≥ 0.3 in 2/4 domains |
+| SNI (Strategy Novelty Index) | $\lvert S_{\text{novel}}\rvert / \lvert S_{\text{total}}\rvert$ | ≥ 0.2 |
 | CDSRR (Cross-Domain Strategy Reuse) | multi-domain strategies / total | ≥ 0.3 |
 
 ---
@@ -751,8 +751,8 @@ The three **new** terms (50% of total weight) capture expansion dynamics:
 | Term | Weight | Definition |
 |------|:------:|-----------|
 | $E_v$ (Expansion Velocity) | 0.20 | Rate of new skills + goals added per cycle: $E_v = \frac{\lvert\Delta \mathcal{D}(t)\rvert}{T}$ |
-| $G_c$ (Capability Growth) | 0.15 | Rate of capability confidence growth: $G\_c = \frac{d}{dt}\overline{c\_c}(t)$ |
-| $M_s$ (Strategy Mutation Rate) | 0.15 | Ratio of mutated to total strategies: $M\_s = \frac{\lvert\Sigma\_{\text{mut}}\rvert}{\lvert\Sigma\rvert}$ |
+| $G_c$ (Capability Growth) | 0.15 | Rate of capability confidence growth: $G_c = \frac{d}{dt}\overline{c_c}(t)$ |
+| $M_s$ (Strategy Mutation Rate) | 0.15 | Ratio of mutated to total strategies: $M_s = \frac{\lvert\Sigma_{\text{mut}}\rvert}{\lvert\Sigma\rvert}$ |
 
 > **Theorem 2 (Bounded Growth–Stability Trade-off).** Under the self-modification protocol with BGSS $\geq 0.7$, the following invariant holds:
 >

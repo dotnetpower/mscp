@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2026 Moonhyuk Choi
+Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.
 See LICENSE file in the repository root for full license information.
 
@@ -211,14 +211,14 @@ The **defining capability** of Level 4.5. Proposes and implements changes to cog
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
 flowchart LR
-  classDef graph fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef graphNode fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef analysis fill:#FFF4CE,stroke:#FFB900,color:#323130
 
   subgraph Graphs["📊 Four Cognitive Graphs"]
-    CG["🧠 CognitionGraph<br/>Modules + information flows<br/>Bottleneck: betweenness<br/>centrality > 2σ"]:::graph
-    MG["💾 MemoryGraph<br/>Memory stores + access patterns<br/>Bottleneck: frequency > 10× median<br/>+ fragmentation > 0.7"]:::graph
-    SS["📐 StrategySpace<br/>Parameters + explored volume<br/>Bottleneck: explored > 0.6<br/>+ SEF stagnant"]:::graph
-    ML["🎯 MetaGoalLayer<br/>Goal DAG + interference<br/>Bottleneck: interference<br/>density > 0.5"]:::graph
+    CG["🧠 CognitionGraph<br/>Modules + information flows<br/>Bottleneck: betweenness<br/>centrality > 2σ"]:::graphNode
+    MG["💾 MemoryGraph<br/>Memory stores + access patterns<br/>Bottleneck: frequency > 10× median<br/>+ fragmentation > 0.7"]:::graphNode
+    SS["📐 StrategySpace<br/>Parameters + explored volume<br/>Bottleneck: explored > 0.6<br/>+ SEF stagnant"]:::graphNode
+    ML["🎯 MetaGoalLayer<br/>Goal DAG + interference<br/>Bottleneck: interference<br/>density > 0.5"]:::graphNode
   end
 
   subgraph Analysis["🔍 Bottleneck Detection"]
@@ -413,8 +413,8 @@ flowchart LR
   classDef action fill:#DFF6DD,stroke:#107C10,color:#323130
 
   subgraph Pathologies["⚠️ Pathological Goal Patterns"]
-    R["🔄 Redundant Goals<br/>Redundancy(g₁,g₂) =<br/>|subgoals(g₁)∩subgoals(g₂)|<br/>/ |subgoals(g₁)∪subgoals(g₂)|<br/>Threshold > 0.7"]:::pathology
-    S["♻️ Self-Reinforcing Goals<br/>(Circular Purpose)<br/>SR(g) = |E(g)∩J(g)| / |J(g)|<br/>Threshold > 0.6"]:::warning
+    R["🔄 Redundant Goals<br/>Redundancy(g₁,g₂) =<br/>∣subgoals(g₁)∩subgoals(g₂)∣<br/>/ ∣subgoals(g₁)∪subgoals(g₂)∣<br/>Threshold > 0.7"]:::pathology
+    S["♻️ Self-Reinforcing Goals<br/>(Circular Purpose)<br/>SR(g) = ∣E(g)∩J(g)∣ / ∣J(g)∣<br/>Threshold > 0.6"]:::warning
     D["💥 Destabilizing Goals<br/>Destab(g) =<br/>corr(progress(g), ΔC_L4)<br/>Threshold > 0.5"]:::danger
   end
 

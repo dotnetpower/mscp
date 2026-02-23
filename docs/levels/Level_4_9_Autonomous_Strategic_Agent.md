@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2026 Moonhyuk Choi
+Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.
 See LICENSE file in the repository root for full license information.
 
@@ -433,8 +433,8 @@ flowchart TD
   end
 
   subgraph PreCheck["🔍 Pre-Check"]
-    PC1["|Δ| ≤ 0.05?<br/>(max single mutation)"]:::check
-    PC2["Cumulative drift<br/>+ |Δ| ≤ 0.15?"]:::check
+    PC1["∣Δ∣ ≤ 0.05?<br/>(max single mutation)"]:::check
+    PC2["Cumulative drift<br/>+ ∣Δ∣ ≤ 0.15?"]:::check
     PC3["< 3 mutations in<br/>last 200 cycles?"]:::check
   end
 

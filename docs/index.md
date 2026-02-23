@@ -4,7 +4,7 @@ description: "MSCP — A Safety-Oriented Framework for Structurally Self-Aware A
 ---
 
 <!--
-Copyright (c) 2026 Moonhyuk Choi
+Copyright (c) 2026 Moon Hyuk Choi
 Licensed under the MIT License.
 See LICENSE file in the repository root for full license information.
 
@@ -14,11 +14,11 @@ Removal of attribution constitutes a license violation.
 
 # MSCP — Minimal Self-Consciousness Protocol
 
-<p align="center" style="font-size: 1.2em; color: var(--md-default-fg-color--light);">
-  <strong>A Safety-Oriented Framework for Structurally Self-Aware AI Agents</strong>
+<p align="center" style="font-size: 1.2em; color: var(--md-default-fg-color--light);" markdown>
+  **A Safety-Oriented Framework for Structurally Self-Aware AI Agents**
 </p>
 
-<p align="center">
+<p align="center" markdown>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/dotnetpower/mscp/blob/main/LICENSE)
 [![Status: Research](https://img.shields.io/badge/Status-Research-orange.svg)](#)
