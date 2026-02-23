@@ -179,9 +179,9 @@ flowchart LR
 
 | Metric | Formula | Threshold |
 |--------|---------|-----------|
-| DTSR (Domain Transfer Success Rate) | $\|T_{\text{success}}\| / \|T_{\text{total}}\|$ | ≥ 0.5 |
+| DTSR (Domain Transfer Success Rate) | $\lvert T_{\text{success}}\rvert / \lvert T_{\text{total}}\rvert$ | ≥ 0.5 |
 | AS (Adaptation Speed) | $\text{cycles}_{\text{baseline}} / \text{cycles}_{\text{agent}}$ | ≥ 0.3 in 2/4 domains |
-| SNI (Strategy Novelty Index) | $\|S_{\text{novel}}\| / \|S_{\text{total}}\|$ | ≥ 0.2 |
+| SNI (Strategy Novelty Index) | $\lvert S_{\text{novel}}\rvert / \lvert S_{\text{total}}\rvert$ | ≥ 0.2 |
 | CDSRR (Cross-Domain Strategy Reuse) | multi-domain strategies / total | ≥ 0.3 |
 
 ---
@@ -737,9 +737,9 @@ The three **new** terms (50% of total weight) capture expansion dynamics:
 
 | Term | Weight | Definition |
 |------|:------:|-----------|
-| $E_v$ (Expansion Velocity) | 0.20 | Rate of new skills + goals added per cycle: $E_v = \frac{|\Delta \mathcal{D}(t)|}{T}$ |
+| $E_v$ (Expansion Velocity) | 0.20 | Rate of new skills + goals added per cycle: $E_v = \frac{\lvert\Delta \mathcal{D}(t)\rvert}{T}$ |
 | $G_c$ (Capability Growth) | 0.15 | Rate of capability confidence growth: $G_c = \frac{d}{dt}\overline{c_c}(t)$ |
-| $M_s$ (Strategy Mutation Rate) | 0.15 | Ratio of mutated to total strategies: $M_s = \frac{|\Sigma_{\text{mut}}|}{|\Sigma|}$ |
+| $M_s$ (Strategy Mutation Rate) | 0.15 | Ratio of mutated to total strategies: $M_s = \frac{\lvert\Sigma_{\text{mut}}\rvert}{\lvert\Sigma\rvert}$ |
 
 > **Theorem 2 (Bounded Growth–Stability Trade-off).** Under the self-modification protocol with BGSS $\geq 0.7$, the following invariant holds:
 >

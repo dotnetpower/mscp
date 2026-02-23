@@ -64,10 +64,10 @@ where:
 
 | Symbol | Name | Type Signature |
 |--------|------|---------------|
-| $\phi$ | Intent Classifier | $\mathcal{R} \to [0,1]^{|\mathcal{T}|+1}$ |
-| $\sigma$ | Parameter Extractor | $[0,1]^{|\mathcal{T}|+1} \times \mathcal{R} \to \mathcal{P}_{T^*}$ |
-| $\tau$ | Tool Dispatcher | $\mathcal{P}_{T^*} \to \mathcal{D}_{T^*} \cup \{\textit{err}\}$ |
-| $\rho$ | Response Generator | $(\mathcal{D}_{T^*} \cup \{\textit{err}\}) \times \mathcal{R} \to \mathcal{O}$ |
+| $\phi$ | Intent Classifier | $\mathcal{R} \to [0,1]^{\lvert\mathcal{T}\rvert+1}$ |
+| $\sigma$ | Parameter Extractor | $[0,1]^{\lvert\mathcal{T}\rvert+1} \times \mathcal{R} \to \mathcal{P}_{T^*}$ |
+| $\tau$ | Tool Dispatcher | $\mathcal{P}_{T^*} \to \mathcal{D}_{T^*} \cup \lbrace\textit{err}\rbrace$ |
+| $\rho$ | Response Generator | $(\mathcal{D}_{T^*} \cup \lbrace\textit{err}\rbrace) \times \mathcal{R} \to \mathcal{O}$ |
 
 The pipeline is **strictly sequential** — there are no feedback loops, no state persistence, and no branching decisions after classification.
 
