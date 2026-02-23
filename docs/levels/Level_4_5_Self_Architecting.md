@@ -870,4 +870,5 @@ Removing any of these would move toward Level 5 (AGI), which remains a fundament
 
 ---
 
-> **Previous**: [← Level 4: Adaptive General Agent](Level_4_Adaptive_General_Agent.md)
+> **Previous**: [← Level 4: Adaptive General Agent](Level_4_Adaptive_General_Agent.md)  
+> **Next**: [Level 4.8: Strategic Self-Modeling Agent →](Level_4_8_Strategic_Self_Modeling.md)

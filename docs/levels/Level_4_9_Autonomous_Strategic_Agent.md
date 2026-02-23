@@ -1414,5 +1414,6 @@ flowchart LR
 
 ---
 
-> 📝 This documentation was written with the assistance of [GitHub Copilot](https://github.com/features/copilot).  
-> ⚠️ **This level is in the RESEARCH STAGE. Nothing described here has been implemented or validated.**
+> **Previous**: [← Level 4.8: Strategic Self-Modeling Agent](Level_4_8_Strategic_Self_Modeling.md)  
+> **Next**: [Level 5: Proto-AGI →](Level_5_Proto_AGI.md)
+
