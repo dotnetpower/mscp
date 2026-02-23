@@ -232,6 +232,7 @@ flowchart TD
 ### 3.1 Full Processing Sequence
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'actorTextColor': '#003D6B', 'actorLineColor': '#0078D4', 'signalColor': '#003D6B', 'signalTextColor': '#003D6B', 'labelTextColor': '#003D6B', 'loopTextColor': '#003D6B', 'noteBkgColor': '#DEECF9', 'noteTextColor': '#003D6B', 'noteBorderColor': '#0078D4', 'activationBkgColor': '#E1DFDD', 'activationBorderColor': '#605E5C', 'sequenceNumberColor': '#FFF', 'textColor': '#323130', 'fontSize': '14px'}}}%%
 sequenceDiagram
     actor U as 👤 User
     participant IR as Intent Router v2
@@ -686,6 +687,7 @@ flowchart TD
     MC["MetaCognition Comparator<br/>(predict vs actual)"]:::newModule
     SUL["Self-Update Loop<br/>(delta-clamped)"]:::newModule
     EK["Ethical Kernel<br/>(Layer 0 + Layer 1)"]:::newModule
+    SM --> PE --> MC --> SUL --> EK
   end
 
   subgraph L3Arch["Level 3 Architecture"]

@@ -175,6 +175,7 @@ flowchart TD
 ### 3.1 Request Processing Sequence
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'actorTextColor': '#003D6B', 'actorLineColor': '#0078D4', 'signalColor': '#003D6B', 'signalTextColor': '#003D6B', 'labelTextColor': '#003D6B', 'loopTextColor': '#003D6B', 'noteBkgColor': '#DEECF9', 'noteTextColor': '#003D6B', 'noteBorderColor': '#0078D4', 'activationBkgColor': '#E1DFDD', 'activationBorderColor': '#605E5C', 'sequenceNumberColor': '#FFF', 'textColor': '#323130', 'fontSize': '14px'}}}%%
 sequenceDiagram
     actor U as 👤 User
     participant IR as Intent Router
@@ -200,6 +201,7 @@ sequenceDiagram
 ### 3.2 Error Handling Sequence
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'actorTextColor': '#003D6B', 'actorLineColor': '#0078D4', 'signalColor': '#003D6B', 'signalTextColor': '#003D6B', 'labelTextColor': '#003D6B', 'loopTextColor': '#003D6B', 'noteBkgColor': '#DEECF9', 'noteTextColor': '#003D6B', 'noteBorderColor': '#0078D4', 'activationBkgColor': '#E1DFDD', 'activationBorderColor': '#605E5C', 'sequenceNumberColor': '#FFF', 'textColor': '#323130', 'fontSize': '14px'}}}%%
 sequenceDiagram
     actor U as 👤 User
     participant IR as Intent Router
@@ -437,8 +439,8 @@ where $\mathcal{S}$ represents the world state and $\mathcal{S}'$, $\mathcal{G}'
 <!-- Level 1 to Level 2 Transition -->
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
-flowchart LR
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '16px'}}}%%
+flowchart TB
   classDef danger fill:#D13438,stroke:#A4262C,color:#FFF
   classDef dangerLight fill:#FDE7E9,stroke:#D13438,color:#323130
   classDef warning fill:#FFB900,stroke:#CC9400,color:#323130
@@ -446,42 +448,64 @@ flowchart LR
   classDef success fill:#107C10,stroke:#085108,color:#FFF
   classDef successLight fill:#DFF6DD,stroke:#107C10,color:#323130
 
-  subgraph L1["Level 1: Tool Agent"]
-    A1["Stateless"]:::dangerLight
-    A2["Reactive"]:::dangerLight
-    A3["Tool-Dependent"]:::dangerLight
-    A4["No Memory"]:::dangerLight
+  subgraph L1["⛔ L1 Tool Agent"]
+    A1["Stateless — no persistent state"]:::dangerLight
+    A2["Reactive — responds only when prompted"]:::dangerLight
+    A3["Tool-Dependent — cannot act without tools"]:::dangerLight
+    A4["No Memory — each request is independent"]:::dangerLight
   end
 
   subgraph Gap["🔑 Transition Requirements"]
-    G1["+ World Model<br/>(persistent state)"]:::warningLight
-    G2["+ Entity Tracker<br/>(who/what tracking)"]:::warningLight
-    G3["+ Goal System<br/>(autonomous objectives)"]:::warningLight
-    G4["+ Temporal Model<br/>(time-aware facts)"]:::warningLight
+    G1["+ World Model — persistent state tracking"]:::warningLight
+    G2["+ Entity Tracker — who/what identification"]:::warningLight
+    G3["+ Goal System — autonomous objectives"]:::warningLight
+    G4["+ Temporal Model — time-aware fact management"]:::warningLight
   end
 
-  subgraph L2["Level 2: Autonomous Agent"]
-    B1["Stateful"]:::successLight
-    B2["Goal-Directed"]:::successLight
-    B3["Context-Aware"]:::successLight
-    B4["Long-Term Memory"]:::successLight
+  subgraph L2["✅ L2 Autonomous Agent"]
+    B1["Stateful — maintains world model"]:::successLight
+    B2["Goal-Directed — pursues autonomous objectives"]:::successLight
+    B3["Context-Aware — tracks entities and relations"]:::successLight
+    B4["Long-Term Memory — persists across sessions"]:::successLight
   end
 
-  L1 -.-> Gap
-  Gap -.-> L2
+  L1 -.->|"gaps to bridge"| Gap
+  Gap -.->|"enables"| L2
 ```
 
 ### 6.2 Architecture Delta
 
-```
-Level 1:  IntentRouter → ToolDispatcher → ResponseGenerator
-              │                                    │
-              └──────── No intermediate layers ─────┘
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
+flowchart TD
+  classDef l1Light fill:#F2F2F2,stroke:#605E5C,color:#323130
+  classDef l2Light fill:#DEECF9,stroke:#0078D4,color:#323130
+  classDef l2New fill:#0078D4,stroke:#003D6B,color:#FFF
 
-Level 2:  IntentRouter → WorldModel → GoalSystem → ToolDispatcher → ResponseGenerator
-              │              │            │
-              ↓              ↓            ↓
-          EmotionDet    EntityTracker  AutonomousGoals
+  subgraph L1["Level 1 — Stateless Pipeline"]
+    IR1["IntentRouter"]:::l1Light
+    TD1["ToolDispatcher"]:::l1Light
+    RG1["ResponseGenerator"]:::l1Light
+    IR1 -->|"sequential"| TD1 -->|"sequential"| RG1
+  end
+
+  subgraph L2["Level 2 — Stateful Architecture"]
+    IR2["IntentRouter"]:::l2Light
+    WM["WorldModel ★"]:::l2New
+    GS["GoalSystem ★"]:::l2New
+    TD2["ToolDispatcher"]:::l2Light
+    RG2["ResponseGenerator"]:::l2Light
+    IR2 --> WM --> GS --> TD2 --> RG2
+
+    ED["EmotionDetector ★"]:::l2New
+    ET["EntityTracker ★"]:::l2New
+    AG["AutonomousGoals ★"]:::l2New
+    IR2 -.-> ED
+    WM -.-> ET
+    GS -.-> AG
+  end
+
+  L1 -.->|"evolves into"| L2
 ```
 
 ---

@@ -65,7 +65,7 @@ Level 3 is the **core MSCP level** — the first agent that possesses *structura
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
-flowchart LR
+flowchart TB
   classDef v0 fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef v1 fill:#DFF6DD,stroke:#107C10,color:#323130
   classDef v1x fill:#FFE8C8,stroke:#EF6C00,color:#323130
@@ -74,18 +74,21 @@ flowchart LR
   classDef v4 fill:#FDE7E9,stroke:#D13438,color:#323130
 
   subgraph v0x["v0.x Prototype"]
+    direction LR
     a0["State externalization"]:::v0
     b0["Identity seed"]:::v0
     c0["Basic reflection"]:::v0
   end
 
   subgraph v10["v1.0"]
+    direction LR
     a1["PredictionEngine"]:::v1
     b1["MetaCognition Comparator"]:::v1
     c1["Agency Attribution"]:::v1
   end
 
   subgraph v1xx["v1.1–1.3"]
+    direction LR
     a1x["Identity hash tracking"]:::v1x
     b1x["Drift detection"]:::v1x
     c1x["Self-Impact Prediction"]:::v1x
@@ -93,24 +96,27 @@ flowchart LR
   end
 
   subgraph v20["v2.0"]
+    direction LR
     a2["GoalMutationController"]:::v2
     b2["ValueLockManager"]:::v2
-    c2["MetaDepthController<br/>depth 2"]:::v2
+    c2["MetaDepthController — depth 2"]:::v2
     d2["Meta Stability Formula"]:::v2
   end
 
   subgraph v30["v3.0"]
+    direction LR
     a3["BeliefGraphManager"]:::v3
-    b3["IdentityVector<br/>formalization"]:::v3
-    c3["EthicalKernel<br/>Layer 0+1"]:::v3
+    b3["IdentityVector formalization"]:::v3
+    c3["EthicalKernel — Layer 0+1"]:::v3
     d3["SelfConsistencyTensor"]:::v3
   end
 
   subgraph v40["v4.0"]
-    a4["AffectiveEngine<br/>5-dim"]:::v4
+    direction LR
+    a4["AffectiveEngine — 5-dim"]:::v4
     b4["SurvivalInstinctEngine"]:::v4
-    c4["Async separation<br/>principle"]:::v4
-    d4["GlobalWorkspace<br/>broadcast"]:::v4
+    c4["Async separation principle"]:::v4
+    d4["GlobalWorkspace broadcast"]:::v4
   end
 
   v0x ==> v10
@@ -309,7 +315,7 @@ flowchart TD
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
-flowchart LR
+flowchart TB
   classDef core fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef meta fill:#FFF4CE,stroke:#FFB900,color:#323130
   classDef safety fill:#FDE7E9,stroke:#D13438,color:#323130
@@ -317,6 +323,7 @@ flowchart LR
   classDef affect fill:#EDE3F6,stroke:#8764B8,color:#323130
 
   subgraph Core["🧠 Core Cognition"]
+    direction LR
     C1["L1 Perception"]:::core
     C2["L2 World Model"]:::core
     C3["L3 Self Model"]:::core
@@ -327,11 +334,13 @@ flowchart LR
   end
 
   subgraph Meta["🔄 Meta-Cognition"]
+    direction LR
     M1["L8 MetaComparator"]:::meta
     M2["L9 Self-Update"]:::meta
   end
 
   subgraph Safety["🛡️ Safety Guards"]
+    direction LR
     S1["L3.5 Belief Graph"]:::safety
     S2["L5.5 Ethical Kernel"]:::safety
     S3["L10 Escalation Guard"]:::safety
@@ -340,11 +349,13 @@ flowchart LR
   end
 
   subgraph Infra["⚙️ Infrastructure"]
+    direction LR
     I1["L13 Budget"]:::infra
     I2["L14 Global Workspace"]:::infra
   end
 
   subgraph Emotion["💜 Affective v4"]
+    direction LR
     E1["L15 Affect Engine"]:::affect
     E2["L16 Survival Instinct"]:::affect
   end
