@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://dotnetpower.github.io/mscp/sitemap.xml

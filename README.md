@@ -1,3 +1,11 @@
+<!--
+Copyright (c) 2026 Moonhyuk Choi
+Licensed under the MIT License.
+See LICENSE file in the repository root for full license information.
+
+Redistribution (commercial or non-commercial) must retain this notice.
+Removal of attribution constitutes a license violation.
+-->
 # MSCP — Minimal Self-Consciousness Protocol
 
 > **A Safety-Oriented Framework for Structurally Self-Aware AI Agents**
@@ -136,6 +144,17 @@ This is very much a work in progress. Feedback, critique, and contributions are 
 ## License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+## License Notice
+
+This project is licensed under the MIT License.
+
+Any redistribution, commercial or non-commercial, must retain:
+- The original copyright notice
+- The full MIT license text
+- Clear attribution to the original author
+
+Failure to retain attribution constitutes a violation of the license.
 
 ---
 

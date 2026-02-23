@@ -1,3 +1,11 @@
+<!--
+Copyright (c) 2026 Moonhyuk Choi
+Licensed under the MIT License.
+See LICENSE file in the repository root for full license information.
+
+Redistribution (commercial or non-commercial) must retain this notice.
+Removal of attribution constitutes a license violation.
+-->
 # Level 5: Proto-AGI — Persistent General Strategic Intelligence
 
 > **MSCP Level Series** | [Level 4.9](Level_4_9_Autonomous_Strategic_Agent.md) ← Level 5  

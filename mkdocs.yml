@@ -1,0 +1,199 @@
+# ============================================================
+# MSCP — MkDocs Material Configuration
+# ============================================================
+
+site_name: "MSCP — Minimal Self-Consciousness Protocol"
+site_url: "https://dotnetpower.github.io/mscp/"
+site_author: "Moon Hyuk Choi"
+site_description: >-
+  A safety-oriented framework for structurally self-aware AI agents.
+  Six-level cognition taxonomy from Tool Agents to Proto-AGI,
+  16-layer cognitive architecture, 30+ safety mechanisms,
+  71 formal definitions, and 144 academic references.
+
+repo_name: dotnetpower/mscp
+repo_url: https://github.com/dotnetpower/mscp
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+site_dir: site
+
+copyright: >-
+  Copyright &copy; 2026 Moon Hyuk Choi — Independent Research Project
+
+# ============================================================
+# Theme
+# ============================================================
+theme:
+  name: material
+  language: en
+  custom_dir: docs/overrides
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.action.edit
+    - content.action.view
+    - content.code.copy
+    - content.code.annotate
+    - toc.follow
+
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/brain
+
+# ============================================================
+# Navigation
+# ============================================================
+nav:
+  - Home: index.md
+  - MSCP Overview: MSCP_Overview.md
+  - Agent Levels:
+    - Level Series: levels/README.md
+    - "L1: Tool Agent": levels/Level_1_Tool_Agent.md
+    - "L2: Autonomous Agent": levels/Level_2_Autonomous_Agent.md
+    - "L3: Self-Regulating Agent": levels/Level_3_Self_Regulating_Agent.md
+    - "L4: Adaptive General Agent": levels/Level_4_Adaptive_General_Agent.md
+    - "L4.5: Self-Architecting": levels/Level_4_5_Self_Architecting.md
+    - "L4.8: Strategic Self-Modeling": levels/Level_4_8_Strategic_Self_Modeling.md
+    - "L4.9: Autonomous Strategic": levels/Level_4_9_Autonomous_Strategic_Agent.md
+    - "L5: Proto-AGI": levels/Level_5_Proto_AGI.md
+
+# ============================================================
+# Plugins
+# ============================================================
+plugins:
+  - search:
+      lang: en
+      separator: '[\s\-\.]+'
+  - minify:
+      minify_html: true
+
+# ============================================================
+# Extensions
+# ============================================================
+markdown_extensions:
+  # --- Python Markdown ---
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+  # --- PyMdown Extensions ---
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+# ============================================================
+# Extra CSS / JS (KaTeX)
+# ============================================================
+extra_css:
+  - https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/katex.js
+  - https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js
+  - https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js
+
+# ============================================================
+# Extra — SEO, Social, Analytics
+# ============================================================
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/dotnetpower/mscp
+      name: MSCP on GitHub
+    - icon: fontawesome/solid/envelope
+      link: mailto:moonchoi@microsoft.com
+      name: Contact the author
+
+  generator: false
+
+  # Open Graph / SEO meta
+  meta:
+    - name: keywords
+      content: >-
+        MSCP, AI safety, self-aware agents, cognitive architecture,
+        agent cognition, proto-AGI, self-modification, AI alignment,
+        Lyapunov stability, ethical AI, identity continuity,
+        meta-cognition, predictive processing
+    - name: author
+      content: Moon Hyuk Choi
+    - property: og:type
+      content: website
+    - property: og:title
+      content: "MSCP — Minimal Self-Consciousness Protocol"
+    - property: og:description
+      content: >-
+        A safety-oriented framework for structurally self-aware AI agents.
+        Six-level cognition taxonomy, 16-layer architecture, 30+ safety mechanisms.
+    - property: og:image
+      content: https://dotnetpower.github.io/mscp/assets/og-image.png
+    - name: twitter:card
+      content: summary_large_image
+    - name: twitter:title
+      content: "MSCP — Minimal Self-Consciousness Protocol"
+    - name: twitter:description
+      content: >-
+        A safety-oriented framework for structurally self-aware AI agents.

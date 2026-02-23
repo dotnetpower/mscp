@@ -1,3 +1,11 @@
+<!--
+Copyright (c) 2026 Moonhyuk Choi
+Licensed under the MIT License.
+See LICENSE file in the repository root for full license information.
+
+Redistribution (commercial or non-commercial) must retain this notice.
+Removal of attribution constitutes a license violation.
+-->
 # Level 4: Adaptive General Agent — Architecture & Design
 
 > **MSCP Level Series** | [Level 3](Level_3_Self_Regulating_Agent.md) ← Level 4 → [Level 4.5](Level_4_5_Self_Architecting.md)  

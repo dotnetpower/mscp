@@ -1,3 +1,11 @@
+<!--
+Copyright (c) 2026 Moonhyuk Choi
+Licensed under the MIT License.
+See LICENSE file in the repository root for full license information.
+
+Redistribution (commercial or non-commercial) must retain this notice.
+Removal of attribution constitutes a license violation.
+-->
 # Level 4.9: Autonomous Strategic Agent — Architecture & Design
 
 > **MSCP Level Series** | [Level 4.8](Level_4_8_Strategic_Self_Modeling.md) ← Level 4.9 → [Level 5](Level_5_Proto_AGI.md)  

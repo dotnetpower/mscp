@@ -1,3 +1,11 @@
+<!--
+Copyright (c) 2026 Moonhyuk Choi
+Licensed under the MIT License.
+See LICENSE file in the repository root for full license information.
+
+Redistribution (commercial or non-commercial) must retain this notice.
+Removal of attribution constitutes a license violation.
+-->
 # Level 1: Tool Agent — Architecture & Design
 
 > **MSCP Level Series** | [Overview](../MSCP_Overview.md) ← Level 1 → [Level 2](Level_2_Autonomous_Agent.md)  

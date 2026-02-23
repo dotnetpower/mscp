@@ -1,2 +1,5 @@
-.github/
 docs/TODO.md
+site/
+__pycache__/
+*.pyc
+.cache/

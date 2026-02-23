@@ -1,3 +1,11 @@
+<!--
+Copyright (c) 2026 Moonhyuk Choi
+Licensed under the MIT License.
+See LICENSE file in the repository root for full license information.
+
+Redistribution (commercial or non-commercial) must retain this notice.
+Removal of attribution constitutes a license violation.
+-->
 # Minimal Self‑Consciousness Protocol for Agentic AI: A Safety‑Oriented Internal Framework
 
 > **Disclaimer**: This is an **independent personal research project**. It does not represent the views, positions, or official work of any organization or employer. All ideas, designs, and analyses here are the author's own exploration into the question of how AI agents can evolve safely.

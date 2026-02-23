@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  <!-- Primary SEO Meta Tags -->
+  <meta name="author" content="Moon Hyuk Choi">
+  <meta name="robots" content="index, follow">
+  <meta name="google-site-verification" content="">
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="MSCP — Minimal Self-Consciousness Protocol">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  {% if page and page.title %}
+    <meta property="og:title" content="{{ page.title }} — MSCP">
+  {% else %}
+    <meta property="og:title" content="MSCP — Minimal Self-Consciousness Protocol">
+  {% endif %}
+  {% if page and page.meta and page.meta.description %}
+    <meta property="og:description" content="{{ page.meta.description }}">
+  {% else %}
+    <meta property="og:description" content="A safety-oriented framework for structurally self-aware AI agents. Six-level cognition taxonomy, 30+ safety mechanisms, 144 references.">
+  {% endif %}
+  <meta property="og:url" content="{{ page.canonical_url }}">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  {% if page and page.title %}
+    <meta name="twitter:title" content="{{ page.title }} — MSCP">
+  {% else %}
+    <meta name="twitter:title" content="MSCP — Minimal Self-Consciousness Protocol">
+  {% endif %}
+  {% if page and page.meta and page.meta.description %}
+    <meta name="twitter:description" content="{{ page.meta.description }}">
+  {% else %}
+    <meta name="twitter:description" content="A safety-oriented framework for structurally self-aware AI agents.">
+  {% endif %}
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "{{ page.title | default('MSCP — Minimal Self-Consciousness Protocol') }}",
+    "description": "A safety-oriented framework for structurally self-aware AI agents with six-level cognition taxonomy and 30+ safety mechanisms.",
+    "author": {
+      "@type": "Person",
+      "name": "Moon Hyuk Choi",
+      "email": "moonchoi@microsoft.com",
+      "jobTitle": "Cloud & AI Apps CSA",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Microsoft"
+      }
+    },
+    "datePublished": "2026-02-23",
+    "dateModified": "2026-02-23",
+    "license": "https://opensource.org/licenses/MIT",
+    "url": "{{ page.canonical_url }}",
+    "keywords": ["AI safety", "cognitive architecture", "self-aware agents", "MSCP", "AGI", "Lyapunov stability", "ethical AI"],
+    "inLanguage": "en"
+  }
+  </script>
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="{{ page.canonical_url }}">
+{% endblock %}

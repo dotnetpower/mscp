@@ -1,0 +1,86 @@
+/* ============================================================
+   MSCP — Custom Styles for MkDocs Material
+   ============================================================ */
+
+/* --- Card grid layout (Insiders-free alternative) --- */
+.grid.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.grid.cards > ul {
+  display: contents;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.grid.cards > ul > li {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.5rem;
+  padding: 1.2rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.grid.cards > ul > li:hover {
+  border-color: var(--md-accent-fg-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* --- Mermaid diagram responsiveness --- */
+.mermaid {
+  text-align: center;
+  overflow-x: auto;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* --- KaTeX block math spacing --- */
+.katex-display {
+  margin: 1.2em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* --- Badge row centering on homepage --- */
+p:has(> a > img[alt*="License"],
+      > a > img[alt*="Status"],
+      > a > img[alt*="Docs"]) {
+  text-align: center;
+}
+
+/* --- Table improvements --- */
+.md-typeset table:not([class]) {
+  font-size: 0.82rem;
+}
+
+.md-typeset table:not([class]) th {
+  white-space: nowrap;
+}
+
+/* --- Blockquote styling (definitions, theorems) --- */
+.md-typeset blockquote {
+  border-left: 4px solid var(--md-accent-fg-color);
+  background: var(--md-code-bg-color);
+  padding: 0.8rem 1rem;
+  margin: 1rem 0;
+}
+
+/* --- Code block dark-mode readability --- */
+[data-md-color-scheme="slate"] .md-typeset pre > code {
+  background: #1e1e2e;
+}
+
+/* --- Navigation section labels --- */
+.md-nav__title {
+  font-weight: 600;
+}
+
+/* --- Footer link styling --- */
+.md-footer-meta {
+  font-size: 0.8rem;
+}

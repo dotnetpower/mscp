@@ -1,3 +1,11 @@
+<!--
+Copyright (c) 2026 Moonhyuk Choi
+Licensed under the MIT License.
+See LICENSE file in the repository root for full license information.
+
+Redistribution (commercial or non-commercial) must retain this notice.
+Removal of attribution constitutes a license violation.
+-->
 # MSCP Agent Cognition Level Series
 
 > **Status**: 🔬 **Experimental** — All documents in this series describe designs that emerged from prototyping and testing. They are not finalized specifications.  
@@ -198,4 +206,4 @@ Core academic works referenced across the MSCP Level Series:
 
 ---
 
-*See the [main README](../../README.md) for project overview and repository structure.*
+*See the [Home](../index.md) for project overview and repository structure.*

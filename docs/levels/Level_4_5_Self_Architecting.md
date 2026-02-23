@@ -1,3 +1,11 @@
+<!--
+Copyright (c) 2026 Moonhyuk Choi
+Licensed under the MIT License.
+See LICENSE file in the repository root for full license information.
+
+Redistribution (commercial or non-commercial) must retain this notice.
+Removal of attribution constitutes a license violation.
+-->
 # Level 4.5: Pre-AGI — Directionally Self-Architecting System
 
 > **MSCP Level Series** | [Level 4](Level_4_Adaptive_General_Agent.md) ← Level 4.5 → [Level 4.8](Level_4_8_Strategic_Self_Modeling.md)  
