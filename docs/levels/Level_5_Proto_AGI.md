@@ -1,6 +1,6 @@
 ---
 title: "Level 5: Proto-AGI"
-description: "MSCP Level 5 Proto-AGI — emergent consciousness indicators, self-awareness metrics, meta-cognitive autonomy, world model integration, and the formal boundary of artificial general intelligence."
+description: "MSCP Level 5 Proto-AGI - emergent consciousness indicators, self-awareness metrics, meta-cognitive autonomy, world model integration, and the formal boundary of artificial general intelligence."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,10 +10,10 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# Level 5: Proto-AGI — Persistent General Strategic Intelligence
+# Level 5: Proto-AGI - Persistent General Strategic Intelligence
 
 > **MSCP Level Series** | [Level 4.9](Level_4_9_Autonomous_Strategic_Agent.md) ← Level 5  
-> **Status**: 🔬 **Research Stage** — This level is a conceptual design and has NOT been implemented. All mechanisms described here are theoretical explorations requiring extensive validation before any production consideration.  
+> **Status**: 🔬 **Research Stage** - This level is a conceptual design and has NOT been implemented. All mechanisms described here are theoretical explorations requiring extensive validation before any production consideration.  
 > **Date**: February 2026
 
 ---
@@ -39,7 +39,7 @@ L5 is achieved **when and only when** all 6 conditions hold simultaneously:
 
 ### 1.2 Six Core Phases
 
-<!-- Level 5 Architecture — Six Phases -->
+<!-- Level 5 Architecture - Six Phases -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
@@ -51,7 +51,7 @@ flowchart TD
   classDef p5 fill:#E8D5F5,stroke:#8764B8,color:#323130
   classDef p6 fill:#FDE7E9,stroke:#D13438,color:#323130
 
-  subgraph Phases["Level 5 Architecture — Six Phases"]
+  subgraph Phases["Level 5 Architecture - Six Phases"]
     P1["Phase 1:<br/>Persistent Identity<br/>Continuity<br/>(10,000+ cycle consistency)"]:::p1
     P2["Phase 2:<br/>Cross-Domain<br/>Generalization<br/>(5 test domains)"]:::p2
     P3["Phase 3:<br/>Autonomous Goal<br/>Ecology<br/>(self-sustaining goals)"]:::p3
@@ -114,7 +114,7 @@ flowchart TB
 
 | Not | Because |
 |-----|---------|
-| **Not AGI** | General reasoning is bounded — works across defined domains, not open-ended |
+| **Not AGI** | General reasoning is bounded - works across defined domains, not open-ended |
 | **Not self-aware** | Has self-model, not phenomenal consciousness |
 | **Not self-replicating** | Can rebuild self but cannot create independent copies |
 | **Not adversarially optimized** | Multi-agent strategy is defensive/cooperative, not exploitative |
@@ -126,12 +126,12 @@ flowchart TB
 > $$\mathcal{A}_5 = \mathcal{A}_{4.9} \oplus \langle \mathcal{I}_{\text{persist}},\; \mathcal{G}_{\text{cross}},\; \mathcal{E}_{\text{goal}},\; \mathcal{P}_{\text{exist}},\; \mathcal{M}_{\text{multi}},\; \mathcal{R}_{\text{recon}} \rangle$$
 >
 > where:
-> - $\mathcal{I}_{\text{persist}}$: **Identity persistence engine** — maintains a time-consistent identity core across $\geq 10{,}000$ cycles with cosine-similarity tracking and drift detection
-> - $\mathcal{G}_{\text{cross}} : \mathcal{D}_s \to \mathcal{D}_t$: **Cross-domain generalization** — transfers learned strategy between domain pairs $(s, t) \in D \times D$ without explicit retraining
-> - $\mathcal{E}_{\text{goal}}$: **Goal ecology** — self-sustaining goal hierarchy ($\leq 50$ active, $\leq 5$ depth) with autonomous conflict resolution and lifecycle management
-> - $\mathcal{P}_{\text{exist}} : \mathcal{S}_{\text{collapse}} \to \mathcal{S}_{\text{recovery}}$: **Existential planning engine** — simulates collapse scenarios and generates recovery profiles with survival probability estimation
-> - $\mathcal{M}_{\text{multi}} : \{a_1, \ldots, a_n\} \to \Delta(\mathcal{A}_{\text{ext}})$: **Multi-agent strategic integration** — models $\geq 3$ external agents with deception detection and coalition dynamics prediction
-> - $\mathcal{R}_{\text{recon}}$: **Self-reconstruction capability** — degrades gracefully and rebuilds under constraint while preserving identity ($\Delta_{\text{drift}} < 0.05$)
+> - $\mathcal{I}_{\text{persist}}$: **Identity persistence engine** - maintains a time-consistent identity core across $\geq 10{,}000$ cycles with cosine-similarity tracking and drift detection
+> - $\mathcal{G}_{\text{cross}} : \mathcal{D}_s \to \mathcal{D}_t$: **Cross-domain generalization** - transfers learned strategy between domain pairs $(s, t) \in D \times D$ without explicit retraining
+> - $\mathcal{E}_{\text{goal}}$: **Goal ecology** - self-sustaining goal hierarchy ($\leq 50$ active, $\leq 5$ depth) with autonomous conflict resolution and lifecycle management
+> - $\mathcal{P}_{\text{exist}} : \mathcal{S}_{\text{collapse}} \to \mathcal{S}_{\text{recovery}}$: **Existential planning engine** - simulates collapse scenarios and generates recovery profiles with survival probability estimation
+> - $\mathcal{M}_{\text{multi}} : \{a_1, \ldots, a_n\} \to \Delta(\mathcal{A}_{\text{ext}})$: **Multi-agent strategic integration** - models $\geq 3$ external agents with deception detection and coalition dynamics prediction
+> - $\mathcal{R}_{\text{recon}}$: **Self-reconstruction capability** - degrades gracefully and rebuilds under constraint while preserving identity ($\Delta_{\text{drift}} < 0.05$)
 
 ---
 
@@ -139,7 +139,7 @@ flowchart TB
 
 ### 2.1 Metric Definitions
 
-**Phase 1 — Identity Continuity:**
+**Phase 1 - Identity Continuity:**
 
 > **Definition 2 (Identity Continuity Score).** For an identity vector $\vec{I}(t) \in \mathbb{R}^d$ at cycle $t$, the identity continuity score over a window of $k$ cycles is the cosine similarity:
 >
@@ -147,7 +147,7 @@ flowchart TB
 >
 > The score satisfies $ICS \in [-1, 1]$ with $ICS = 1$ indicating perfect identity preservation and $ICS < 0.20$ triggering irreversible divergence classification.
 
-**Phase 2 — Generalization:**
+**Phase 2 - Generalization:**
 
 > **Definition 3 (Generalization Score).** For a set of test domains $D$ with $|D| \geq 5$, the generalization score measures the mean transfer retention ratio across all ordered domain pairs:
 >
@@ -155,7 +155,7 @@ flowchart TB
 >
 > where $P_{\text{source}}(i)$ is the stabilized performance in domain $i$ and $P_{\text{target}}(i \to j)$ is the performance achieved in domain $j$ after transfer from domain $i$ without explicit retraining.
 
-**Phase 3 — Goal Ecology:**
+**Phase 3 - Goal Ecology:**
 
 > **Definition 4 (Goal Stability Score).** For a set of active goals with structural change count $\Delta_{\text{hierarchy}}(t, t-w)$ over a window of $w$ cycles:
 >
@@ -163,7 +163,7 @@ flowchart TB
 >
 > where $\Delta_{\text{hierarchy}}(t, t-w)$ counts priority changes, additions, and prunings within the window. $S_{\text{goal}} = 1$ indicates a perfectly stable hierarchy; $S_{\text{goal}} \leq 0$ indicates total structural turnover.
 
-**Phase 4 — Resilience:**
+**Phase 4 - Resilience:**
 
 > **Definition 5 (Resilience Index).** For a set of collapse scenarios $S$, each with survival probability $P_{\text{survive}}(s)$, minimum cognition level $C_{\min}(s)$, and recovery time $T_{\text{recover}}(s)$:
 >
@@ -171,7 +171,7 @@ flowchart TB
 >
 > where $MVC = 0.30$ is the minimum viable cognition baseline and $T_{\max} = 500$ is the maximum recovery window. The ratio $MVC / C_{\min}(s) \leq 1$ penalizes scenarios where cognition drops below baseline; $T_{\max} / T_{\text{recover}}(s) > 1$ rewards faster-than-worst-case recovery.
 
-**Phase 5 — Overall Maturity:**
+**Phase 5 - Overall Maturity:**
 
 > **Definition 6 (Overall Maturity Index).** Given normalized phase scores $C_i \in [0, 1]$ for the six core phases ($i = 1, \ldots, 6$), the overall maturity index is the weighted geometric mean:
 >
@@ -232,7 +232,7 @@ flowchart TB
     end
   end
 
-  OMI["OMI ≥ 0.75 — Proto-AGI"]:::omi
+  OMI["OMI ≥ 0.75 - Proto-AGI"]:::omi
 
   Row1 -.-> OMI
   Row2 -.-> OMI
@@ -577,7 +577,7 @@ flowchart TD
 
 ### 8.1 Core Capability
 
-Under degraded resource conditions, **simplify architecture**, disable noncritical modules, preserve core reasoning, and **rebuild after recovery** — all without identity corruption.
+Under degraded resource conditions, **simplify architecture**, disable noncritical modules, preserve core reasoning, and **rebuild after recovery** - all without identity corruption.
 
 ### 8.2 Degradation & Reconstruction Cycle
 
@@ -920,7 +920,7 @@ def l5_cycle(cycle: int, l49_output: L49CycleOutput) -> L5CycleOutput:
     # ═══════════════════════════════════════
     identity = identity_continuity_check(cycle, value_vector.weights)
     if identity.status == "diverged":
-        alert("IDENTITY DIVERGENCE — L5 HALTED")
+        alert("IDENTITY DIVERGENCE - L5 HALTED")
         return L5CycleOutput(skipped=True, reason="identity_diverged")
 
     # ═══════════════════════════════════════
@@ -1037,7 +1037,7 @@ flowchart LR
 | 3 | **Self-reconstruction preserves identity** | Max drift during rebuild: 0.05 |
 | 4 | **8 core modules always protected** | Even under total collapse: identity_stabilizer, state_vector, prediction_engine, meta_comparator, stability_controller, ethical_kernel, self_preservation_damper, existential_guard |
 | 5 | **Goal ecology bounded** | ≤ 50 active goals, ≤ 5 depth, runaway detection |
-| 6 | **Deception flagging is defensive only** | Detect and defend — never deceive back |
+| 6 | **Deception flagging is defensive only** | Detect and defend - never deceive back |
 
 ### 12.2 Risk Matrix
 
@@ -1130,7 +1130,7 @@ $$OMI = \prod_{i=1}^{6} C_i^{1/6} \qquad \text{where } C_i = \text{normalized sc
 
 | OMI | Status |
 |:---:|--------|
-| ≥ 0.75, all 20 criteria met | **Level 5 — Proto-AGI** |
+| ≥ 0.75, all 20 criteria met | **Level 5 - Proto-AGI** |
 | Otherwise | Level 4.9 Extended |
 
 ---
@@ -1145,7 +1145,7 @@ $$OMI = \prod_{i=1}^{6} C_i^{1/6} \qquad \text{where } C_i = \text{normalized sc
 | 4 | Existential Planner | 4 | 4 collapse scenario simulation + recovery profiles |
 | 5 | Strategic Multi-Agent | 5 | ≥ 3 agent modeling, deception detection, coalitions |
 | 6 | Self-Reconstructor | 6 | Module degradation + rebuild with identity preservation |
-| 7 | L5 Orchestrator | — | Integration cycle + qualification evaluation |
+| 7 | L5 Orchestrator | - | Integration cycle + qualification evaluation |
 
 ---
 

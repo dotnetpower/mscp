@@ -1,8 +1,8 @@
 # ============================================================
-# MSCP — MkDocs Material Configuration
+# MSCP - MkDocs Material Configuration
 # ============================================================
 
-site_name: "MSCP — Minimal Self-Consciousness Protocol"
+site_name: "MSCP - Minimal Self-Consciousness Protocol"
 site_url: "https://dotnetpower.github.io/mscp/"
 site_author: "Moon Hyuk Choi"
 site_description: >-
@@ -19,7 +19,7 @@ docs_dir: docs
 site_dir: site
 
 copyright: >-
-  Copyright &copy; 2026 Moon Hyuk Choi — Independent Research Project
+  Copyright &copy; 2026 Moon Hyuk Choi - Independent Research Project
 
 # ============================================================
 # Theme
@@ -50,6 +50,7 @@ theme:
     code: JetBrains Mono
 
   features:
+    - header.autohide
     - navigation.instant
     - navigation.instant.progress
     - navigation.tracking
@@ -191,7 +192,7 @@ extra_javascript:
   - javascripts/katex.js
 
 # ============================================================
-# Extra — SEO, Social, Analytics
+# Extra - SEO, Social, Analytics
 # ============================================================
 extra:
   alternate:

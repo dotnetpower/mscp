@@ -1,6 +1,6 @@
 ---
 title: "레벨 2: 자율 에이전트"
-description: "MSCP 레벨 2 자율 에이전트 — 5계층 처리, 내부 목표 생성, 지각 구조, 행동 분석을 갖춘 목표 지향 아키텍처. 레벨 3 전환 기준."
+description: "MSCP 레벨 2 자율 에이전트 - 5계층 처리, 내부 목표 생성, 지각 구조, 행동 분석을 갖춘 목표 지향 아키텍처. 레벨 3 전환 기준."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,19 +10,19 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# 레벨 2: 자율 에이전트 — 아키텍처 & 설계
+# 레벨 2: 자율 에이전트 - 아키텍처 & 설계
 
 > **MSCP 레벨 시리즈** | [레벨 1](Level_1_Tool_Agent.ko.md) ← 레벨 2 → [레벨 3](Level_3_Self_Regulating_Agent.ko.md)  
-> **상태**: 🔬 **실험적** — 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
+> **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
 ---
 
 ## 1. 개요
 
-레벨 2는 반응적 도구 호출을 넘어서는 첫 번째 중요한 도약을 나타냅니다. 자율 에이전트는 **내부 세계 모델**을 유지하고, 상호작용 전반에 걸쳐 개체를 추적하며, 감정적 맥락을 이해하고 — 핵심적으로 — 관찰된 패턴을 기반으로 **자체적으로 목표를 생성**할 수 있습니다.
+레벨 2는 반응적 도구 호출을 넘어서는 첫 번째 중요한 도약을 나타냅니다. 자율 에이전트는 **내부 세계 모델**을 유지하고, 상호작용 전반에 걸쳐 개체를 추적하며, 감정적 맥락을 이해하고 - 핵심적으로 - 관찰된 패턴을 기반으로 **자체적으로 목표를 생성**할 수 있습니다.
 
-> ⚠️ **참고**: 이 문서는 MSCP 분류 체계 내의 인지 수준을 설명합니다. 여기에 포함된 아키텍처, 의사코드 및 다이어그램은 구조적 개념을 탐색하는 실험적 설계이며 — 프로덕션 수준의 구현이 아닙니다.
+> ⚠️ **참고**: 이 문서는 MSCP 분류 체계 내의 인지 수준을 설명합니다. 여기에 포함된 아키텍처, 의사코드 및 다이어그램은 구조적 개념을 탐색하는 실험적 설계이며 - 프로덕션 수준의 구현이 아닙니다.
 
 ### 1.1 정의 속성
 
@@ -55,16 +55,16 @@ Removal of attribution constitutes a license violation.
 >
 > $$(o_t, s_{t+1}, G_{t+1}) = f(r_t, s_t, G_t)$$
 
-이는 **상태 영속성**의 존재로 레벨 2를 레벨 1과 구별합니다 — 출력은 현재 입력만이 아니라 $s_t$에 인코딩된 전체 이력에 의존합니다.
+이는 **상태 영속성**의 존재로 레벨 2를 레벨 1과 구별합니다 - 출력은 현재 입력만이 아니라 $s_t$에 인코딩된 전체 이력에 의존합니다.
 
 > **정의 2 (세계 모델).** 세계 모델 $\mathcal{W}$는 세 개의 하위 구성요소로 이루어진 영속 저장소입니다:
 >
 > $$\mathcal{W} = \langle \mathcal{K}, \mathcal{E}, \Gamma \rangle$$
 >
 > 여기서:
-> - $\mathcal{K}$ : 지식 그래프 — 정점 $V$ (개념), 간선 $E \subseteq V \times V$ (관계), 레이블링 함수 $\ell : E \to \Sigma$ (관계 유형)을 가진 유향 레이블 그래프 $\mathcal{K} = (V, E, \ell)$
-> - $\mathcal{E}$ : 개체 상태 추적기 — 매핑 $\mathcal{E} : \text{EntityID} \to \text{EntityState}$
-> - $\Gamma$ : 시간 모델 — 시간 제한된 사실의 집합 $\{(\text{fact}, t_{valid}, t_{expiry})\}$
+> - $\mathcal{K}$ : 지식 그래프 - 정점 $V$ (개념), 간선 $E \subseteq V \times V$ (관계), 레이블링 함수 $\ell : E \to \Sigma$ (관계 유형)을 가진 유향 레이블 그래프 $\mathcal{K} = (V, E, \ell)$
+> - $\mathcal{E}$ : 개체 상태 추적기 - 매핑 $\mathcal{E} : \text{EntityID} \to \text{EntityState}$
+> - $\Gamma$ : 시간 모델 - 시간 제한된 사실의 집합 $\{(\text{fact}, t_{valid}, t_{expiry})\}$
 >
 > 시간 $t$에서의 통합 **세계 스냅샷**은 다음 투영입니다:
 >
@@ -89,7 +89,7 @@ Removal of attribution constitutes a license violation.
 > 여기서:
 > - $p_{\text{base}}(g)$는 정적 기본 우선순위
 > - $u(g, t) \in [0,1]$는 **시간 긴급도** 요소 (마감일이 가까워질수록 단조 증가)
-> - $\xi(g, e(t)) \in [0,1]$는 **감정 수정자** — 정서가 $v(t) < 0$일 때 반응적 목표가 더 높은 우선순위를 받음
+> - $\xi(g, e(t)) \in [0,1]$는 **감정 수정자** - 정서가 $v(t) < 0$일 때 반응적 목표가 더 높은 우선순위를 받음
 > - $\alpha + \beta + \gamma = 1$ (일반적 값 $\alpha = 0.5,\ \beta = 0.3,\ \gamma = 0.2$)
 
 > **정의 6 (자율 목표 생성).** 자율 목표 생성기는 세계 상태에서 감지된 패턴으로부터 새로운 목표를 생성하는 함수 $\Phi_{AG}$입니다:
@@ -423,7 +423,7 @@ classDiagram
 def level2_agent_loop(user_input: str, session_context: dict) -> Level2Response:
     """
     Level 2 core agent loop with world model and autonomous goal generation.
-    Input:  user_input — user request, session_context — session state
+    Input:  user_input - user request, session_context - session state
     Output: Level2Response with content, active_goal, context_summary, emotion
     """
 
@@ -562,7 +562,7 @@ def compute_priority(self, goal: Goal, context: WorldContext, emotion: EmotionVe
 
 ## 6. 레벨 1 대 레벨 2: 행동 비교
 
-### 6.1 동일 시나리오 — 다른 행동
+### 6.1 동일 시나리오 - 다른 행동
 
 <!-- Level 2 Behavioral Comparison -->
 
@@ -672,7 +672,7 @@ flowchart TD
 
 ## 8. 레벨 3으로의 전환
 
-레벨 3으로의 전환은 구조적 자기인식을 도입합니다 — 에이전트는 자기 자신을 하나의 독립적 개체로서의 모델을 획득합니다.
+레벨 3으로의 전환은 구조적 자기인식을 도입합니다 - 에이전트는 자기 자신을 하나의 독립적 개체로서의 모델을 획득합니다.
 
 > **정의 7 (레벨 2 → 레벨 3 전환).** 에이전트 $\mathcal{A}_2$가 $\mathcal{A}_3$로 승격되려면 다음을 획득해야 합니다:
 >
@@ -764,7 +764,7 @@ flowchart TD
 
 1. Park, J.S., et al. "Generative Agents: Interactive Simulacra of Human Behavior." *UIST 2023*. [arXiv:2304.03442](https://arxiv.org/abs/2304.03442) (Autonomous agent behavior and world model)
 2. Wang, G., et al. "Voyager: An Open-Ended Embodied Agent with Large Language Models." *arXiv 2023*. [arXiv:2305.16291](https://arxiv.org/abs/2305.16291) (Autonomous goal generation and skill acquisition)
-3. Rao, A.S. & Georgeff, M.P. "BDI Agents: From Theory to Practice." *ICMAS 1995*. (Belief-Desire-Intention architecture — foundational for goal systems)
+3. Rao, A.S. & Georgeff, M.P. "BDI Agents: From Theory to Practice." *ICMAS 1995*. (Belief-Desire-Intention architecture - foundational for goal systems)
 4. Picard, R.W. *Affective Computing.* MIT Press, 1997. (Emotion detection and valence/arousal models)
 5. Huang, W., et al. "Inner Monologue: Embodied Reasoning through Planning with Language Models." *CoRL 2022*. [arXiv:2207.05608](https://arxiv.org/abs/2207.05608) (Internal reasoning and feedback loops)
 6. Wang, X., et al. "Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning." *ACL 2023*. [arXiv:2305.04091](https://arxiv.org/abs/2305.04091) (Goal decomposition and multi-step planning)

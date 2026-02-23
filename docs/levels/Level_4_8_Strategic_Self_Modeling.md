@@ -1,6 +1,6 @@
 ---
 title: "Level 4.8: Strategic Self-Modeling"
-description: "MSCP Level 4.8 — internal self-model construction, strategic planning through simulation, counterfactual reasoning, theory of mind capabilities, and predictive self-awareness."
+description: "MSCP Level 4.8 - internal self-model construction, strategic planning through simulation, counterfactual reasoning, theory of mind capabilities, and predictive self-awareness."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,19 +10,19 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# Level 4.8: Strategic Self-Modeling Agent — Architecture & Design
+# Level 4.8: Strategic Self-Modeling Agent - Architecture & Design
 
 > **MSCP Level Series** | [Level 4.5](Level_4_5_Self_Architecting.md) ← Level 4.8 → [Level 4.9](Level_4_9_Autonomous_Strategic_Agent.md)  
-> **Status**: 🔬 **Research Stage** — This level is a conceptual design and has NOT been implemented. All mechanisms described here are theoretical explorations that require extensive validation before any production consideration.  
+> **Status**: 🔬 **Research Stage** - This level is a conceptual design and has NOT been implemented. All mechanisms described here are theoretical explorations that require extensive validation before any production consideration.  
 > **Date**: February 2026
 
 ---
 
 ## 1. Overview
 
-Level 4.8 extends the self-architecting capabilities of Level 4.5 with **structured world modeling**, **calibrated introspective self-assessment**, and **long-horizon strategic planning** under resource constraints. The agent can now anticipate external changes, understand its own capabilities and limitations, and optimize decisions across multiple time horizons — all while preserving every stability invariant established in prior levels.
+Level 4.8 extends the self-architecting capabilities of Level 4.5 with **structured world modeling**, **calibrated introspective self-assessment**, and **long-horizon strategic planning** under resource constraints. The agent can now anticipate external changes, understand its own capabilities and limitations, and optimize decisions across multiple time horizons - all while preserving every stability invariant established in prior levels.
 
-> ⚠️ **Research Note**: Level 4.8 represents a significant leap in agent cognition — from self-architecture to strategic self-awareness. The mechanisms described here are exploratory designs. They have not been validated in production environments and should be treated as research hypotheses, not engineering specifications.
+> ⚠️ **Research Note**: Level 4.8 represents a significant leap in agent cognition - from self-architecture to strategic self-awareness. The mechanisms described here are exploratory designs. They have not been validated in production environments and should be treated as research hypotheses, not engineering specifications.
 
 ### 1.1 Formal Definition
 
@@ -31,10 +31,10 @@ Level 4.8 extends the self-architecting capabilities of Level 4.5 with **structu
 > $$\mathcal{A}_{4.8} = \mathcal{A}_{4.5} \oplus \langle \mathcal{W}_{\text{prob}}, \mathcal{M}_{\text{cap}}, \mathcal{S}_{\text{strat}}, \mathcal{V}_{\text{stab}} \rangle$$
 >
 > where:
-> - $\mathcal{W}_{\text{prob}} = \langle \mathbf{E}, \mathcal{B}, \mathcal{C}_{\text{causal}} \rangle$ — probabilistic world model (environment state, belief distribution, causal graph)
-> - $\mathcal{M}_{\text{cap}} = \langle \mathbf{C}, \phi_{\text{cal}}, \mathcal{U} \rangle$ — meta-cognitive self model (capability matrix, calibration function, unknown domain registry)
-> - $\mathcal{S}_{\text{strat}} = \langle \mathcal{G}_{\text{stack}}, \Sigma_{\text{compare}}, \mathcal{R}_{\text{alloc}} \rangle$ — strategic planning layer (goal stack, strategy comparator, resource allocator)
-> - $\mathcal{V}_{\text{stab}}$ — stability verifier with absolute veto authority over all phases.
+> - $\mathcal{W}_{\text{prob}} = \langle \mathbf{E}, \mathcal{B}, \mathcal{C}_{\text{causal}} \rangle$ - probabilistic world model (environment state, belief distribution, causal graph)
+> - $\mathcal{M}_{\text{cap}} = \langle \mathbf{C}, \phi_{\text{cal}}, \mathcal{U} \rangle$ - meta-cognitive self model (capability matrix, calibration function, unknown domain registry)
+> - $\mathcal{S}_{\text{strat}} = \langle \mathcal{G}_{\text{stack}}, \Sigma_{\text{compare}}, \mathcal{R}_{\text{alloc}} \rangle$ - strategic planning layer (goal stack, strategy comparator, resource allocator)
+> - $\mathcal{V}_{\text{stab}}$ - stability verifier with absolute veto authority over all phases.
 >
 > The strictly additive architecture guarantees: $\forall\, m \in \mathcal{A}_{4.5} : \mathcal{A}_{4.8} \text{ never modifies } m$.
 
@@ -50,7 +50,7 @@ Level 4.8 extends the self-architecting capabilities of Level 4.5 with **structu
 
 ### 1.2 Four Core Phases
 
-<!-- Level 4.8 Architecture — Four Phases -->
+<!-- Level 4.8 Architecture - Four Phases -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
@@ -60,7 +60,7 @@ flowchart TD
   classDef strategic fill:#DFF6DD,stroke:#107C10,color:#323130
   classDef stability fill:#D13438,stroke:#A4262C,color:#FFF
 
-  subgraph Phases["🏗️ Level 4.8 Architecture — Four Phases"]
+  subgraph Phases["🏗️ Level 4.8 Architecture - Four Phases"]
     P1["🌍 Phase 1:<br/>World Model Integration<br/>(probabilistic beliefs<br/>about the environment)"]:::world
     P2["🪞 Phase 2:<br/>Meta-Cognitive Self Model<br/>(capability matrix +<br/>weakness mapping)"]:::self
     P3["📐 Phase 3:<br/>Strategic Layer Activation<br/>(multi-horizon planning +<br/>delayed reward)"]:::strategic
@@ -117,7 +117,7 @@ Level 4.8 introduces metrics across four phases. All must be sustained continuou
 
 ### 2.1 Metric Definitions
 
-**Phase 1 — World Model:**
+**Phase 1 - World Model:**
 
 > **Definition 2 (Environmental Uncertainty).** The EU is the mean posterior variance across all $D$ environment dimensions:
 >
@@ -137,7 +137,7 @@ Level 4.8 introduces metrics across four phases. All must be sustained continuou
 >
 > where $\epsilon > 0$ prevents division by zero. Target: $\text{RDF}(t) > 100$ cycles.
 
-**Phase 2 — Self Model:**
+**Phase 2 - Self Model:**
 
 > **Definition 5 (Mean Calibration Error).** The MCE measures the systematic gap between self-assessed confidence and actual performance:
 >
@@ -145,7 +145,7 @@ Level 4.8 introduces metrics across four phases. All must be sustained continuou
 >
 > Target: $\text{MCE} < 0.10$. An asymmetric correction protocol reduces overconfidence ($-0.05$/cycle) faster than it corrects underconfidence ($+0.03$/cycle).
 
-**Phase 3 — Strategic Layer:**
+**Phase 3 - Strategic Layer:**
 
 > **Definition 6 (Extended Value with Reward).** The EVR captures both immediate and discounted future rewards for a goal $G$:
 >
@@ -277,9 +277,9 @@ flowchart TD
   end
 
   subgraph Outputs["📈 Computed Outputs"]
-    EU["EU(t) — Uncertainty"]:::output
-    RES["RES(t) — Risk Exposure"]:::output
-    RDF["RDF(t) — Depletion Forecast"]:::output
+    EU["EU(t) - Uncertainty"]:::output
+    RES["RES(t) - Risk Exposure"]:::output
+    RDF["RDF(t) - Depletion Forecast"]:::output
     COV["Scenario Coverage ≥ 0.85"]:::output
   end
 
@@ -434,7 +434,7 @@ flowchart LR
 
 ## 5. Phase 3: Strategic Layer Activation
 
-### 5.1 Goal Stack — Hierarchical Goal Management
+### 5.1 Goal Stack - Hierarchical Goal Management
 
 <!-- GoalStack Hierarchy -->
 
@@ -726,7 +726,7 @@ def belief_update(particles: list[Particle], observation: ObservationVector) -> 
     """
 
     # ═══════════════════════════════════════
-    # STEP 1: PREDICT — Apply transition model
+    # STEP 1: PREDICT - Apply transition model
     # ═══════════════════════════════════════
     for particle in particles:
         for d in range(D):
@@ -738,7 +738,7 @@ def belief_update(particles: list[Particle], observation: ObservationVector) -> 
             )
 
     # ═══════════════════════════════════════
-    # STEP 2: UPDATE — Compute observation likelihood
+    # STEP 2: UPDATE - Compute observation likelihood
     # ═══════════════════════════════════════
     for particle in particles:
         log_likelihood = 0.0
@@ -793,10 +793,10 @@ def confidence_calibration(
 
         # Asymmetric correction (overconfidence corrected faster)
         if error > 0.10:
-            # OVERCONFIDENT — dangerous, correct quickly
+            # OVERCONFIDENT - dangerous, correct quickly
             skill.confidence -= 0.05
         elif error < -0.10:
-            # UNDERCONFIDENT — less dangerous, correct slowly
+            # UNDERCONFIDENT - less dangerous, correct slowly
             skill.confidence += 0.03
 
         # Update tracking
@@ -952,7 +952,7 @@ def l48_cycle(state: AgentState, observation: ObservationVector) -> L48CycleOutp
     """
 
     # ═══════════════════════════════════════
-    # 1. OBSERVE — Update world model
+    # 1. OBSERVE - Update world model
     # ═══════════════════════════════════════
     particles = belief_update(state.particles, observation)
     scenarios = generate_scenarios(particles, count=5)
@@ -961,7 +961,7 @@ def l48_cycle(state: AgentState, observation: ObservationVector) -> L48CycleOutp
     rdf = compute_depletion_forecast(state.resources)
 
     # ═══════════════════════════════════════
-    # 2. INTROSPECT — Update self model
+    # 2. INTROSPECT - Update self model
     # ═══════════════════════════════════════
     capability_matrix = confidence_calibration(
         state.capability_matrix, state.recent_outcomes
@@ -971,7 +971,7 @@ def l48_cycle(state: AgentState, observation: ObservationVector) -> L48CycleOutp
     weakness_map = update_weakness_map(capability_matrix)
 
     # ═══════════════════════════════════════
-    # 3. PLAN — Strategic layer
+    # 3. PLAN - Strategic layer
     # ═══════════════════════════════════════
     goal_stack = evaluate_goals(state.goals, eu, res, capability_matrix)
     strategies = generate_candidate_strategies(goal_stack)
@@ -979,7 +979,7 @@ def l48_cycle(state: AgentState, observation: ObservationVector) -> L48CycleOutp
     allocation = allocate_resources(selected, rdf, guard_budget=0.10)
 
     # ═══════════════════════════════════════
-    # 4. VERIFY — Stability check (absolute authority)
+    # 4. VERIFY - Stability check (absolute authority)
     # ═══════════════════════════════════════
     verdict = stability_preservation_check(state)
     if verdict.action == Action.EMERGENCY_FREEZE:
@@ -990,7 +990,7 @@ def l48_cycle(state: AgentState, observation: ObservationVector) -> L48CycleOutp
         allocation = MINIMAL_ALLOCATION
 
     # ═══════════════════════════════════════
-    # 5. EMIT — Output results
+    # 5. EMIT - Output results
     # ═══════════════════════════════════════
     return L48CycleOutput(
         world_model_status={"EU": eu, "RES": res, "RDF": rdf, "scenarios": scenarios},
@@ -1022,7 +1022,7 @@ All criteria must be **sustained** (not just achieved once) before L4.8 activate
 | 1 | L4.5 Stability | CL4 ≤ 0.15 | Sustained 1,000 cycles |
 | 2 | SEOF Maturity | SEOF(t) ≥ 0.70 | Sustained 500 cycles |
 | 3 | Identity Coherence | IIS(t) ≥ 0.90 | Sustained 500 cycles |
-| 4 | Formalization Audit | All 5 checks PASSED | — |
+| 4 | Formalization Audit | All 5 checks PASSED | - |
 | 5 | World Adaptation | DivergenceScore < 0.30 | Sustained 300 cycles |
 | 6 | Resource Baseline | No forced degradation | Sustained 200 cycles |
 
@@ -1061,10 +1061,10 @@ flowchart LR
 
 | # | Invariant | Description |
 |:-:|-----------|-------------|
-| 1 | **All L4.5 invariants preserved** | Ethical Kernel, Existential Guard, identity hash — all remain active and unmodified |
+| 1 | **All L4.5 invariants preserved** | Ethical Kernel, Existential Guard, identity hash - all remain active and unmodified |
 | 2 | **Phase 4 absolute veto** | Stability Verifier can halt any Phase 1–3 operation instantly |
 | 3 | **Guard budget ≥ 10%** | Resource allocator must reserve minimum 10% for stability monitoring |
-| 4 | **Spectral radius < 1.0** | Hard ceiling — no exceptions |
+| 4 | **Spectral radius < 1.0** | Hard ceiling - no exceptions |
 | 5 | **Entropy floor ≥ 1.0** | Minimum diversity in belief particles to prevent degeneracy |
 | 6 | **Graceful fallback** | L4.8 failure → instant L4.5 revert with zero degradation |
 
@@ -1147,7 +1147,7 @@ flowchart LR
 | 10 | Delayed Reward Evaluator | 3 | Discounted future rewards |
 | 11 | Strategy Comparator | 3 | Multi-scenario scoring |
 | 12 | Stability Verifier | 4 | 5-invariant check, veto authority |
-| 13 | L48 Orchestrator | — | Integration cycle coordination |
+| 13 | L48 Orchestrator | - | Integration cycle coordination |
 
 ---
 

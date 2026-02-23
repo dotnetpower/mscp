@@ -6,7 +6,7 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# MSCP — Minimal Self-Consciousness Protocol
+# MSCP - Minimal Self-Consciousness Protocol
 
 > **A Safety-Oriented Framework for Structurally Self-Aware AI Agents**
 
@@ -24,17 +24,17 @@ Removal of attribution constitutes a license violation.
 
 ## Overview
 
-The **Minimal Self-Consciousness Protocol (MSCP)** is a structured protocol for building AI agents with *safe structural self-awareness* — the capacity to predict their own state changes, compare predictions against outcomes, and update themselves only within bounded safety envelopes.
+The **Minimal Self-Consciousness Protocol (MSCP)** is a structured protocol for building AI agents with *safe structural self-awareness* - the capacity to predict their own state changes, compare predictions against outcomes, and update themselves only within bounded safety envelopes.
 
-As agents gain the ability to set goals, modify strategies, and self-improve, **how do we keep them stable, aligned, and predictable?** MSCP answers this with the principle that **safety is not the enemy of capability — it is its prerequisite.**
+As agents gain the ability to set goals, modify strategies, and self-improve, **how do we keep them stable, aligned, and predictable?** MSCP answers this with the principle that **safety is not the enemy of capability - it is its prerequisite.**
 
 ### Key Contributions
 
-- **Six-Level Agent Cognition Taxonomy** — from reactive Tool Agents (L1) to Proto-AGI (L5), with measurable transition criteria and formal definitions at every level
-- **16-Layer Cognitive Architecture** — composable, independently testable modules spanning perception through meta-cognitive control
-- **30+ Structural Safety Mechanisms** — identity continuity, prediction-gated actions, delta-clamped updates, Lyapunov convergence, ethical invariants, affective safety, and survival instinct bounds
-- **Rigorous Mathematical Formalization** — 71 formal definitions, 7 propositions, 4 theorems with proof sketches across all level documents
-- **144 Academic References** — comprehensive coverage of cognitive architectures, AI safety, predictive processing, consciousness theory, meta-cognition, and AGI research
+- **Six-Level Agent Cognition Taxonomy** - from reactive Tool Agents (L1) to Proto-AGI (L5), with measurable transition criteria and formal definitions at every level
+- **16-Layer Cognitive Architecture** - composable, independently testable modules spanning perception through meta-cognitive control
+- **30+ Structural Safety Mechanisms** - identity continuity, prediction-gated actions, delta-clamped updates, Lyapunov convergence, ethical invariants, affective safety, and survival instinct bounds
+- **Rigorous Mathematical Formalization** - 71 formal definitions, 7 propositions, 4 theorems with proof sketches across all level documents
+- **144 Academic References** - comprehensive coverage of cognitive architectures, AI safety, predictive processing, consciousness theory, meta-cognition, and AGI research
 
 ---
 
@@ -90,7 +90,7 @@ Layer 8 ─ Survival Instinct Bounds (priority capping, ethical validation)
 
 ### Main Document
 
-- **[MSCP Overview](docs/MSCP_Overview.md)** — Complete framework specification with mathematical formalization and 144 references
+- **[MSCP Overview](docs/MSCP_Overview.md)** - Complete framework specification with mathematical formalization and 144 references
 
 ### Per-Level Architecture Documents
 
@@ -134,7 +134,7 @@ mscp/
 
 ## Author
 
-**Moon Hyuk Choi** — [moonchoi@microsoft.com](mailto:moonchoi@microsoft.com)
+**Moon Hyuk Choi** - [moonchoi@microsoft.com](mailto:moonchoi@microsoft.com)
 Microsoft Cloud & AI Apps CSA
 
 ## Contributing
@@ -143,7 +143,7 @@ This is very much a work in progress. Feedback, critique, and contributions are 
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## License Notice
 

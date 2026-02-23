@@ -1,6 +1,6 @@
 ---
 title: "Level 1: Tool Agent"
-description: "MSCP Level 1 Tool Agent — deterministic request-response architecture with zero autonomy. Formal definitions, 3-layer processing pipeline, error handling, and transition criteria to Level 2."
+description: "MSCP Level 1 Tool Agent - deterministic request-response architecture with zero autonomy. Formal definitions, 3-layer processing pipeline, error handling, and transition criteria to Level 2."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,10 +10,10 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# Level 1: Tool Agent — Architecture & Design
+# Level 1: Tool Agent - Architecture & Design
 
 > **MSCP Level Series** | [Overview](../MSCP_Overview.md) ← Level 1 → [Level 2](Level_2_Autonomous_Agent.md)  
-> **Status**: 🔬 **Experimental** — Conceptual framework and experimental design. Not a production specification.  
+> **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
 > **Date**: February 2026
 
 ---
@@ -22,7 +22,7 @@ Removal of attribution constitutes a license violation.
 
 Level 1 represents the **baseline cognitive architecture** for AI agents. A Tool Agent is a **stateless, reactive system** that receives user requests, invokes external tools, and returns results. It has no internal model of itself, no memory across sessions, and no capacity for autonomous goal setting.
 
-> ⚠️ **Note**: This document describes a cognitive level within the MSCP taxonomy. The architectures, pseudocode, and diagrams here are experimental designs exploring structural concepts — not production-ready implementations.
+> ⚠️ **Note**: This document describes a cognitive level within the MSCP taxonomy. The architectures, pseudocode, and diagrams here are experimental designs exploring structural concepts - not production-ready implementations.
 
 **Most production AI agents today operate at Level 1**, including LangChain agents, Semantic Kernel plugin chains, OpenAI Assistants, and custom RAG pipelines.
 
@@ -34,7 +34,7 @@ Level 1 represents the **baseline cognitive architecture** for AI agents. A Tool
 | Goal Setting | **None** (user-directed only) |
 | Self-Awareness | **None** |
 | Memory | Session-scoped at most |
-| Autonomy | **None** — purely reactive |
+| Autonomy | **None** - purely reactive |
 
 ### 1.2 Formal Definition
 
@@ -44,7 +44,7 @@ Level 1 represents the **baseline cognitive architecture** for AI agents. A Tool
 >
 > where $\mathcal{R}$ denotes the space of all possible user requests and $\mathcal{O}$ the space of all possible output responses.
 
-Because the agent carries no internal state, the mapping is **memoryless** — i.e., the output depends solely on the current input and is independent of all prior interactions. Formally:
+Because the agent carries no internal state, the mapping is **memoryless** - i.e., the output depends solely on the current input and is independent of all prior interactions. Formally:
 
 $$\mathcal{A}_1(r_t) = o_t \quad \forall\, t, \quad o_t \perp \{r_1, \ldots, r_{t-1}\}$$
 
@@ -81,7 +81,7 @@ where:
 | $\tau$ | Tool Dispatcher | $\mathcal{P}_{T^{\ast}} \to \mathcal{D}_{T^{\ast}} \cup \lbrace\textit{err}\rbrace$ |
 | $\rho$ | Response Generator | $(\mathcal{D}_{T^{\ast}} \cup \lbrace\textit{err}\rbrace) \times \mathcal{R} \to \mathcal{O}$ |
 
-The pipeline is **strictly sequential** — there are no feedback loops, no state persistence, and no branching decisions after classification.
+The pipeline is **strictly sequential** - there are no feedback loops, no state persistence, and no branching decisions after classification.
 
 ---
 
@@ -244,7 +244,7 @@ sequenceDiagram
 def level1_agent_loop(user_input: str) -> str:
     """
     Level 1 core agent loop.
-    Input:  user_input — user request string
+    Input:  user_input - user request string
     Output: response string
     """
 
@@ -282,7 +282,7 @@ def level1_agent_loop(user_input: str) -> str:
 def classify(self, user_input: str) -> IntentResult:
     """
     Classify user input into an intent.
-    Input:  user_input — user request string
+    Input:  user_input - user request string
     Output: IntentResult with type, confidence, suggested_tools, params
     """
 
@@ -316,7 +316,7 @@ def classify(self, user_input: str) -> IntentResult:
 def dispatch(self, tool_name: str, params: dict) -> ToolResult:
     """
     Dispatch a tool call with validation and error handling.
-    Input:  tool_name — registered tool name, params — parameter dict
+    Input:  tool_name - registered tool name, params - parameter dict
     Output: ToolResult with success, data, error, execution_time_ms
     """
 
@@ -361,7 +361,7 @@ Level 1 has fundamental limitations that motivate the transition to Level 2. The
 >
 > $$I(o_t ; o_{t-1}) = 0$$
 >
-> This follows directly from the memoryless property in Definition 1 — each request–response pair is conditionally independent of all others.
+> This follows directly from the memoryless property in Definition 1 - each request–response pair is conditionally independent of all others.
 
 > **Proposition 2 (Absence of Goal State).** A Level 1 agent has no internal goal space $\mathcal{G}$. The agent produces output only as a deterministic function of its input, never as a consequence of pursuing an objective:
 >
@@ -373,7 +373,7 @@ Level 1 has fundamental limitations that motivate the transition to Level 2. The
 >
 > $$M_{\text{self}} = \emptyset$$
 >
-> Consequently, the agent cannot predict the effect of its actions on itself — a prerequisite for self-regulation (Level 3+).
+> Consequently, the agent cannot predict the effect of its actions on itself - a prerequisite for self-regulation (Level 3+).
 
 ### 5.2 Limitation Taxonomy
 
@@ -465,24 +465,24 @@ flowchart TB
   classDef successLight fill:#DFF6DD,stroke:#107C10,color:#323130
 
   subgraph L1["⛔ L1 Tool Agent"]
-    A1["Stateless — no persistent state"]:::dangerLight
-    A2["Reactive — responds only when prompted"]:::dangerLight
-    A3["Tool-Dependent — cannot act without tools"]:::dangerLight
-    A4["No Memory — each request is independent"]:::dangerLight
+    A1["Stateless - no persistent state"]:::dangerLight
+    A2["Reactive - responds only when prompted"]:::dangerLight
+    A3["Tool-Dependent - cannot act without tools"]:::dangerLight
+    A4["No Memory - each request is independent"]:::dangerLight
   end
 
   subgraph Gap["🔑 Transition Requirements"]
-    G1["+ World Model — persistent state tracking"]:::warningLight
-    G2["+ Entity Tracker — who/what identification"]:::warningLight
-    G3["+ Goal System — autonomous objectives"]:::warningLight
-    G4["+ Temporal Model — time-aware fact management"]:::warningLight
+    G1["+ World Model - persistent state tracking"]:::warningLight
+    G2["+ Entity Tracker - who/what identification"]:::warningLight
+    G3["+ Goal System - autonomous objectives"]:::warningLight
+    G4["+ Temporal Model - time-aware fact management"]:::warningLight
   end
 
   subgraph L2["✅ L2 Autonomous Agent"]
-    B1["Stateful — maintains world model"]:::successLight
-    B2["Goal-Directed — pursues autonomous objectives"]:::successLight
-    B3["Context-Aware — tracks entities and relations"]:::successLight
-    B4["Long-Term Memory — persists across sessions"]:::successLight
+    B1["Stateful - maintains world model"]:::successLight
+    B2["Goal-Directed - pursues autonomous objectives"]:::successLight
+    B3["Context-Aware - tracks entities and relations"]:::successLight
+    B4["Long-Term Memory - persists across sessions"]:::successLight
   end
 
   L1 -.->|"gaps to bridge"| Gap
@@ -498,14 +498,14 @@ flowchart TD
   classDef l2Light fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef l2New fill:#0078D4,stroke:#003D6B,color:#FFF
 
-  subgraph L1["Level 1 — Stateless Pipeline"]
+  subgraph L1["Level 1 - Stateless Pipeline"]
     IR1["IntentRouter"]:::l1Light
     TD1["ToolDispatcher"]:::l1Light
     RG1["ResponseGenerator"]:::l1Light
     IR1 -->|"sequential"| TD1 -->|"sequential"| RG1
   end
 
-  subgraph L2["Level 2 — Stateful Architecture"]
+  subgraph L2["Level 2 - Stateful Architecture"]
     IR2["IntentRouter"]:::l2Light
     WM["WorldModel ★"]:::l2New
     GS["GoalSystem ★"]:::l2New

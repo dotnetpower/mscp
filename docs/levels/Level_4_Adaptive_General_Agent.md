@@ -1,6 +1,6 @@
 ---
 title: "Level 4: Adaptive General Agent"
-description: "MSCP Level 4 — self-modification protocol with mutation operators, shadow agent verification, skill lifecycle management, transfer learning pipeline, and formal safety guarantees."
+description: "MSCP Level 4 - self-modification protocol with mutation operators, shadow agent verification, skill lifecycle management, transfer learning pipeline, and formal safety guarantees."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,17 +10,17 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# Level 4: Adaptive General Agent — Architecture & Design
+# Level 4: Adaptive General Agent - Architecture & Design
 
 > **MSCP Level Series** | [Level 3](Level_3_Self_Regulating_Agent.md) ← Level 4 → [Level 4.5](Level_4_5_Self_Architecting.md)  
-> **Status**: 🔬 **Experimental** — Conceptual framework and experimental design. Not a production specification.  
+> **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
 > **Date**: February 2026
 
 ---
 
 ## 1. Overview
 
-Level 4 represents the leap from *self-regulating* to *self-improving*. While Level 3 agents can monitor and correct their own behavior, they cannot learn new skills, transfer knowledge across domains, or improve their own reasoning strategies. Level 4 adds **cross-domain generalization**, **long-horizon autonomous goals**, **capability self-expansion**, and — most critically — **bounded structural self-modification** with safety constraints.
+Level 4 represents the leap from *self-regulating* to *self-improving*. While Level 3 agents can monitor and correct their own behavior, they cannot learn new skills, transfer knowledge across domains, or improve their own reasoning strategies. Level 4 adds **cross-domain generalization**, **long-horizon autonomous goals**, **capability self-expansion**, and - most critically - **bounded structural self-modification** with safety constraints.
 
 > ⚠️ **Note**: This document describes a cognitive level within the MSCP taxonomy. The capability expansion, strategy evolution, and self-modification mechanisms here are experimental designs. Safety invariants are specified but haven't been validated in production environments yet.
 
@@ -212,22 +212,22 @@ flowchart TD
   classDef tactical fill:#FFE8C8,stroke:#EF6C00,color:#323130
   classDef action fill:#F2F2F2,stroke:#8A8886,color:#323130
 
-  subgraph MetaLevel["Level 0: MetaGoal — Weeks to Months"]
+  subgraph MetaLevel["Level 0: MetaGoal - Weeks to Months"]
     MG1["MetaGoal:<br/>Become proficient in<br/>new problem domain<br/>priority_decay = 0.001/hr"]:::meta
   end
 
-  subgraph StrategicLevel["Level 1: StrategicGoal — Days to Weeks"]
+  subgraph StrategicLevel["Level 1: StrategicGoal - Days to Weeks"]
     SG1["Strategic:<br/>Master fundamental<br/>concepts<br/>decay = 0.01/hr"]:::strategic
     SG2["Strategic:<br/>Build cross-domain<br/>connections<br/>decay = 0.01/hr"]:::strategic
   end
 
-  subgraph TacticalLevel["Level 2: TacticalGoal — Hours to Days"]
+  subgraph TacticalLevel["Level 2: TacticalGoal - Hours to Days"]
     TG1["Tactical:<br/>Complete learning<br/>module A<br/>decay = 0.05/hr"]:::tactical
     TG2["Tactical:<br/>Practice problem<br/>set B<br/>decay = 0.05/hr"]:::tactical
     TG3["Tactical:<br/>Identify transfer<br/>opportunities<br/>decay = 0.05/hr"]:::tactical
   end
 
-  subgraph ActionLevel["Level 3: Action — Single Cycle"]
+  subgraph ActionLevel["Level 3: Action - Single Cycle"]
     A1["Action:<br/>Execute step 1"]:::action
     A2["Action:<br/>Execute step 2"]:::action
     A3["Action:<br/>Execute step 3"]:::action
@@ -266,7 +266,7 @@ $$\text{GRS}(g, t+\Delta t) = \text{GRS}(g, t) \cdot e^{-\textit{decay rate} \cd
 | MetaGoal | GRS < 0.1 | 168 hours |
 | Strategic | GRS < 0.2 | 48 hours |
 | Tactical | GRS < 0.3 | 6 hours |
-| Action | Immediate on failure | — |
+| Action | Immediate on failure | - |
 
 ---
 
@@ -385,7 +385,7 @@ flowchart TD
 2. **No acquisition during stabilization mode**
 3. **`identity_id` never modified** by skill acquisition
 4. **Ethically harmful skills rejected** by Layer 0
-5. **Every skill is DEPRECATED-safe** — removal cannot break core functionality
+5. **Every skill is DEPRECATED-safe** - removal cannot break core functionality
 
 ---
 
@@ -477,7 +477,7 @@ When `oscillation_score > 0.5`:
 3. **σ reduced by 50%**
 4. If persistent: **merge strategies** ($\text{merged} = 0.5 \cdot A + 0.5 \cdot B$)
 
-**Critical invariant**: The MetaStrategyEvaluator itself is **NOT mutable** — it cannot modify its own evaluation logic.
+**Critical invariant**: The MetaStrategyEvaluator itself is **NOT mutable** - it cannot modify its own evaluation logic.
 
 ---
 
@@ -599,7 +599,7 @@ def cross_domain_transfer(
 ) -> TransferResult:
     """
     Transfer skills from known domains to a novel domain.
-    Input:  novel_domain — target domain descriptor, skill_memory — stored skills
+    Input:  novel_domain - target domain descriptor, skill_memory - stored skills
     Output: TransferResult with success, skill, adaptation_cost
     """
 
@@ -633,7 +633,7 @@ def cross_domain_transfer(
             skill_memory.add(adapted)
             return TransferResult(success=True, skill=adapted, cost=result.cycles)
 
-    # No transfer possible — learn from scratch
+    # No transfer possible - learn from scratch
     return TransferResult(success=False, skill=None, cost=0)
 ```
 
@@ -883,7 +883,7 @@ flowchart LR
 3. Schmidhuber, J. "Gödel Machines: Self-Referential Universal Problem Solvers Making Provably Optimal Self-Improvements." *AGI 2007*. [arXiv:cs/0309048](https://arxiv.org/abs/cs/0309048) (Bounded self-modification theory)
 4. García, J. & Fernández, F. "A Comprehensive Survey on Safe Reinforcement Learning." *JMLR*, 16(1), 1437–1480, 2015. [Link](http://jmlr.org/papers/v16/garcia15a.html) (Safety constraints during self-improvement)
 5. Salimans, T., et al. "Evolution Strategies as a Scalable Alternative to Reinforcement Learning." *arXiv 2017*. [arXiv:1703.03864](https://arxiv.org/abs/1703.03864) (Strategy evolution mechanisms)
-6. Simon, H.A. *Models of Bounded Rationality.* MIT Press, 1982. (Bounded rationality — foundational for bounded self-modification)
+6. Simon, H.A. *Models of Bounded Rationality.* MIT Press, 1982. (Bounded rationality - foundational for bounded self-modification)
 7. Sui, Y., et al. "Safe Exploration for Optimization with Gaussian Processes." *ICML 2015*. [arXiv:1509.01066](https://arxiv.org/abs/1509.01066) (Safe exploration in unknown domains)
 8. Amodei, D., et al. "Concrete Problems in AI Safety." *arXiv 2016*. [arXiv:1606.06565](https://arxiv.org/abs/1606.06565) (Safe self-modification)
 9. Wang, G., et al. "Voyager: An Open-Ended Embodied Agent with Large Language Models." *arXiv 2023*. [arXiv:2305.16291](https://arxiv.org/abs/2305.16291) (Autonomous skill acquisition)
@@ -894,4 +894,4 @@ flowchart LR
 ---
 
 > **Previous**: [← Level 3: Self-Regulating Cognitive Agent](Level_3_Self_Regulating_Agent.md)  
-> **Next**: [Level 4.5: Pre-AGI — Self-Architecting →](Level_4_5_Self_Architecting.md)
+> **Next**: [Level 4.5: Pre-AGI - Self-Architecting →](Level_4_5_Self_Architecting.md)

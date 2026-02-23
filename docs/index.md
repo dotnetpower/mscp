@@ -1,6 +1,6 @@
 ---
 title: "Home"
-description: "MSCP — A Safety-Oriented Framework for Structurally Self-Aware AI Agents. Six-level cognition taxonomy, 16-layer cognitive architecture, 30+ safety mechanisms, and 144 academic references."
+description: "MSCP - A Safety-Oriented Framework for Structurally Self-Aware AI Agents. Six-level cognition taxonomy, 16-layer cognitive architecture, 30+ safety mechanisms, and 144 academic references."
 ---
 
 <!--
@@ -12,7 +12,7 @@ Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
 
-# MSCP — Minimal Self-Consciousness Protocol
+# MSCP - Minimal Self-Consciousness Protocol
 
 <p align="center" style="font-size: 1.2em; color: var(--md-default-fg-color--light);" markdown>
   **A Safety-Oriented Framework for Structurally Self-Aware AI Agents**
@@ -36,12 +36,12 @@ Removal of attribution constitutes a license violation.
 
 ## What is MSCP?
 
-The **Minimal Self-Consciousness Protocol (MSCP)** is a structured protocol for building AI agents with *safe structural self-awareness* — the capacity to predict their own state changes, compare predictions against outcomes, and update themselves only within bounded safety envelopes.
+The **Minimal Self-Consciousness Protocol (MSCP)** is a structured protocol for building AI agents with *safe structural self-awareness* - the capacity to predict their own state changes, compare predictions against outcomes, and update themselves only within bounded safety envelopes.
 
 As agents gain the ability to set goals, modify strategies, and self-improve, **how do we keep them stable, aligned, and predictable?** MSCP answers this with the principle:
 
 !!! quote "Core Tenet"
-    **Safety is not the enemy of capability — it is its prerequisite.**
+    **Safety is not the enemy of capability - it is its prerequisite.**
 
 ---
 
@@ -77,7 +77,7 @@ As agents gain the ability to set goals, modify strategies, and self-improve, **
 
     ---
 
-    71 formal definitions, 7 propositions, 4 theorems with proof sketches — publication-grade mathematical rigor.
+    71 formal definitions, 7 propositions, 4 theorems with proof sketches - publication-grade mathematical rigor.
 
     [:octicons-arrow-right-24: Mathematical Analysis](MSCP_Overview.md#6-mathematical-analysis)
 
@@ -133,22 +133,22 @@ Layer 8 ─ Survival Instinct Bounds (priority capping, ethical validation)
 
 Dive into the documentation:
 
-1. **[MSCP Overview](MSCP_Overview.md)** — Complete framework specification
-2. **[Level Series](levels/README.md)** — Navigation index with cumulative safety summary
-3. **[Level 3: Self-Regulating Agent](levels/Level_3_Self_Regulating_Agent.md)** — The core MSCP level (start here for technical depth)
+1. **[MSCP Overview](MSCP_Overview.md)** - Complete framework specification
+2. **[Level Series](levels/README.md)** - Navigation index with cumulative safety summary
+3. **[Level 3: Self-Regulating Agent](levels/Level_3_Self_Regulating_Agent.md)** - The core MSCP level (start here for technical depth)
 
 ---
 
 ## Author
 
-**Moon Hyuk Choi** — [moonchoi@microsoft.com](mailto:moonchoi@microsoft.com)  
+**Moon Hyuk Choi** - [moonchoi@microsoft.com](mailto:moonchoi@microsoft.com)  
 Microsoft Cloud & AI Apps CSA
 
 ---
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](https://github.com/dotnetpower/mscp/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/dotnetpower/mscp/blob/main/LICENSE) file for details.
 
 <p style="text-align: center; color: var(--md-default-fg-color--lighter); margin-top: 2em;">
   <em>This documentation was written with the assistance of <a href="https://github.com/features/copilot">GitHub Copilot</a>.</em>

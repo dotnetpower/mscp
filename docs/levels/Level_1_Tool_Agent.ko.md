@@ -1,6 +1,6 @@
 ---
 title: "레벨 1: 도구 에이전트"
-description: "MSCP 레벨 1 도구 에이전트 — 자율성이 없는 결정론적 요청-응답 아키텍처. 형식 정의, 3계층 처리 파이프라인, 오류 처리, 레벨 2 전환 기준."
+description: "MSCP 레벨 1 도구 에이전트 - 자율성이 없는 결정론적 요청-응답 아키텍처. 형식 정의, 3계층 처리 파이프라인, 오류 처리, 레벨 2 전환 기준."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,10 +10,10 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# 레벨 1: 도구 에이전트 — 아키텍처 & 설계
+# 레벨 1: 도구 에이전트 - 아키텍처 & 설계
 
 > **MSCP 레벨 시리즈** | [개요](../MSCP_Overview.ko.md) ← 레벨 1 → [레벨 2](Level_2_Autonomous_Agent.ko.md)  
-> **상태**: 🔬 **실험적** — 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
+> **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
 ---
@@ -34,7 +34,7 @@ Removal of attribution constitutes a license violation.
 | 목표 설정 | **없음** (사용자 지시에 의해서만) |
 | 자기인식 | **없음** |
 | 메모리 | 최대 세션 범위 |
-| 자율성 | **없음** — 순수 반응형 |
+| 자율성 | **없음** - 순수 반응형 |
 
 ### 1.2 형식적 정의
 
@@ -44,7 +44,7 @@ Removal of attribution constitutes a license violation.
 >
 > 여기서 $\mathcal{R}$은 모든 가능한 사용자 요청의 공간을, $\mathcal{O}$는 모든 가능한 출력 응답의 공간을 나타냅니다.
 
-에이전트는 내부 상태를 유지하지 않으므로 매핑은 **무기억(memoryless)**입니다 — 즉, 출력은 현재 입력에만 의존하며 이전의 모든 상호작용과 독립적입니다. 형식적으로:
+에이전트는 내부 상태를 유지하지 않으므로 매핑은 **무기억(memoryless)**입니다 - 즉, 출력은 현재 입력에만 의존하며 이전의 모든 상호작용과 독립적입니다. 형식적으로:
 
 $$\mathcal{A}_1(r_t) = o_t \quad \forall\, t, \quad o_t \perp \{r_1, \ldots, r_{t-1}\}$$
 
@@ -81,7 +81,7 @@ $$\mathcal{A}_1(r) = \rho\bigl(\tau\bigl(\sigma(\phi(r), r)\bigr), r\bigr)$$
 | $\tau$ | 도구 디스패처 | $\mathcal{P}\_{T^{\ast}} \to \mathcal{D}\_{T^{\ast}} \cup \lbrace\textit{err}\rbrace$ |
 | $\rho$ | 응답 생성기 | $(\mathcal{D}\_{T^{\ast}} \cup \lbrace\textit{err}\rbrace) \times \mathcal{R} \to \mathcal{O}$ |
 
-파이프라인은 **엄격히 순차적**입니다 — 피드백 루프, 상태 지속, 분류 이후의 분기 결정이 없습니다.
+파이프라인은 **엄격히 순차적**입니다 - 피드백 루프, 상태 지속, 분류 이후의 분기 결정이 없습니다.
 
 ---
 
@@ -244,7 +244,7 @@ sequenceDiagram
 def level1_agent_loop(user_input: str) -> str:
     """
     Level 1 core agent loop.
-    Input:  user_input — user request string
+    Input:  user_input - user request string
     Output: response string
     """
 
@@ -282,7 +282,7 @@ def level1_agent_loop(user_input: str) -> str:
 def classify(self, user_input: str) -> IntentResult:
     """
     Classify user input into an intent.
-    Input:  user_input — user request string
+    Input:  user_input - user request string
     Output: IntentResult with type, confidence, suggested_tools, params
     """
 
@@ -316,7 +316,7 @@ def classify(self, user_input: str) -> IntentResult:
 def dispatch(self, tool_name: str, params: dict) -> ToolResult:
     """
     Dispatch a tool call with validation and error handling.
-    Input:  tool_name — registered tool name, params — parameter dict
+    Input:  tool_name - registered tool name, params - parameter dict
     Output: ToolResult with success, data, error, execution_time_ms
     """
 
@@ -361,7 +361,7 @@ def dispatch(self, tool_name: str, params: dict) -> ToolResult:
 >
 > $$I(o_t ; o_{t-1}) = 0$$
 >
-> 이는 정의 1의 무기억 속성에서 직접 도출됩니다 — 각 요청-응답 쌍은 다른 모든 것과 조건부 독립입니다.
+> 이는 정의 1의 무기억 속성에서 직접 도출됩니다 - 각 요청-응답 쌍은 다른 모든 것과 조건부 독립입니다.
 
 > **명제 2 (목표 상태의 부재).** 레벨 1 에이전트에는 내부 목표 공간 $\mathcal{G}$가 없습니다. 에이전트는 목표를 추구한 결과가 아니라 입력의 결정론적 함수로서만 출력을 생성합니다:
 >
@@ -373,7 +373,7 @@ def dispatch(self, tool_name: str, params: dict) -> ToolResult:
 >
 > $$M_{\text{self}} = \emptyset$$
 >
-> 따라서 에이전트는 자신의 행동이 자신에게 미치는 영향을 예측할 수 없습니다 — 이는 자기조절(레벨 3+)의 전제 조건입니다.
+> 따라서 에이전트는 자신의 행동이 자신에게 미치는 영향을 예측할 수 없습니다 - 이는 자기조절(레벨 3+)의 전제 조건입니다.
 
 ### 5.2 한계 분류 체계
 
@@ -465,24 +465,24 @@ flowchart TB
   classDef successLight fill:#DFF6DD,stroke:#107C10,color:#323130
 
   subgraph L1["⛔ L1 도구 에이전트"]
-    A1["무상태 — 영속적 상태 없음"]:::dangerLight
-    A2["반응형 — 프롬프트될 때만 응답"]:::dangerLight
-    A3["도구 의존 — 도구 없이는 행동 불가"]:::dangerLight
-    A4["메모리 없음 — 각 요청이 독립적"]:::dangerLight
+    A1["무상태 - 영속적 상태 없음"]:::dangerLight
+    A2["반응형 - 프롬프트될 때만 응답"]:::dangerLight
+    A3["도구 의존 - 도구 없이는 행동 불가"]:::dangerLight
+    A4["메모리 없음 - 각 요청이 독립적"]:::dangerLight
   end
 
   subgraph Gap["🔑 전환 요구사항"]
-    G1["+ 세계 모델 — 영속적 상태 추적"]:::warningLight
-    G2["+ 엔티티 추적기 — 누구/무엇 식별"]:::warningLight
-    G3["+ 목표 시스템 — 자율적 목표"]:::warningLight
-    G4["+ 시간 모델 — 시간 인식 기반 사실 관리"]:::warningLight
+    G1["+ 세계 모델 - 영속적 상태 추적"]:::warningLight
+    G2["+ 엔티티 추적기 - 누구/무엇 식별"]:::warningLight
+    G3["+ 목표 시스템 - 자율적 목표"]:::warningLight
+    G4["+ 시간 모델 - 시간 인식 기반 사실 관리"]:::warningLight
   end
 
   subgraph L2["✅ L2 자율 에이전트"]
-    B1["상태 유지 — 세계 모델 유지"]:::successLight
-    B2["목표 지향 — 자율적 목표 추구"]:::successLight
-    B3["맥락 인식 — 엔티티 및 관계 추적"]:::successLight
-    B4["장기 메모리 — 세션 간 지속"]:::successLight
+    B1["상태 유지 - 세계 모델 유지"]:::successLight
+    B2["목표 지향 - 자율적 목표 추구"]:::successLight
+    B3["맥락 인식 - 엔티티 및 관계 추적"]:::successLight
+    B4["장기 메모리 - 세션 간 지속"]:::successLight
   end
 
   L1 -.->|"해소할 격차"| Gap
@@ -498,14 +498,14 @@ flowchart TD
   classDef l2Light fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef l2New fill:#0078D4,stroke:#003D6B,color:#FFF
 
-  subgraph L1["레벨 1 — 무상태 파이프라인"]
+  subgraph L1["레벨 1 - 무상태 파이프라인"]
     IR1["IntentRouter"]:::l1Light
     TD1["ToolDispatcher"]:::l1Light
     RG1["ResponseGenerator"]:::l1Light
     IR1 -->|"순차적"| TD1 -->|"순차적"| RG1
   end
 
-  subgraph L2["레벨 2 — 상태 유지 아키텍처"]
+  subgraph L2["레벨 2 - 상태 유지 아키텍처"]
     IR2["IntentRouter"]:::l2Light
     WM["WorldModel ★"]:::l2New
     GS["GoalSystem ★"]:::l2New

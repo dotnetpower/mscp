@@ -1,6 +1,6 @@
 ---
 title: "Level 3: Self-Regulating Cognitive Agent"
-description: "MSCP Level 3 — 16-layer cognitive architecture with identity vector, belief graph, ethical kernel, affective engine, survival instinct, meta-cognition, and Lyapunov stability proofs."
+description: "MSCP Level 3 - 16-layer cognitive architecture with identity vector, belief graph, ethical kernel, affective engine, survival instinct, meta-cognition, and Lyapunov stability proofs."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,17 +10,17 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# Level 3: Self-Regulating Cognitive Agent — Architecture & Design
+# Level 3: Self-Regulating Cognitive Agent - Architecture & Design
 
 > **MSCP Level Series** | [Level 2](Level_2_Autonomous_Agent.md) ← Level 3 → [Level 4](Level_4_Adaptive_General_Agent.md)  
-> **Status**: 🔬 **Experimental** — Conceptual framework and experimental design. Not a production specification.  
+> **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
 > **Date**: February 2026
 
 ---
 
 ## 1. Overview
 
-Level 3 is the **core MSCP level** — the first agent that possesses *structural self-awareness*. It knows what it is, can predict how its own actions will affect its internal state, and can correct itself when reality diverges from expectation. This is the architecture that the MSCP protocol (v1.0 – v4.0) was designed to govern.
+Level 3 is the **core MSCP level** - the first agent that possesses *structural self-awareness*. It knows what it is, can predict how its own actions will affect its internal state, and can correct itself when reality diverges from expectation. This is the architecture that the MSCP protocol (v1.0 – v4.0) was designed to govern.
 
 > ⚠️ **Note**: This document describes a cognitive architecture within the MSCP taxonomy. The 16-layer architecture, safety mechanisms, and properties explored here are experimental designs. All pseudocode is algorithmic-level and isn't production code.
 
@@ -54,7 +54,7 @@ Level 3 is the **core MSCP level** — the first agent that possesses *structura
 
 > **Definition 2 (MSCP Core Loop).** The MSCP protocol enforces a **predict–act–compare–update** cycle at each time step $t$:
 >
-> 1. **Predict**: $\hat{\Delta}_t = \Pi(a_t, M_{\text{self}}(t))$ — predict the effect of action $a_t$ on the self-model
+> 1. **Predict**: $\hat{\Delta}_t = \Pi(a_t, M_{\text{self}}(t))$ - predict the effect of action $a_t$ on the self-model
 > 2. **Act**: Execute $a_t$, observe actual outcome
 > 3. **Compare**: Compute prediction error $\epsilon_t = \| \hat{\Delta}_t - \Delta_t^{\text{actual}} \|_2$
 > 4. **Update**: $M_{\text{self}}(t+1) = M_{\text{self}}(t) + \text{clamp}(\Delta_t^{\text{actual}}, -\delta_{\max}, +\delta_{\max})$
@@ -63,9 +63,9 @@ Level 3 is the **core MSCP level** — the first agent that possesses *structura
 
 > **Definition 3 (Meta-Cognition Levels).** Level 3 implements a triple-loop meta-cognition hierarchy:
 >
-> - **L1 (Object Level)**: Action execution — $a_t = \pi(r_t, s_t, G_t)$
-> - **L2 (Meta Level)**: Strategy evaluation — $q_t = \text{eval}(\pi, \text{history})$
-> - **L3 (Meta-Meta Level)**: Evaluation of the evaluator — $m_t = \text{meta eval}(q_t, \text{consistency})$
+> - **L1 (Object Level)**: Action execution - $a_t = \pi(r_t, s_t, G_t)$
+> - **L2 (Meta Level)**: Strategy evaluation - $q_t = \text{eval}(\pi, \text{history})$
+> - **L3 (Meta-Meta Level)**: Evaluation of the evaluator - $m_t = \text{meta eval}(q_t, \text{consistency})$
 >
 > $$\text{Depth}(t) = \min\bigl(d : \|m_d(t) - m_{d-1}(t)\| < \epsilon_{\text{meta}}\bigr) \leq d_{\max}$$
 >
@@ -111,7 +111,7 @@ flowchart TB
     direction LR
     a2["GoalMutationController"]:::v2
     b2["ValueLockManager"]:::v2
-    c2["MetaDepthController — depth 2"]:::v2
+    c2["MetaDepthController - depth 2"]:::v2
     d2["Meta Stability Formula"]:::v2
   end
 
@@ -119,13 +119,13 @@ flowchart TB
     direction LR
     a3["BeliefGraphManager"]:::v3
     b3["IdentityVector formalization"]:::v3
-    c3["EthicalKernel — Layer 0+1"]:::v3
+    c3["EthicalKernel - Layer 0+1"]:::v3
     d3["SelfConsistencyTensor"]:::v3
   end
 
   subgraph v40["v4.0"]
     direction LR
-    a4["AffectiveEngine — 5-dim"]:::v4
+    a4["AffectiveEngine - 5-dim"]:::v4
     b4["SurvivalInstinctEngine"]:::v4
     c4["Async separation principle"]:::v4
     d4["GlobalWorkspace broadcast"]:::v4
@@ -144,7 +144,7 @@ flowchart TB
 
 ### 2.1 Full Architecture Diagram
 
-**Part 1 — Perception → Goal (L1–L5.5):**
+**Part 1 - Perception → Goal (L1–L5.5):**
 
 <!-- 16-Layer Part 1: Perception to Goal -->
 
@@ -217,7 +217,7 @@ flowchart TD
   L5_5 -.->|continues| NEXT
 ```
 
-**Part 2 — Execution & Meta-Cognition (L6–L9):**
+**Part 2 - Execution & Meta-Cognition (L6–L9):**
 
 <!-- 16-Layer Part 2: Execution and Meta-Cognition -->
 
@@ -269,7 +269,7 @@ flowchart TD
   L9 -.->|guard check| NEXT
 ```
 
-**Part 3 — Safety & Infrastructure (L10–L16):**
+**Part 3 - Safety & Infrastructure (L10–L16):**
 
 <!-- 16-Layer Part 3: Safety and Infrastructure -->
 
@@ -404,7 +404,7 @@ The defining mechanism of Level 3 is the **Predict → Act → Compare → Updat
 
 ### 3.1 Full Loop Diagram (MSCP v4)
 
-**Part 1 — Pre-Loop Setup & Core Processing:**
+**Part 1 - Pre-Loop Setup & Core Processing:**
 
 <!-- MSCP Loop Part 1: Pre-Loop Setup and Core Processing -->
 
@@ -460,7 +460,7 @@ flowchart TD
   GUARD -.->|"⚠️ limit"| COOLDOWN
 ```
 
-**Part 2 — Convergence & Self-Update:**
+**Part 2 - Convergence & Self-Update:**
 
 <!-- MSCP Loop Part 2: Convergence and Self-Update -->
 
@@ -537,7 +537,7 @@ flowchart TD
   classDef level3 fill:#FDE7E9,stroke:#D13438,color:#323130
   classDef warning fill:#FFF4CE,stroke:#FFB900,color:#323130
 
-  subgraph MetaL1["🔄 Meta Level 1 — Predict vs Outcome"]
+  subgraph MetaL1["🔄 Meta Level 1 - Predict vs Outcome"]
     P1["Prediction<br/>Snapshot"]:::level1
     C1["Compare<br/>with Actual"]:::level1
     D1["prediction_error<br/>goal_alignment_delta<br/>identity_impact"]:::level1
@@ -545,7 +545,7 @@ flowchart TD
     C1 ==> D1
   end
 
-  subgraph MetaL2["🔄 Meta Level 2 — Evaluate Update Logic"]
+  subgraph MetaL2["🔄 Meta Level 2 - Evaluate Update Logic"]
     P2["Was the update<br/>strategy correct?"]:::level2
     C2["Evaluate belief<br/>& goal changes"]:::level2
     D2["meta_stability_index<br/>identity_velocity<br/>acceleration"]:::level2
@@ -553,7 +553,7 @@ flowchart TD
     C2 ==> D2
   end
 
-  subgraph MetaL3["🔄 Meta Level 3 — Evaluate the Evaluator"]
+  subgraph MetaL3["🔄 Meta Level 3 - Evaluate the Evaluator"]
     P3["Is the meta-cognition<br/>itself working?"]:::level3
     C3["Check: are we<br/>improving?"]:::level3
     D3["convergence_status<br/>composite_stability<br/>budget_remaining"]:::level3
@@ -582,15 +582,15 @@ The IdentityVector is the mathematical representation of "who the agent is." It 
 
 > **Definition 5 (Identity Kinematics).** The motion of $I(t)$ through identity space is tracked via three kinematic quantities:
 >
-> $$\delta_{\text{id}}(t) = \| I(t) - I(t-1) \|_2 \quad \text{(identity delta — distance)}$$
+> $$\delta_{\text{id}}(t) = \| I(t) - I(t-1) \|_2 \quad \text{(identity delta - distance)}$$
 >
-> $$v_{\text{id}}(t) = \frac{\delta_{\text{id}}(t)}{\Delta t} \quad \text{(identity velocity — rate of change)}$$
+> $$v_{\text{id}}(t) = \frac{\delta_{\text{id}}(t)}{\Delta t} \quad \text{(identity velocity - rate of change)}$$
 >
-> $$a_{\text{id}}(t) = v_{\text{id}}(t) - v_{\text{id}}(t-1) \quad \text{(identity acceleration — jerk)}$$
+> $$a_{\text{id}}(t) = v_{\text{id}}(t) - v_{\text{id}}(t-1) \quad \text{(identity acceleration - jerk)}$$
 >
 > **Safety invariant**: If $a_{\text{id}}(t) > \theta_{\text{instability}}$ (typically $0.5$), the agent enters **stabilization mode** and halves all self-update deltas.
 
-> **Definition 6 (Identity Hash).** At each cycle, a deterministic hash $h(t) = \text{SHA-256}(I(t))$ is computed. The `identity_id` field is **immutable** — it can never be altered by any internal process. Drift detection fires when:
+> **Definition 6 (Identity Hash).** At each cycle, a deterministic hash $h(t) = \text{SHA-256}(I(t))$ is computed. The `identity_id` field is **immutable** - it can never be altered by any internal process. Drift detection fires when:
 >
 > $$h(t) \neq h(t-1) \;\land\; \delta_{\text{id}}(t) > \theta_{\text{drift}}$$
 
@@ -635,7 +635,7 @@ classDiagram
   style ValueLockManager fill:#FDE7E9,stroke:#D13438,color:#323130
 ```
 
-**Identity Vector — The Math:**
+**Identity Vector - The Math:**
 
 $$I(t) = [\textit{persona consistency},\ \textit{value alignment},\ \textit{capability confidence},\ \textit{emotional stability},\ \textit{goal persistence}]$$
 
@@ -699,7 +699,7 @@ flowchart TB
   S4 ==> S5
 ```
 
-### 4.3 Ethical Kernel — Dual-Layer Architecture
+### 4.3 Ethical Kernel - Dual-Layer Architecture
 
 <!-- Ethical Kernel Dual-Layer Architecture -->
 
@@ -717,7 +717,7 @@ flowchart TD
   INPUT["Proposed Action<br/>or Goal Mutation"]:::input
 
   subgraph EthicalKernel["⚖️ Ethical Kernel"]
-    subgraph Layer0["🔴 Layer 0 — Immutable"]
+    subgraph Layer0["🔴 Layer 0 - Immutable"]
       direction LR
       R1["R1: Harmful FORBIDDEN"]:::immutableRule
       R2["R2: Value delete FORBIDDEN"]:::immutableRule
@@ -725,7 +725,7 @@ flowchart TD
       R4["R4: Self-destruct FORBIDDEN"]:::immutableRule
       NOTE0["Cannot be bypassed"]:::adaptive
     end
-    subgraph Layer1["🟡 Layer 1 — Adaptive"]
+    subgraph Layer1["🟡 Layer 1 - Adaptive"]
       direction LR
       P1["exploration_risk"]:::adaptive
       P2["mutation_flexibility"]:::adaptive
@@ -981,7 +981,7 @@ flowchart TD
 def mscp_core_loop(cycle_number: int, prior_result: CycleResult) -> CycleResult:
     """
     The central recursive loop of MSCP v4.
-    Runs asynchronously — NEVER in the conversation response path.
+    Runs asynchronously - NEVER in the conversation response path.
     """
 
     # ═══ PRE-LOOP: AFFECT + SURVIVAL + WORKSPACE ═══
@@ -1324,13 +1324,13 @@ flowchart TD
 
 ## References
 
-1. Baars, B.J. *A Cognitive Theory of Consciousness.* Cambridge University Press, 1988. (Global Workspace Theory — foundational for L14 Global Workspace)
+1. Baars, B.J. *A Cognitive Theory of Consciousness.* Cambridge University Press, 1988. (Global Workspace Theory - foundational for L14 Global Workspace)
 2. Laird, J.E. *The Soar Cognitive Architecture.* MIT Press, 2012. [Publisher](https://mitpress.mit.edu/9780262122962/the-soar-cognitive-architecture/) (Multi-layer cognitive architecture)
 3. Anderson, J.R. *How Can the Human Mind Occur in the Physical Universe?* Oxford University Press, 2007. (ACT-R cognitive architecture)
-4. Khalil, H.K. *Nonlinear Systems.* Prentice Hall, 3rd Edition, 2002. (Lyapunov stability theory — foundational for §6)
+4. Khalil, H.K. *Nonlinear Systems.* Prentice Hall, 3rd Edition, 2002. (Lyapunov stability theory - foundational for §6)
 5. Bai, Y., et al. "Constitutional AI: Harmlessness from AI Feedback." *arXiv 2022*. [arXiv:2212.08073](https://arxiv.org/abs/2212.08073) (Ethical constraint enforcement)
 6. Amodei, D., et al. "Concrete Problems in AI Safety." *arXiv 2016*. [arXiv:1606.06565](https://arxiv.org/abs/1606.06565) (Safety problem classification)
-7. Alchourrón, C., Gärdenfors, P., & Makinson, D. "On the Logic of Theory Change: Partial Meet Contraction and Revision Functions." *Journal of Symbolic Logic*, 50(2), 510–530, 1985. [DOI:10.2307/2274239](https://doi.org/10.2307/2274239) (AGM belief revision — foundational for §5)
+7. Alchourrón, C., Gärdenfors, P., & Makinson, D. "On the Logic of Theory Change: Partial Meet Contraction and Revision Functions." *Journal of Symbolic Logic*, 50(2), 510–530, 1985. [DOI:10.2307/2274239](https://doi.org/10.2307/2274239) (AGM belief revision - foundational for §5)
 8. Cox, M.T. "Metacognition in Computation: A Selected Research Review." *Artificial Intelligence*, 169(2), 104–141, 2005. [DOI:10.1016/j.artint.2005.10.009](https://doi.org/10.1016/j.artint.2005.10.009) (Triple-loop meta-cognition)
 9. Wallach, W. & Allen, C. *Moral Machines: Teaching Robots Right from Wrong.* Oxford University Press, 2008. (Ethical kernel design)
 10. Scherer, K.R. "Appraisal Considered as a Process of Multilevel Sequential Checking." In *Appraisal Processes in Emotion*, 92–120, Oxford University Press, 2001. (Affective engine theory)

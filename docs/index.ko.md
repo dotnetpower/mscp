@@ -1,6 +1,6 @@
 ---
 title: "홈"
-description: "MSCP — 구조적 자기인식 AI 에이전트를 위한 안전 지향 프레임워크. 6단계 인지 분류 체계, 16계층 인지 아키텍처, 30개 이상의 안전 메커니즘, 144편의 학술 참고문헌."
+description: "MSCP - 구조적 자기인식 AI 에이전트를 위한 안전 지향 프레임워크. 6단계 인지 분류 체계, 16계층 인지 아키텍처, 30개 이상의 안전 메커니즘, 144편의 학술 참고문헌."
 ---
 
 <!--
@@ -12,7 +12,7 @@ Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
 
-# MSCP — 최소 자기의식 프로토콜
+# MSCP - 최소 자기의식 프로토콜
 
 <p align="center" style="font-size: 1.2em; color: var(--md-default-fg-color--light);" markdown>
   **구조적 자기인식 AI 에이전트를 위한 안전 지향 프레임워크**
@@ -36,7 +36,7 @@ Removal of attribution constitutes a license violation.
 
 ## MSCP란 무엇인가?
 
-**최소 자기의식 프로토콜(MSCP)**은 *안전한 구조적 자기인식*을 갖춘 AI 에이전트를 구축하기 위한 구조화된 프로토콜입니다 — 자신의 상태 변화를 예측하고, 예측을 결과와 비교하며, 제한된 안전 범위 내에서만 자기 자신을 업데이트하는 능력을 말합니다.
+**최소 자기의식 프로토콜(MSCP)**은 *안전한 구조적 자기인식*을 갖춘 AI 에이전트를 구축하기 위한 구조화된 프로토콜입니다 - 자신의 상태 변화를 예측하고, 예측을 결과와 비교하며, 제한된 안전 범위 내에서만 자기 자신을 업데이트하는 능력을 말합니다.
 
 에이전트가 목표를 설정하고, 전략을 수정하며, 자기 개선하는 능력을 갖추게 되면, **어떻게 안정적이고, 정렬되며, 예측 가능하게 유지할 수 있을까요?** MSCP는 다음 원칙으로 이에 답합니다:
 
@@ -77,7 +77,7 @@ Removal of attribution constitutes a license violation.
 
     ---
 
-    71개의 형식적 정의, 7개의 명제, 4개의 정리와 증명 스케치 — 출판 수준의 수학적 엄밀성.
+    71개의 형식적 정의, 7개의 명제, 4개의 정리와 증명 스케치 - 출판 수준의 수학적 엄밀성.
 
     [:octicons-arrow-right-24: 수학적 분석](MSCP_Overview.ko.md#6-수학적-분석)
 
@@ -133,22 +133,22 @@ Removal of attribution constitutes a license violation.
 
 문서 탐색하기:
 
-1. **[MSCP 개요](MSCP_Overview.ko.md)** — 전체 프레임워크 명세
-2. **[레벨 시리즈](levels/README.ko.md)** — 누적 안전 요약이 포함된 탐색 색인
-3. **[레벨 3: 자기조절 에이전트](levels/Level_3_Self_Regulating_Agent.ko.md)** — MSCP 핵심 레벨 (기술적 깊이를 원하면 여기서 시작)
+1. **[MSCP 개요](MSCP_Overview.ko.md)** - 전체 프레임워크 명세
+2. **[레벨 시리즈](levels/README.ko.md)** - 누적 안전 요약이 포함된 탐색 색인
+3. **[레벨 3: 자기조절 에이전트](levels/Level_3_Self_Regulating_Agent.ko.md)** - MSCP 핵심 레벨 (기술적 깊이를 원하면 여기서 시작)
 
 ---
 
 ## 저자
 
-**최문혁 (Moon Hyuk Choi)** — [moonchoi@microsoft.com](mailto:moonchoi@microsoft.com)  
+**최문혁 (Moon Hyuk Choi)** - [moonchoi@microsoft.com](mailto:moonchoi@microsoft.com)  
 Microsoft Cloud & AI Apps CSA
 
 ---
 
 ## 라이선스
 
-이 프로젝트는 MIT 라이선스에 따라 라이선스가 부여됩니다 — 자세한 내용은 [LICENSE](https://github.com/dotnetpower/mscp/blob/main/LICENSE) 파일을 참조하십시오.
+이 프로젝트는 MIT 라이선스에 따라 라이선스가 부여됩니다 - 자세한 내용은 [LICENSE](https://github.com/dotnetpower/mscp/blob/main/LICENSE) 파일을 참조하십시오.
 
 <p style="text-align: center; color: var(--md-default-fg-color--lighter); margin-top: 2em;">
   <em>이 문서는 <a href="https://github.com/features/copilot">GitHub Copilot</a>의 도움을 받아 작성되었습니다.</em>

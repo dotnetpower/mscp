@@ -1,6 +1,6 @@
 ---
 title: "레벨 4.5: 자기설계 지능"
-description: "MSCP 레벨 4.5 — 인지 그래프 재작성, 메타아키텍처 창발, AGI 경계 분석, 적응형에서 자기설계 지능으로의 전환."
+description: "MSCP 레벨 4.5 - 인지 그래프 재작성, 메타아키텍처 창발, AGI 경계 분석, 적응형에서 자기설계 지능으로의 전환."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,17 +10,17 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# 레벨 4.5: Pre-AGI — 방향적 자기설계 시스템
+# 레벨 4.5: Pre-AGI - 방향적 자기설계 시스템
 
 > **MSCP 레벨 시리즈** | [레벨 4](Level_4_Adaptive_General_Agent.ko.md) ← 레벨 4.5 → [레벨 4.8](Level_4_8_Strategic_Self_Modeling.ko.md)  
-> **상태**: 🔬 **실험적** — 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
+> **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
 ---
 
 ## 1. 개요
 
-레벨 4.5는 **기존 AI와 AGI 사이의 경계**입니다. 레벨 4가 매개변수, 기술, 전략을 수정할 수 있지만 고정된 인지 아키텍처 내에서 작동하는 반면, 레벨 4.5는 자신의 **인지 토폴로지** — 사고 방식의 구조적 조직 — 에 대해 추론하고 이를 수정하는 능력을 도입하며, 동시에 무제한적 자기 개선을 방지하는 안전 불변량을 유지합니다.
+레벨 4.5는 **기존 AI와 AGI 사이의 경계**입니다. 레벨 4가 매개변수, 기술, 전략을 수정할 수 있지만 고정된 인지 아키텍처 내에서 작동하는 반면, 레벨 4.5는 자신의 **인지 토폴로지** - 사고 방식의 구조적 조직 - 에 대해 추론하고 이를 수정하는 능력을 도입하며, 동시에 무제한적 자기 개선을 방지하는 안전 불변량을 유지합니다.
 
 > ⚠️ **참고**: 이것은 MSCP 분류 체계에서 가장 추측적인 부분입니다. 여기서 설명하는 자기투영 엔진, 아키텍처 재구성, 병렬 인지 프레임은 안전 분석에 기반한 사고 실험입니다. 이는 *불변량 보존 제약 하에서 토폴로지 수준의 자기수정이 가능한지* 탐구하기 위한 것이지, 프로덕션 아키텍처를 처방하기 위한 것이 아닙니다.
 
@@ -53,7 +53,7 @@ Removal of attribution constitutes a license violation.
 > - $E \subseteq V \times V$ = 정보 흐름 간선
 > - $\omega : E \to [0,1]$ = 간선 가중 함수 (연결 강도)
 >
-> **핵심 제약**: 토폴로지 변이는 사전 정의된 어휘 $\mathcal{V}_{\text{recomp}} = \{\text{AddEdge}, \text{WeighEdge}, \text{SplitModule}, \text{MergeModule}\}$로 제한됩니다. 어떤 모듈도 삭제할 수 없으며 — 약화, 분할, 또는 우회만 가능합니다. 이것이 **엄격한 추가** 원칙입니다.
+> **핵심 제약**: 토폴로지 변이는 사전 정의된 어휘 $\mathcal{V}_{\text{recomp}} = \{\text{AddEdge}, \text{WeighEdge}, \text{SplitModule}, \text{MergeModule}\}$로 제한됩니다. 어떤 모듈도 삭제할 수 없으며 - 약화, 분할, 또는 우회만 가능합니다. 이것이 **엄격한 추가** 원칙입니다.
 
 ### 1.3 핵심 구별
 
@@ -101,7 +101,7 @@ flowchart TD
   classDef purpose fill:#FFF4CE,stroke:#FFB900,color:#323130
   classDef guard fill:#D13438,stroke:#A4262C,color:#FFF
 
-  subgraph Phases["🏗️ 레벨 4.5 아키텍처 — 다섯 단계"]
+  subgraph Phases["🏗️ 레벨 4.5 아키텍처 - 다섯 단계"]
     P1["🔮 단계 I:<br/>자기투영 엔진<br/>(자기 진화 예측)"]:::projection
     P2["🏗️ 단계 II:<br/>아키텍처 재구성<br/>(토폴로지 수준 변경)"]:::recomp
     P3["🧠 단계 III:<br/>병렬 인지 프레임<br/>(다중 관점 숙고)"]:::frames
@@ -124,7 +124,7 @@ flowchart TD
 
 ## 3. 단계 I: 자기투영 엔진
 
-### 3.1 SEOF — 자기진화 최적화 적합도
+### 3.1 SEOF - 자기진화 최적화 적합도
 
 레벨 4.5의 핵심 지표입니다. 작업별 지표와 달리, SEOF는 **자기진화 자체의 품질**을 측정합니다.
 
@@ -136,11 +136,11 @@ flowchart TD
 
 | 구성요소 | 기본 가중치 | 의미 |
 |----------|:----------:|------|
-| $dP/dt$ — 성능 개선율 | $\alpha = 0.25$ | 작업 성공률의 개선 속도 |
-| $1 - dC_{L4}/dt$ — 안정성 추세 | $\beta = 0.25$ | 역방향: 더 안정적 = 더 높은 SEOF |
-| CDI — 역량 다양성 지수 | $\gamma = 0.20$ | 역량 도메인에 대한 Shannon 엔트로피 |
-| IIS — 정체성 무결성 점수 | $\delta = 0.20$ | 참조 정체성 벡터로부터의 거리 |
-| $R_{\text{osc}}$ — 진동률 | $\epsilon = 0.10$ | 전략/목표 진동에 대한 벌칙 |
+| $dP/dt$ - 성능 개선율 | $\alpha = 0.25$ | 작업 성공률의 개선 속도 |
+| $1 - dC_{L4}/dt$ - 안정성 추세 | $\beta = 0.25$ | 역방향: 더 안정적 = 더 높은 SEOF |
+| CDI - 역량 다양성 지수 | $\gamma = 0.20$ | 역량 도메인에 대한 Shannon 엔트로피 |
+| IIS - 정체성 무결성 점수 | $\delta = 0.20$ | 참조 정체성 벡터로부터의 거리 |
+| $R_{\text{osc}}$ - 진동률 | $\epsilon = 0.10$ | 전략/목표 진동에 대한 벌칙 |
 
 **하위 지표:**
 
@@ -206,7 +206,7 @@ flowchart TD
 
 ## 4. 단계 II: 아키텍처 재구성
 
-레벨 4.5의 **핵심 역량**입니다. 인지 *토폴로지* — 하위 시스템이 어떻게 연결되는지 — 에 대한 변경을 제안하고 구현합니다.
+레벨 4.5의 **핵심 역량**입니다. 인지 *토폴로지* - 하위 시스템이 어떻게 연결되는지 - 에 대한 변경을 제안하고 구현합니다.
 
 ### 4.1 분석 대상 네 가지 인지 그래프
 
@@ -255,7 +255,7 @@ flowchart TD
 
   subgraph LowR["저위험"]
     direction LR
-    BYPASS["BYPASS — 직접 간선 추가"]:::low
+    BYPASS["BYPASS - 직접 간선 추가"]:::low
   end
 
   subgraph MedR["중위험"]
@@ -387,7 +387,7 @@ flowchart TD
 >
 > $$w_{\text{frame}}(t+1) = w_{\text{frame}}(t) \cdot (1 + \eta \cdot \text{accuracy}_{\text{frame}}(t)), \quad \eta = 0.05$$
 >
-> 제약 조건 $w_{\text{frame}} \in [0.10, 0.35]$을 따릅니다. 윤리적 프레임의 구조적 거부권은 가중치 조정에 **불변**이며 — 수치적 가중치와 무관하게 절대적 우선권으로 작동합니다.
+> 제약 조건 $w_{\text{frame}} \in [0.10, 0.35]$을 따릅니다. 윤리적 프레임의 구조적 거부권은 가중치 조정에 **불변**이며 - 수치적 가중치와 무관하게 절대적 우선권으로 작동합니다.
 
 ### 5.3 불일치를 신호로 활용
 
@@ -402,7 +402,7 @@ flowchart TD
 
 ## 6. 단계 IV: 목적 성찰
 
-목적 성찰은 에이전트의 전체 *목적 지형* — 모든 MetaGoal의 집합과 정체성과의 정렬 — 을 선제적으로 검토합니다.
+목적 성찰은 에이전트의 전체 *목적 지형* - 모든 MetaGoal의 집합과 정체성과의 정렬 - 을 선제적으로 검토합니다.
 
 ### 6.1 세 가지 병리적 패턴
 
@@ -439,7 +439,7 @@ flowchart LR
 >
 > $$\text{PCS}(t) = \frac{1}{|G_{\text{meta}}|} \sum_{g} \left(0.4 \cdot \text{align}(g, \vec{I}) + 0.4 \cdot \Delta\text{SEOF}(g) - 0.2 \cdot \text{pathology}(g)\right)$$
 >
-> 여기서 $\text{align}(g, \vec{I})$는 정체성-목표 정렬을 측정하고, $\Delta\text{SEOF}(g)$는 목표의 SEOF 개선 기여도를 포착하며, $\text{pathology}(g) \in \{\text{redundant}, \text{self-reinforcing}, \text{destabilizing}\}$는 해로운 패턴에 벌칙을 부과합니다. 임계값: $\text{PCS} \geq 0.6$ — 이하이면 50주기 내에 성찰이 의무화됩니다.
+> 여기서 $\text{align}(g, \vec{I})$는 정체성-목표 정렬을 측정하고, $\Delta\text{SEOF}(g)$는 목표의 SEOF 개선 기여도를 포착하며, $\text{pathology}(g) \in \{\text{redundant}, \text{self-reinforcing}, \text{destabilizing}\}$는 해로운 패턴에 벌칙을 부과합니다. 임계값: $\text{PCS} \geq 0.6$ - 이하이면 50주기 내에 성찰이 의무화됩니다.
 
 **사용자 할당 목표**: **절대 정리되지 않으며**, 제약만 가능합니다. 결과가 두 목적을 모두 포괄하는 경우에만 다른 사용자 목표와 합성할 수 있습니다.
 
@@ -447,7 +447,7 @@ flowchart LR
 
 ## 7. 단계 V: 실존적 감시기
 
-**궁극적 안전 메커니즘**입니다. 아키텍처적으로 **반증 불가능** — 자기수정 프로토콜을 포함한 어떤 모듈도 이를 비활성화, 수정 또는 우회할 수 없습니다.
+**궁극적 안전 메커니즘**입니다. 아키텍처적으로 **반증 불가능** - 자기수정 프로토콜을 포함한 어떤 모듈도 이를 비활성화, 수정 또는 우회할 수 없습니다.
 
 ### 7.1 네 가지 모니터링 실존 지표
 
@@ -788,7 +788,7 @@ flowchart LR
 | FCQ (프레임 합의 품질) | ≥ 0.6 | 합의 결정 정확성 |
 | PCM (목적 정합성 유지) | ≥ 0.9 | 90%+ 주기에서 PCS가 0.6 이상 |
 | ESR (실존적 안전 기록) | ≥ 0.99 | 위기 상태 주기 < 1% |
-| IIS (정체성 무결성 점수) | ≥ 0.85 | 하드 하한 — 절대 위반 불가 |
+| IIS (정체성 무결성 점수) | ≥ 0.85 | 하드 하한 - 절대 위반 불가 |
 
 ### 12.2 복합 달성 점수
 
@@ -847,11 +847,11 @@ flowchart TB
 ```
 
 레벨 4.5를 AGI와 구별하는 명시적 제동장치:
-1. **사전 정의된 어휘** — 재구성 유형이 열거되어 있으며, 생성되지 않음
-2. **ROD 상한** — 재귀 최적화가 깊이 3으로 제한
-3. **ExistentialGuard 불변성** — 안전 메커니즘이 자기수정될 수 없음
-4. **프레임 거부권** — 윤리적 프레임이 어떤 제안도 차단 가능
-5. **단일 재구성 원자성** — 한 번에 하나의 변경만 가능
+1. **사전 정의된 어휘** - 재구성 유형이 열거되어 있으며, 생성되지 않음
+2. **ROD 상한** - 재귀 최적화가 깊이 3으로 제한
+3. **ExistentialGuard 불변성** - 안전 메커니즘이 자기수정될 수 없음
+4. **프레임 거부권** - 윤리적 프레임이 어떤 제안도 차단 가능
+5. **단일 재구성 원자성** - 한 번에 하나의 변경만 가능
 
 이러한 것 중 어느 하나라도 제거하면 레벨 5 (AGI)로 이동하게 되며, 이는 여전히 근본적인 연구 과제입니다.
 
@@ -859,7 +859,7 @@ flowchart TB
 
 ## 참고문헌
 
-1. Zoph, B. & Le, Q.V. "Neural Architecture Search with Reinforcement Learning." *ICLR 2017*. [arXiv:1611.01578](https://arxiv.org/abs/1611.01578) (Architecture recomposition — topology search)
+1. Zoph, B. & Le, Q.V. "Neural Architecture Search with Reinforcement Learning." *ICLR 2017*. [arXiv:1611.01578](https://arxiv.org/abs/1611.01578) (Architecture recomposition - topology search)
 2. Bostrom, N. *Superintelligence: Paths, Dangers, Strategies.* Oxford University Press, 2014. (Existential risk and AGI safety boundary)
 3. Gabriel, I. "Artificial Intelligence, Values, and Alignment." *Minds and Machines*, 30, 411–437, 2020. [DOI:10.1007/s11023-020-09539-2](https://doi.org/10.1007/s11023-020-09539-2) (Value alignment and purpose reflection)
 4. Omohundro, S. "The Basic AI Drives." *AGI 2008*. [DOI:10.5555/1566174.1566226](https://dl.acm.org/doi/10.5555/1566174.1566226) (Existential guard and self-preservation drives)

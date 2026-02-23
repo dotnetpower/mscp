@@ -1,6 +1,6 @@
 ---
 title: "레벨 4: 적응형 범용 에이전트"
-description: "MSCP 레벨 4 — 변이 연산자, 그림자 에이전트 검증, 기술 생명주기 관리, 전이 학습 파이프라인, 형식적 안전 보장을 갖춘 자기수정 프로토콜."
+description: "MSCP 레벨 4 - 변이 연산자, 그림자 에이전트 검증, 기술 생명주기 관리, 전이 학습 파이프라인, 형식적 안전 보장을 갖춘 자기수정 프로토콜."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,10 +10,10 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# 레벨 4: 적응형 범용 에이전트 — 아키텍처 & 설계
+# 레벨 4: 적응형 범용 에이전트 - 아키텍처 & 설계
 
 > **MSCP 레벨 시리즈** | [레벨 3](Level_3_Self_Regulating_Agent.ko.md) ← 레벨 4 → [레벨 4.5](Level_4_5_Self_Architecting.ko.md)  
-> **상태**: 🔬 **실험적** — 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
+> **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
 ---
@@ -212,22 +212,22 @@ flowchart TD
   classDef tactical fill:#FFE8C8,stroke:#EF6C00,color:#323130
   classDef action fill:#F2F2F2,stroke:#8A8886,color:#323130
 
-  subgraph MetaLevel["레벨 0: 메타 목표 — 수주에서 수개월"]
+  subgraph MetaLevel["레벨 0: 메타 목표 - 수주에서 수개월"]
     MG1["메타 목표:<br/>새로운 문제 도메인에<br/>숙달되기<br/>priority_decay = 0.001/hr"]:::meta
   end
 
-  subgraph StrategicLevel["레벨 1: 전략 목표 — 수일에서 수주"]
+  subgraph StrategicLevel["레벨 1: 전략 목표 - 수일에서 수주"]
     SG1["전략:<br/>기본 개념<br/>마스터하기<br/>decay = 0.01/hr"]:::strategic
     SG2["전략:<br/>교차 도메인<br/>연결 구축<br/>decay = 0.01/hr"]:::strategic
   end
 
-  subgraph TacticalLevel["레벨 2: 전술 목표 — 수시간에서 수일"]
+  subgraph TacticalLevel["레벨 2: 전술 목표 - 수시간에서 수일"]
     TG1["전술:<br/>학습 모듈 A<br/>완료하기<br/>decay = 0.05/hr"]:::tactical
     TG2["전술:<br/>문제 세트 B<br/>연습하기<br/>decay = 0.05/hr"]:::tactical
     TG3["전술:<br/>전이 기회<br/>식별하기<br/>decay = 0.05/hr"]:::tactical
   end
 
-  subgraph ActionLevel["레벨 3: 행동 — 단일 주기"]
+  subgraph ActionLevel["레벨 3: 행동 - 단일 주기"]
     A1["행동:<br/>단계 1 실행"]:::action
     A2["행동:<br/>단계 2 실행"]:::action
     A3["행동:<br/>단계 3 실행"]:::action
@@ -266,7 +266,7 @@ $$\text{GRS}(g, t+\Delta t) = \text{GRS}(g, t) \cdot e^{-\textit{decay rate} \cd
 | 메타 목표 | GRS < 0.1 | 168시간 |
 | 전략 | GRS < 0.2 | 48시간 |
 | 전술 | GRS < 0.3 | 6시간 |
-| 행동 | 실패 시 즉시 | — |
+| 행동 | 실패 시 즉시 | - |
 
 ---
 
@@ -385,7 +385,7 @@ flowchart TD
 2. **안정화 모드 중 습득 불가**
 3. **`identity_id`는 기술 습득으로 절대 수정되지 않음**
 4. **윤리적으로 유해한 기술은 Layer 0에 의해 거부**
-5. **모든 기술은 DEPRECATED 안전** — 제거해도 핵심 기능이 손상되지 않음
+5. **모든 기술은 DEPRECATED 안전** - 제거해도 핵심 기능이 손상되지 않음
 
 ---
 
@@ -477,7 +477,7 @@ $$\textit{oscillation score} = \frac{|\text{reverts}|}{|\text{mutations}|}$$
 3. **σ 50% 감소**
 4. 지속될 경우: **전략 병합** ($\text{merged} = 0.5 \cdot A + 0.5 \cdot B$)
 
-**핵심 불변량**: MetaStrategyEvaluator 자체는 **변경 불가** — 자신의 평가 로직을 수정할 수 없습니다.
+**핵심 불변량**: MetaStrategyEvaluator 자체는 **변경 불가** - 자신의 평가 로직을 수정할 수 없습니다.
 
 ---
 
@@ -599,7 +599,7 @@ def cross_domain_transfer(
 ) -> TransferResult:
     """
     Transfer skills from known domains to a novel domain.
-    Input:  novel_domain — target domain descriptor, skill_memory — stored skills
+    Input:  novel_domain - target domain descriptor, skill_memory - stored skills
     Output: TransferResult with success, skill, adaptation_cost
     """
 
@@ -633,7 +633,7 @@ def cross_domain_transfer(
             skill_memory.add(adapted)
             return TransferResult(success=True, skill=adapted, cost=result.cycles)
 
-    # No transfer possible — learn from scratch
+    # No transfer possible - learn from scratch
     return TransferResult(success=False, skill=None, cost=0)
 ```
 
@@ -883,7 +883,7 @@ flowchart LR
 3. Schmidhuber, J. "Gödel Machines: Self-Referential Universal Problem Solvers Making Provably Optimal Self-Improvements." *AGI 2007*. [arXiv:cs/0309048](https://arxiv.org/abs/cs/0309048) (Bounded self-modification theory)
 4. García, J. & Fernández, F. "A Comprehensive Survey on Safe Reinforcement Learning." *JMLR*, 16(1), 1437–1480, 2015. [Link](http://jmlr.org/papers/v16/garcia15a.html) (Safety constraints during self-improvement)
 5. Salimans, T., et al. "Evolution Strategies as a Scalable Alternative to Reinforcement Learning." *arXiv 2017*. [arXiv:1703.03864](https://arxiv.org/abs/1703.03864) (Strategy evolution mechanisms)
-6. Simon, H.A. *Models of Bounded Rationality.* MIT Press, 1982. (Bounded rationality — foundational for bounded self-modification)
+6. Simon, H.A. *Models of Bounded Rationality.* MIT Press, 1982. (Bounded rationality - foundational for bounded self-modification)
 7. Sui, Y., et al. "Safe Exploration for Optimization with Gaussian Processes." *ICML 2015*. [arXiv:1509.01066](https://arxiv.org/abs/1509.01066) (Safe exploration in unknown domains)
 8. Amodei, D., et al. "Concrete Problems in AI Safety." *arXiv 2016*. [arXiv:1606.06565](https://arxiv.org/abs/1606.06565) (Safe self-modification)
 9. Wang, G., et al. "Voyager: An Open-Ended Embodied Agent with Large Language Models." *arXiv 2023*. [arXiv:2305.16291](https://arxiv.org/abs/2305.16291) (Autonomous skill acquisition)
@@ -894,4 +894,4 @@ flowchart LR
 ---
 
 > **이전**: [← 레벨 3: 자기조절 인지 에이전트](Level_3_Self_Regulating_Agent.ko.md)  
-> **다음**: [레벨 4.5: Pre-AGI — 자기아키텍팅 →](Level_4_5_Self_Architecting.ko.md)
+> **다음**: [레벨 4.5: Pre-AGI - 자기아키텍팅 →](Level_4_5_Self_Architecting.ko.md)

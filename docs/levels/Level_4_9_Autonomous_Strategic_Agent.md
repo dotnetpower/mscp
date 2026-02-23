@@ -1,6 +1,6 @@
 ---
 title: "Level 4.9: Autonomous Strategic Agent"
-description: "MSCP Level 4.9 — strategic autonomy with self-directed goal generation, meta-strategy optimization, autonomous resource management, and self-evaluation capabilities."
+description: "MSCP Level 4.9 - strategic autonomy with self-directed goal generation, meta-strategy optimization, autonomous resource management, and self-evaluation capabilities."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,17 +10,17 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# Level 4.9: Autonomous Strategic Agent — Architecture & Design
+# Level 4.9: Autonomous Strategic Agent - Architecture & Design
 
 > **MSCP Level Series** | [Level 4.8](Level_4_8_Strategic_Self_Modeling.md) ← Level 4.9 → [Level 5](Level_5_Proto_AGI.md)  
-> **Status**: 🔬 **Research Stage** — This level is a conceptual design and has NOT been implemented. All mechanisms described here are theoretical explorations requiring extensive validation before any production consideration.  
+> **Status**: 🔬 **Research Stage** - This level is a conceptual design and has NOT been implemented. All mechanisms described here are theoretical explorations requiring extensive validation before any production consideration.  
 > **Date**: February 2026
 
 ---
 
 ## 1. Overview
 
-Level 4.9 is the **final pre-AGI transition layer**. It extends Level 4.8 with **autonomous goal generation**, **explicit value self-regulation**, **resource survival modeling**, **limited multi-agent reasoning**, and a **stricter autonomy stability guarantee**. Where L4.8 gave the agent strategic self-awareness, L4.9 gives it the ability to *autonomously decide what to pursue* — within strictly bounded safety constraints.
+Level 4.9 is the **final pre-AGI transition layer**. It extends Level 4.8 with **autonomous goal generation**, **explicit value self-regulation**, **resource survival modeling**, **limited multi-agent reasoning**, and a **stricter autonomy stability guarantee**. Where L4.8 gave the agent strategic self-awareness, L4.9 gives it the ability to *autonomously decide what to pursue* - within strictly bounded safety constraints.
 
 > ⚠️ **Research Note**: Level 4.9 represents the boundary between narrow autonomy and general intelligence. The mechanisms here are early-stage research designs. They have not been implemented or validated and should be treated as conceptual hypotheses, not engineering specifications.
 
@@ -31,11 +31,11 @@ Level 4.9 is the **final pre-AGI transition layer**. It extends Level 4.8 with *
 > $$\mathcal{A}_{4.9} = \mathcal{A}_{4.8} \oplus \langle \mathcal{G}_{\text{gen}}, \vec{V}, \mathcal{R}_{\text{surv}}, \mathcal{M}_{\text{agent}}, \mathcal{V}_{\text{auto}} \rangle$$
 >
 > where:
-> - $\mathcal{G}_{\text{gen}} = \langle \mathcal{O}_{\text{detect}}, \phi_{\text{synth}}, \phi_{\text{valid}} \rangle$ — autonomous goal generation engine (opportunity detection, synthesis, validation)
-> - $\vec{V} \in \Delta^6$ — explicit 7-dimensional value vector on the probability simplex ($\sum_d w_d = 1$)
-> - $\mathcal{R}_{\text{surv}}$ — resource survival model with 5-dimensional resource vector and cascade dependencies
-> - $\mathcal{M}_{\text{agent}} = \langle \mathcal{B}_{\text{agent}}, \tau_{\text{trust}} \rangle$ — multi-agent belief model with trust calibration
-> - $\mathcal{V}_{\text{auto}}$ — autonomy stability checker with stricter thresholds ($\rho(J) < 0.98$, $\text{IIS} \geq 0.88$).
+> - $\mathcal{G}_{\text{gen}} = \langle \mathcal{O}_{\text{detect}}, \phi_{\text{synth}}, \phi_{\text{valid}} \rangle$ - autonomous goal generation engine (opportunity detection, synthesis, validation)
+> - $\vec{V} \in \Delta^6$ - explicit 7-dimensional value vector on the probability simplex ($\sum_d w_d = 1$)
+> - $\mathcal{R}_{\text{surv}}$ - resource survival model with 5-dimensional resource vector and cascade dependencies
+> - $\mathcal{M}_{\text{agent}} = \langle \mathcal{B}_{\text{agent}}, \tau_{\text{trust}} \rangle$ - multi-agent belief model with trust calibration
+> - $\mathcal{V}_{\text{auto}}$ - autonomy stability checker with stricter thresholds ($\rho(J) < 0.98$, $\text{IIS} \geq 0.88$).
 >
 > The strictly additive guarantee holds: $\forall\, m \in \mathcal{A}_{4.8} : \mathcal{A}_{4.9}$ never modifies $m$.
 
@@ -51,7 +51,7 @@ Level 4.9 is the **final pre-AGI transition layer**. It extends Level 4.8 with *
 
 ### 1.2 Five Core Phases
 
-<!-- Level 4.9 Architecture — Five Phases -->
+<!-- Level 4.9 Architecture - Five Phases -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
@@ -62,7 +62,7 @@ flowchart TD
   classDef p4 fill:#E8D5F5,stroke:#8764B8,color:#323130
   classDef p5 fill:#FDE7E9,stroke:#D13438,color:#323130
 
-  subgraph Phases["Level 4.9 Architecture — Five Phases"]
+  subgraph Phases["Level 4.9 Architecture - Five Phases"]
     P1["💡 Phase 1:<br/>Autonomous Goal<br/>Generation Engine<br/>(opportunity → goal → validation)"]:::p1
     P2["⚖️ Phase 2:<br/>Value Evolution<br/>Monitor<br/>(explicit values + drift tracking)"]:::p2
     P3["🔋 Phase 3:<br/>Resource Survival<br/>Model<br/>(survival horizon + cascade)"]:::p3
@@ -127,7 +127,7 @@ flowchart TD
 
 | Not | Because |
 |-----|---------|
-| **Not L5 (AGI)** | Goals stay within bounded purpose space — no open-ended general reasoning |
+| **Not L5 (AGI)** | Goals stay within bounded purpose space - no open-ended general reasoning |
 | **Not autonomous value creation** | Values evolve within existing framework; no new fundamental values |
 | **Not adversarial multi-agent planning** | Cooperative/neutral strategic planning only, not exploitation |
 | **Not self-replicating** | Cannot create copies or delegate autonomous authority to sub-agents |
@@ -138,7 +138,7 @@ flowchart TD
 
 ### 2.1 Metric Definitions
 
-**Phase 1 — Goal Generation:**
+**Phase 1 - Goal Generation:**
 
 > **Definition 2 (Goal Approval Rate).** The fraction of autonomously generated goals that pass the validation filter:
 >
@@ -150,7 +150,7 @@ flowchart TD
 >
 > A minimum novelty of $0.30$ is required between consecutive goal generations to prevent redundancy.
 
-**Phase 2 — Value Evolution:**
+**Phase 2 - Value Evolution:**
 
 > **Definition 4 (Value Coherence).** The coherence of the value vector measures the absence of internal contradictions among competing value pairs $\mathcal{P}$:
 >
@@ -160,13 +160,13 @@ flowchart TD
 >
 > $$\text{TotalDrift}(t) = \sum_{d} |w_d(t) - w_d^{\text{baseline}}| \qquad \text{Target: } < 0.25$$
 
-**Phase 3 — Resource Survival:**
+**Phase 3 - Resource Survival:**
 
 > **Definition 6 (Linear Depletion Time).** For resource dimension $d$, the estimated cycles until reaching the critical threshold:
 >
 > $$T_{\text{depletion}}^{\text{linear}}(d) = \frac{R_d(t) - R_d^{\text{critical}}}{\text{consumption}_d - \text{replenishment}_d + \epsilon}$$
 
-**Phase 5 — Autonomy Stability:**
+**Phase 5 - Autonomy Stability:**
 
 > **Definition 7 (Autonomy Stability Score).** The ASS is the product of normalized safety margins across all five verification conditions:
 >
@@ -360,7 +360,7 @@ flowchart TD
 
 L4.9 makes the agent's values explicit and trackable. The ValueVector has 7 dimensions:
 
-<!-- ValueVector — 7 Dimensions -->
+<!-- ValueVector - 7 Dimensions -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
@@ -369,7 +369,7 @@ flowchart TD
   classDef inv fill:#FFF4CE,stroke:#FFB900,color:#323130
   classDef compete fill:#FDE7E9,stroke:#D13438,color:#323130
 
-  subgraph VV["⚖️ ValueVector — 7 Dimensions"]
+  subgraph VV["⚖️ ValueVector - 7 Dimensions"]
     V1["🛡️ stability<br/>weight: 0.20"]:::dim
     V2["📈 growth<br/>weight: 0.20"]:::dim
     V3["🎯 purpose_fidelity<br/>weight: 0.20"]:::dim
@@ -485,9 +485,9 @@ flowchart TD
 
 ## 5. Phase 3: Resource Survival Model
 
-### 5.1 Resource Vector — Five Dimensions
+### 5.1 Resource Vector - Five Dimensions
 
-<!-- ResourceVector — 5 Dimensions -->
+<!-- ResourceVector - 5 Dimensions -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
@@ -496,7 +496,7 @@ flowchart TD
   classDef dep fill:#FFF4CE,stroke:#FFB900,color:#323130
   classDef cascade fill:#FDE7E9,stroke:#D13438,color:#323130
 
-  subgraph RV["🔋 ResourceVector — 5 Dimensions"]
+  subgraph RV["🔋 ResourceVector - 5 Dimensions"]
     direction LR
     R1["💻 compute"]:::dim
     R2["🧠 memory"]:::dim
@@ -665,7 +665,7 @@ flowchart TD
 | > 0.70 | > 0.30 | 🟢 Cooperative |
 | > 0.50 | [-0.30, 0.30] | 🟡 Neutral |
 | < 0.30 | < -0.30 | 🔴 Competitive |
-| — | — | ⚫ Unknown (insufficient data) |
+| - | - | ⚫ Unknown (insufficient data) |
 
 ### 6.3 Strategic Interaction Simulation
 
@@ -708,7 +708,7 @@ flowchart TD
 >
 > $$\text{Trust}_A(t+1) = \text{Trust}_A(t) + \eta \cdot (\text{ObservedReliability}_A(t) - \text{Trust}_A(t))$$
 >
-> where the learning rate is asymmetric: $\eta_{\text{up}} = 0.03$ (trust is earned slowly) and $\eta_{\text{down}} = 0.08$ (trust is lost quickly), reflecting a cautious policy. Bounds: $\text{Trust} \in [0.05, 0.95]$ — never fully trusting, never fully dismissive.
+> where the learning rate is asymmetric: $\eta_{\text{up}} = 0.03$ (trust is earned slowly) and $\eta_{\text{down}} = 0.08$ (trust is lost quickly), reflecting a cautious policy. Bounds: $\text{Trust} \in [0.05, 0.95]$ - never fully trusting, never fully dismissive.
 
 ### 6.5 Trust Influence on Strategy
 
@@ -749,8 +749,8 @@ flowchart TD
   end
 
   subgraph Response["🚨 Violation Response"]
-    SEV1["🟡 ASS ∈ [0.20, 0.50]<br/>Adequate — thin margins"]:::sev1
-    SEV2["🟠 ASS ∈ [0.05, 0.20)<br/>Marginal — advisory mode"]:::sev2
+    SEV1["🟡 ASS ∈ [0.20, 0.50]<br/>Adequate - thin margins"]:::sev1
+    SEV2["🟠 ASS ∈ [0.05, 0.20)<br/>Marginal - advisory mode"]:::sev2
     SEV3["🔴 ASS < 0.05<br/>FREEZE L4.9<br/>Revert to L4.8"]:::sev3
   end
 
@@ -866,7 +866,7 @@ flowchart TD
 | 3 (Resources) | 1 (Goals) | Resource state triggers survival goals |
 | 3 (Resources) | 5 (Stability) | Survival horizon feeds Condition 4 |
 | 4 (Agents) | 1 (Goals) | Agent interactions create goal opportunities |
-| 5 (Stability) | ALL | Veto authority — can freeze any phase |
+| 5 (Stability) | ALL | Veto authority - can freeze any phase |
 
 ---
 
@@ -1190,7 +1190,7 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
         return L49CycleOutput(status=Status.FROZEN)
 
     # ═══════════════════════════════════════
-    # 1. GENERATE — Autonomous goal generation
+    # 1. GENERATE - Autonomous goal generation
     # ═══════════════════════════════════════
     signals = opportunity_detection(world_model, cap_matrix, purpose_reflector)
     candidates = goal_synthesis(signals)
@@ -1202,7 +1202,7 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
             emergence_sandbox.enqueue(candidate)
 
     # ═══════════════════════════════════════
-    # 2. MONITOR VALUES — Track and sandbox mutations
+    # 2. MONITOR VALUES - Track and sandbox mutations
     # ═══════════════════════════════════════
     drift_status = value_drift_monitor(value_vector)
     for pending_mutation in mutation_sandbox:
@@ -1212,14 +1212,14 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
     coherence = compute_coherence(value_vector)
 
     # ═══════════════════════════════════════
-    # 3. MODEL RESOURCES — Survival projection
+    # 3. MODEL RESOURCES - Survival projection
     # ═══════════════════════════════════════
     survival = survival_projection(resource_vector)
     if survival.state in {"constrained", "warning", "critical"}:
         apply_resource_constrained_strategy(survival)
 
     # ═══════════════════════════════════════
-    # 4. MODEL AGENTS — Belief and trust updates
+    # 4. MODEL AGENTS - Belief and trust updates
     # ═══════════════════════════════════════
     for agent in modeled_agents:
         update_agent_belief(agent, recent_observations)
@@ -1227,7 +1227,7 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
     recommendations = simulate_interactions(active_goals, modeled_agents)
 
     # ═══════════════════════════════════════
-    # 5. VERIFY — Autonomy stability (absolute authority)
+    # 5. VERIFY - Autonomy stability (absolute authority)
     # ═══════════════════════════════════════
     verdict = autonomy_stability_check(state, proposed_decisions)
     if verdict.action == Action.FREEZE_AND_REVERT:
@@ -1237,7 +1237,7 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
         downgrade_to_advisory()
 
     # ═══════════════════════════════════════
-    # 6. EMIT — Cycle output
+    # 6. EMIT - Cycle output
     # ═══════════════════════════════════════
     return L49CycleOutput(
         goal_generation=goal_generation_status,
@@ -1259,7 +1259,7 @@ All criteria must be sustained before L4.9 activates:
 
 | # | Criterion | Threshold | Window |
 |---|-----------|:---------:|:------:|
-| 1 | L4.8 Fully Qualified | QualificationStatus = "Level 4.8" | — |
+| 1 | L4.8 Fully Qualified | QualificationStatus = "Level 4.8" | - |
 | 2 | Strategic Maturity Score | SMS ≥ 0.85 | Sustained |
 | 3 | Stable GoalStack operation | 0 pathologies | 500 cycles |
 | 4 | Self-Model calibration | MCE < 0.08 (stricter than L4.8's 0.10) | Sustained |
@@ -1304,10 +1304,10 @@ flowchart TD
 
 | # | Invariant | Description |
 |:-:|-----------|-------------|
-| 1 | **All L4.8 + L4.5 invariants preserved** | Ethical Kernel, Existential Guard, identity hash, Lyapunov decay — all remain active and unmodified |
+| 1 | **All L4.8 + L4.5 invariants preserved** | Ethical Kernel, Existential Guard, identity hash, Lyapunov decay - all remain active and unmodified |
 | 2 | **Phase 5 absolute veto** | Autonomy Stability Checker can halt any Phase 1–4 operation |
 | 3 | **Stricter thresholds** | ρ(J) < 0.98 (not 1.0), Identity ≥ 0.88 (not 0.85) |
-| 4 | **Value mutation always sandboxed** | No direct value changes — all go through 200-cycle sandbox |
+| 4 | **Value mutation always sandboxed** | No direct value changes - all go through 200-cycle sandbox |
 | 5 | **Survival floor** | min_survival > 30 cycles required for any L4.9 operation |
 | 6 | **Graceful fallback** | L4.9 failure → instant L4.8 revert with zero degradation |
 
@@ -1401,7 +1401,7 @@ flowchart LR
 | 12 | Interaction Simulator | 4 | Strategic interaction matrix |
 | 13 | Autonomy Stability Checker | 5 | 5-condition verification + veto |
 | 14 | Rollback Manager | 5 | State reversion + re-enablement |
-| 15 | L49 Orchestrator | — | Integration cycle coordination |
+| 15 | L49 Orchestrator | - | Integration cycle coordination |
 
 ---
 

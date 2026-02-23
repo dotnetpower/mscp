@@ -1,6 +1,6 @@
 ---
 title: "Agent Cognition Level Series"
-description: "Complete guide to the MSCP Agent Cognition Level taxonomy — from Level 1 Tool Agents to Level 5 Proto-AGI. Each level defines architecture, safety mechanisms, and formal properties."
+description: "Complete guide to the MSCP Agent Cognition Level taxonomy - from Level 1 Tool Agents to Level 5 Proto-AGI. Each level defines architecture, safety mechanisms, and formal properties."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -12,7 +12,7 @@ Removal of attribution constitutes a license violation.
 -->
 # MSCP Agent Cognition Level Series
 
-> **Status**: 🔬 **Experimental** — All documents in this series describe designs that emerged from prototyping and testing. They are not finalized specifications.  
+> **Status**: 🔬 **Experimental** - All documents in this series describe designs that emerged from prototyping and testing. They are not finalized specifications.  
 
 ---
 
@@ -66,7 +66,7 @@ flowchart TB
 | **4.8** | **Strategic Self-Modeling Agent** | World model integration; meta-cognitive self-model; long-horizon strategic planning; stability-preserving planning | [Level_4_8_Strategic_Self_Modeling.md](Level_4_8_Strategic_Self_Modeling.md) |
 | **4.9** | **Autonomous Strategic Agent** | Autonomous goal generation; value evolution monitoring; resource survival modeling; multi-agent reasoning; autonomy stability verification | [Level_4_9_Autonomous_Strategic_Agent.md](Level_4_9_Autonomous_Strategic_Agent.md) |
 | **5** | **Proto-AGI** | Persistent identity continuity; cross-domain generalization; autonomous goal ecology; existential resilience; self-reconstruction | [Level_5_Proto_AGI.md](Level_5_Proto_AGI.md) |
-| 6 | Conscious Entity | Consciousness; qualia; free will; moral agency | *Theoretical — not documented* |
+| 6 | Conscious Entity | Consciousness; qualia; free will; moral agency | *Theoretical - not documented* |
 
 ---
 

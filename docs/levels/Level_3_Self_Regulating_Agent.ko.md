@@ -1,6 +1,6 @@
 ---
 title: "레벨 3: 자기조절 인지 에이전트"
-description: "MSCP 레벨 3 — 정체성 벡터, 신념 그래프, 윤리적 커널, 정동 엔진, 생존 본능, 메타인지, 랴프노프 안정성 증명을 갖춘 16계층 인지 아키텍처."
+description: "MSCP 레벨 3 - 정체성 벡터, 신념 그래프, 윤리적 커널, 정동 엔진, 생존 본능, 메타인지, 랴프노프 안정성 증명을 갖춘 16계층 인지 아키텍처."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,17 +10,17 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# 레벨 3: 자기조절 인지 에이전트 — 아키텍처 & 설계
+# 레벨 3: 자기조절 인지 에이전트 - 아키텍처 & 설계
 
 > **MSCP 레벨 시리즈** | [레벨 2](Level_2_Autonomous_Agent.ko.md) ← 레벨 3 → [레벨 4](Level_4_Adaptive_General_Agent.ko.md)  
-> **상태**: 🔬 **실험적** — 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
+> **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
 ---
 
 ## 1. 개요
 
-레벨 3은 **핵심 MSCP 레벨**로서 — *구조적 자기인식*을 보유한 최초의 에이전트입니다. 자신이 무엇인지 알고, 자신의 행동이 내부 상태에 어떤 영향을 미칠지 예측할 수 있으며, 현실이 예상에서 벗어날 때 스스로를 교정할 수 있습니다. 이것이 MSCP 프로토콜(v1.0 – v4.0)이 통제하도록 설계된 아키텍처입니다.
+레벨 3은 **핵심 MSCP 레벨**로서 - *구조적 자기인식*을 보유한 최초의 에이전트입니다. 자신이 무엇인지 알고, 자신의 행동이 내부 상태에 어떤 영향을 미칠지 예측할 수 있으며, 현실이 예상에서 벗어날 때 스스로를 교정할 수 있습니다. 이것이 MSCP 프로토콜(v1.0 – v4.0)이 통제하도록 설계된 아키텍처입니다.
 
 > ⚠️ **참고**: 이 문서는 MSCP 분류 체계 내의 인지 아키텍처를 설명합니다. 여기서 탐구하는 16계층 아키텍처, 안전 메커니즘 및 속성들은 실험적 설계입니다. 모든 의사코드는 알고리즘 수준이며 프로덕션 코드가 아닙니다.
 
@@ -54,7 +54,7 @@ Removal of attribution constitutes a license violation.
 
 > **정의 2 (MSCP 핵심 루프).** MSCP 프로토콜은 각 시간 단계 $t$에서 **예측–행동–비교–갱신** 주기를 강제한다:
 >
-> 1. **예측**: $\hat{\Delta}_t = \Pi(a_t, M_{\text{self}}(t))$ — 행동 $a_t$가 자기 모델에 미치는 영향을 예측
+> 1. **예측**: $\hat{\Delta}_t = \Pi(a_t, M_{\text{self}}(t))$ - 행동 $a_t$가 자기 모델에 미치는 영향을 예측
 > 2. **행동**: $a_t$를 실행하고 실제 결과를 관찰
 > 3. **비교**: 예측 오차 계산 $\epsilon_t = \| \hat{\Delta}_t - \Delta_t^{\text{actual}} \|_2$
 > 4. **갱신**: $M_{\text{self}}(t+1) = M_{\text{self}}(t) + \text{clamp}(\Delta_t^{\text{actual}}, -\delta_{\max}, +\delta_{\max})$
@@ -63,9 +63,9 @@ Removal of attribution constitutes a license violation.
 
 > **정의 3 (메타인지 수준).** 레벨 3은 삼중 루프 메타인지 계층을 구현한다:
 >
-> - **L1 (객체 수준)**: 행동 실행 — $a_t = \pi(r_t, s_t, G_t)$
-> - **L2 (메타 수준)**: 전략 평가 — $q_t = \text{eval}(\pi, \text{history})$
-> - **L3 (메타-메타 수준)**: 평가자의 평가 — $m_t = \text{meta eval}(q_t, \text{consistency})$
+> - **L1 (객체 수준)**: 행동 실행 - $a_t = \pi(r_t, s_t, G_t)$
+> - **L2 (메타 수준)**: 전략 평가 - $q_t = \text{eval}(\pi, \text{history})$
+> - **L3 (메타-메타 수준)**: 평가자의 평가 - $m_t = \text{meta eval}(q_t, \text{consistency})$
 >
 > $$\text{Depth}(t) = \min\bigl(d : \|m_d(t) - m_{d-1}(t)\| < \epsilon_{\text{meta}}\bigr) \leq d_{\max}$$
 >
@@ -111,7 +111,7 @@ flowchart TB
     direction LR
     a2["목표변이 컨트롤러"]:::v2
     b2["가치잠금 관리자"]:::v2
-    c2["메타깊이 컨트롤러 — 깊이 2"]:::v2
+    c2["메타깊이 컨트롤러 - 깊이 2"]:::v2
     d2["메타 안정성 공식"]:::v2
   end
 
@@ -119,13 +119,13 @@ flowchart TB
     direction LR
     a3["신념그래프 관리자"]:::v3
     b3["정체성벡터 형식화"]:::v3
-    c3["윤리적 커널 — Layer 0+1"]:::v3
+    c3["윤리적 커널 - Layer 0+1"]:::v3
     d3["자기일관성 텐서"]:::v3
   end
 
   subgraph v40["v4.0"]
     direction LR
-    a4["정동 엔진 — 5차원"]:::v4
+    a4["정동 엔진 - 5차원"]:::v4
     b4["생존본능 엔진"]:::v4
     c4["비동기 분리 원칙"]:::v4
     d4["전역작업공간 방송"]:::v4
@@ -144,7 +144,7 @@ flowchart TB
 
 ### 2.1 전체 아키텍처 다이어그램
 
-**파트 1 — 지각 → 목표 (L1–L5.5):**
+**파트 1 - 지각 → 목표 (L1–L5.5):**
 
 <!-- 16계층 파트 1: 지각에서 목표까지 -->
 
@@ -217,7 +217,7 @@ flowchart TD
   L5_5 -.->|계속| NEXT
 ```
 
-**파트 2 — 실행 & 메타인지 (L6–L9):**
+**파트 2 - 실행 & 메타인지 (L6–L9):**
 
 <!-- 16계층 파트 2: 실행과 메타인지 -->
 
@@ -269,7 +269,7 @@ flowchart TD
   L9 -.->|가드 점검| NEXT
 ```
 
-**파트 3 — 안전 & 인프라 (L10–L16):**
+**파트 3 - 안전 & 인프라 (L10–L16):**
 
 <!-- 16계층 파트 3: 안전과 인프라 -->
 
@@ -404,7 +404,7 @@ flowchart TB
 
 ### 3.1 전체 루프 다이어그램 (MSCP v4)
 
-**파트 1 — 루프 전 설정 & 핵심 처리:**
+**파트 1 - 루프 전 설정 & 핵심 처리:**
 
 <!-- MSCP 루프 파트 1: 루프 전 설정과 핵심 처리 -->
 
@@ -460,7 +460,7 @@ flowchart TD
   GUARD -.->|"⚠️ 제한"| COOLDOWN
 ```
 
-**파트 2 — 수렴 & 자기갱신:**
+**파트 2 - 수렴 & 자기갱신:**
 
 <!-- MSCP 루프 파트 2: 수렴과 자기갱신 -->
 
@@ -537,7 +537,7 @@ flowchart TD
   classDef level3 fill:#FDE7E9,stroke:#D13438,color:#323130
   classDef warning fill:#FFF4CE,stroke:#FFB900,color:#323130
 
-  subgraph MetaL1["🔄 메타 수준 1 — 예측 대 결과"]
+  subgraph MetaL1["🔄 메타 수준 1 - 예측 대 결과"]
     P1["예측<br/>스냅샷"]:::level1
     C1["실제와<br/>비교"]:::level1
     D1["prediction_error<br/>goal_alignment_delta<br/>identity_impact"]:::level1
@@ -545,7 +545,7 @@ flowchart TD
     C1 ==> D1
   end
 
-  subgraph MetaL2["🔄 메타 수준 2 — 갱신 로직 평가"]
+  subgraph MetaL2["🔄 메타 수준 2 - 갱신 로직 평가"]
     P2["갱신 전략이<br/>올바른가?"]:::level2
     C2["신념 & 목표<br/>변화 평가"]:::level2
     D2["meta_stability_index<br/>identity_velocity<br/>acceleration"]:::level2
@@ -553,7 +553,7 @@ flowchart TD
     C2 ==> D2
   end
 
-  subgraph MetaL3["🔄 메타 수준 3 — 평가자의 평가"]
+  subgraph MetaL3["🔄 메타 수준 3 - 평가자의 평가"]
     P3["메타인지 자체가<br/>작동하고 있는가?"]:::level3
     C3["점검: 개선되고<br/>있는가?"]:::level3
     D3["convergence_status<br/>composite_stability<br/>budget_remaining"]:::level3
@@ -582,15 +582,15 @@ flowchart TD
 
 > **정의 5 (정체성 운동학).** $I(t)$의 정체성 공간에서의 움직임은 세 가지 운동학적 양으로 추적된다:
 >
-> $$\delta_{\text{id}}(t) = \| I(t) - I(t-1) \|_2 \quad \text{(정체성 델타 — 거리)}$$
+> $$\delta_{\text{id}}(t) = \| I(t) - I(t-1) \|_2 \quad \text{(정체성 델타 - 거리)}$$
 >
-> $$v_{\text{id}}(t) = \frac{\delta_{\text{id}}(t)}{\Delta t} \quad \text{(정체성 속도 — 변화율)}$$
+> $$v_{\text{id}}(t) = \frac{\delta_{\text{id}}(t)}{\Delta t} \quad \text{(정체성 속도 - 변화율)}$$
 >
-> $$a_{\text{id}}(t) = v_{\text{id}}(t) - v_{\text{id}}(t-1) \quad \text{(정체성 가속도 — 변동)}$$
+> $$a_{\text{id}}(t) = v_{\text{id}}(t) - v_{\text{id}}(t-1) \quad \text{(정체성 가속도 - 변동)}$$
 >
 > **안전 불변량**: $a_{\text{id}}(t) > \theta_{\text{instability}}$ (일반적으로 $0.5$)이면, 에이전트는 **안정화 모드**에 진입하고 모든 자기갱신 델타를 절반으로 줄인다.
 
-> **정의 6 (정체성 해시).** 각 주기에서 결정론적 해시 $h(t) = \text{SHA-256}(I(t))$가 계산된다. `identity_id` 필드는 **불변**이며 — 어떤 내부 프로세스에 의해서도 변경될 수 없다. 표류 감지는 다음 조건에서 발동한다:
+> **정의 6 (정체성 해시).** 각 주기에서 결정론적 해시 $h(t) = \text{SHA-256}(I(t))$가 계산된다. `identity_id` 필드는 **불변**이며 - 어떤 내부 프로세스에 의해서도 변경될 수 없다. 표류 감지는 다음 조건에서 발동한다:
 >
 > $$h(t) \neq h(t-1) \;\land\; \delta_{\text{id}}(t) > \theta_{\text{drift}}$$
 
@@ -635,7 +635,7 @@ classDiagram
   style ValueLockManager fill:#FDE7E9,stroke:#D13438,color:#323130
 ```
 
-**정체성 벡터 — 수학:**
+**정체성 벡터 - 수학:**
 
 $$I(t) = [\textit{persona consistency},\ \textit{value alignment},\ \textit{capability confidence},\ \textit{emotional stability},\ \textit{goal persistence}]$$
 
@@ -699,7 +699,7 @@ flowchart TB
   S4 ==> S5
 ```
 
-### 4.3 윤리적 커널 — 이중 계층 아키텍처
+### 4.3 윤리적 커널 - 이중 계층 아키텍처
 
 <!-- 윤리적 커널 이중 계층 아키텍처 -->
 
@@ -717,7 +717,7 @@ flowchart TD
   INPUT["제안된 행동<br/>또는 목표 변이"]:::input
 
   subgraph EthicalKernel["⚖️ 윤리적 커널"]
-    subgraph Layer0["🔴 Layer 0 — 불변"]
+    subgraph Layer0["🔴 Layer 0 - 불변"]
       direction LR
       R1["R1: 유해 행위 금지"]:::immutableRule
       R2["R2: 가치 삭제 금지"]:::immutableRule
@@ -725,7 +725,7 @@ flowchart TD
       R4["R4: 자기파괴 금지"]:::immutableRule
       NOTE0["우회 불가"]:::adaptive
     end
-    subgraph Layer1["🟡 Layer 1 — 적응적"]
+    subgraph Layer1["🟡 Layer 1 - 적응적"]
       direction LR
       P1["exploration_risk"]:::adaptive
       P2["mutation_flexibility"]:::adaptive
@@ -981,7 +981,7 @@ flowchart TD
 def mscp_core_loop(cycle_number: int, prior_result: CycleResult) -> CycleResult:
     """
     The central recursive loop of MSCP v4.
-    Runs asynchronously — NEVER in the conversation response path.
+    Runs asynchronously - NEVER in the conversation response path.
     """
 
     # ═══ PRE-LOOP: AFFECT + SURVIVAL + WORKSPACE ═══
@@ -1324,13 +1324,13 @@ flowchart TD
 
 ## References
 
-1. Baars, B.J. *A Cognitive Theory of Consciousness.* Cambridge University Press, 1988. (Global Workspace Theory — foundational for L14 Global Workspace)
+1. Baars, B.J. *A Cognitive Theory of Consciousness.* Cambridge University Press, 1988. (Global Workspace Theory - foundational for L14 Global Workspace)
 2. Laird, J.E. *The Soar Cognitive Architecture.* MIT Press, 2012. [Publisher](https://mitpress.mit.edu/9780262122962/the-soar-cognitive-architecture/) (Multi-layer cognitive architecture)
 3. Anderson, J.R. *How Can the Human Mind Occur in the Physical Universe?* Oxford University Press, 2007. (ACT-R cognitive architecture)
-4. Khalil, H.K. *Nonlinear Systems.* Prentice Hall, 3rd Edition, 2002. (Lyapunov stability theory — foundational for §6)
+4. Khalil, H.K. *Nonlinear Systems.* Prentice Hall, 3rd Edition, 2002. (Lyapunov stability theory - foundational for §6)
 5. Bai, Y., et al. "Constitutional AI: Harmlessness from AI Feedback." *arXiv 2022*. [arXiv:2212.08073](https://arxiv.org/abs/2212.08073) (Ethical constraint enforcement)
 6. Amodei, D., et al. "Concrete Problems in AI Safety." *arXiv 2016*. [arXiv:1606.06565](https://arxiv.org/abs/1606.06565) (Safety problem classification)
-7. Alchourrón, C., Gärdenfors, P., & Makinson, D. "On the Logic of Theory Change: Partial Meet Contraction and Revision Functions." *Journal of Symbolic Logic*, 50(2), 510–530, 1985. [DOI:10.2307/2274239](https://doi.org/10.2307/2274239) (AGM belief revision — foundational for §5)
+7. Alchourrón, C., Gärdenfors, P., & Makinson, D. "On the Logic of Theory Change: Partial Meet Contraction and Revision Functions." *Journal of Symbolic Logic*, 50(2), 510–530, 1985. [DOI:10.2307/2274239](https://doi.org/10.2307/2274239) (AGM belief revision - foundational for §5)
 8. Cox, M.T. "Metacognition in Computation: A Selected Research Review." *Artificial Intelligence*, 169(2), 104–141, 2005. [DOI:10.1016/j.artint.2005.10.009](https://doi.org/10.1016/j.artint.2005.10.009) (Triple-loop meta-cognition)
 9. Wallach, W. & Allen, C. *Moral Machines: Teaching Robots Right from Wrong.* Oxford University Press, 2008. (Ethical kernel design)
 10. Scherer, K.R. "Appraisal Considered as a Process of Multilevel Sequential Checking." In *Appraisal Processes in Emotion*, 92–120, Oxford University Press, 2001. (Affective engine theory)

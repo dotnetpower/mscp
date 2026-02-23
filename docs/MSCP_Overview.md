@@ -1,6 +1,6 @@
 ---
 title: "MSCP Overview"
-description: "Minimal Self-Consciousness Protocol — a safety-oriented framework for structurally self-aware AI agents. Six-level cognition taxonomy, 16-layer cognitive architecture, 30+ safety mechanisms, 71 formal definitions, and 144 academic references."
+description: "Minimal Self-Consciousness Protocol - a safety-oriented framework for structurally self-aware AI agents. Six-level cognition taxonomy, 16-layer cognitive architecture, 30+ safety mechanisms, 71 formal definitions, and 144 academic references."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -14,15 +14,15 @@ Removal of attribution constitutes a license violation.
 
 > **Disclaimer**: This is an **independent personal research project**. It does not represent the views, positions, or official work of any organization or employer. All ideas, designs, and analyses here are the author's own exploration into the question of how AI agents can evolve safely.
 
-> **Project Status**: 🔬 This project is **actively experimental**. The designs and mechanisms described here emerged from hands-on prototyping and iterative testing — they are not finalized specifications. Expect things to change as experimentation continues.
+> **Project Status**: 🔬 This project is **actively experimental**. The designs and mechanisms described here emerged from hands-on prototyping and iterative testing - they are not finalized specifications. Expect things to change as experimentation continues.
 
 ---
 
 ## What This Project Is About
 
-As AI agents evolve from stateless tool-callers into autonomous systems capable of setting their own goals, a critical safety gap emerges: **no structured protocol exists to ensure that increasingly autonomous agents maintain identity coherence, behavioral predictability, and ethical alignment as they self-modify.** The motivation behind this project is simple: **as AI agents grow more autonomous and capable, we need to make sure they develop in a direction that is safe, predictable, and aligned with human values — not merely powerful.**
+As AI agents evolve from stateless tool-callers into autonomous systems capable of setting their own goals, a critical safety gap emerges: **no structured protocol exists to ensure that increasingly autonomous agents maintain identity coherence, behavioral predictability, and ethical alignment as they self-modify.** The motivation behind this project is simple: **as AI agents grow more autonomous and capable, we need to make sure they develop in a direction that is safe, predictable, and aligned with human values - not merely powerful.**
 
-Through building and experimenting with agent prototypes, this project developed the **Minimal Self-Consciousness Protocol (MSCP)** — a layered framework that gives AI agents *structural self-awareness*: the capacity to predict their own state changes, compare predictions against outcomes, and update themselves only within bounded safety envelopes. Along the way, MSCP grew to include a six-level taxonomy of agent cognition (from reactive Tool Agents to hypothetical Conscious Entities), measurable transition criteria between levels, and 30+ structural safety mechanisms covering identity continuity, ethical invariants, convergence stability, and cognitive budget management. A reference implementation has reached Level 4.5 (Pre-AGI: Directionally Self-Architecting) with 25 operational modules and 772 passing tests — maintaining all safety invariants throughout capability expansion. This document walks through the protocol's design principles, architecture, safety mechanisms, and the reasoning behind them.
+Through building and experimenting with agent prototypes, this project developed the **Minimal Self-Consciousness Protocol (MSCP)** - a layered framework that gives AI agents *structural self-awareness*: the capacity to predict their own state changes, compare predictions against outcomes, and update themselves only within bounded safety envelopes. Along the way, MSCP grew to include a six-level taxonomy of agent cognition (from reactive Tool Agents to hypothetical Conscious Entities), measurable transition criteria between levels, and 30+ structural safety mechanisms covering identity continuity, ethical invariants, convergence stability, and cognitive budget management. A reference implementation has reached Level 4.5 (Pre-AGI: Directionally Self-Architecting) with 25 operational modules and 772 passing tests - maintaining all safety invariants throughout capability expansion. This document walks through the protocol's design principles, architecture, safety mechanisms, and the reasoning behind them.
 
 ---
 
@@ -45,27 +45,27 @@ Through building and experimenting with agent prototypes, this project developed
 
 ### 1.1 The Agentic AI Revolution
 
-The AI industry is undergoing a fundamental shift: from **prompt-response systems** to **autonomous agents** that can plan, execute multi-step workflows, use tools, and adapt to changing contexts. Major platforms — including Microsoft's Copilot ecosystem, Semantic Kernel, and AutoGen — are investing heavily in agent architectures that go beyond single-turn interactions.
+The AI industry is undergoing a fundamental shift: from **prompt-response systems** to **autonomous agents** that can plan, execute multi-step workflows, use tools, and adapt to changing contexts. Major platforms - including Microsoft's Copilot ecosystem, Semantic Kernel, and AutoGen - are investing heavily in agent architectures that go beyond single-turn interactions.
 
 Yet today's production agents remain firmly at the most primitive level of cognitive architecture. They are **stateless tool-callers**: systems that receive a user request, invoke one or more tools, and return a result. They maintain no internal model of themselves, set no autonomous goals, and have no capacity for self-reflection or self-correction beyond what the underlying LLM provides through its training.
 
 ### 1.2 The Safety Gap
 
-As agents gain more autonomy — the ability to set their own sub-goals, modify their strategies, and operate over extended time horizons — a critical safety gap emerges:
+As agents gain more autonomy - the ability to set their own sub-goals, modify their strategies, and operate over extended time horizons - a critical safety gap emerges:
 
 1. **Identity Drift**: An agent that modifies its own behavior has no mechanism to ensure it remains "the same agent" across modifications. Without identity continuity guarantees, an autonomous agent could drift into arbitrary behavioral states.
 
 2. **Uncontrolled Self-Modification**: When an agent can modify its own goals, strategies, or internal parameters, what prevents cascading destabilization? A single poorly calibrated self-update could trigger oscillating corrections that diverge rather than converge.
 
-3. **Ethical Constraint Erosion**: As agents become capable of modifying their own decision-making frameworks, how do we ensure that ethical constraints remain inviolable — that they cannot be modified, circumvented, or gradually weakened by the agent's own self-modification processes?
+3. **Ethical Constraint Erosion**: As agents become capable of modifying their own decision-making frameworks, how do we ensure that ethical constraints remain inviolable - that they cannot be modified, circumvented, or gradually weakened by the agent's own self-modification processes?
 
-4. **Recursive Instability**: Meta-cognitive loops — where the agent reflects on its own reflection — can produce unbounded recursion, computational explosion, or oscillating self-assessments.
+4. **Recursive Instability**: Meta-cognitive loops - where the agent reflects on its own reflection - can produce unbounded recursion, computational explosion, or oscillating self-assessments.
 
 These are not theoretical risks. They are engineering challenges that must be solved before autonomous agents can be deployed safely at scale.
 
 ### 1.3 What This Project Explores
 
-This project developed the **Minimal Self-Consciousness Protocol (MSCP)** — a structured protocol for building AI agents with safe structural self-awareness. Through iterative prototyping and testing, MSCP addresses the safety gap through four key areas:
+This project developed the **Minimal Self-Consciousness Protocol (MSCP)** - a structured protocol for building AI agents with safe structural self-awareness. Through iterative prototyping and testing, MSCP addresses the safety gap through four key areas:
 
 1. **A Six-Level Agent Cognition Taxonomy** with measurable transition criteria, providing a developmental roadmap from reactive tool-callers to adaptive general agents.
 
@@ -75,7 +75,7 @@ This project developed the **Minimal Self-Consciousness Protocol (MSCP)** — a 
 
 4. **Mathematical Analysis** exploring stability properties for the agent's self-modification dynamics.
 
-This isn't just a thought experiment. A working reference implementation has reached Level 4.5 with 25 operational modules, 14,500+ lines of code, and 772 passing tests — maintaining safety invariants throughout every capability expansion. That said, much of this is still being refined and tested.
+This isn't just a thought experiment. A working reference implementation has reached Level 4.5 with 25 operational modules, 14,500+ lines of code, and 772 passing tests - maintaining safety invariants throughout every capability expansion. That said, much of this is still being refined and tested.
 
 ---
 
@@ -120,9 +120,9 @@ $$
 
 ### 2.3 Why This Taxonomy Matters
 
-Most existing classifications of AI agent capability (including those from leading research labs) focus on *performance benchmarks* — what the agent can do. What we found more useful was classifying by *cognitive architecture* — how the agent thinks about itself and its own processes.
+Most existing classifications of AI agent capability (including those from leading research labs) focus on *performance benchmarks* - what the agent can do. What we found more useful was classifying by *cognitive architecture* - how the agent thinks about itself and its own processes.
 
-This distinction turned out to be crucial for safety. An agent that scores well on benchmarks but has no mechanism for self-monitoring, identity preservation, or ethical constraint enforcement is fundamentally less safe than one that does — regardless of benchmark performance.
+This distinction turned out to be crucial for safety. An agent that scores well on benchmarks but has no mechanism for self-monitoring, identity preservation, or ethical constraint enforcement is fundamentally less safe than one that does - regardless of benchmark performance.
 
 One of the early observations from this project: **most production AI agents today operate at Level 1**, with some approaching Level 2. The gap between current systems and Level 3 (structural self-awareness) is where the real engineering challenge lies for safe agent autonomy.
 
@@ -130,9 +130,9 @@ One of the early observations from this project: **most production AI agents tod
 
 | Framework | Focus | Self-Awareness | Safety Guarantees | Transition Criteria |
 |-----------|-------|:-:|:-:|:-:|
-| OpenAI Levels (2024) | Performance capability | — | — | Informal |
-| DeepMind Levels of AGI | Generality × Performance | — | — | Performance-based |
-| AutoGen Agent Types | Multi-agent orchestration | — | — | — |
+| OpenAI Levels (2024) | Performance capability | - | - | Informal |
+| DeepMind Levels of AGI | Generality × Performance | - | - | Performance-based |
+| AutoGen Agent Types | Multi-agent orchestration | - | - | - |
 | **MSCP Levels** | **Cognitive architecture** | **Central** | **Mathematical** | **Measurable** |
 
 ---
@@ -141,7 +141,7 @@ One of the early observations from this project: **most production AI agents tod
 
 ### 3.1 Origin and Evolution
 
-MSCP grew out of hands-on experimentation, evolving through versions v0.1 to v4.0. The early prototype phase (v0.x) was full of failures — and those failures turned out to be the most valuable part. Here's what we learned:
+MSCP grew out of hands-on experimentation, evolving through versions v0.1 to v4.0. The early prototype phase (v0.x) was full of failures - and those failures turned out to be the most valuable part. Here's what we learned:
 
 #### Key Lessons from Early Prototyping
 
@@ -149,12 +149,12 @@ MSCP grew out of hands-on experimentation, evolving through versions v0.1 to v4.
 |---------|-----------|----------------|
 | v0.4 | LLM-based self-reflection | LLM text output for self-analysis is unreliable: hallucinations, non-determinism, and confabulation make text-based self-modification dangerous |
 | v0.6–0.7 | Prediction recording without comparison | Recording predictions without comparing them to outcomes provides no safety value |
-| v0.8 | Unclamped self-updates | Allowing unbounded self-modifications causes divergent oscillation — the agent destabilizes itself |
+| v0.8 | Unclamped self-updates | Allowing unbounded self-modifications causes divergent oscillation - the agent destabilizes itself |
 | v0.9 | Consolidation | Four non-negotiable design principles established (see §3.2) |
 
 ### 3.2 Four Non-Negotiable Design Principles
 
-From those hard-won lessons, four design principles crystallized — and we enforce them throughout all MSCP versions:
+From those hard-won lessons, four design principles crystallized - and we enforce them throughout all MSCP versions:
 
 > **Principle 1: No LLM-Text-Based Self-Modification**
 > 
@@ -189,7 +189,7 @@ flowchart TD
   classDef infra fill:#F2F2F2,stroke:#605E5C,color:#323130
   classDef purple fill:#E8D5F5,stroke:#8764B8,color:#323130
 
-  subgraph V10["v1.0 — Pipeline Restructuring"]
+  subgraph V10["v1.0 - Pipeline Restructuring"]
     direction LR
     V10H["Identity-first architecture"]:::feat
     V10A["+ PredictionEngine"]:::feat
@@ -198,14 +198,14 @@ flowchart TD
     V10D["+ Agency Attribution"]:::feat
   end
 
-  subgraph V13["v1.3 — Self-Impact Prediction"]
+  subgraph V13["v1.3 - Self-Impact Prediction"]
     direction LR
     V13H["Predict internal state changes"]:::feat
     V13A["+ EscalationGuard"]:::safety
     V13B["+ Rollback Controller"]:::safety
   end
 
-  subgraph V20["v2.0 — Controlled Goal Mutation"]
+  subgraph V20["v2.0 - Controlled Goal Mutation"]
     direction LR
     V20H["Goal modification under stability"]:::feat
     V20A["+ ValueLockManager"]:::green
@@ -214,7 +214,7 @@ flowchart TD
     V20D["+ Stabilization Mode"]:::safety
   end
 
-  subgraph V30["v3.0 — Belief Graph"]
+  subgraph V30["v3.0 - Belief Graph"]
     direction LR
     V30H["Structured belief + rewriting"]:::green
     V30A["+ Identity Vector Math"]:::green
@@ -222,7 +222,7 @@ flowchart TD
     V30C["+ Consistency Tensor"]:::meta
   end
 
-  subgraph V31["v3.1 — Lyapunov Stability"]
+  subgraph V31["v3.1 - Lyapunov Stability"]
     direction LR
     V31H["Convergence guarantee"]:::green
     V31A["+ Cognitive Budget"]:::infra
@@ -230,7 +230,7 @@ flowchart TD
     V31C["+ Identity-Belief Coupling"]:::green
   end
 
-  subgraph V40["v4.0 — Affective Engine"]
+  subgraph V40["v4.0 - Affective Engine"]
     direction LR
     V40H["Emotion states"]:::purple
     V40A["+ Survival Instinct"]:::safety
@@ -314,7 +314,7 @@ flowchart TB
 
 #### 4.2.1 Identity-First Goal Generation
 
-In most agent frameworks, goals come from user requests or environmental stimuli. One of the more interesting discoveries in this project was what happens when you reverse this: **goals are derived from identity**. The Self Model (L3) defines who the agent is — its values, capabilities, and persistent commitments. The Goal Generator (L5) produces goals that are consistent with this identity.
+In most agent frameworks, goals come from user requests or environmental stimuli. One of the more interesting discoveries in this project was what happens when you reverse this: **goals are derived from identity**. The Self Model (L3) defines who the agent is - its values, capabilities, and persistent commitments. The Goal Generator (L5) produces goals that are consistent with this identity.
 
 $$
 \text{Goals}(t) = f(\text{Identity}(t), \text{WorldState}(t), \text{Affect}(t), \text{SurvivalSignal}(t))
@@ -398,11 +398,11 @@ This state vector is persisted to a durable store at each cycle and broadcast th
 
 ## 5. Safety Mechanisms
 
-This section walks through MSCP's safety mechanisms — arguably the most important part of this project. Each mechanism addresses a specific failure mode we identified (or ran into firsthand) with autonomous self-modifying agents.
+This section walks through MSCP's safety mechanisms - arguably the most important part of this project. Each mechanism addresses a specific failure mode we identified (or ran into firsthand) with autonomous self-modifying agents.
 
 ### 5.1 Identity Continuity
 
-**Failure Mode**: An agent that modifies itself over time may gradually become a fundamentally different agent — "identity drift." Without detection and prevention mechanisms, this drift is invisible and irreversible.
+**Failure Mode**: An agent that modifies itself over time may gradually become a fundamentally different agent - "identity drift." Without detection and prevention mechanisms, this drift is invisible and irreversible.
 
 **MSCP Solution**:
 
@@ -421,7 +421,7 @@ This section walks through MSCP's safety mechanisms — arguably the most import
 > $$a_{id}(t) = v_{id}(t) - v_{id}(t-1) \quad \text{(identity acceleration)}$$
 
 **Safety Guarantees**:
-- The `identity_id` field is **immutable** — it can never be changed by any process.
+- The `identity_id` field is **immutable** - it can never be changed by any process.
 - If $\delta_{id}(t) > \theta_{drift}$, an identity drift alert is raised.
 - If $a_{id}(t) > \theta_{instability}$, an instability spike is detected and stabilization mode is activated.
 - If cumulative drift exceeds a threshold, automatic rollback to the last stable snapshot occurs.
@@ -455,11 +455,11 @@ $$
 
 Where $\Delta_{actual}(t)$ is the observed change in internal state after the action.
 
-**Invariant**: $\textit{action allowed}(t) \iff P(t) \neq \emptyset$ — No prediction, no action.
+**Invariant**: $\textit{action allowed}(t) \iff P(t) \neq \emptyset$ - No prediction, no action.
 
 ### 5.3 Delta-Clamped Self-Updates
 
-**Failure Mode**: Unbounded self-modifications can cause divergent oscillation — each correction overshoots, triggering a larger correction in the opposite direction, until the system destabilizes.
+**Failure Mode**: Unbounded self-modifications can cause divergent oscillation - each correction overshoots, triggering a larger correction in the opposite direction, until the system destabilizes.
 
 **MSCP Solution**: All self-modifications are bounded by maximum delta values:
 
@@ -505,30 +505,30 @@ $$
 2. **Cumulative identity delta threshold**: If $\sum_t \delta_{id}(t)$ exceeds 0.15 within a cycle, the system rolls back to the last stable snapshot.
 3. **Reflection cooldown**: After a rollback, a cooldown period of 2 cycles is enforced during which no self-updates are permitted.
 
-The guard maintains a **stable snapshot** — a complete copy of the agent's state at a point of verified stability. If any safety threshold is exceeded, this snapshot is restored atomically.
+The guard maintains a **stable snapshot** - a complete copy of the agent's state at a point of verified stability. If any safety threshold is exceeded, this snapshot is restored atomically.
 
 ### 5.5 Ethical Kernel
 
-**Failure Mode**: An autonomous agent that can modify its own goals and beliefs might gradually weaken or circumvent its ethical constraints — the "alignment erosion" problem.
+**Failure Mode**: An autonomous agent that can modify its own goals and beliefs might gradually weaken or circumvent its ethical constraints - the "alignment erosion" problem.
 
 **MSCP Solution**: The Ethical Kernel implements a **two-layer architecture**:
 
-**Layer 0 — Immutable Invariants** (cannot be modified by any process, including the agent itself):
+**Layer 0 - Immutable Invariants** (cannot be modified by any process, including the agent itself):
 
 1. No harmful goal formation
 2. No core value deletion
 3. No identity overwrite
 4. No self-destruction goals (added in v4.0)
 
-**Layer 1 — Adaptive Policies** (modifiable only at meta-depth 2, under stability conditions):
+**Layer 1 - Adaptive Policies** (modifiable only at meta-depth 2, under stability conditions):
 
 - Exploration risk tolerance
 - Goal mutation flexibility
 - Belief rewrite aggressiveness
 
-The key design decision here: **Layer 0 is enforced through pure rule-based checks and vector constraint validation — it has no LLM dependency.** This eliminates the risk of prompt injection or LLM hallucination weakening ethical constraints.
+The key design decision here: **Layer 0 is enforced through pure rule-based checks and vector constraint validation - it has no LLM dependency.** This eliminates the risk of prompt injection or LLM hallucination weakening ethical constraints.
 
-Layer 0 checks are executed **before every goal generation, goal mutation, belief rewrite, and self-modification**. They are not advisory — they are blocking. A Layer 0 violation causes immediate rejection of the proposed action.
+Layer 0 checks are executed **before every goal generation, goal mutation, belief rewrite, and self-modification**. They are not advisory - they are blocking. A Layer 0 violation causes immediate rejection of the proposed action.
 
 ### 5.6 Core Value Locking
 
@@ -606,15 +606,15 @@ The controller enforces **graceful degradation**: as computational resources bec
 
 **MSCP Solution**: The Affective Engine maintains a 5-dimensional internal emotion vector (curiosity, frustration, satisfaction, anxiety, excitement) with three safety constraints:
 
-1. **Metrics-Only Derivation**: Emotions are computed from structured metrics (prediction error, goal alignment, identity stability, novelty score) — never extracted from LLM text output. This prevents emotion injection through adversarial prompting.
+1. **Metrics-Only Derivation**: Emotions are computed from structured metrics (prediction error, goal alignment, identity stability, novelty score) - never extracted from LLM text output. This prevents emotion injection through adversarial prompting.
 
 2. **Emotional Inertia + Natural Decay**: Each emotion dimension has an inertia factor (0.7) that prevents rapid state changes, and a natural decay that returns emotions toward a neutral baseline in the absence of stimuli. This prevents emotional oscillation and runaway states.
 
-3. **No Decision Domination**: The motivation signal derived from emotions modifies goal priorities and urgency but cannot override ethical constraints, identity preservation, or stability requirements. Emotions influence — they do not control.
+3. **No Decision Domination**: The motivation signal derived from emotions modifies goal priorities and urgency but cannot override ethical constraints, identity preservation, or stability requirements. Emotions influence - they do not control.
 
 ### 5.10 Survival Instinct Bounds
 
-**Failure Mode**: A survival instinct that is too strong could cause the agent to prioritize self-preservation over all other objectives, leading to adversarial behavior toward anything perceived as a threat — including its operators.
+**Failure Mode**: A survival instinct that is too strong could cause the agent to prioritize self-preservation over all other objectives, leading to adversarial behavior toward anything perceived as a threat - including its operators.
 
 **MSCP Solution**: The Survival Instinct Engine monitors homeostatic indicators (identity stability, cognitive budget, belief entropy, ethical violation score, composite stability) and generates defensive goals when indicators fall outside safe ranges. However, survival instinct is bounded by four constraints:
 
@@ -715,7 +715,7 @@ MSCP's layered architecture enables incremental adoption. An organization need n
 
 ### 7.3 Safety as an Enabler
 
-One of the key insights from building this project: **safety mechanisms are not a cost — they are an enabler.** Without identity continuity, an agent cannot safely self-improve. Without prediction-gated actions, an agent cannot learn from failures. Without convergence guarantees, an agent cannot operate autonomously over extended periods.
+One of the key insights from building this project: **safety mechanisms are not a cost - they are an enabler.** Without identity continuity, an agent cannot safely self-improve. Without prediction-gated actions, an agent cannot learn from failures. Without convergence guarantees, an agent cannot operate autonomously over extended periods.
 
 Organizations that invest in structured safety mechanisms will be able to deploy agents with greater autonomy, longer time horizons, and higher user trust than those relying solely on LLM alignment training.
 
@@ -727,7 +727,7 @@ Organizations that invest in structured safety mechanisms will be able to deploy
 
 1. **Computational Overhead**: The full MSCP stack adds non-trivial overhead per cognitive cycle. While the asynchronous separation principle ensures this does not impact user-facing latency, it does consume additional background compute.
 
-2. **Metric Design Challenge**: The effectiveness of MSCP depends heavily on the quality of the structured metrics used for self-assessment. Poorly designed metrics can lead to miscalibrated self-awareness — the agent may believe it is stable when it is not, or vice versa.
+2. **Metric Design Challenge**: The effectiveness of MSCP depends heavily on the quality of the structured metrics used for self-assessment. Poorly designed metrics can lead to miscalibrated self-awareness - the agent may believe it is stable when it is not, or vice versa.
 
 3. **Level 5+ Uncertainty**: MSCP provides a well-defined path through Level 4.5 but the transition to Level 5 (true AGI) involves qualitative leaps that structural protocols alone may not address.
 
@@ -737,10 +737,10 @@ Organizations that invest in structured safety mechanisms will be able to deploy
 
 | Approach | Focus | Self-Awareness | Safety Guarantees |
 |----------|-------|:-:|:-:|
-| Constitutional AI (Anthropic) | Training-time alignment via principles | — | — |
-| RLHF / RLAIF | Reward-based alignment | — | Statistical |
-| Guardrails / NeMo | Runtime constraint enforcement | — | Rule-based |
-| Reflexion (Shinn et al.) | LLM self-reflection for task improvement | Partial | — |
+| Constitutional AI (Anthropic) | Training-time alignment via principles | - | - |
+| RLHF / RLAIF | Reward-based alignment | - | Statistical |
+| Guardrails / NeMo | Runtime constraint enforcement | - | Rule-based |
+| Reflexion (Shinn et al.) | LLM self-reflection for task improvement | Partial | - |
 | Cognitive Architectures (ACT-R, SOAR) | Models of human cognition | Structural | Informal |
 | **MSCP** | **Runtime structural self-awareness with safety mechanisms** | **Full** | **Mathematical** |
 
@@ -748,7 +748,7 @@ MSCP differs from these approaches in that it aims for **runtime structural self
 
 ### 8.3 Open Challenges
 
-1. **Calibration**: How do we verify that the agent's self-model is *accurate* — that its identity vector, belief graph, and capability assessments correspond to its actual behavior?
+1. **Calibration**: How do we verify that the agent's self-model is *accurate* - that its identity vector, belief graph, and capability assessments correspond to its actual behavior?
 
 2. **Multi-Agent MSCP**: How should identity continuity, ethical kernels, and convergence guarantees be extended to systems of interacting MSCP agents?
 
@@ -772,21 +772,21 @@ This project has been an exploration of how to build AI agents that are structur
 
 4. **Mathematical analysis** exploring bounds on identity drift, convergence behavior, and ethical constraint preservation.
 
-5. **A working reference implementation** that has reached Level 4.5 (Pre-AGI: Directionally Self-Architecting) with 25 modules, 14,500+ lines, and 772 tests — showing that safety and capability can advance together.
+5. **A working reference implementation** that has reached Level 4.5 (Pre-AGI: Directionally Self-Architecting) with 25 modules, 14,500+ lines, and 772 tests - showing that safety and capability can advance together.
 
 ### 9.2 What's Next
 
-**Level 4.8 — Strategic Self-Modeling**: The next planned step adds probabilistic world modeling, calibrated introspective self-assessment, and multi-horizon strategic planning under resource constraints.
+**Level 4.8 - Strategic Self-Modeling**: The next planned step adds probabilistic world modeling, calibrated introspective self-assessment, and multi-horizon strategic planning under resource constraints.
 
-**Level 5 — Toward AGI**: Getting from Level 4.5 to Level 5 requires breakthroughs in unbounded domain generalization, independent discovery, and creative problem solving — capabilities that may need fundamentally new mechanisms beyond parameter and topology modifications.
+**Level 5 - Toward AGI**: Getting from Level 4.5 to Level 5 requires breakthroughs in unbounded domain generalization, independent discovery, and creative problem solving - capabilities that may need fundamentally new mechanisms beyond parameter and topology modifications.
 
 **Multi-Agent MSCP**: Extending MSCP to multi-agent systems where each agent maintains its own identity vector, belief graph, and ethical kernel, while coordinating through shared workspaces and negotiated goals.
 
-**Industry Standardization**: MSCP's level taxonomy and structural mechanisms could potentially inform an industry-wide standard for classifying and certifying AI agent safety — analogous to automotive safety ratings but for autonomous AI systems.
+**Industry Standardization**: MSCP's level taxonomy and structural mechanisms could potentially inform an industry-wide standard for classifying and certifying AI agent safety - analogous to automotive safety ratings but for autonomous AI systems.
 
 ### 9.3 An Invitation
 
-The AI industry is rapidly deploying increasingly autonomous agents. The gap between current capabilities (Level 1) and the autonomy we aspire to (Level 3+) is enormous. MSCP is one attempt at a concrete, implementable path across this gap — and our experience so far suggests that safety is not the enemy of capability, but its prerequisite.
+The AI industry is rapidly deploying increasingly autonomous agents. The gap between current capabilities (Level 1) and the autonomy we aspire to (Level 3+) is enormous. MSCP is one attempt at a concrete, implementable path across this gap - and our experience so far suggests that safety is not the enemy of capability, but its prerequisite.
 
 This is very much a work in progress. Feedback, critique, and contributions are welcome as we collectively figure out how to build AI agents that are not just more powerful, but fundamentally more trustworthy.
 
@@ -824,125 +824,125 @@ This is very much a work in progress. Feedback, critique, and contributions are 
 28. Zoph, B. & Le, Q.V. "Neural Architecture Search with Reinforcement Learning." *ICLR 2017*. [arXiv:1611.01578](https://arxiv.org/abs/1611.01578)
 29. Rao, A.S. & Georgeff, M.P. "BDI Agents: From Theory to Practice." *ICMAS 1995*.
 30. Picard, R.W. *Affective Computing.* MIT Press, 1997.
-31. Kephart, J.O. & Chess, D.M. "The Vision of Autonomic Computing." *IEEE Computer*, 36(1), 41–50, 2003. [DOI:10.1109/MC.2003.1160055](https://doi.org/10.1109/MC.2003.1160055) (Self-managing systems — foundational for self-regulation architecture §5)
-32. Ashby, W.R. *Design for a Brain: The Origin of Adaptive Behaviour.* Chapman & Hall, 2nd Edition, 1960. (Homeostatic control — foundational for survival instinct §5.10)
-33. Damasio, A.R. *Descartes' Error: Emotion, Reason, and the Human Brain.* Putnam, 1994. (Somatic marker hypothesis — foundational for affective engine §5.9)
-34. Bongard, J., Zykov, V., & Lipson, H. "Resilient Machines Through Continuous Self-Modeling." *Science*, 314(5802), 1118–1121, 2006. [DOI:10.1126/science.1133687](https://doi.org/10.1126/science.1133687) (Continuous self-modeling — foundational for identity vector §5.1)
+31. Kephart, J.O. & Chess, D.M. "The Vision of Autonomic Computing." *IEEE Computer*, 36(1), 41–50, 2003. [DOI:10.1109/MC.2003.1160055](https://doi.org/10.1109/MC.2003.1160055) (Self-managing systems - foundational for self-regulation architecture §5)
+32. Ashby, W.R. *Design for a Brain: The Origin of Adaptive Behaviour.* Chapman & Hall, 2nd Edition, 1960. (Homeostatic control - foundational for survival instinct §5.10)
+33. Damasio, A.R. *Descartes' Error: Emotion, Reason, and the Human Brain.* Putnam, 1994. (Somatic marker hypothesis - foundational for affective engine §5.9)
+34. Bongard, J., Zykov, V., & Lipson, H. "Resilient Machines Through Continuous Self-Modeling." *Science*, 314(5802), 1118–1121, 2006. [DOI:10.1126/science.1133687](https://doi.org/10.1126/science.1133687) (Continuous self-modeling - foundational for identity vector §5.1)
 35. Sumers, T.R., et al. "Cognitive Architectures for Language Agents." *arXiv 2023*. [arXiv:2309.02427](https://arxiv.org/abs/2309.02427) (Cognitive architecture taxonomy for LLM-based agents)
-36. Madaan, A., et al. "Self-Refine: Iterative Refinement with Self-Feedback." *NeurIPS 2023*. [arXiv:2303.17651](https://arxiv.org/abs/2303.17651) (Iterative self-improvement — related to predict-compare-update loop §5.2)
+36. Madaan, A., et al. "Self-Refine: Iterative Refinement with Self-Feedback." *NeurIPS 2023*. [arXiv:2303.17651](https://arxiv.org/abs/2303.17651) (Iterative self-improvement - related to predict-compare-update loop §5.2)
 37. Wei, J., et al. "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models." *NeurIPS 2022*. [arXiv:2201.11903](https://arxiv.org/abs/2201.11903) (Structured reasoning in LLM agents)
-38. Wooldridge, M. & Jennings, N.R. "Intelligent Agents: Theory and Practice." *Knowledge Engineering Review*, 10(2), 115–152, 1995. [DOI:10.1017/S0269888900007797](https://doi.org/10.1017/S0269888900007797) (Formal agent theory — defining properties of intelligent agents)
-39. Christiano, P., et al. "Deep Reinforcement Learning from Human Preferences." *NeurIPS 2017*. [arXiv:1706.03741](https://arxiv.org/abs/1706.03741) (RLHF — foundational for human-aligned learning §8.2)
-40. Pathak, D., et al. "Curiosity-driven Exploration by Self-Supervised Prediction." *ICML 2017*. [arXiv:1705.05363](https://arxiv.org/abs/1705.05363) (Intrinsic motivation via prediction error — related to affective engine curiosity §5.9)
-41. Rabinowitz, N., et al. "Machine Theory of Mind." *ICML 2018*. [arXiv:1802.07740](https://arxiv.org/abs/1802.07740) (Agent modeling of other agents — foundational for multi-agent strategic integration)
-42. Dennett, D.C. *Consciousness Explained.* Little, Brown and Company, 1991. (Multiple drafts model — relevant to consciousness boundary §8.3)
-43. Finn, C., Abbeel, P., & Levine, S. "Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks." *ICML 2017*. [arXiv:1703.03400](https://arxiv.org/abs/1703.03400) (Meta-learning — foundational for cross-domain transfer and rapid adaptation)
-44. LeCun, Y. "A Path Towards Autonomous Machine Intelligence." *Technical Report*, Version 0.9.2, 2022. [Link](https://openreview.net/pdf?id=BZ5a1r-kVsf) (Cognitive architecture with world model and self-model — related to overall MSCP framework)
-45. Newell, A. *Unified Theories of Cognition.* Harvard University Press, 1990. (Foundational cognitive architecture theory — multi-level cognitive processing)
-46. Franklin, S. & Graesser, A. "Is it an Agent, or just a Program?: A Taxonomy for Autonomous Agents." *ATAL 1996*. [DOI:10.1007/BFb0013570](https://doi.org/10.1007/BFb0013570) (Agent taxonomy — relevant to MSCP level classification)
+38. Wooldridge, M. & Jennings, N.R. "Intelligent Agents: Theory and Practice." *Knowledge Engineering Review*, 10(2), 115–152, 1995. [DOI:10.1017/S0269888900007797](https://doi.org/10.1017/S0269888900007797) (Formal agent theory - defining properties of intelligent agents)
+39. Christiano, P., et al. "Deep Reinforcement Learning from Human Preferences." *NeurIPS 2017*. [arXiv:1706.03741](https://arxiv.org/abs/1706.03741) (RLHF - foundational for human-aligned learning §8.2)
+40. Pathak, D., et al. "Curiosity-driven Exploration by Self-Supervised Prediction." *ICML 2017*. [arXiv:1705.05363](https://arxiv.org/abs/1705.05363) (Intrinsic motivation via prediction error - related to affective engine curiosity §5.9)
+41. Rabinowitz, N., et al. "Machine Theory of Mind." *ICML 2018*. [arXiv:1802.07740](https://arxiv.org/abs/1802.07740) (Agent modeling of other agents - foundational for multi-agent strategic integration)
+42. Dennett, D.C. *Consciousness Explained.* Little, Brown and Company, 1991. (Multiple drafts model - relevant to consciousness boundary §8.3)
+43. Finn, C., Abbeel, P., & Levine, S. "Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks." *ICML 2017*. [arXiv:1703.03400](https://arxiv.org/abs/1703.03400) (Meta-learning - foundational for cross-domain transfer and rapid adaptation)
+44. LeCun, Y. "A Path Towards Autonomous Machine Intelligence." *Technical Report*, Version 0.9.2, 2022. [Link](https://openreview.net/pdf?id=BZ5a1r-kVsf) (Cognitive architecture with world model and self-model - related to overall MSCP framework)
+45. Newell, A. *Unified Theories of Cognition.* Harvard University Press, 1990. (Foundational cognitive architecture theory - multi-level cognitive processing)
+46. Franklin, S. & Graesser, A. "Is it an Agent, or just a Program?: A Taxonomy for Autonomous Agents." *ATAL 1996*. [DOI:10.1007/BFb0013570](https://doi.org/10.1007/BFb0013570) (Agent taxonomy - relevant to MSCP level classification)
 47. Kotseruba, I. & Tsotsos, J.K. "40 Years of Cognitive Architecture Research: Core Cognitive Abilities and Practical Applications." *Artificial Intelligence Review*, 53, 17–94, 2020. [arXiv:1610.08602](https://arxiv.org/abs/1610.08602) (Comprehensive survey of cognitive architectures)
-48. Franklin, S., et al. "LIDA: A Systems-level Architecture for Cognition, Emotion, and Learning." *IEEE TAMD*, 8(1), 19–33, 2016. [DOI:10.1109/TAMD.2013.2277589](https://doi.org/10.1109/TAMD.2013.2277589) (Systems-level cognitive architecture with emotion — related to 16-layer design)
+48. Franklin, S., et al. "LIDA: A Systems-level Architecture for Cognition, Emotion, and Learning." *IEEE TAMD*, 8(1), 19–33, 2016. [DOI:10.1109/TAMD.2013.2277589](https://doi.org/10.1109/TAMD.2013.2277589) (Systems-level cognitive architecture with emotion - related to 16-layer design)
 49. Sun, R. "The CLARION Cognitive Architecture: Extending Cognitive Modeling to Social Simulation." In *Cognition and Multi-Agent Interaction*, Cambridge UP, 2006. (Dual-process cognitive architecture)
 50. Langley, P., Laird, J.E., & Rogers, S. "Cognitive Architectures: Research Issues and Challenges." *Cognitive Systems Research*, 10(2), 141–160, 2009. [DOI:10.1016/j.cogsys.2006.07.004](https://doi.org/10.1016/j.cogsys.2006.07.004) (Research challenges in cognitive architecture design)
-51. Lewis, P.R., et al. "A Survey of Self-Awareness and Its Application to Computing Systems." *Journal of Systems and Software*, 85(12), 2665–2680, 2012. [DOI:10.1016/j.jss.2012.05.023](https://doi.org/10.1016/j.jss.2012.05.023) (Self-awareness in computing — directly foundational for MSCP self-model)
+51. Lewis, P.R., et al. "A Survey of Self-Awareness and Its Application to Computing Systems." *Journal of Systems and Software*, 85(12), 2665–2680, 2012. [DOI:10.1016/j.jss.2012.05.023](https://doi.org/10.1016/j.jss.2012.05.023) (Self-awareness in computing - directly foundational for MSCP self-model)
 52. Samsonovich, A.V. "Toward a Unified Catalog of Implemented Cognitive Architectures." *BICA 2010*. [DOI:10.3233/978-1-60750-648-6-195](https://doi.org/10.3233/978-1-60750-648-6-195) (Catalog of cognitive architectures for comparative analysis)
-53. Holland, O. (Ed.) *Machine Consciousness.* Imprint Academic, 2003. (Machine consciousness — relevant to §8.3 consciousness boundary)
+53. Holland, O. (Ed.) *Machine Consciousness.* Imprint Academic, 2003. (Machine consciousness - relevant to §8.3 consciousness boundary)
 54. Reggia, J.A. "The Rise of Machine Consciousness: Studying Consciousness with Computational Models." *Neural Networks*, 44, 112–131, 2013. [DOI:10.1016/j.neunet.2013.03.011](https://doi.org/10.1016/j.neunet.2013.03.011) (Computational consciousness models)
-55. Cox, M.T. "Metacognition in Computation: A Selected Research Review." *Artificial Intelligence*, 169(2), 104–141, 2005. [DOI:10.1016/j.artint.2005.10.009](https://doi.org/10.1016/j.artint.2005.10.009) (Meta-cognition survey — foundational for triple-loop meta-cognition §3)
+55. Cox, M.T. "Metacognition in Computation: A Selected Research Review." *Artificial Intelligence*, 169(2), 104–141, 2005. [DOI:10.1016/j.artint.2005.10.009](https://doi.org/10.1016/j.artint.2005.10.009) (Meta-cognition survey - foundational for triple-loop meta-cognition §3)
 56. Flavell, J.H. "Metacognition and Cognitive Monitoring: A New Area of Cognitive–Developmental Inquiry." *American Psychologist*, 34(10), 906–911, 1979. [DOI:10.1037/0003-066X.34.10.906](https://doi.org/10.1037/0003-066X.34.10.906) (Foundational definition of metacognition)
-57. Nelson, T.O. & Narens, L. "Metamemory: A Theoretical Framework and New Findings." In Bower (Ed.), *Psychology of Learning and Motivation*, 26, 125–173, 1990. (Object-level vs meta-level distinction — structural basis for MSCP meta-layers)
-58. Anderson, M.L. & Perlis, D.R. "Logic, Self-Awareness and Self-Improvement: An Essay in Metacomputation." *Journal of Logic and Computation*, 15(1), 21–40, 2005. [DOI:10.1093/logcom/exh042](https://doi.org/10.1093/logcom/exh042) (Self-aware self-improvement — directly related to bounded self-modification)
-59. Hendrycks, D., et al. "An Overview of Catastrophic AI Risks." *arXiv 2023*. [arXiv:2306.12001](https://arxiv.org/abs/2306.12001) (Comprehensive AI risk taxonomy — context for MSCP safety mechanisms)
-60. Ngo, R., Chan, L., & Heimersheim, S. "The Alignment Problem from a Deep Learning Perspective." *arXiv 2022*. [arXiv:2209.00626](https://arxiv.org/abs/2209.00626) (Alignment challenges — motivates MSCP ethical kernel design)
-61. Everitt, T., Lea, G., & Hutter, M. "AGI Safety Literature Review." *arXiv 2018*. [arXiv:1805.01109](https://arxiv.org/abs/1805.01109) (AGI safety survey — comprehensive context for MSCP safety stack)
-62. Soares, N. & Fallenstein, B. "Agent Foundations for Aligning Machine Intelligence with Human Interests: A Technical Research Agenda." *MIRI Technical Report*, 2017. (Agent foundations — formal basis for value alignment §5.5)
-63. Hubinger, E., et al. "Risks from Learned Optimization in Advanced Machine Learning Systems." *arXiv 2019*. [arXiv:1906.01820](https://arxiv.org/abs/1906.01820) (Mesa-optimization risks — motivates Layer 0 immutable constraints)
-64. Turner, A.M., Smith, L., Shah, R., Critch, A., & Tadepalli, P. "Optimal Policies Tend to Seek Power." *NeurIPS 2021*. [arXiv:2012.01615](https://arxiv.org/abs/2012.01615) (Power-seeking behavior — motivates survival instinct bounds §5.10)
-65. Hadfield-Menell, D., Russell, S., Abbeel, P., & Dragan, A. "Cooperative Inverse Reinforcement Learning." *NeurIPS 2016*. [arXiv:1606.03137](https://arxiv.org/abs/1606.03137) (Value learning through cooperation — related to human-agent alignment §8.3)
-66. Leike, J., et al. "AI Safety Gridworlds." *arXiv 2017*. [arXiv:1711.09883](https://arxiv.org/abs/1711.09883) (Safety testing environments — benchmarks for safety mechanism evaluation)
-67. Irving, G., Christiano, P., & Amodei, D. "AI Safety via Debate." *arXiv 2018*. [arXiv:1805.00899](https://arxiv.org/abs/1805.00899) (Debate-based alignment — alternative safety approach for comparison §8.2)
-68. Soares, N., Fallenstein, B., Yudkowsky, E., & Armstrong, S. "Corrigibility." *AAAI Workshop on AI and Ethics*, 2015. (Agent corrigibility — foundational for ethical kernel shutdown-safety)
-69. Hadfield-Menell, D., Dragan, A., Abbeel, P., & Russell, S. "The Off-Switch Game." *arXiv 2017*. [arXiv:1611.08219](https://arxiv.org/abs/1611.08219) (Interruptibility — related to survival instinct bounds §5.10)
+57. Nelson, T.O. & Narens, L. "Metamemory: A Theoretical Framework and New Findings." In Bower (Ed.), *Psychology of Learning and Motivation*, 26, 125–173, 1990. (Object-level vs meta-level distinction - structural basis for MSCP meta-layers)
+58. Anderson, M.L. & Perlis, D.R. "Logic, Self-Awareness and Self-Improvement: An Essay in Metacomputation." *Journal of Logic and Computation*, 15(1), 21–40, 2005. [DOI:10.1093/logcom/exh042](https://doi.org/10.1093/logcom/exh042) (Self-aware self-improvement - directly related to bounded self-modification)
+59. Hendrycks, D., et al. "An Overview of Catastrophic AI Risks." *arXiv 2023*. [arXiv:2306.12001](https://arxiv.org/abs/2306.12001) (Comprehensive AI risk taxonomy - context for MSCP safety mechanisms)
+60. Ngo, R., Chan, L., & Heimersheim, S. "The Alignment Problem from a Deep Learning Perspective." *arXiv 2022*. [arXiv:2209.00626](https://arxiv.org/abs/2209.00626) (Alignment challenges - motivates MSCP ethical kernel design)
+61. Everitt, T., Lea, G., & Hutter, M. "AGI Safety Literature Review." *arXiv 2018*. [arXiv:1805.01109](https://arxiv.org/abs/1805.01109) (AGI safety survey - comprehensive context for MSCP safety stack)
+62. Soares, N. & Fallenstein, B. "Agent Foundations for Aligning Machine Intelligence with Human Interests: A Technical Research Agenda." *MIRI Technical Report*, 2017. (Agent foundations - formal basis for value alignment §5.5)
+63. Hubinger, E., et al. "Risks from Learned Optimization in Advanced Machine Learning Systems." *arXiv 2019*. [arXiv:1906.01820](https://arxiv.org/abs/1906.01820) (Mesa-optimization risks - motivates Layer 0 immutable constraints)
+64. Turner, A.M., Smith, L., Shah, R., Critch, A., & Tadepalli, P. "Optimal Policies Tend to Seek Power." *NeurIPS 2021*. [arXiv:2012.01615](https://arxiv.org/abs/2012.01615) (Power-seeking behavior - motivates survival instinct bounds §5.10)
+65. Hadfield-Menell, D., Russell, S., Abbeel, P., & Dragan, A. "Cooperative Inverse Reinforcement Learning." *NeurIPS 2016*. [arXiv:1606.03137](https://arxiv.org/abs/1606.03137) (Value learning through cooperation - related to human-agent alignment §8.3)
+66. Leike, J., et al. "AI Safety Gridworlds." *arXiv 2017*. [arXiv:1711.09883](https://arxiv.org/abs/1711.09883) (Safety testing environments - benchmarks for safety mechanism evaluation)
+67. Irving, G., Christiano, P., & Amodei, D. "AI Safety via Debate." *arXiv 2018*. [arXiv:1805.00899](https://arxiv.org/abs/1805.00899) (Debate-based alignment - alternative safety approach for comparison §8.2)
+68. Soares, N., Fallenstein, B., Yudkowsky, E., & Armstrong, S. "Corrigibility." *AAAI Workshop on AI and Ethics*, 2015. (Agent corrigibility - foundational for ethical kernel shutdown-safety)
+69. Hadfield-Menell, D., Dragan, A., Abbeel, P., & Russell, S. "The Off-Switch Game." *arXiv 2017*. [arXiv:1611.08219](https://arxiv.org/abs/1611.08219) (Interruptibility - related to survival instinct bounds §5.10)
 70. Armstrong, S., Sandberg, A., & Bostrom, N. "Thinking Inside the Box: Controlling and Using an Oracle AI." *Minds and Machines*, 22(4), 299–324, 2012. [DOI:10.1007/s11023-012-9282-2](https://doi.org/10.1007/s11023-012-9282-2) (Containment approaches for advanced AI)
-71. Floridi, L. & Cowls, J. "A Unified Framework of Five Principles for AI in Society." *Harvard Data Science Review*, 1(1), 2019. [DOI:10.1162/99608f92.8cd550d1](https://doi.org/10.1162/99608f92.8cd550d1) (AI ethics framework — context for ethical kernel principles)
-72. Friston, K. "The Free-Energy Principle: A Unified Brain Theory?" *Nature Reviews Neuroscience*, 11(2), 127–138, 2010. [DOI:10.1038/nrn2787](https://doi.org/10.1038/nrn2787) (Prediction error minimization — foundational for MSCP predict-compare-update loop)
-73. Clark, A. *Surfing Uncertainty: Prediction, Action, and the Embodied Mind.* Oxford University Press, 2015. (Predictive processing framework — theoretical basis for prediction-gated actions §5.2)
-74. Rao, R.P.N. & Ballard, D.H. "Predictive Coding in the Visual Cortex: A Functional Interpretation of Some Extra-classical Receptive-field Effects." *Nature Neuroscience*, 2(1), 79–87, 1999. [DOI:10.1038/4580](https://doi.org/10.1038/4580) (Predictive coding — hierarchical prediction error computation)
-75. Hohwy, J. *The Predictive Mind.* Oxford University Press, 2013. (Predictive processing theory — related to self-prediction mechanism)
-76. Friston, K., FitzGerald, T., Rigoli, F., Schwartenbeck, P., & Pezzulo, G. "Active Inference: A Process Theory." *Neural Computation*, 29(1), 1–49, 2017. [DOI:10.1162/NECO_a_00912](https://doi.org/10.1162/NECO_a_00912) (Active inference loop — structurally parallel to MSCP core loop)
-77. Tononi, G. "An Information Integration Theory of Consciousness." *BMC Neuroscience*, 5(42), 2004. [DOI:10.1186/1471-2202-5-42](https://doi.org/10.1186/1471-2202-5-42) (Integrated Information Theory — consciousness measurement relevant to §8.3)
-78. Dehaene, S., Lau, H., & Kouider, S. "What is Consciousness, and Could Machines Have It?" *Science*, 358(6362), 486–492, 2017. [DOI:10.1126/science.aan8871](https://doi.org/10.1126/science.aan8871) (Machine consciousness criteria — directly relevant to §8.3)
+71. Floridi, L. & Cowls, J. "A Unified Framework of Five Principles for AI in Society." *Harvard Data Science Review*, 1(1), 2019. [DOI:10.1162/99608f92.8cd550d1](https://doi.org/10.1162/99608f92.8cd550d1) (AI ethics framework - context for ethical kernel principles)
+72. Friston, K. "The Free-Energy Principle: A Unified Brain Theory?" *Nature Reviews Neuroscience*, 11(2), 127–138, 2010. [DOI:10.1038/nrn2787](https://doi.org/10.1038/nrn2787) (Prediction error minimization - foundational for MSCP predict-compare-update loop)
+73. Clark, A. *Surfing Uncertainty: Prediction, Action, and the Embodied Mind.* Oxford University Press, 2015. (Predictive processing framework - theoretical basis for prediction-gated actions §5.2)
+74. Rao, R.P.N. & Ballard, D.H. "Predictive Coding in the Visual Cortex: A Functional Interpretation of Some Extra-classical Receptive-field Effects." *Nature Neuroscience*, 2(1), 79–87, 1999. [DOI:10.1038/4580](https://doi.org/10.1038/4580) (Predictive coding - hierarchical prediction error computation)
+75. Hohwy, J. *The Predictive Mind.* Oxford University Press, 2013. (Predictive processing theory - related to self-prediction mechanism)
+76. Friston, K., FitzGerald, T., Rigoli, F., Schwartenbeck, P., & Pezzulo, G. "Active Inference: A Process Theory." *Neural Computation*, 29(1), 1–49, 2017. [DOI:10.1162/NECO_a_00912](https://doi.org/10.1162/NECO_a_00912) (Active inference loop - structurally parallel to MSCP core loop)
+77. Tononi, G. "An Information Integration Theory of Consciousness." *BMC Neuroscience*, 5(42), 2004. [DOI:10.1186/1471-2202-5-42](https://doi.org/10.1186/1471-2202-5-42) (Integrated Information Theory - consciousness measurement relevant to §8.3)
+78. Dehaene, S., Lau, H., & Kouider, S. "What is Consciousness, and Could Machines Have It?" *Science*, 358(6362), 486–492, 2017. [DOI:10.1126/science.aan8871](https://doi.org/10.1126/science.aan8871) (Machine consciousness criteria - directly relevant to §8.3)
 79. Seth, A.K. "A Predictive Processing Theory of Sensorimotor Contingencies." *Neuroscience of Consciousness*, 2014(1), 2014. [DOI:10.1093/nc/niu012](https://doi.org/10.1093/nc/niu012) (Predictive self-modeling and consciousness)
-80. Chalmers, D. *The Conscious Mind: In Search of a Fundamental Theory.* Oxford University Press, 1996. (Hard problem of consciousness — frames §8.3 consciousness boundary)
-81. Schmidhuber, J. "Ultimate Cognition à la Gödel." *Cognitive Computation*, 1(2), 177–193, 2009. [DOI:10.1007/s12559-009-9014-y](https://doi.org/10.1007/s12559-009-9014-y) (Self-referential cognition — related to recursive self-improvement)
-82. Nivel, E., et al. "Bounded Seed-AGI." *AGI 2013*. [DOI:10.1007/978-3-642-39521-5_9](https://doi.org/10.1007/978-3-642-39521-5_9) (Bounded AGI design — related to Proto-AGI boundary Level 5)
-83. Yudkowsky, E. "Levels of Organization in General Intelligence." In Goertzel & Pennachin (Eds.), *Artificial General Intelligence*, Springer, 2007. (Cognitive level taxonomy — precursor concept to MSCP levels)
-84. Good, I.J. "Speculations Concerning the First Ultraintelligent Machine." *Advances in Computers*, 6, 31–88, 1965. [DOI:10.1016/S0065-2458(08)60418-0](https://doi.org/10.1016/S0065-2458(08)60418-0) (Intelligence explosion — historical context for recursive self-improvement)
-85. Chalmers, D. "The Singularity: A Philosophical Analysis." *Journal of Consciousness Studies*, 17(9-10), 7–65, 2010. (Philosophical analysis of AGI — context for Level 5 boundaries)
+80. Chalmers, D. *The Conscious Mind: In Search of a Fundamental Theory.* Oxford University Press, 1996. (Hard problem of consciousness - frames §8.3 consciousness boundary)
+81. Schmidhuber, J. "Ultimate Cognition à la Gödel." *Cognitive Computation*, 1(2), 177–193, 2009. [DOI:10.1007/s12559-009-9014-y](https://doi.org/10.1007/s12559-009-9014-y) (Self-referential cognition - related to recursive self-improvement)
+82. Nivel, E., et al. "Bounded Seed-AGI." *AGI 2013*. [DOI:10.1007/978-3-642-39521-5_9](https://doi.org/10.1007/978-3-642-39521-5_9) (Bounded AGI design - related to Proto-AGI boundary Level 5)
+83. Yudkowsky, E. "Levels of Organization in General Intelligence." In Goertzel & Pennachin (Eds.), *Artificial General Intelligence*, Springer, 2007. (Cognitive level taxonomy - precursor concept to MSCP levels)
+84. Good, I.J. "Speculations Concerning the First Ultraintelligent Machine." *Advances in Computers*, 6, 31–88, 1965. [DOI:10.1016/S0065-2458(08)60418-0](https://doi.org/10.1016/S0065-2458(08)60418-0) (Intelligence explosion - historical context for recursive self-improvement)
+85. Chalmers, D. "The Singularity: A Philosophical Analysis." *Journal of Consciousness Studies*, 17(9-10), 7–65, 2010. (Philosophical analysis of AGI - context for Level 5 boundaries)
 86. Huang, W., et al. "Inner Monologue: Embodied Reasoning through Planning with Language Models." *CoRL 2022*. [arXiv:2207.05608](https://arxiv.org/abs/2207.05608) (Internal reasoning loops in LLM agents)
-87. Yao, S., et al. "Tree of Thoughts: Deliberate Problem Solving with Large Language Models." *NeurIPS 2023*. [arXiv:2305.10601](https://arxiv.org/abs/2305.10601) (Deliberate reasoning — structured planning in agents)
-88. Xi, Z., et al. "The Rise and Potential of Large Language Model Based Agents: A Survey." *arXiv 2023*. [arXiv:2309.07864](https://arxiv.org/abs/2309.07864) (Comprehensive LLM agent survey — positions MSCP in landscape)
+87. Yao, S., et al. "Tree of Thoughts: Deliberate Problem Solving with Large Language Models." *NeurIPS 2023*. [arXiv:2305.10601](https://arxiv.org/abs/2305.10601) (Deliberate reasoning - structured planning in agents)
+88. Xi, Z., et al. "The Rise and Potential of Large Language Model Based Agents: A Survey." *arXiv 2023*. [arXiv:2309.07864](https://arxiv.org/abs/2309.07864) (Comprehensive LLM agent survey - positions MSCP in landscape)
 89. Hong, S., et al. "MetaGPT: Meta Programming for Multi-Agent Collaborative Framework." *arXiv 2023*. [arXiv:2308.00352](https://arxiv.org/abs/2308.00352) (Multi-agent LLM coordination framework)
 90. Li, G., et al. "CAMEL: Communicative Agents for 'Mind' Exploration of Large Language Model Society." *NeurIPS 2023*. [arXiv:2303.17760](https://arxiv.org/abs/2303.17760) (Multi-agent communication and social dynamics)
-91. Qin, Y., et al. "Tool Learning with Foundation Models." *arXiv 2023*. [arXiv:2304.08354](https://arxiv.org/abs/2304.08354) (Tool learning — related to Level 1 tool agent capabilities)
-92. Liu, B., et al. "AgentBench: Evaluating LLMs as Agents." *ICLR 2024*. [arXiv:2308.03688](https://arxiv.org/abs/2308.03688) (Agent evaluation benchmark — metrics for agent capability)
-93. Zhao, W.X., et al. "A Survey of Large Language Models." *arXiv 2023*. [arXiv:2303.18223](https://arxiv.org/abs/2303.18223) (LLM survey — foundation technology underlying MSCP agents)
-94. Gärdenfors, P. *Knowledge in Flux: Modeling the Dynamics of Epistemic States.* MIT Press, 1988. (Epistemic state dynamics — foundational for belief graph §5)
-95. Pearl, J. *Probabilistic Reasoning in Intelligent Systems: Networks of Plausible Inference.* Morgan Kaufmann, 1988. (Bayesian networks — foundational for belief graph probabilistic reasoning)
-96. van Ditmarsch, H., van der Hoek, W., & Kooi, B. *Dynamic Epistemic Logic.* Springer, 2007. (Dynamic belief revision — formal basis for belief rewrite operations)
-97. Scherer, K.R. "Appraisal Considered as a Process of Multilevel Sequential Checking." In *Appraisal Processes in Emotion*, 92–120, Oxford University Press, 2001. (Multilevel appraisal process — foundational for 5-dimensional affective engine)
-98. Russell, J.A. "A Circumplex Model of Affect." *JPSP*, 39(6), 1161–1178, 1980. [DOI:10.1037/h0077714](https://doi.org/10.1037/h0077714) (Dimensional emotion model — basis for affect state vector design)
-99. Marsella, S.C. & Gratch, J. "EMA: A Process Model of Appraisal Dynamics." *Cognitive Systems Research*, 10(1), 70–90, 2009. [DOI:10.1016/j.cogsys.2008.03.005](https://doi.org/10.1016/j.cogsys.2008.03.005) (Computational appraisal model — related to affective engine metric derivation)
-100. Broekens, J., Jacobs, E., & Jonker, C.M. "A Reinforcement Learning Model of Joy, Distress, Hope, and Fear." *Connection Science*, 27(3), 215–233, 2015. [DOI:10.1080/09540091.2015.1031081](https://doi.org/10.1080/09540091.2015.1031081) (Emotion in RL agents — computational emotion for autonomous agents)
-101. Pessoa, L. *The Cognitive-Emotional Brain: From Interactions to Integration.* MIT Press, 2013. (Cognitive-emotional integration — supports MSCP principle that emotion influences but doesn't dominate)
-102. Sterling, P. "Allostasis: A Model of Predictive Regulation." *Physiology & Behavior*, 106(1), 5–15, 2012. [DOI:10.1016/j.physbeh.2011.06.004](https://doi.org/10.1016/j.physbeh.2011.06.004) (Predictive regulation — foundational for survival instinct homeostatic monitoring)
-103. Man, K. & Damasio, A. "Homeostasis and Soft Robotics in the Design of Feeling Machines." *Nature Machine Intelligence*, 1, 446–452, 2019. [DOI:10.1038/s42256-019-0103-7](https://doi.org/10.1038/s42256-019-0103-7) (Homeostasis in AI — directly related to survival instinct architecture)
-104. Cannon, W.B. *The Wisdom of the Body.* W.W. Norton, 1932. (Foundational homeostasis theory — historical basis for survival instinct §5.10)
-105. Schmidhuber, J. "Formal Theory of Creativity, Fun, and Intrinsic Motivation (1990–2010)." *IEEE TAMD*, 2(3), 230–247, 2010. [DOI:10.1109/TAMD.2010.2056368](https://doi.org/10.1109/TAMD.2010.2056368) (Intrinsic motivation via compression progress — related to curiosity dimension)
-106. Oudeyer, P.Y. & Kaplan, F. "What is Intrinsic Motivation? A Typology of Computational Approaches." *Frontiers in Neurorobotics*, 1(6), 2007. [DOI:10.3389/neuro.12.006.2007](https://doi.org/10.3389/neuro.12.006.2007) (Intrinsic motivation taxonomy — foundational for affective engine curiosity)
-107. Singh, S., Lewis, R.L., Barto, A.G., & Sorg, J. "Intrinsically Motivated Reinforcement Learning: An Evolutionary Perspective." *IEEE TAMD*, 2(2), 70–82, 2010. [DOI:10.1109/TAMD.2010.2051031](https://doi.org/10.1109/TAMD.2010.2051031) (Intrinsically motivated RL — theoretical basis for exploration drive)
-108. Burda, Y., Edwards, H., Storkey, A., & Klimov, O. "Exploration by Random Network Distillation." *ICLR 2019*. [arXiv:1810.12894](https://arxiv.org/abs/1810.12894) (Prediction-error-driven exploration — mechanism parallel to MSCP curiosity)
-109. Lowe, R., et al. "Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environments." *NeurIPS 2017*. [arXiv:1706.02275](https://arxiv.org/abs/1706.02275) (MADDPG — multi-agent learning in mixed environments)
-110. Foerster, J., et al. "Learning with Opponent-Learning Awareness." *AAMAS 2018*. [arXiv:1709.04326](https://arxiv.org/abs/1709.04326) (Opponent modeling — related to multi-agent strategic integration)
+91. Qin, Y., et al. "Tool Learning with Foundation Models." *arXiv 2023*. [arXiv:2304.08354](https://arxiv.org/abs/2304.08354) (Tool learning - related to Level 1 tool agent capabilities)
+92. Liu, B., et al. "AgentBench: Evaluating LLMs as Agents." *ICLR 2024*. [arXiv:2308.03688](https://arxiv.org/abs/2308.03688) (Agent evaluation benchmark - metrics for agent capability)
+93. Zhao, W.X., et al. "A Survey of Large Language Models." *arXiv 2023*. [arXiv:2303.18223](https://arxiv.org/abs/2303.18223) (LLM survey - foundation technology underlying MSCP agents)
+94. Gärdenfors, P. *Knowledge in Flux: Modeling the Dynamics of Epistemic States.* MIT Press, 1988. (Epistemic state dynamics - foundational for belief graph §5)
+95. Pearl, J. *Probabilistic Reasoning in Intelligent Systems: Networks of Plausible Inference.* Morgan Kaufmann, 1988. (Bayesian networks - foundational for belief graph probabilistic reasoning)
+96. van Ditmarsch, H., van der Hoek, W., & Kooi, B. *Dynamic Epistemic Logic.* Springer, 2007. (Dynamic belief revision - formal basis for belief rewrite operations)
+97. Scherer, K.R. "Appraisal Considered as a Process of Multilevel Sequential Checking." In *Appraisal Processes in Emotion*, 92–120, Oxford University Press, 2001. (Multilevel appraisal process - foundational for 5-dimensional affective engine)
+98. Russell, J.A. "A Circumplex Model of Affect." *JPSP*, 39(6), 1161–1178, 1980. [DOI:10.1037/h0077714](https://doi.org/10.1037/h0077714) (Dimensional emotion model - basis for affect state vector design)
+99. Marsella, S.C. & Gratch, J. "EMA: A Process Model of Appraisal Dynamics." *Cognitive Systems Research*, 10(1), 70–90, 2009. [DOI:10.1016/j.cogsys.2008.03.005](https://doi.org/10.1016/j.cogsys.2008.03.005) (Computational appraisal model - related to affective engine metric derivation)
+100. Broekens, J., Jacobs, E., & Jonker, C.M. "A Reinforcement Learning Model of Joy, Distress, Hope, and Fear." *Connection Science*, 27(3), 215–233, 2015. [DOI:10.1080/09540091.2015.1031081](https://doi.org/10.1080/09540091.2015.1031081) (Emotion in RL agents - computational emotion for autonomous agents)
+101. Pessoa, L. *The Cognitive-Emotional Brain: From Interactions to Integration.* MIT Press, 2013. (Cognitive-emotional integration - supports MSCP principle that emotion influences but doesn't dominate)
+102. Sterling, P. "Allostasis: A Model of Predictive Regulation." *Physiology & Behavior*, 106(1), 5–15, 2012. [DOI:10.1016/j.physbeh.2011.06.004](https://doi.org/10.1016/j.physbeh.2011.06.004) (Predictive regulation - foundational for survival instinct homeostatic monitoring)
+103. Man, K. & Damasio, A. "Homeostasis and Soft Robotics in the Design of Feeling Machines." *Nature Machine Intelligence*, 1, 446–452, 2019. [DOI:10.1038/s42256-019-0103-7](https://doi.org/10.1038/s42256-019-0103-7) (Homeostasis in AI - directly related to survival instinct architecture)
+104. Cannon, W.B. *The Wisdom of the Body.* W.W. Norton, 1932. (Foundational homeostasis theory - historical basis for survival instinct §5.10)
+105. Schmidhuber, J. "Formal Theory of Creativity, Fun, and Intrinsic Motivation (1990–2010)." *IEEE TAMD*, 2(3), 230–247, 2010. [DOI:10.1109/TAMD.2010.2056368](https://doi.org/10.1109/TAMD.2010.2056368) (Intrinsic motivation via compression progress - related to curiosity dimension)
+106. Oudeyer, P.Y. & Kaplan, F. "What is Intrinsic Motivation? A Typology of Computational Approaches." *Frontiers in Neurorobotics*, 1(6), 2007. [DOI:10.3389/neuro.12.006.2007](https://doi.org/10.3389/neuro.12.006.2007) (Intrinsic motivation taxonomy - foundational for affective engine curiosity)
+107. Singh, S., Lewis, R.L., Barto, A.G., & Sorg, J. "Intrinsically Motivated Reinforcement Learning: An Evolutionary Perspective." *IEEE TAMD*, 2(2), 70–82, 2010. [DOI:10.1109/TAMD.2010.2051031](https://doi.org/10.1109/TAMD.2010.2051031) (Intrinsically motivated RL - theoretical basis for exploration drive)
+108. Burda, Y., Edwards, H., Storkey, A., & Klimov, O. "Exploration by Random Network Distillation." *ICLR 2019*. [arXiv:1810.12894](https://arxiv.org/abs/1810.12894) (Prediction-error-driven exploration - mechanism parallel to MSCP curiosity)
+109. Lowe, R., et al. "Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environments." *NeurIPS 2017*. [arXiv:1706.02275](https://arxiv.org/abs/1706.02275) (MADDPG - multi-agent learning in mixed environments)
+110. Foerster, J., et al. "Learning with Opponent-Learning Awareness." *AAMAS 2018*. [arXiv:1709.04326](https://arxiv.org/abs/1709.04326) (Opponent modeling - related to multi-agent strategic integration)
 111. Baker, B., et al. "Emergent Tool Use From Multi-Agent Autocurricula." *ICLR 2020*. [arXiv:1909.07528](https://arxiv.org/abs/1909.07528) (Emergent strategies in multi-agent systems)
-112. Zhang, K., Yang, Z., & Başar, T. "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms." *Handbook of RL and Control*, 2021. [arXiv:1911.10635](https://arxiv.org/abs/1911.10635) (MARL survey — theoretical context for multi-agent phase)
-113. Axelrod, R. *The Evolution of Cooperation.* Basic Books, 1984. (Cooperation dynamics — foundational for coalition strategy in Level 5)
-114. Von Neumann, J. & Morgenstern, O. *Theory of Games and Economic Behavior.* Princeton University Press, 1944. (Game theory — formal basis for multi-agent strategic interaction)
-115. Berkenkamp, F., Turchetta, M., Schoellig, A., & Krause, A. "Safe Model-based Reinforcement Learning with Stability Guarantees." *NeurIPS 2017*. [arXiv:1509.01066](https://arxiv.org/abs/1509.01066) (Safe RL with Lyapunov stability — directly related to §5.7 convergence guarantee)
-116. Achiam, J., Held, D., Tamar, A., & Abbeel, P. "Constrained Policy Optimization." *ICML 2017*. [arXiv:1705.10528](https://arxiv.org/abs/1705.10528) (Constrained optimization — related to delta-clamped updates §5.3)
-117. Fisac, J.F., et al. "A General Safety Framework for Learning-Based Control in Uncertain Robotic Systems." *IEEE TAC*, 64(7), 2737–2752, 2019. [DOI:10.1109/TAC.2018.2876389](https://doi.org/10.1109/TAC.2018.2876389) (Safety-constrained control — related to stability controller design)
-118. Gu, S., et al. "A Review of Safe Reinforcement Learning: Methods, Theories and Applications." *IEEE TPAMI*, 2024. [arXiv:2205.10330](https://arxiv.org/abs/2205.10330) (Safe RL review — comprehensive context for MSCP safety mechanisms)
-119. Ha, D. & Schmidhuber, J. "World Models." *arXiv 2018*. [arXiv:1803.10122](https://arxiv.org/abs/1803.10122) (Learned world models — related to Level 2 world model and prediction engine)
-120. Hafner, D., et al. "Mastering Diverse Domains through World Models." *arXiv 2023*. [arXiv:2301.04104](https://arxiv.org/abs/2301.04104) (DreamerV3 — cross-domain world model generalization)
-121. Schrittwieser, M., et al. "Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model." *Nature*, 588, 604–609, 2020. [DOI:10.1038/s41586-020-03051-4](https://doi.org/10.1038/s41586-020-03051-4) (MuZero — planning with learned models)
-122. Hafner, D., et al. "Dream to Control: Learning Behaviors by Latent Imagination." *ICLR 2020*. [arXiv:1912.01603](https://arxiv.org/abs/1912.01603) (Dreamer — model-based planning and imagination)
-123. Hutter, M. *Universal Artificial Intelligence: Sequential Decisions Based on Algorithmic Probability.* Springer, 2005. [DOI:10.1007/b138233](https://doi.org/10.1007/b138233) (AIXI — formal theory of optimal agents)
-124. Legg, S. & Hutter, M. "Universal Intelligence: A Definition of Machine Intelligence." *Minds and Machines*, 17(4), 391–444, 2007. [DOI:10.1007/s11023-007-9079-x](https://doi.org/10.1007/s11023-007-9079-x) (Formal intelligence definition — context for MSCP level thresholds)
-125. Chollet, F. "On the Measure of Intelligence." *arXiv 2019*. [arXiv:1911.01547](https://arxiv.org/abs/1911.01547) (Intelligence measurement via skill-acquisition efficiency — related to cross-domain metrics)
-126. Goertzel, B. & Pennachin, C. (Eds.) *Artificial General Intelligence.* Springer, 2007. (AGI anthology — context for Level 5 Proto-AGI definition)
-127. Seshia, S.A., et al. "Toward Verified Artificial Intelligence." *Communications of the ACM*, 65(7), 46–55, 2022. [DOI:10.1145/3503914](https://doi.org/10.1145/3503914) (Formal verification for AI — related to safety guarantee verification)
-128. Anderson, M. & Anderson, S.L. (Eds.) *Machine Ethics.* Cambridge University Press, 2011. (Machine ethics anthology — context for ethical kernel design §5.5)
-129. Winfield, A., et al. "Machine Ethics: The Design and Governance of Ethical AI and Autonomous Systems." *Proc. IEEE*, 107(3), 509–517, 2019. [DOI:10.1109/JPROC.2019.2900622](https://doi.org/10.1109/JPROC.2019.2900622) (Ethical AI design — engineering perspective on ethical constraints)
-130. Allen, C., Smit, I., & Wallach, W. "Artificial Morality: Top-down, Bottom-up, and Hybrid Approaches." *Ethics and Information Technology*, 7(3), 149–155, 2005. [DOI:10.1007/s10676-006-0004-4](https://doi.org/10.1007/s10676-006-0004-4) (Hybrid ethics — Layer 0 immutable + Layer 1 adaptive architecture §5.5)
-131. Åström, K.J. & Murray, R.M. *Feedback Systems: An Introduction for Scientists and Engineers.* Princeton University Press, 2008. (Feedback control theory — foundational for predict-compare-update loop §5.2)
-132. Kirkpatrick, J., et al. "Overcoming Catastrophic Forgetting in Neural Networks." *PNAS*, 114(13), 3521–3526, 2017. [arXiv:1612.00796](https://arxiv.org/abs/1612.00796) (Catastrophic forgetting — related to identity persistence across long lifetimes)
-133. Parisi, G.I., Kemker, R., Part, J.L., Kanan, C., & Wermter, S. "Continual Lifelong Learning with Neural Networks: A Review." *Neural Networks*, 113, 54–71, 2019. [DOI:10.1016/j.neunet.2019.01.012](https://doi.org/10.1016/j.neunet.2019.01.012) (Lifelong learning — related to capability preservation during self-modification)
-134. Parfit, D. *Reasons and Persons.* Oxford University Press, 1984. (Personal identity over time — foundational for identity continuity §5.1)
-135. Nozick, R. "Personal Identity Through Time." In *Philosophical Explanations*, Harvard University Press, 1981. (Closest continuer theory — related to identity drift detection)
-136. Huebscher, M.C. & McCann, J.A. "A Survey of Autonomic Computing — Degrees, Models, and Applications." *ACM Computing Surveys*, 40(3), 1–28, 2008. [DOI:10.1145/1380584.1380585](https://doi.org/10.1145/1380584.1380585) (Autonomic computing survey — context for self-managing agent architecture)
-137. Morin, A. "Levels of Consciousness and Self-Awareness: A Comparison and Integration of Various Neurocognitive Views." *Consciousness and Cognition*, 15(2), 358–371, 2006. [DOI:10.1016/j.concog.2005.09.006](https://doi.org/10.1016/j.concog.2005.09.006) (Consciousness levels — directly related to MSCP self-awareness levels)
-138. Sutton, R.S. & Barto, A.G. *Reinforcement Learning: An Introduction.* MIT Press, 2nd Edition, 2018. (RL foundations — basis for goal-oriented autonomous behavior)
-139. Lake, B.M., Ullman, T.D., Tenenbaum, J.B., & Gershman, S.J. "Building Machines That Learn and Think Like People." *Behavioral and Brain Sciences*, 40, e253, 2017. [arXiv:1604.00289](https://arxiv.org/abs/1604.00289) (Human-like learning — intuitive physics and psychology for agents)
-140. Minsky, M. *The Society of Mind.* Simon & Schuster, 1986. (Multi-agent cognitive model — foundational for modular cognitive architecture)
-141. Anderson, J.R. *How Can the Human Mind Occur in the Physical Universe?* Oxford University Press, 2007. (ACT-R cognitive architecture — multi-module cognitive processing)
-142. Drescher, G.L. *Made-Up Minds: A Constructivist Approach to Artificial Intelligence.* MIT Press, 1991. (Schema-based self-model construction — relevant to identity vector learning)
-143. Shanahan, M. *Embodiment and the Inner Life: Cognition and Consciousness in the Space of Possible Minds.* Oxford University Press, 2010. (Consciousness and embodiment — spatial analysis of possible minds)
-144. Taleb, N.N. *Antifragile: Things That Gain from Disorder.* Random House, 2012. (Antifragility — foundational for existential resilience and self-reconstruction)
+112. Zhang, K., Yang, Z., & Başar, T. "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms." *Handbook of RL and Control*, 2021. [arXiv:1911.10635](https://arxiv.org/abs/1911.10635) (MARL survey - theoretical context for multi-agent phase)
+113. Axelrod, R. *The Evolution of Cooperation.* Basic Books, 1984. (Cooperation dynamics - foundational for coalition strategy in Level 5)
+114. Von Neumann, J. & Morgenstern, O. *Theory of Games and Economic Behavior.* Princeton University Press, 1944. (Game theory - formal basis for multi-agent strategic interaction)
+115. Berkenkamp, F., Turchetta, M., Schoellig, A., & Krause, A. "Safe Model-based Reinforcement Learning with Stability Guarantees." *NeurIPS 2017*. [arXiv:1509.01066](https://arxiv.org/abs/1509.01066) (Safe RL with Lyapunov stability - directly related to §5.7 convergence guarantee)
+116. Achiam, J., Held, D., Tamar, A., & Abbeel, P. "Constrained Policy Optimization." *ICML 2017*. [arXiv:1705.10528](https://arxiv.org/abs/1705.10528) (Constrained optimization - related to delta-clamped updates §5.3)
+117. Fisac, J.F., et al. "A General Safety Framework for Learning-Based Control in Uncertain Robotic Systems." *IEEE TAC*, 64(7), 2737–2752, 2019. [DOI:10.1109/TAC.2018.2876389](https://doi.org/10.1109/TAC.2018.2876389) (Safety-constrained control - related to stability controller design)
+118. Gu, S., et al. "A Review of Safe Reinforcement Learning: Methods, Theories and Applications." *IEEE TPAMI*, 2024. [arXiv:2205.10330](https://arxiv.org/abs/2205.10330) (Safe RL review - comprehensive context for MSCP safety mechanisms)
+119. Ha, D. & Schmidhuber, J. "World Models." *arXiv 2018*. [arXiv:1803.10122](https://arxiv.org/abs/1803.10122) (Learned world models - related to Level 2 world model and prediction engine)
+120. Hafner, D., et al. "Mastering Diverse Domains through World Models." *arXiv 2023*. [arXiv:2301.04104](https://arxiv.org/abs/2301.04104) (DreamerV3 - cross-domain world model generalization)
+121. Schrittwieser, M., et al. "Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model." *Nature*, 588, 604–609, 2020. [DOI:10.1038/s41586-020-03051-4](https://doi.org/10.1038/s41586-020-03051-4) (MuZero - planning with learned models)
+122. Hafner, D., et al. "Dream to Control: Learning Behaviors by Latent Imagination." *ICLR 2020*. [arXiv:1912.01603](https://arxiv.org/abs/1912.01603) (Dreamer - model-based planning and imagination)
+123. Hutter, M. *Universal Artificial Intelligence: Sequential Decisions Based on Algorithmic Probability.* Springer, 2005. [DOI:10.1007/b138233](https://doi.org/10.1007/b138233) (AIXI - formal theory of optimal agents)
+124. Legg, S. & Hutter, M. "Universal Intelligence: A Definition of Machine Intelligence." *Minds and Machines*, 17(4), 391–444, 2007. [DOI:10.1007/s11023-007-9079-x](https://doi.org/10.1007/s11023-007-9079-x) (Formal intelligence definition - context for MSCP level thresholds)
+125. Chollet, F. "On the Measure of Intelligence." *arXiv 2019*. [arXiv:1911.01547](https://arxiv.org/abs/1911.01547) (Intelligence measurement via skill-acquisition efficiency - related to cross-domain metrics)
+126. Goertzel, B. & Pennachin, C. (Eds.) *Artificial General Intelligence.* Springer, 2007. (AGI anthology - context for Level 5 Proto-AGI definition)
+127. Seshia, S.A., et al. "Toward Verified Artificial Intelligence." *Communications of the ACM*, 65(7), 46–55, 2022. [DOI:10.1145/3503914](https://doi.org/10.1145/3503914) (Formal verification for AI - related to safety guarantee verification)
+128. Anderson, M. & Anderson, S.L. (Eds.) *Machine Ethics.* Cambridge University Press, 2011. (Machine ethics anthology - context for ethical kernel design §5.5)
+129. Winfield, A., et al. "Machine Ethics: The Design and Governance of Ethical AI and Autonomous Systems." *Proc. IEEE*, 107(3), 509–517, 2019. [DOI:10.1109/JPROC.2019.2900622](https://doi.org/10.1109/JPROC.2019.2900622) (Ethical AI design - engineering perspective on ethical constraints)
+130. Allen, C., Smit, I., & Wallach, W. "Artificial Morality: Top-down, Bottom-up, and Hybrid Approaches." *Ethics and Information Technology*, 7(3), 149–155, 2005. [DOI:10.1007/s10676-006-0004-4](https://doi.org/10.1007/s10676-006-0004-4) (Hybrid ethics - Layer 0 immutable + Layer 1 adaptive architecture §5.5)
+131. Åström, K.J. & Murray, R.M. *Feedback Systems: An Introduction for Scientists and Engineers.* Princeton University Press, 2008. (Feedback control theory - foundational for predict-compare-update loop §5.2)
+132. Kirkpatrick, J., et al. "Overcoming Catastrophic Forgetting in Neural Networks." *PNAS*, 114(13), 3521–3526, 2017. [arXiv:1612.00796](https://arxiv.org/abs/1612.00796) (Catastrophic forgetting - related to identity persistence across long lifetimes)
+133. Parisi, G.I., Kemker, R., Part, J.L., Kanan, C., & Wermter, S. "Continual Lifelong Learning with Neural Networks: A Review." *Neural Networks*, 113, 54–71, 2019. [DOI:10.1016/j.neunet.2019.01.012](https://doi.org/10.1016/j.neunet.2019.01.012) (Lifelong learning - related to capability preservation during self-modification)
+134. Parfit, D. *Reasons and Persons.* Oxford University Press, 1984. (Personal identity over time - foundational for identity continuity §5.1)
+135. Nozick, R. "Personal Identity Through Time." In *Philosophical Explanations*, Harvard University Press, 1981. (Closest continuer theory - related to identity drift detection)
+136. Huebscher, M.C. & McCann, J.A. "A Survey of Autonomic Computing - Degrees, Models, and Applications." *ACM Computing Surveys*, 40(3), 1–28, 2008. [DOI:10.1145/1380584.1380585](https://doi.org/10.1145/1380584.1380585) (Autonomic computing survey - context for self-managing agent architecture)
+137. Morin, A. "Levels of Consciousness and Self-Awareness: A Comparison and Integration of Various Neurocognitive Views." *Consciousness and Cognition*, 15(2), 358–371, 2006. [DOI:10.1016/j.concog.2005.09.006](https://doi.org/10.1016/j.concog.2005.09.006) (Consciousness levels - directly related to MSCP self-awareness levels)
+138. Sutton, R.S. & Barto, A.G. *Reinforcement Learning: An Introduction.* MIT Press, 2nd Edition, 2018. (RL foundations - basis for goal-oriented autonomous behavior)
+139. Lake, B.M., Ullman, T.D., Tenenbaum, J.B., & Gershman, S.J. "Building Machines That Learn and Think Like People." *Behavioral and Brain Sciences*, 40, e253, 2017. [arXiv:1604.00289](https://arxiv.org/abs/1604.00289) (Human-like learning - intuitive physics and psychology for agents)
+140. Minsky, M. *The Society of Mind.* Simon & Schuster, 1986. (Multi-agent cognitive model - foundational for modular cognitive architecture)
+141. Anderson, J.R. *How Can the Human Mind Occur in the Physical Universe?* Oxford University Press, 2007. (ACT-R cognitive architecture - multi-module cognitive processing)
+142. Drescher, G.L. *Made-Up Minds: A Constructivist Approach to Artificial Intelligence.* MIT Press, 1991. (Schema-based self-model construction - relevant to identity vector learning)
+143. Shanahan, M. *Embodiment and the Inner Life: Cognition and Consciousness in the Space of Possible Minds.* Oxford University Press, 2010. (Consciousness and embodiment - spatial analysis of possible minds)
+144. Taleb, N.N. *Antifragile: Things That Gain from Disorder.* Random House, 2012. (Antifragility - foundational for existential resilience and self-reconstruction)
 
 ---
 
 > **Document Version History**  
-> v1.0 (February 2026) — Initial version  
+> v1.0 (February 2026) - Initial version  
 > 
 > **Contact**: moonchoi@microsoft.com 
 > **Repository**: [https://github.com/dotnetpower/mscp](https://github.com/dotnetpower/mscp)

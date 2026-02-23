@@ -6,7 +6,7 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# MSCP Project — Copilot Instructions
+# MSCP Project - Copilot Instructions
 
 ## 1. Language
 
@@ -32,7 +32,7 @@ Removal of attribution constitutes a license violation.
   - Block math: `$$...$$`
 - All content must meet **publication-grade quality** (peer-review-ready level of precision and clarity).
 
-## 5. Error-Free Guarantee — Mandatory Correction Loop
+## 5. Error-Free Guarantee - Mandatory Correction Loop
 
 When writing or modifying any content, the following loop **must** be executed:
 
@@ -73,16 +73,23 @@ This loop runs **indefinitely** until zero errors remain. There is no shortcut o
 - **Prefer** generic terms: *project*, *task*, *product*, *item*, *resource*, *service*, *system*, etc.
 - This rule ensures that documentation remains accessible to readers from any background and does not imply affiliation with any specific business domain.
 
-## 10. KaTeX Compatibility Rules
+## 10. Punctuation - No Em Dashes
+
+- **Never** use em dashes (`—`, U+2014) or en dashes (`–`, U+2013) in any document.
+- Use a **regular hyphen-minus** (`-`, U+002D) surrounded by spaces for parenthetical phrases, appositive clauses, and range separators.
+- Example: `Safety mechanisms - arguably the most important part - are described below.`
+- This applies to all Markdown files, YAML configurations, and any other text content in this repository.
+
+## 11. KaTeX Compatibility Rules
 
 All math notation must render correctly in **GitHub-flavored Markdown with KaTeX**. The following rules are mandatory:
 
-### 10.1 Forbidden Commands
-- **`\textunderscore{}`** — Not supported in KaTeX. Never use it.
-- **`\_` inside `\text{}` or `\textit{}`** — Underscores are illegal in KaTeX text mode.
-- **`\textbf{}` with underscores** — Same restriction applies.
+### 11.1 Forbidden Commands
+- **`\textunderscore{}`** - Not supported in KaTeX. Never use it.
+- **`\_` inside `\text{}` or `\textit{}`** - Underscores are illegal in KaTeX text mode.
+- **`\textbf{}` with underscores** - Same restriction applies.
 
-### 10.2 Identifier Naming in Math Mode
+### 11.2 Identifier Naming in Math Mode
 When a mathematical variable or function name contains multiple words (e.g., `identity_volatility`):
 
 | Context | Correct | Wrong |
@@ -95,9 +102,9 @@ When a mathematical variable or function name contains multiple words (e.g., `id
 
 **Rule**: Use **spaces** instead of underscores inside `\text{}`, `\textit{}`, and `\textbf{}`. For subscripts, wrap in `\text{}` to stay in text mode: `X_{\text{my label}}`.
 
-### 10.3 Pipe Characters (`|`) Inside Markdown Tables
+### 11.3 Pipe Characters (`|`) Inside Markdown Tables
 
-Markdown uses `|` as a **column separator**. When a KaTeX expression containing `|` is placed inside a table cell, the parser breaks the cell boundary. This applies to **all** uses of `|` in math — absolute value, cardinality, norms, set-builder notation, etc.
+Markdown uses `|` as a **column separator**. When a KaTeX expression containing `|` is placed inside a table cell, the parser breaks the cell boundary. This applies to **all** uses of `|` in math - absolute value, cardinality, norms, set-builder notation, etc.
 
 | Context | Correct | Wrong |
 |---------|---------|-------|
@@ -110,7 +117,7 @@ Markdown uses `|` as a **column separator**. When a KaTeX expression containing 
 
 > Outside tables (blockquotes, standalone `$$` blocks), bare `|` and `\{`/`\}` are safe.
 
-### 10.4 Underscore Emphasis Conflict in Tables
+### 11.4 Underscore Emphasis Conflict in Tables
 
 When a single `$...$` inline math block inside a markdown table cell contains **two or more `_` characters**, the markdown parser pairs them as emphasis markers (`_..._` = italic), stripping the underscores before KaTeX processes the expression. This completely breaks math rendering.
 
@@ -120,13 +127,13 @@ When a single `$...$` inline math block inside a markdown table cell contains **
 |---------|---------|-------|
 | Two subscripts | `$\mathcal{P}\_{T^{\ast}} \to \mathcal{D}\_{T^{\ast}}$` | `$\mathcal{P}_{T^*} \to \mathcal{D}_{T^*}$` |
 | Three subscripts | `$V\_{id} + M\_{goal} + \sigma^2\_{pred}$` | `$V_{id} + M_{goal} + \sigma^2_{pred}$` |
-| Single subscript | `$\mathcal{P}_{T^{\ast}}$` (safe — only one `_`) | — |
+| Single subscript | `$\mathcal{P}_{T^{\ast}}$` (safe - only one `_`) | - |
 
 **Rule**: Inside markdown tables, if a single `$...$` block contains **2+ subscript `_`**, escape each as `\_`. A single `_` per `$...$` block is safe and does not need escaping.
 
 > Outside tables, bare `_` subscripts are always safe regardless of count.
 
-### 10.5 Asterisk Emphasis Conflict in Tables
+### 11.5 Asterisk Emphasis Conflict in Tables
 
 The same emphasis problem applies to `*`. When a single `$...$` block inside a table cell contains **two or more `*` characters** (e.g., `T^*` appearing twice), the markdown parser treats them as italic markers (`*...*`), stripping the asterisks before KaTeX processes the expression.
 
@@ -135,19 +142,19 @@ The same emphasis problem applies to `*`. When a single `$...$` block inside a t
 | Context | Correct (in table) | Wrong (in table) |
 |---------|---------|-------|
 | Two asterisks | `$\mathcal{P}\_{T^{\ast}} \to \mathcal{D}\_{T^{\ast}}$` | `$\mathcal{P}\_{T^*} \to \mathcal{D}\_{T^*}$` |
-| Single asterisk | `$\mathcal{P}_{T^*}$` (safe — only one `*`) | — |
+| Single asterisk | `$\mathcal{P}_{T^*}$` (safe - only one `*`) | - |
 
 **Rule**: Inside markdown tables, if a single `$...$` block contains **2+ literal `*`**, replace each with `\ast`. A single `*` per `$...$` block is safe.
 
 > Outside tables, bare `*` in math is always safe regardless of count.
 
-### 10.6 Safe Patterns
-- Plain math subscripts with single letters: `x_i`, `C_t`, `w_1` — always safe.
-- `\text{}` for multi-character subscripts: `R_{\text{post}}` — safe.
-- `\operatorname{}` for function names: `\operatorname{CDTS}` — safe.
-- `\mathrm{}` for upright multi-letter names: `\mathrm{SHA}` — safe.
+### 11.6 Safe Patterns
+- Plain math subscripts with single letters: `x_i`, `C_t`, `w_1` - always safe.
+- `\text{}` for multi-character subscripts: `R_{\text{post}}` - safe.
+- `\operatorname{}` for function names: `\operatorname{CDTS}` - safe.
+- `\mathrm{}` for upright multi-letter names: `\mathrm{SHA}` - safe.
 
-### 10.7 Pre-Commit Check
+### 11.7 Pre-Commit Check
 Before finalizing any math block, mentally verify:
 1. No raw `_` appears inside `\text{}`, `\textit{}`, or `\textbf{}`.
 2. No `\textunderscore` appears anywhere.

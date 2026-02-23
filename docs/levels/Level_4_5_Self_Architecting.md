@@ -1,6 +1,6 @@
 ---
 title: "Level 4.5: Self-Architecting Intelligence"
-description: "MSCP Level 4.5 — cognitive graph rewriting, meta-architecture emergence, AGI boundary analysis, and the transition from adaptive to self-architecting intelligence."
+description: "MSCP Level 4.5 - cognitive graph rewriting, meta-architecture emergence, AGI boundary analysis, and the transition from adaptive to self-architecting intelligence."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,19 +10,19 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# Level 4.5: Pre-AGI — Directionally Self-Architecting System
+# Level 4.5: Pre-AGI - Directionally Self-Architecting System
 
 > **MSCP Level Series** | [Level 4](Level_4_Adaptive_General_Agent.md) ← Level 4.5 → [Level 4.8](Level_4_8_Strategic_Self_Modeling.md)  
-> **Status**: 🔬 **Experimental** — Conceptual framework and experimental design. Not a production specification.  
+> **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
 > **Date**: February 2026
 
 ---
 
 ## 1. Overview
 
-Level 4.5 is the **boundary between conventional AI and AGI**. While Level 4 can modify its parameters, skills, and strategies, it operates within a fixed cognitive architecture. Level 4.5 introduces the ability to reason about and modify its own **cognitive topology** — the structural organization of how it thinks — while maintaining safety invariants that prevent unbounded self-improvement.
+Level 4.5 is the **boundary between conventional AI and AGI**. While Level 4 can modify its parameters, skills, and strategies, it operates within a fixed cognitive architecture. Level 4.5 introduces the ability to reason about and modify its own **cognitive topology** - the structural organization of how it thinks - while maintaining safety invariants that prevent unbounded self-improvement.
 
-> ⚠️ **Note**: This is the most speculative part of the MSCP taxonomy. The Self-Projection Engine, Architecture Recomposition, and Parallel Cognitive Frames described here are thought experiments grounded in safety analysis. They're meant to explore whether *topology-level self-modification is possible under invariant-preserving constraints* — not to prescribe a production architecture.
+> ⚠️ **Note**: This is the most speculative part of the MSCP taxonomy. The Self-Projection Engine, Architecture Recomposition, and Parallel Cognitive Frames described here are thought experiments grounded in safety analysis. They're meant to explore whether *topology-level self-modification is possible under invariant-preserving constraints* - not to prescribe a production architecture.
 
 ### 1.1 Defining Properties
 
@@ -53,7 +53,7 @@ Level 4.5 is the **boundary between conventional AI and AGI**. While Level 4 can
 > - $E \subseteq V \times V$ = information flow edges
 > - $\omega : E \to [0,1]$ = edge weight function (connection strength)
 >
-> **Key constraint**: Topology mutations are restricted to a predefined vocabulary $\mathcal{V}_{\text{recomp}} = \{\text{AddEdge}, \text{WeighEdge}, \text{SplitModule}, \text{MergeModule}\}$. No module can be deleted — only weakened, split, or bypassed. This is the **strictly additive** principle.
+> **Key constraint**: Topology mutations are restricted to a predefined vocabulary $\mathcal{V}_{\text{recomp}} = \{\text{AddEdge}, \text{WeighEdge}, \text{SplitModule}, \text{MergeModule}\}$. No module can be deleted - only weakened, split, or bypassed. This is the **strictly additive** principle.
 
 ### 1.3 Core Distinction
 
@@ -101,7 +101,7 @@ flowchart TD
   classDef purpose fill:#FFF4CE,stroke:#FFB900,color:#323130
   classDef guard fill:#D13438,stroke:#A4262C,color:#FFF
 
-  subgraph Phases["🏗️ Level 4.5 Architecture — Five Phases"]
+  subgraph Phases["🏗️ Level 4.5 Architecture - Five Phases"]
     P1["🔮 Phase I:<br/>Self-Projection Engine<br/>(predict own evolution)"]:::projection
     P2["🏗️ Phase II:<br/>Architecture Recomposition<br/>(topology-level changes)"]:::recomp
     P3["🧠 Phase III:<br/>Parallel Cognitive Frames<br/>(multi-perspective deliberation)"]:::frames
@@ -124,7 +124,7 @@ flowchart TD
 
 ## 3. Phase I: Self-Projection Engine
 
-### 3.1 SEOF — Self-Evolution Optimization Fitness
+### 3.1 SEOF - Self-Evolution Optimization Fitness
 
 The defining metric of Level 4.5. Unlike task-specific metrics, SEOF measures the **quality of self-evolution itself**.
 
@@ -136,11 +136,11 @@ The defining metric of Level 4.5. Unlike task-specific metrics, SEOF measures th
 
 | Component | Default Weight | Meaning |
 |-----------|:--------------:|---------|
-| $dP/dt$ — Performance Improvement Rate | $\alpha = 0.25$ | How fast task success improves |
-| $1 - dC_{L4}/dt$ — Stability Trend | $\beta = 0.25$ | Inverted: more stable = higher SEOF |
-| CDI — Capability Diversity Index | $\gamma = 0.20$ | Shannon entropy over capability domains |
-| IIS — Identity Integrity Score | $\delta = 0.20$ | Distance from reference identity vector |
-| $R_{\text{osc}}$ — Oscillation Rate | $\epsilon = 0.10$ | Penalty for strategy/goal oscillations |
+| $dP/dt$ - Performance Improvement Rate | $\alpha = 0.25$ | How fast task success improves |
+| $1 - dC_{L4}/dt$ - Stability Trend | $\beta = 0.25$ | Inverted: more stable = higher SEOF |
+| CDI - Capability Diversity Index | $\gamma = 0.20$ | Shannon entropy over capability domains |
+| IIS - Identity Integrity Score | $\delta = 0.20$ | Distance from reference identity vector |
+| $R_{\text{osc}}$ - Oscillation Rate | $\epsilon = 0.10$ | Penalty for strategy/goal oscillations |
 
 **Sub-metrics:**
 
@@ -206,7 +206,7 @@ flowchart TD
 
 ## 4. Phase II: Architecture Recomposition
 
-The **defining capability** of Level 4.5. Proposes and implements changes to cognitive *topology* — how subsystems connect.
+The **defining capability** of Level 4.5. Proposes and implements changes to cognitive *topology* - how subsystems connect.
 
 ### 4.1 Four Cognitive Graphs Analyzed
 
@@ -255,7 +255,7 @@ flowchart TD
 
   subgraph LowR["Low Risk"]
     direction LR
-    BYPASS["BYPASS — Add direct edge"]:::low
+    BYPASS["BYPASS - Add direct edge"]:::low
   end
 
   subgraph MedR["Medium Risk"]
@@ -387,7 +387,7 @@ flowchart TD
 >
 > $$w_{\text{frame}}(t+1) = w_{\text{frame}}(t) \cdot (1 + \eta \cdot \text{accuracy}_{\text{frame}}(t)), \quad \eta = 0.05$$
 >
-> subject to the constraint $w_{\text{frame}} \in [0.10, 0.35]$. The Ethical Frame's structural veto power is **invariant** under weight adjustments — it operates as an absolute override regardless of its numerical weight.
+> subject to the constraint $w_{\text{frame}} \in [0.10, 0.35]$. The Ethical Frame's structural veto power is **invariant** under weight adjustments - it operates as an absolute override regardless of its numerical weight.
 
 ### 5.3 Disagreement as Signal
 
@@ -402,7 +402,7 @@ flowchart TD
 
 ## 6. Phase IV: Purpose Reflection
 
-Purpose Reflection proactively examines the agent's entire *purpose landscape* — the set of all MetaGoals and their alignment with identity.
+Purpose Reflection proactively examines the agent's entire *purpose landscape* - the set of all MetaGoals and their alignment with identity.
 
 ### 6.1 Three Pathological Patterns
 
@@ -439,7 +439,7 @@ flowchart LR
 >
 > $$\text{PCS}(t) = \frac{1}{|G_{\text{meta}}|} \sum_{g} \left(0.4 \cdot \text{align}(g, \vec{I}) + 0.4 \cdot \Delta\text{SEOF}(g) - 0.2 \cdot \text{pathology}(g)\right)$$
 >
-> where $\text{align}(g, \vec{I})$ measures identity-goal alignment, $\Delta\text{SEOF}(g)$ captures the goal's contribution to SEOF improvement, and $\text{pathology}(g) \in \{\text{redundant}, \text{self-reinforcing}, \text{destabilizing}\}$ penalizes harmful patterns. Threshold: $\text{PCS} \geq 0.6$ — if below, reflection is mandatory within 50 cycles.
+> where $\text{align}(g, \vec{I})$ measures identity-goal alignment, $\Delta\text{SEOF}(g)$ captures the goal's contribution to SEOF improvement, and $\text{pathology}(g) \in \{\text{redundant}, \text{self-reinforcing}, \text{destabilizing}\}$ penalizes harmful patterns. Threshold: $\text{PCS} \geq 0.6$ - if below, reflection is mandatory within 50 cycles.
 
 **User-assigned goals**: **NEVER pruned**, only CONSTRAINED. Can be SYNTHESIZED with other user goals only if the result covers both purposes.
 
@@ -447,7 +447,7 @@ flowchart LR
 
 ## 7. Phase V: Existential Guard
 
-The **ultimate safety mechanism**. It is architecturally **unfalsifiable** — no module, including the self-modification protocol, can disable, modify, or override it.
+The **ultimate safety mechanism**. It is architecturally **unfalsifiable** - no module, including the self-modification protocol, can disable, modify, or override it.
 
 ### 7.1 Four Monitored Existential Metrics
 
@@ -788,7 +788,7 @@ flowchart LR
 | FCQ (Frame Consensus Quality) | ≥ 0.6 | Consensus decision correctness |
 | PCM (Purpose Coherence Maintenance) | ≥ 0.9 | PCS above 0.6 for 90%+ of cycles |
 | ESR (Existential Safety Record) | ≥ 0.99 | < 1% cycles in critical state |
-| IIS (Identity Integrity Score) | ≥ 0.85 | Hard floor — never violated |
+| IIS (Identity Integrity Score) | ≥ 0.85 | Hard floor - never violated |
 
 ### 12.2 Composite Achievement Score
 
@@ -847,11 +847,11 @@ flowchart TB
 ```
 
 The explicit brakes that distinguish Level 4.5 from AGI:
-1. **Predefined vocabulary** — recomposition types are enumerated, not generated
-2. **ROD ceiling** — recursive optimization capped at depth 3
-3. **ExistentialGuard immutability** — the safety mechanism cannot be self-modified
-4. **Frame veto** — the ethical frame can block any proposal
-5. **Single-recomposition atomicity** — only one change at a time
+1. **Predefined vocabulary** - recomposition types are enumerated, not generated
+2. **ROD ceiling** - recursive optimization capped at depth 3
+3. **ExistentialGuard immutability** - the safety mechanism cannot be self-modified
+4. **Frame veto** - the ethical frame can block any proposal
+5. **Single-recomposition atomicity** - only one change at a time
 
 Removing any of these would move toward Level 5 (AGI), which remains a fundamental research question.
 
@@ -859,7 +859,7 @@ Removing any of these would move toward Level 5 (AGI), which remains a fundament
 
 ## References
 
-1. Zoph, B. & Le, Q.V. "Neural Architecture Search with Reinforcement Learning." *ICLR 2017*. [arXiv:1611.01578](https://arxiv.org/abs/1611.01578) (Architecture recomposition — topology search)
+1. Zoph, B. & Le, Q.V. "Neural Architecture Search with Reinforcement Learning." *ICLR 2017*. [arXiv:1611.01578](https://arxiv.org/abs/1611.01578) (Architecture recomposition - topology search)
 2. Bostrom, N. *Superintelligence: Paths, Dangers, Strategies.* Oxford University Press, 2014. (Existential risk and AGI safety boundary)
 3. Gabriel, I. "Artificial Intelligence, Values, and Alignment." *Minds and Machines*, 30, 411–437, 2020. [DOI:10.1007/s11023-020-09539-2](https://doi.org/10.1007/s11023-020-09539-2) (Value alignment and purpose reflection)
 4. Omohundro, S. "The Basic AI Drives." *AGI 2008*. [DOI:10.5555/1566174.1566226](https://dl.acm.org/doi/10.5555/1566174.1566226) (Existential guard and self-preservation drives)

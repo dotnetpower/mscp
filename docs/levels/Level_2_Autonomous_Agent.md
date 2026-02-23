@@ -1,6 +1,6 @@
 ---
 title: "Level 2: Autonomous Agent"
-description: "MSCP Level 2 Autonomous Agent — goal-directed architecture with 5-layer processing, internal goal generation, percept structures, and behavioral analysis. Transition criteria to Level 3."
+description: "MSCP Level 2 Autonomous Agent - goal-directed architecture with 5-layer processing, internal goal generation, percept structures, and behavioral analysis. Transition criteria to Level 3."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,19 +10,19 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# Level 2: Autonomous Agent — Architecture & Design
+# Level 2: Autonomous Agent - Architecture & Design
 
 > **MSCP Level Series** | [Level 1](Level_1_Tool_Agent.md) ← Level 2 → [Level 3](Level_3_Self_Regulating_Agent.md)  
-> **Status**: 🔬 **Experimental** — Conceptual framework and experimental design. Not a production specification.  
+> **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
 > **Date**: February 2026
 
 ---
 
 ## 1. Overview
 
-Level 2 represents the first significant leap beyond reactive tool calling. An Autonomous Agent maintains an **internal world model**, tracks entities across interactions, understands emotional context, and — critically — can **generate its own goals** autonomously based on observed patterns.
+Level 2 represents the first significant leap beyond reactive tool calling. An Autonomous Agent maintains an **internal world model**, tracks entities across interactions, understands emotional context, and - critically - can **generate its own goals** autonomously based on observed patterns.
 
-> ⚠️ **Note**: This document describes a cognitive level within the MSCP taxonomy. The architectures, pseudocode, and diagrams here are experimental designs exploring structural concepts — not production-ready implementations.
+> ⚠️ **Note**: This document describes a cognitive level within the MSCP taxonomy. The architectures, pseudocode, and diagrams here are experimental designs exploring structural concepts - not production-ready implementations.
 
 ### 1.1 Defining Properties
 
@@ -55,16 +55,16 @@ Level 2 agents are **stateful processes**: `f(input, world_state, goals) → (ou
 >
 > $$(o_t, s_{t+1}, G_{t+1}) = f(r_t, s_t, G_t)$$
 
-This distinguishes Level 2 from Level 1 by the presence of **state persistence** — the output depends on the full history encoded in $s_t$, not just the current input.
+This distinguishes Level 2 from Level 1 by the presence of **state persistence** - the output depends on the full history encoded in $s_t$, not just the current input.
 
 > **Definition 2 (World Model).** The world model $\mathcal{W}$ is a persistent store consisting of three sub-components:
 >
 > $$\mathcal{W} = \langle \mathcal{K}, \mathcal{E}, \Gamma \rangle$$
 >
 > where:
-> - $\mathcal{K}$ : knowledge graph — a directed labeled graph $\mathcal{K} = (V, E, \ell)$ with vertices $V$ (concepts), edges $E \subseteq V \times V$ (relations), and labeling function $\ell : E \to \Sigma$ (relation types)
-> - $\mathcal{E}$ : entity state tracker — a mapping $\mathcal{E} : \text{EntityID} \to \text{EntityState}$
-> - $\Gamma$ : temporal model — a set of time-bounded facts $\{(\text{fact}, t_{valid}, t_{expiry})\}$
+> - $\mathcal{K}$ : knowledge graph - a directed labeled graph $\mathcal{K} = (V, E, \ell)$ with vertices $V$ (concepts), edges $E \subseteq V \times V$ (relations), and labeling function $\ell : E \to \Sigma$ (relation types)
+> - $\mathcal{E}$ : entity state tracker - a mapping $\mathcal{E} : \text{EntityID} \to \text{EntityState}$
+> - $\Gamma$ : temporal model - a set of time-bounded facts $\{(\text{fact}, t_{valid}, t_{expiry})\}$
 >
 > The unified **world snapshot** at time $t$ is the projection:
 >
@@ -89,7 +89,7 @@ This distinguishes Level 2 from Level 1 by the presence of **state persistence**
 > where:
 > - $p_{\text{base}}(g)$ is the static base priority
 > - $u(g, t) \in [0,1]$ is the **time urgency** factor (monotonically increasing as deadline approaches)
-> - $\xi(g, e(t)) \in [0,1]$ is the **emotion modifier** — reactive goals receive higher priority when valence $v(t) < 0$
+> - $\xi(g, e(t)) \in [0,1]$ is the **emotion modifier** - reactive goals receive higher priority when valence $v(t) < 0$
 > - $\alpha + \beta + \gamma = 1$ (with typical values $\alpha = 0.5,\ \beta = 0.3,\ \gamma = 0.2$)
 
 > **Definition 6 (Autonomous Goal Generation).** The autonomous goal generator is a function $\Phi_{AG}$ that produces new goals from detected patterns in the world state:
@@ -423,7 +423,7 @@ classDiagram
 def level2_agent_loop(user_input: str, session_context: dict) -> Level2Response:
     """
     Level 2 core agent loop with world model and autonomous goal generation.
-    Input:  user_input — user request, session_context — session state
+    Input:  user_input - user request, session_context - session state
     Output: Level2Response with content, active_goal, context_summary, emotion
     """
 
@@ -562,7 +562,7 @@ def compute_priority(self, goal: Goal, context: WorldContext, emotion: EmotionVe
 
 ## 6. Level 1 vs Level 2: Behavioral Comparison
 
-### 6.1 Same Scenario — Different Behavior
+### 6.1 Same Scenario - Different Behavior
 
 <!-- Level 2 Behavioral Comparison -->
 
@@ -672,7 +672,7 @@ flowchart TD
 
 ## 8. Transition to Level 3
 
-The transition to Level 3 introduces structural self-awareness — the agent gains a model of itself as a distinct entity.
+The transition to Level 3 introduces structural self-awareness - the agent gains a model of itself as a distinct entity.
 
 > **Definition 7 (Level 2 → Level 3 Transition).** An agent $\mathcal{A}_2$ qualifies for promotion to $\mathcal{A}_3$ when it acquires:
 >
@@ -764,7 +764,7 @@ flowchart TD
 
 1. Park, J.S., et al. "Generative Agents: Interactive Simulacra of Human Behavior." *UIST 2023*. [arXiv:2304.03442](https://arxiv.org/abs/2304.03442) (Autonomous agent behavior and world model)
 2. Wang, G., et al. "Voyager: An Open-Ended Embodied Agent with Large Language Models." *arXiv 2023*. [arXiv:2305.16291](https://arxiv.org/abs/2305.16291) (Autonomous goal generation and skill acquisition)
-3. Rao, A.S. & Georgeff, M.P. "BDI Agents: From Theory to Practice." *ICMAS 1995*. (Belief-Desire-Intention architecture — foundational for goal systems)
+3. Rao, A.S. & Georgeff, M.P. "BDI Agents: From Theory to Practice." *ICMAS 1995*. (Belief-Desire-Intention architecture - foundational for goal systems)
 4. Picard, R.W. *Affective Computing.* MIT Press, 1997. (Emotion detection and valence/arousal models)
 5. Huang, W., et al. "Inner Monologue: Embodied Reasoning through Planning with Language Models." *CoRL 2022*. [arXiv:2207.05608](https://arxiv.org/abs/2207.05608) (Internal reasoning and feedback loops)
 6. Wang, X., et al. "Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning." *ACL 2023*. [arXiv:2305.04091](https://arxiv.org/abs/2305.04091) (Goal decomposition and multi-step planning)
