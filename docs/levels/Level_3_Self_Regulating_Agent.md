@@ -53,7 +53,7 @@ Level 3 is the **core MSCP level** — the first agent that possesses *structura
 >
 > - **L1 (Object Level)**: Action execution — $a_t = \pi(r_t, s_t, G_t)$
 > - **L2 (Meta Level)**: Strategy evaluation — $q_t = \text{eval}(\pi, \text{history})$
-> - **L3 (Meta-Meta Level)**: Evaluation of the evaluator — $m_t = \text{meta\_eval}(q_t, \text{consistency})$
+> - **L3 (Meta-Meta Level)**: Evaluation of the evaluator — $m_t = \text{meta eval}(q_t, \text{consistency})$
 >
 > $$\text{Depth}(t) = \min\bigl(d : \|m_d(t) - m_{d-1}(t)\| < \epsilon_{\text{meta}}\bigr) \leq d_{\max}$$
 >
@@ -596,13 +596,13 @@ classDiagram
 
 **Identity Vector — The Math:**
 
-$$I(t) = [\textit{persona\_consistency},\ \textit{value\_alignment},\ \textit{capability\_confidence},\ \textit{emotional\_stability},\ \textit{goal\_persistence}]$$
+$$I(t) = [\textit{persona consistency},\ \textit{value alignment},\ \textit{capability confidence},\ \textit{emotional stability},\ \textit{goal persistence}]$$
 
-$$\textit{identity\_delta}(t) = \| I(t) - I(t-1) \|_2$$
+$$\textit{identity delta}(t) = \| I(t) - I(t-1) \|_2$$
 
-$$\textit{identity\_velocity}(t) = \frac{\textit{delta}(t)}{\Delta t}$$
+$$\textit{identity velocity}(t) = \frac{\textit{delta}(t)}{\Delta t}$$
 
-$$\textit{identity\_acceleration}(t) = v(t) - v(t-1)$$
+$$\textit{identity acceleration}(t) = v(t) - v(t-1)$$
 
 ### 4.2 Safety Mechanism Chain
 
@@ -741,11 +741,11 @@ $$S_{ij} = \text{alignment}(\text{belief}_i,\ \text{reference}_j)$$
 
 where references include goals, core values, and identity dimensions.
 
-$$\textit{global\_consistency} = \text{mean}(S)$$
+$$\textit{global consistency} = \text{mean}(S)$$
 
-$$\textit{consistency\_gradient}_i = \text{mean}(S_{i,:}) \quad \text{(per-belief score)}$$
+$$\textit{consistency gradient}_i = \text{mean}(S_{i,:}) \quad \text{(per-belief score)}$$
 
-If $\textit{global\_consistency} < 0.6$, reconciliation is triggered.
+If $\textit{global consistency} < 0.6$, reconciliation is triggered.
 
 ---
 

@@ -129,7 +129,7 @@ Level 4.8 introduces metrics across four phases. All must be sustained continuou
 
 > **Definition 5 (Mean Calibration Error).** The MCE measures the systematic gap between self-assessed confidence and actual performance:
 >
-> $$\text{MCE} = \frac{1}{N} \sum_{i=1}^{N} \left| \text{confidence}_i - \text{success\_rate}_i \right|$$
+> $$\text{MCE} = \frac{1}{N} \sum_{i=1}^{N} \left| \text{confidence}_i - \text{success rate}_i \right|$$
 >
 > Target: $\text{MCE} < 0.10$. An asymmetric correction protocol reduces overconfidence ($-0.05$/cycle) faster than it corrects underconfidence ($+0.03$/cycle).
 

@@ -86,7 +86,7 @@ This distinguishes Level 2 from Level 1 by the presence of **state persistence**
 >
 > where $\mathcal{P}(\cdot)$ denotes the power set. The generator activates when any of the following pattern conditions hold:
 >
-> $$\text{mention\_count}(e, \Delta t) \geq \theta_{\text{rep}} \quad \text{(repetition pattern)}$$
+> $$\text{mention count}(e, \Delta t) \geq \theta_{\text{rep}} \quad \text{(repetition pattern)}$$
 >
 > $$v(t) < -\theta_v \;\land\; a(t) > \theta_a \quad \text{(negative emotional state)}$$
 >

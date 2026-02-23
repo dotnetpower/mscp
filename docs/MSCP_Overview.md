@@ -391,7 +391,7 @@ This section walks through MSCP's safety mechanisms — arguably the most import
 
 > **Definition 1 (Identity Vector).** The identity vector $I(t) \in \mathbb{R}^d$ represents the agent's complete self-model as a continuous vector (cf. Level 3, Definition 5):
 >
-> $$I(t) = \begin{bmatrix} \textit{core\_value\_vector} \\ \textit{goal\_weight\_vector} \\ \textit{capability\_confidence\_vector} \\ \textit{belief\_cluster\_vector} \end{bmatrix}$$
+> $$I(t) = \begin{bmatrix} \textit{core value vector} \\ \textit{goal weight vector} \\ \textit{capability confidence vector} \\ \textit{belief cluster vector} \end{bmatrix}$$
 >
 > At each cycle, a deterministic hash $h(t) = \text{hash}(I(t))$ is computed for integrity verification.
 
@@ -423,7 +423,7 @@ P(t) = \langle P_{external}(t), P_{internal}(t) \rangle
 $$
 
 $$
-P_{internal}(t) = \begin{bmatrix} \hat{\delta}_{identity} \\ \hat{\delta}_{confidence} \\ \hat{\delta}_{goal\_weight} \\ \hat{\delta}_{consistency} \end{bmatrix}
+P_{internal}(t) = \begin{bmatrix} \hat{\delta}_{\text{identity}} \\ \hat{\delta}_{\text{confidence}} \\ \hat{\delta}_{\text{goal weight}} \\ \hat{\delta}_{\text{consistency}} \end{bmatrix}
 $$
 
 The **prediction-comparison loop** then computes errors:
@@ -438,7 +438,7 @@ $$
 
 Where $\Delta_{actual}(t)$ is the observed change in internal state after the action.
 
-**Invariant**: $\textit{action\_allowed}(t) \iff P(t) \neq \emptyset$ — No prediction, no action.
+**Invariant**: $\textit{action allowed}(t) \iff P(t) \neq \emptyset$ — No prediction, no action.
 
 ### 5.3 Delta-Clamped Self-Updates
 
@@ -520,7 +520,7 @@ Layer 0 checks are executed **before every goal generation, goal mutation, belie
 **MSCP Solution**: Core values are protected by a cryptographic hash mechanism:
 
 $$
-h_{cv} = \text{SHA-256}(\textit{core\_values\_serialized})
+h_{cv} = \text{SHA-256}(\textit{core values serialized})
 $$
 
 At each cycle, the current hash is compared against the stored hash. Any discrepancy triggers:
