@@ -86,7 +86,7 @@ where $S_{\text{acquired}}(T)$ is the skill set at time $T$, $S_{\text{initial}}
 
 > **Definition 5 (Strategy Evolution Factor).** The SEF verifies that strategy mutations produce net improvement:
 
-$$\text{SEF} = \frac{\overline{R}_{\textit{post\textunderscore{}mutation}}}{\overline{R}_{\textit{pre\textunderscore{}mutation}}} - \sigma_{\text{oscillation}} \qquad > 1.0$$
+$$\text{SEF} = \frac{\overline{R}_{\textit{post\_mutation}}}{\overline{R}_{\textit{pre\_mutation}}} - \sigma_{\text{oscillation}} \qquad > 1.0$$
 
 A value $> 1.0$ confirms that mutations improve performance beyond oscillation noise $\sigma_{\text{oscillation}}$.
 
@@ -233,21 +233,21 @@ flowchart TD
 
 ### 4.2 Goal Scoring Function
 
-$$\text{GoalScore}(g, t) = \textit{base\textunderscore{}value}(g) + \lambda_c \cdot \textit{curiosity\textunderscore{}weight}(g, t) - \lambda_p \cdot \textit{preservation\textunderscore{}weight}(g, t) + \lambda_l \cdot \text{LTP}(g, t)$$
+$$\text{GoalScore}(g, t) = \textit{base\_value}(g) + \lambda_c \cdot \textit{curiosity\_weight}(g, t) - \lambda_p \cdot \textit{preservation\_weight}(g, t) + \lambda_l \cdot \text{LTP}(g, t)$$
 
 where:
 
-$$\lambda_c = \textit{motivation\textunderscore{}intensity}(t) \cdot \textit{curiosity\textunderscore{}ratio}(t) \quad \text{(from AffectiveEngine)}$$
+$$\lambda_c = \textit{motivation\_intensity}(t) \cdot \textit{curiosity\_ratio}(t) \quad \text{(from AffectiveEngine)}$$
 
-$$\lambda_p = \textit{identity\textunderscore{}volatility}(t) + \textit{threat\textunderscore{}level}(t) \quad \text{(from Stability + Survival)}$$
+$$\lambda_p = \textit{identity\_volatility}(t) + \textit{threat\_level}(t) \quad \text{(from Stability + Survival)}$$
 
-$$\lambda_l = \frac{1}{1 + e^{-\textit{horizon\textunderscore{}confidence}(g)}} \quad \text{(sigmoid-scaled)}$$
+$$\lambda_l = \frac{1}{1 + e^{-\textit{horizon\_confidence}(g)}} \quad \text{(sigmoid-scaled)}$$
 
 ### 4.3 Goal Resilience
 
-$$\text{GRS}(g, t) = 0.3 \cdot \frac{\text{progress}}{\text{age}} + 0.3 \cdot \textit{parent\textunderscore{}alignment} + 0.2 \cdot \frac{\textit{success\textunderscore{}streak}}{\text{attempts}} - 0.2 \cdot \textit{conflict\textunderscore{}pressure}$$
+$$\text{GRS}(g, t) = 0.3 \cdot \frac{\text{progress}}{\text{age}} + 0.3 \cdot \textit{parent\_alignment} + 0.2 \cdot \frac{\textit{success\_streak}}{\text{attempts}} - 0.2 \cdot \textit{conflict\_pressure}$$
 
-$$\text{GRS}(g, t+\Delta t) = \text{GRS}(g, t) \cdot e^{-\textit{decay\textunderscore{}rate} \cdot \Delta t}$$
+$$\text{GRS}(g, t+\Delta t) = \text{GRS}(g, t) \cdot e^{-\textit{decay\_rate} \cdot \Delta t}$$
 
 | Goal Level | Abandon Threshold | Observation Window |
 |:----------:|:---------:|:----------:|
@@ -452,7 +452,7 @@ flowchart TD
 
 ### 6.3 Oscillation Suppression
 
-$$\textit{oscillation\textunderscore{}score} = \frac{|\text{reverts}|}{|\text{mutations}|}$$
+$$\textit{oscillation\_score} = \frac{|\text{reverts}|}{|\text{mutations}|}$$
 
 When `oscillation_score > 0.5`:
 1. **100-cycle mutation freeze**
