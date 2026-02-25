@@ -16,11 +16,22 @@ Removal of attribution constitutes a license violation.
 > **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-8, Theorem 1 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+
 ---
 
 ## 1. 개요
 
 레벨 3은 **핵심 MSCP 레벨**로서 - *구조적 자기인식*을 보유한 최초의 에이전트입니다. 자신이 무엇인지 알고, 자신의 행동이 내부 상태에 어떤 영향을 미칠지 예측할 수 있으며, 현실이 예상에서 벗어날 때 스스로를 교정할 수 있습니다. 이것이 MSCP 프로토콜(v1.0 – v4.0)이 통제하도록 설계된 아키텍처입니다.
+
+> **Level Essence.** 레벨 3 에이전트는 MSCP 예측-행동-비교-갱신 루프를 통해 자기 조절. 예측 오차가 제한된 자기 갱신 하에서 0으로 수렴하여 정체성 안정성을 보장:
+>
+> $$\epsilon_t = \|\hat{\Delta}_t - \Delta_t^{\text{actual}}\|_2 \xrightarrow{t \to \infty} 0, \quad \|M'_{\text{self}} - M_{\text{self}}\|_2 \leq \delta_{\max}$$
 
 > ⚠️ **참고**: 이 문서는 MSCP 분류 체계 내의 인지 아키텍처를 설명합니다. 여기서 탐구하는 16계층 아키텍처, 안전 메커니즘 및 속성들은 실험적 설계입니다. 모든 의사코드는 알고리즘 수준이며 프로덕션 코드가 아닙니다.
 

@@ -16,11 +16,23 @@ Removal of attribution constitutes a license violation.
 > **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
 > **Date**: February 2026
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-7, Propositions 1-3 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table; reinforced entity lifecycle, importance scoring, and world model architecture from specs |
+| 0.3.0 | 2026-02-26 | Fixed Def 6 type signature ($\mathcal{P}(\mathcal{S}) \to \mathcal{S}$); added constructive argument to Prop 2 |
+
 ---
 
 ## 1. Overview
 
 Level 2 represents the first significant leap beyond reactive tool calling. An Autonomous Agent maintains an **internal world model**, tracks entities across interactions, understands emotional context, and - critically - can **generate its own goals** autonomously based on observed patterns.
+
+> **Level Essence.** A Level 2 agent is a stateful process whose output depends on both accumulated world state and evolving goals - the transition function updates state and goals alongside every response:
+>
+> $$(o_t,\; s_{t+1},\; G_{t+1}) = f(r_t,\; s_t,\; G_t)$$
 
 > ⚠️ **Note**: This document describes a cognitive level within the MSCP taxonomy. The architectures, pseudocode, and diagrams here are experimental designs exploring structural concepts - not production-ready implementations.
 
@@ -74,13 +86,30 @@ This distinguishes Level 2 from Level 1 by the presence of **state persistence**
 >
 > $$e(t) = \begin{pmatrix} v(t) \\ a(t) \end{pmatrix}, \quad v(t) \in [-1, 1], \quad a(t) \in [0, 1]$$
 >
-> where $v(t)$ is **valence** (negative to positive sentiment) and $a(t)$ is **arousal** (calm to excited intensity).
+> where $v(t)$ is **valence** (negative to positive sentiment) and $a(t)$ is **arousal** (calm to excited intensity). The emotion detector classifies input into a primary emotion label $\ell \in \mathcal{L}$ and maps it to the valence-arousal space via a reference table:
+
+| Emotion | Valence | Arousal | Description |
+|---------|:-------:|:-------:|-------------|
+| Joy | $+0.8$ | $0.6$ | Positive, moderate activation |
+| Excitement | $+0.7$ | $0.9$ | Positive, high activation |
+| Sadness | $-0.6$ | $0.2$ | Negative, low activation |
+| Anger | $-0.8$ | $0.9$ | Negative, high activation |
+| Fear | $-0.6$ | $0.7$ | Negative, moderate-high activation |
+| Surprise | $+0.1$ | $0.8$ | Neutral-positive, high activation |
+| Anxiety | $-0.5$ | $0.6$ | Negative, moderate activation |
+| Neutral | $0.0$ | $0.3$ | Baseline state |
+
+> Text-level intensity modifiers adjust the base arousal: $a'(t) = \min(1.0,\; a_{\text{base}} + \Delta a_{\text{text}})$ where $\Delta a_{\text{text}}$ accounts for emphasis markers, text length, and exclamatory patterns.
 
 > **Definition 4 (Goal).** A goal $g \in \mathcal{G}$ is a tuple:
 >
 > $$g = \langle \text{id}, \text{type}, \text{desc}, p, w, \text{status}, g_{\text{parent}}, \{g_{\text{sub}}\}, \text{progress} \rangle$$
 >
-> where $p \in [0,1]$ is the priority and $w \in \mathbb{R}_{\geq 0}$ is the weight. Goals are either **user-directed** ($\text{type} = \text{USER}$) or **autonomously generated** ($\text{type} = \text{AUTO}$).
+> where $p \in [0,1]$ is the priority and $w \in \mathbb{R}_{\geq 0}$ is the weight.
+>
+> **Goal types**: $\text{type} \in \{\text{USER}, \text{AUTO}, \text{SYSTEM}, \text{REACTIVE}\}$ - where USER denotes user-directed goals, AUTO denotes autonomously generated goals from pattern detection, SYSTEM denotes infrastructure-level goals, and REACTIVE denotes goals triggered by emotional or temporal patterns.
+>
+> **Goal status**: $\text{status} \in \{\text{PENDING}, \text{ACTIVE}, \text{COMPLETED}, \text{FAILED}, \text{BLOCKED}, \text{DEFERRED}\}$ - goals follow the lifecycle $\text{PENDING} \to \text{ACTIVE} \to \text{COMPLETED} | \text{FAILED}$, with BLOCKED indicating dependency on other goals and DEFERRED indicating intentional postponement.
 
 > **Definition 5 (Goal Priority Function).** The dynamic priority of a goal is computed as a weighted combination:
 >
@@ -92,11 +121,11 @@ This distinguishes Level 2 from Level 1 by the presence of **state persistence**
 > - $\xi(g, e(t)) \in [0,1]$ is the **emotion modifier** - reactive goals receive higher priority when valence $v(t) < 0$
 > - $\alpha + \beta + \gamma = 1$ (with typical values $\alpha = 0.5,\ \beta = 0.3,\ \gamma = 0.2$)
 
-> **Definition 6 (Autonomous Goal Generation).** The autonomous goal generator is a function $\Phi_{AG}$ that produces new goals from detected patterns in the world state:
+> **Definition 6 (Autonomous Goal Generation).** The autonomous goal generator is a function $\Phi_{AG}$ that produces new goals from the current world state and entity context:
 >
-> $$\Phi_{AG} : \mathcal{P}(\mathcal{S}) \times \mathcal{E} \to \mathcal{P}(\mathcal{G})$$
+> $$\Phi_{AG} : \mathcal{S} \times \mathcal{E} \to \mathcal{P}(\mathcal{G})$$
 >
-> where $\mathcal{P}(\cdot)$ denotes the power set. The generator activates when any of the following pattern conditions hold:
+> where $\mathcal{S}$ is the state space, $\mathcal{E}$ is the entity-relation context, and $\mathcal{P}(\mathcal{G})$ denotes the power set of possible goals (the output may be a set of zero or more new goals). The generator activates when any of the following pattern conditions hold:
 >
 > $$\text{mention count}(e, \Delta t) \geq \theta_{\text{rep}} \quad \text{(repetition pattern)}$$
 >
@@ -111,6 +140,40 @@ The entity state tracker maintains a mapping from entity identifiers to their ev
 $$\text{sentiment}_{e_k}(t) = (1 - \lambda) \cdot \text{sentiment}_{e_k}(t-1) + \lambda \cdot v(t)$$
 
 where $\lambda \in (0,1)$ is the smoothing factor (typically $\lambda = 0.3$), ensuring that recent interactions have greater influence while preserving historical context.
+
+#### 1.4.1 Entity Lifecycle
+
+Each tracked entity follows a three-phase lifecycle:
+
+$$\text{lifecycle}(e_k) : \text{NEW} \xrightarrow{\text{mention count} \geq 1} \text{ACTIVE} \xrightarrow{\Delta t > \theta_{\text{stale}}} \text{STALE}$$
+
+where $\Delta t = t_{\text{now}} - t_{\text{last mentioned}}$ and $\theta_{\text{stale}}$ is the staleness threshold. STALE entities remain in the world model but receive reduced weight in context formation. No entity is ever deleted - only decayed.
+
+#### 1.4.2 Entity Importance Score
+
+The importance of an entity $e_k$ at time $t$ is a weighted combination of **recency** and **frequency**:
+
+$$\operatorname{importance}(e_k, t) = \alpha_r \cdot \operatorname{recency}(e_k, t) + \alpha_f \cdot \operatorname{frequency}(e_k)$$
+
+where:
+
+$$\operatorname{recency}(e_k, t) = \frac{1}{1 + (t - t_{\text{last}}(e_k)) / \tau}, \quad \operatorname{frequency}(e_k) = \min\!\left(1,\; \frac{\text{mention count}(e_k)}{N_{\text{cap}}}\right)$$
+
+with time constant $\tau$ (typically 3600 seconds), mention cap $N_{\text{cap}} = 10$, and typical weights $\alpha_r = 0.4$, $\alpha_f = 0.6$.
+
+### 1.5 World Model Architecture
+
+The world model operates as a three-tier conceptual architecture:
+
+1. **Cognitive Layer** ($\mathcal{W}$): The unified world model (Definition 2) - maintains the knowledge graph, entity states, and temporal facts as a coherent representation of external reality.
+2. **Session Layer** ($\mathcal{M}_{\text{session}}$): Working memory that holds the active context window for the current interaction session, including recently referenced entities and their relevance scores.
+3. **Persistence Layer** ($\mathcal{P}_{\text{store}}$): Long-term storage (e.g., graph database) that enables cross-session entity tracking and temporal fact retrieval through hybrid search combining keyword matching, semantic similarity, and graph traversal.
+
+The projection function from Definition 2 operates across all three tiers:
+
+$$s_t = \pi(\mathcal{W}_t) = \pi_{\text{cog}}(\mathcal{K}_t) \oplus \pi_{\text{session}}(\mathcal{M}_{\text{session},t}) \oplus \pi_{\text{retrieve}}(\mathcal{P}_{\text{store}}, q_t)$$
+
+where $q_t$ is the current query context and $\oplus$ denotes context concatenation.
 
 ---
 
@@ -626,6 +689,8 @@ What Level 2 still **cannot** do (motivating Level 3). These limitations can be 
 > $$\lim_{t \to \infty} \delta(t) = \text{unbounded}$$
 >
 > Since no mechanism compares $G_t$ to a reference, value drift and goal drift are **invisible** to the agent.
+>
+> **Constructive argument.** At each cycle $t$, autonomous goal generation (Definition 6) may add up to $|\Phi_{AG}|$ new goals and goal decay may remove up to $|G_{\text{expired}}|$ existing goals. The per-cycle displacement satisfies $|\delta(t+1) - \delta(t)| \leq \Delta_{\max}$ where $\Delta_{\max}$ depends on the goal generation rate and EMA smoothing factor $\lambda$. Without a reference vector $G_{\text{ref}}$ and a drift-correction feedback loop (as introduced in Level 3), the cumulative drift $\delta(T) \leq \sum_{t=1}^{T} \Delta_{\max} = T \cdot \Delta_{\max}$ grows linearly - hence unbounded. This linear growth rate is the formal justification for why Level 3's identity-tracking mechanism is architecturally necessary.
 
 > **Proposition 3 (No Ethical Constraints).** There exists no constraint set $\mathcal{C}$ that filters generated goals, meaning:
 >

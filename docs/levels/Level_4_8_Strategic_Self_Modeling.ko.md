@@ -16,11 +16,22 @@ Removal of attribution constitutes a license violation.
 > **상태**: 🔬 **연구 단계** - 이 레벨은 개념적 설계이며 구현되지 않았습니다. 여기에 설명된 모든 메커니즘은 프로덕션 고려 전에 광범위한 검증이 필요한 이론적 탐구입니다.  
 > **날짜**: 2026년 2월
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-13, Proposition 1 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+
 ---
 
 ## 1. 개요
 
 레벨 4.8은 레벨 4.5의 자기설계 능력을 **구조화된 세계 모델링**, **보정된 내성적 자기평가**, 그리고 자원 제약 하의 **장기 전략적 계획**으로 확장합니다. 에이전트는 이제 외부 변화를 예측하고, 자신의 능력과 한계를 이해하며, 다중 시간 범위에 걸쳐 결정을 최적화할 수 있습니다 - 이 모든 것은 이전 레벨에서 확립된 모든 안정성 불변량을 보존하면서 이루어집니다.
+
+> **Level Essence.** 레벨 4.8 에이전트는 확률적 세계 모델과 보정된 자기 능력 인식을 바탕으로 기대 효용을 최대화하여 최적 전략을 선택:
+>
+> $$s^* = \arg\max_{s \in \Sigma_{\text{compare}}} \mathbb{E}\bigl[U(s) \mid \mathcal{W}_{\text{prob}},\; \mathcal{M}_{\text{cap}}\bigr]$$
 
 > ⚠️ **연구 참고**: 레벨 4.8은 에이전트 인지에서 상당한 도약을 나타냅니다 - 자기설계에서 전략적 자기인식으로의 전환입니다. 여기에 설명된 메커니즘은 탐색적 설계입니다. 이는 프로덕션 환경에서 검증되지 않았으며 공학 사양이 아닌 연구 가설로 취급되어야 합니다.
 

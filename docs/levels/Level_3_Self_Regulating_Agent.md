@@ -16,11 +16,23 @@ Removal of attribution constitutes a license violation.
 > **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
 > **Date**: February 2026
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-8, Theorem 1 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.3.0 | 2026-02-26 | Theorem 1: full proof replacing sketch; added Lyapunov vs bounded-increment remark; Def 9: affect vector formalization with dynamics equation and valence |
+
 ---
 
 ## 1. Overview
 
-Level 3 is the **core MSCP level** - the first agent that possesses *structural self-awareness*. It knows what it is, can predict how its own actions will affect its internal state, and can correct itself when reality diverges from expectation. This is the architecture that the MSCP protocol (v1.0 – v4.0) was designed to govern.
+Level 3 is the **core MSCP level** - the first agent that possesses *structural self-awareness*. It knows what it is, can predict how its own actions will affect its internal state, and can correct itself when reality diverges from expectation. This is the architecture that the MSCP protocol (v1.0 - v4.0) was designed to govern.
+
+> **Level Essence.** A Level 3 agent regulates itself through the MSCP predict-act-compare-update loop. Prediction error converges to zero under bounded self-update, guaranteeing identity stability:
+>
+> $$\epsilon_t = \|\hat{\Delta}_t - \Delta_t^{\text{actual}}\|_2 \xrightarrow{t \to \infty} 0, \quad \|M'_{\text{self}} - M_{\text{self}}\|_2 \leq \delta_{\max}$$
 
 > ⚠️ **Note**: This document describes a cognitive architecture within the MSCP taxonomy. The 16-layer architecture, safety mechanisms, and properties explored here are experimental designs. All pseudocode is algorithmic-level and isn't production code.
 
@@ -813,11 +825,17 @@ where:
 - $M_{\text{goal}}$ = goal mutation frequency (number of goal changes per unit time)
 - $V_{\text{cons}}$ = consistency volatility index (variance of $S_{ij}$ over recent cycles)
 
-> **Theorem 1 (Bounded Stability).** Under the delta-clamped self-update rule (Definition 2, step 4) and the meta-escalation guard ($d_{\max} = 3$), the composite function satisfies:
+> **Theorem 1 (Bounded Stability).** Under the delta-clamped self-update rule (Definition 2, step 4) and the meta-escalation guard ($d_{\max} = 3$), the composite function satisfies the bounded-increment property:
 >
-> $$C(t+1) \leq C(t) + \epsilon, \quad \epsilon = 0.05$$
+> $$C(t+1) \leq C(t) + \epsilon, \quad \epsilon = \delta_{\max} = 0.05$$
 >
-> **Proof sketch.** Each component $X_i(t)$ changes by at most $\delta_{\max}$ per cycle due to clamping. The weighted sum $C(t)$ therefore changes by at most $\sum_i w_i \cdot \delta_{\max} \leq \delta_{\max}$. With $\delta_{\max} = 0.05$, the bound holds. When stabilization mode is active ($s(t) = 0.5$), the effective bound is halved to $0.025$. $\square$
+> **Proof.** Each component $X_i(t) \in [0,1]$ changes by at most $\delta_{\max}$ per cycle due to the clamping rule (Definition 2, step 4): $|\Delta X_i(t)| = |X_i(t+1) - X_i(t)| \leq \delta_{\max}$. Since $C(t) = \sum_{i} w_i X_i(t)$ with $\sum_i w_i = 1$ and $w_i > 0$, we have:
+>
+> $$C(t+1) - C(t) = \sum_i w_i \Delta X_i(t) \leq \sum_i w_i \cdot \delta_{\max} = \delta_{\max} \cdot \sum_i w_i = \delta_{\max}$$
+>
+> When stabilization mode is active ($s(t) = 0.5$), the effective update rate is halved: $|\Delta X_i(t)| \leq s(t) \cdot \delta_{\max} = 0.025$, yielding the tighter bound $C(t+1) \leq C(t) + 0.025$. $\square$
+>
+> **Remark (Bounded Increment vs. Lyapunov Stability).** Theorem 1 establishes a **bounded-increment** property, not asymptotic (Lyapunov) stability. The theorem guarantees that the system cannot experience sudden instability shocks - the per-cycle change is always bounded. However, it does not by itself guarantee convergence to a stable equilibrium. Convergence is ensured by the stabilization mode protocol: when $C(t) \geq 0.7$, the agent enters stabilization mode, which halves the effective $\delta_{\max}$ and freezes self-modification until $C(t) < 0.5$. This hysteresis mechanism provides practical convergence, but a formal Lyapunov decrease condition (i.e., $C(t+1) < C(t)$ when $C(t) > C^*$) would require additional assumptions about the direction of component changes under stabilization. This remains an open formalization question.
 
 <!-- Stability Monitoring -->
 
@@ -868,6 +886,20 @@ Escalation to meta depth 2 requires **≥ 2** of the following:
 ## 7. Affective Engine & Survival Instinct (MSCP v4)
 
 ### 7.1 Five-Dimensional Emotion Space
+
+> **Definition 9 (Affect Vector).** The affective state of a Level 3 agent is represented by a five-dimensional vector:
+>
+> $$\vec{A}(t) = \bigl(a_{\text{cur}}(t),\; a_{\text{fru}}(t),\; a_{\text{sat}}(t),\; a_{\text{anx}}(t),\; a_{\text{exc}}(t)\bigr) \in [0,1]^5$$
+>
+> where the dimensions correspond to Curiosity, Frustration, Satisfaction, Anxiety, and Excitement respectively. Each dimension evolves according to an inertial update rule:
+>
+> $$a_k(t+1) = \mu \cdot a_k(t) + (1 - \mu) \cdot f_k\bigl(\mathbf{m}(t)\bigr) - \eta_{\text{decay}}$$
+>
+> where $\mu = 0.7$ is the inertia coefficient, $f_k(\mathbf{m})$ is a metric-derived activation function mapping operational metrics $\mathbf{m}(t)$ (prediction error, goal alignment, identity stability, convergence status, cognitive budget) to the $k$-th emotion dimension, and $\eta_{\text{decay}} = 0.05$ is a per-cycle decay term that prevents unbounded accumulation. The affect vector is **purely derived** from operational metrics and **cannot dominate** decision-making - it serves as a secondary signal for prioritization and self-monitoring.
+>
+> **Valence.** A scalar summary of affective state:
+>
+> $$\text{valence}(t) = \frac{a_{\text{cur}} + a_{\text{sat}} + a_{\text{exc}} - a_{\text{fru}} - a_{\text{anx}}}{5} \quad \in [-1, 1]$$
 
 <!-- Affective Engine -->
 

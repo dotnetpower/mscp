@@ -16,11 +16,22 @@ Removal of attribution constitutes a license violation.
 > **상태**: 🔬 **연구 단계** - 이 레벨은 개념적 설계이며 구현되지 않았습니다. 여기에 설명된 모든 메커니즘은 프로덕션 고려 전에 광범위한 검증이 필요한 이론적 탐구입니다.  
 > **날짜**: 2026년 2월
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-7, Proposition 1, Theorem 4 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+
 ---
 
 ## 1. 개요
 
 레벨 5 (프로토-AGI)는 자율 전략 에이전시(L4.9)에서 **지속적 범용 전략 지능**으로의 전환을 나타냅니다. L4.9가 단일 도메인 내에서 제한된 자율성을 보여주었다면, L5는 **연장된 생애에 걸친 정체성 지속**, **교차 도메인 일반화**, **자기 유지 목표 생태계**, **실존적 회복력**, **다중 에이전트 전략 통합**, 그리고 **제약 하 자기재건**을 보여줍니다.
+
+> **Level Essence.** 레벨 5 에이전트는 확장된 시간 범위에 걸쳐 정체성 연속성을 유지 - 정체성 핵심이 제한된 표류로 지속되어 생애에 걸쳐 안정적인 "자아"를 가진 최초의 에이전트:
+>
+> $$\operatorname{ICS}(t, k) = \frac{\vec{I}(t) \cdot \vec{I}(t-k)}{\|\vec{I}(t)\| \cdot \|\vec{I}(t-k)\|} \geq 0.95, \quad k = 10{,}000$$
 
 > ⚠️ **연구 참고**: 레벨 5는 MSCP 프레임워크에서 가장 추론적인 계층입니다. 프로토-AGI 영역에 접근하는 속성들을 정의합니다. 이러한 메커니즘 중 어느 것도 구현되지 않았습니다. 이들은 검증하는 데 수년의 기초 연구가 필요한 열망적 설계 가설을 나타냅니다.
 

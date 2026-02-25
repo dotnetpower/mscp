@@ -16,11 +16,23 @@ Removal of attribution constitutes a license violation.
 > **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
 > **Date**: February 2026
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-4, Propositions 1-3 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.3.0 | 2026-02-26 | Def 3: replaced $[0,1]^n$ with probability simplex $\Delta^n$; Def 2: added remark reconciling partial/total function |
+
 ---
 
 ## 1. Overview
 
 Level 1 represents the **baseline cognitive architecture** for AI agents. A Tool Agent is a **stateless, reactive system** that receives user requests, invokes external tools, and returns results. It has no internal model of itself, no memory across sessions, and no capacity for autonomous goal setting.
+
+> **Level Essence.** A Level 1 agent is a stateless pipeline - four sequential stages from input to output with no feedback, no state persistence, and no memory:
+>
+> $$\mathcal{A}_1(r) = \rho\bigl(\tau\bigl(\sigma(\phi(r),\, r)\bigr),\, r\bigr)$$
 
 > ⚠️ **Note**: This document describes a cognitive level within the MSCP taxonomy. The architectures, pseudocode, and diagrams here are experimental designs exploring structural concepts - not production-ready implementations.
 
@@ -55,16 +67,18 @@ where $r_t \in \mathcal{R}$ is the request at time step $t$ and $o_t \in \mathca
 > $$T_k : \mathcal{P}_k \rightharpoonup \mathcal{D}_k$$
 >
 > with parameter space $\mathcal{P}_k$ and output domain $\mathcal{D}_k$. The function is partial because invalid parameters may produce no result (i.e., an error).
+>
+> **Remark.** Although each tool $T_k$ is a partial function, the overall processing pipeline $\mathcal{A}_1$ (Section 1.3) is totalized: the response-generation stage $\rho$ always produces an output, even when a tool call fails. In the failure case, $\rho$ emits a structured error message, ensuring that $\mathcal{A}_1 : \mathcal{R} \to \mathcal{O}$ remains a total function consistent with Definition 1.
 
 > **Definition 3 (Intent Classification).** The intent classifier is a function $\phi$ that maps a request to a probability distribution over tool selections:
 >
-> $$\phi : \mathcal{R} \to [0,1]^{|\mathcal{T}|+1}$$
+> $$\phi : \mathcal{R} \to \Delta^{|\mathcal{T}|}$$
 >
-> where the extra dimension represents the "no tool needed" (direct response) category. The decision rule selects the tool with maximum confidence:
+> where $\Delta^{|\mathcal{T}|}$ denotes the $|\mathcal{T}|$-dimensional probability simplex, i.e., $\phi(r)_k \geq 0$ and $\sum_{k=0}^{|\mathcal{T}|} \phi(r)_k = 1$. The index $k=0$ represents the "no tool needed" (direct response) category. The decision rule selects the tool with maximum confidence:
 >
-> $$T^* = \arg\max_{k} \; \phi(r)_k \quad \text{subject to} \quad \phi(r)_k \geq \theta_{min}$$
+> $$T^* = \arg\max_{k \geq 1} \; \phi(r)_k \quad \text{subject to} \quad \phi(r)_k \geq \theta_{min}$$
 >
-> where $\theta_{min}$ is the minimum confidence threshold (typically $\theta_{min} = 0.5$).
+> where $\theta_{min}$ is the minimum confidence threshold (typically $\theta_{min} = 0.5$). If $\phi(r)_0 > \phi(r)_k$ for all $k \geq 1$, no tool is invoked and the agent responds directly.
 
 ### 1.3 Processing Pipeline
 
@@ -76,8 +90,8 @@ where:
 
 | Symbol | Name | Type Signature |
 |--------|------|---------------|
-| $\phi$ | Intent Classifier | $\mathcal{R} \to [0,1]^{\lvert\mathcal{T}\rvert+1}$ |
-| $\sigma$ | Parameter Extractor | $[0,1]^{\lvert\mathcal{T}\rvert+1} \times \mathcal{R} \to \mathcal{P}_{T^{\ast}}$ |
+| $\phi$ | Intent Classifier | $\mathcal{R} \to \Delta^{\lvert\mathcal{T}\rvert}$ |
+| $\sigma$ | Parameter Extractor | $\Delta^{\lvert\mathcal{T}\rvert} \times \mathcal{R} \to \mathcal{P}_{T^{\ast}}$ |
 | $\tau$ | Tool Dispatcher | $\mathcal{P}_{T^{\ast}} \to \mathcal{D}_{T^{\ast}} \cup \lbrace\textit{err}\rbrace$ |
 | $\rho$ | Response Generator | $(\mathcal{D}_{T^{\ast}} \cup \lbrace\textit{err}\rbrace) \times \mathcal{R} \to \mathcal{O}$ |
 

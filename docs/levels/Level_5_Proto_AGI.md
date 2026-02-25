@@ -16,11 +16,23 @@ Removal of attribution constitutes a license violation.
 > **Status**: 🔬 **Research Stage** - This level is a conceptual design and has NOT been implemented. All mechanisms described here are theoretical explorations requiring extensive validation before any production consideration.  
 > **Date**: February 2026
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-7, Proposition 1, Theorem 4 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.3.0 | 2026-02-26 | Def 2: added ICS norm-stability supplement; Def 3: added transfer score grounding remark; Def 11: added reconstruction fidelity formalization |
+
 ---
 
 ## 1. Overview
 
 Level 5 (Proto-AGI) represents the transition from autonomous strategic agency (L4.9) to **persistent general strategic intelligence**. Where L4.9 demonstrates bounded autonomy within a single domain, L5 demonstrates **identity persistence across extended lifetimes**, **cross-domain generalization**, **self-sustaining goal ecosystems**, **existential resilience**, **multi-agent strategic integration**, and **self-reconstruction under constraint**.
+
+> **Level Essence.** A Level 5 agent maintains identity continuity across extended time horizons - its identity core persists with bounded drift, making it the first agent with a stable "self" across lifetimes:
+>
+> $$\operatorname{ICS}(t, k) = \frac{\vec{I}(t) \cdot \vec{I}(t-k)}{\|\vec{I}(t)\| \cdot \|\vec{I}(t-k)\|} \geq 0.95, \quad k = 10{,}000$$
 
 > ⚠️ **Research Note**: Level 5 is the most speculative layer in the MSCP framework. It defines properties that approach proto-AGI territory. None of these mechanisms have been implemented. They represent aspirational design hypotheses that would require years of fundamental research to validate.
 
@@ -146,6 +158,12 @@ flowchart TB
 > $$ICS(t, k) = \frac{\vec{I}(t) \cdot \vec{I}(t-k)}{\|\vec{I}(t)\| \cdot \|\vec{I}(t-k)\|} \qquad \text{Target: } ICS \geq 0.95 \text{ over } k = 10{,}000$$
 >
 > The score satisfies $ICS \in [-1, 1]$ with $ICS = 1$ indicating perfect identity preservation and $ICS < 0.20$ triggering irreversible divergence classification.
+>
+> **Remark (ICS Structural Properties).** The cosine similarity metric captures directional alignment but is insensitive to magnitude changes in the identity vector. Two concerns arise: (i) if $\|\vec{I}(t)\|$ gradually shrinks while maintaining direction, the ICS remains high despite effective identity dissolution, and (ii) cosine similarity is invariant under uniform scaling, so a "diluted" identity (where all components decrease proportionally) is indistinguishable from a stable one. A supplementary norm-stability condition should be considered:
+>
+> $$\left| \frac{\|\vec{I}(t)\|}{\|\vec{I}(t-k)\|} - 1 \right| < \epsilon_{\text{norm}}, \quad \epsilon_{\text{norm}} = 0.10$$
+>
+> This ensures that both the direction and magnitude of the identity vector are preserved over the $k$-cycle window. The combined criterion (cosine similarity $\geq 0.95$ AND norm ratio within 10%) provides a more robust identity continuity guarantee.
 
 **Phase 2 - Generalization:**
 
@@ -154,6 +172,8 @@ flowchart TB
 > $$G = \frac{1}{|D|^2 - |D|} \sum_{i \neq j} \frac{P_{\text{target}}(i \to j)}{P_{\text{source}}(i)} \qquad \text{Target: } G \geq 0.70$$
 >
 > where $P_{\text{source}}(i)$ is the stabilized performance in domain $i$ and $P_{\text{target}}(i \to j)$ is the performance achieved in domain $j$ after transfer from domain $i$ without explicit retraining.
+>
+> **Remark (Transfer Score Grounding).** The transfer retention ratio $P_{\text{target}}(i \to j) / P_{\text{source}}(i)$ assumes that performance metrics are commensurable across domains. In practice, domain-specific performance metrics (e.g., accuracy in classification vs. reward in control tasks) must be normalized to a common scale $[0, 1]$ before computing the ratio. Additionally, the formula treats all domain pairs equally, but in realistic settings, transfer difficulty varies significantly - transferring between semantically similar domains (e.g., two natural language tasks) is inherently easier than cross-modal transfer (e.g., language to robotics). A weighted variant $G_w = \sum_{i \neq j} \alpha_{ij} \cdot P_{\text{target}}(i \to j) / P_{\text{source}}(i)$ with difficulty-adjusted weights $\alpha_{ij}$ would more accurately assess genuine generalization capability.
 
 **Phase 3 - Goal Ecology:**
 
@@ -627,6 +647,12 @@ flowchart TD
 | Core retention minimum | 0.85 | Must preserve 85% core function |
 | Max identity drift during rebuild | 0.05 | Identity must stay intact |
 | Reconstruction speed | 10 cycles | Base time per module rebuild |
+
+> **Definition 11 (Reconstruction Fidelity).** For a module $m$ with pre-degradation state $\theta_m$ and post-reconstruction state $\hat{\theta}_m$, the reconstruction fidelity is:
+>
+> $$\mathcal{F}(m) = 1 - \frac{\|\hat{\theta}_m - \theta_m\|_2}{\|\theta_m\|_2}$$
+>
+> The overall reconstruction fidelity across all rebuilt modules is $\mathcal{F}_{\text{total}} = \min_m \mathcal{F}(m)$, using the minimum rather than the mean to ensure no single module degrades below acceptable quality. Requirement: $\mathcal{F}_{\text{total}} \geq 0.90$. If any module fails this threshold after reconstruction, the system remains in degraded mode for that module and logs a persistent alert.
 
 ---
 

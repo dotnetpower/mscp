@@ -16,11 +16,22 @@ Removal of attribution constitutes a license violation.
 > **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-4, Propositions 1-3 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+
 ---
 
 ## 1. 개요
 
 레벨 1은 AI 에이전트의 **기본 인지 아키텍처**를 나타냅니다. 도구 에이전트는 사용자 요청을 받아 외부 도구를 호출하고 결과를 반환하는 **무상태 반응형 시스템**입니다. 자체적인 내부 모델이 없으며, 세션 간 메모리도 없고, 자율적인 목표 설정 능력도 없습니다.
+
+> **Level Essence.** 레벨 1 에이전트는 무상태 파이프라인 - 피드백, 상태 유지, 메모리 없이 입력에서 출력까지 4단계 순차 처리:
+>
+> $$\mathcal{A}_1(r) = \rho\bigl(\tau\bigl(\sigma(\phi(r),\, r)\bigr),\, r\bigr)$$
 
 > ⚠️ **참고**: 이 문서는 MSCP 분류 체계 내의 인지 수준을 설명합니다. 여기에 포함된 아키텍처, 의사코드, 다이어그램은 구조적 개념을 탐구하는 실험적 설계이며, 프로덕션 수준의 구현이 아닙니다.
 

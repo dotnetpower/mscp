@@ -3,3 +3,6 @@ site/
 __pycache__/
 *.pyc
 .cache/
+.github/copilot-instructions.md
+
+.github/copilot-instructions.md

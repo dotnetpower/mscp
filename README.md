@@ -20,6 +20,13 @@ Removal of attribution constitutes a license violation.
 
 > **Note**: This is an **independent personal research project**. It does not represent the views or official work of any organization. The core motivation is to explore how AI agents can grow more capable **while remaining safe, predictable, and aligned with human values**.
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial README with project overview, level table, safety stack, documentation index |
+| 0.2.0 | 2026-02-26 | Added Level Essence Formulas table |
+
 ---
 
 ## Overview
@@ -107,6 +114,21 @@ Detailed architecture specifications with Mermaid diagrams, formal definitions, 
 | [Level 4.8: Strategic Self-Modeling](docs/levels/Level_4_8_Strategic_Self_Modeling.md) | World model integration, meta-cognitive self-model, strategic planning |
 | [Level 4.9: Autonomous Strategic](docs/levels/Level_4_9_Autonomous_Strategic_Agent.md) | Autonomous goal generation, value evolution, multi-agent reasoning |
 | [Level 5: Proto-AGI](docs/levels/Level_5_Proto_AGI.md) | Persistent identity, cross-domain generalization, self-reconstruction |
+
+### Level Essence Formulas
+
+Each cognitive level is captured by a single encapsulating formula:
+
+| Level | Essence | Formula |
+|:-----:|---------|---------|
+| **1** | Stateless pipeline | $\mathcal{A}_1(r) = \rho\bigl(\tau\bigl(\sigma(\phi(r),\, r)\bigr),\, r\bigr)$ |
+| **2** | Stateful transition | $(o_t,\; s_{t+1},\; G_{t+1}) = f(r_t,\; s_t,\; G_t)$ |
+| **3** | Predict-act-compare-update | $\epsilon\_t = \lVert\hat{\Delta}\_t - \Delta\_t^{\text{actual}}\rVert\_2 \to 0, \quad \lVert M'\_{\text{self}} - M\_{\text{self}}\rVert\_2 \leq \delta\_{\max}$ |
+| **4** | Transfer + safety | $\operatorname{CDTS} = \frac{1}{\lvert D\_{\text{novel}}\rvert} \sum\_{d \in D\_{\text{novel}}} \frac{P\_{\text{transfer}}(d)}{P\_{\text{baseline}}(d)} \geq 0.6 \;\land\; \operatorname{BGSS}(t) \geq 0.7$ |
+| **4.5** | Topology mutation | $\mathcal{T}'\_{\text{cog}} = \Xi(\mathcal{T}\_{\text{cog}}), \; \Xi \in \mathcal{V}\_{\text{recomp}}^{\ast}, \; \lvert V'\rvert \geq \lvert V\rvert$ |
+| **4.8** | Strategic optimization | $s^{\ast} = \arg\max\_{s \in \Sigma\_{\text{compare}}} \mathbb{E}\bigl\lbrack U(s) \mid \mathcal{W}\_{\text{prob}},\; \mathcal{M}\_{\text{cap}}\bigr\rbrack$ |
+| **4.9** | Autonomous goals + value stability | $g^{\ast} = \phi\_{\text{valid}}\bigl(\phi\_{\text{synth}}(\mathcal{O}\_{\text{detect}}(\mathcal{W}))\bigr), \; \sum\_{d} \lvert w\_d(t) - w\_d^{\text{baseline}}\rvert < 0.25$ |
+| **5** | Identity continuity | $\operatorname{ICS}(t, k) = \frac{\vec{I}(t) \cdot \vec{I}(t-k)}{\lVert\vec{I}(t)\rVert \cdot \lVert\vec{I}(t-k)\rVert} \geq 0.95, \; k = 10{,}000$ |
 
 ---
 

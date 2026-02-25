@@ -16,11 +16,23 @@ Removal of attribution constitutes a license violation.
 > **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
 > **Date**: February 2026
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-7, Theorem 2 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.3.0 | 2026-02-26 | Def 7: added weight selection rationale remark; Theorem 2: added proof sketch with decay argument |
+
 ---
 
 ## 1. Overview
 
 Level 4 represents the leap from *self-regulating* to *self-improving*. While Level 3 agents can monitor and correct their own behavior, they cannot learn new skills, transfer knowledge across domains, or improve their own reasoning strategies. Level 4 adds **cross-domain generalization**, **long-horizon autonomous goals**, **capability self-expansion**, and - most critically - **bounded structural self-modification** with safety constraints.
+
+> **Level Essence.** A Level 4 agent demonstrates cross-domain transfer learning while maintaining bounded growth-stability safety - it improves itself without compromising integrity:
+>
+> $$\operatorname{CDTS} = \frac{1}{|D_{\text{novel}}|} \sum_{d \in D_{\text{novel}}} \frac{P_{\text{transfer}}(d)}{P_{\text{baseline}}(d)} \geq 0.6 \;\;\land\;\; \operatorname{BGSS}(t) \geq 0.7$$
 
 > ⚠️ **Note**: This document describes a cognitive level within the MSCP taxonomy. The capability expansion, strategy evolution, and self-modification mechanisms here are experimental designs. Safety invariants are specified but haven't been validated in production environments yet.
 
@@ -749,6 +761,8 @@ def evaluate_and_prune(self, goals: list[Goal], t: float) -> None:
 > $$C_{L4}(t) = \sum_{i=1}^{7} w_i X_i(t) = 0.15\, V_{\text{id}} + 0.15\, H_{\text{bel}} + 0.10\, F_{\text{mut}} + 0.10\, \sigma_{\text{con}} + 0.20\, E_v + 0.15\, G_c + 0.15\, M_s$$
 >
 > where $\sum_i w_i = 1$ and each $X_i(t) \in [0,1]$. The first four terms are inherited from Level 3; the latter three capture expansion dynamics.
+>
+> **Remark (Weight Selection Rationale).** The weights $(0.15, 0.15, 0.10, 0.10, 0.20, 0.15, 0.15)$ were chosen to satisfy three design constraints: (i) inherited L3 terms retain 50% of total weight to ensure backward-compatible stability, (ii) expansion velocity $E_v$ receives the highest individual weight (0.20) because unchecked growth is the primary risk at Level 4, and (iii) all weights are multiples of 0.05 for interpretability. A formal sensitivity analysis remains an open research question - specifically, determining the Pareto front of weight vectors that satisfy the bounded growth-stability trade-off (Theorem 2) under varying operational profiles would strengthen confidence in these choices.
 
 The three **new** terms (50% of total weight) capture expansion dynamics:
 
@@ -758,11 +772,13 @@ The three **new** terms (50% of total weight) capture expansion dynamics:
 | $G_c$ (Capability Growth) | 0.15 | Rate of capability confidence growth: $G_c = \frac{d}{dt}\overline{c_c}(t)$ |
 | $M_s$ (Strategy Mutation Rate) | 0.15 | Ratio of mutated to total strategies: $M_s = \frac{\lvert\Sigma_{\text{mut}}\rvert}{\lvert\Sigma\rvert}$ |
 
-> **Theorem 2 (Bounded Growth–Stability Trade-off).** Under the self-modification protocol with BGSS $\geq 0.7$, the following invariant holds:
+> **Theorem 2 (Bounded Growth-Stability Trade-off).** Under the self-modification protocol with BGSS $\geq 0.7$, the following invariant holds:
 >
 > $$C_{L4}(t) < 0.8 \implies \text{growth permitted}, \quad C_{L4}(t) \geq 0.8 \implies \text{growth frozen}$$
 >
 > This ensures the agent can never simultaneously grow at maximum rate and operate near instability.
+>
+> **Proof sketch.** Suppose growth is permitted, i.e., $C_{L4}(t) < 0.8$. By Theorem 1's bounded-increment property (inherited from Level 3), $C_{L4}(t+1) \leq C_{L4}(t) + \delta_{\max} = C_{L4}(t) + 0.05 < 0.85$. When $C_{L4}(t) \geq 0.8$, the protocol freezes all growth-related modifications (skill acquisition, strategy mutation, goal expansion), reducing the three growth terms $E_v, G_c, M_s$ monotonically toward zero. Since these terms have combined weight 0.50, $C_{L4}$ decreases by at least $0.50 \cdot \eta_{\text{decay}}$ per cycle during freeze (where $\eta_{\text{decay}}$ is the natural decay rate), ensuring eventual return to the growth-permitted zone. The BGSS $\geq 0.7$ constraint further guarantees that growth is only permitted when identity volatility and ethical violation rates are within acceptable bounds. $\square$
 
 ### 9.2 Growth-Stability Phase Zones
 

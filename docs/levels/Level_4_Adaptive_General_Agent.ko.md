@@ -16,11 +16,22 @@ Removal of attribution constitutes a license violation.
 > **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-7, Theorem 2 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+
 ---
 
 ## 1. 개요
 
 레벨 4는 *자기조절*에서 *자기개선*으로의 도약을 나타냅니다. 레벨 3 에이전트는 자신의 행동을 모니터링하고 교정할 수 있지만, 새로운 기술을 학습하거나, 도메인 간에 지식을 전이하거나, 자신의 추론 전략을 개선할 수는 없습니다. 레벨 4는 **교차 도메인 일반화**, **장기 자율 목표**, **능력 자기확장**, 그리고 가장 중요하게는 안전 제약 조건이 포함된 **제한된 구조적 자기수정**을 추가합니다.
+
+> **Level Essence.** 레벨 4 에이전트는 제한된 성장-안정성 안전을 유지하면서 교차 도메인 전이 학습을 실현 - 무결성을 훼손하지 않고 스스로를 개선:
+>
+> $$\operatorname{CDTS} = \frac{1}{|D_{\text{novel}}|} \sum_{d \in D_{\text{novel}}} \frac{P_{\text{transfer}}(d)}{P_{\text{baseline}}(d)} \geq 0.6 \;\;\land\;\; \operatorname{BGSS}(t) \geq 0.7$$
 
 > ⚠️ **참고**: 이 문서는 MSCP 분류 체계 내의 인지 수준을 설명합니다. 여기서의 능력 확장, 전략 진화 및 자기수정 메커니즘은 실험적 설계입니다. 안전 불변량은 명시되어 있지만 프로덕션 환경에서는 아직 검증되지 않았습니다.
 

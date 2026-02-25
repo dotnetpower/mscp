@@ -16,11 +16,22 @@ Removal of attribution constitutes a license violation.
 > **상태**: 🔬 **연구 단계** - 이 레벨은 개념적 설계이며 구현되지 않았습니다. 여기에 설명된 모든 메커니즘은 프로덕션 고려 전에 광범위한 검증이 필요한 이론적 탐구입니다.  
 > **날짜**: 2026년 2월
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-11, Proposition 1 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+
 ---
 
 ## 1. 개요
 
 레벨 4.9는 **최종 pre-AGI 전환 계층**입니다. 레벨 4.8을 **자율적 목표 생성**, **명시적 가치 자기조절**, **자원 생존 모델링**, **제한적 다중 에이전트 추론**, 그리고 **더 엄격한 자율성 안정성 보장**으로 확장합니다. L4.8이 에이전트에게 전략적 자기인식을 부여했다면, L4.9는 에이전트에게 *무엇을 추구할지 자율적으로 결정하는* 능력을 부여합니다 - 엄격하게 제한된 안전 제약 내에서.
+
+> **Level Essence.** 레벨 4.9 에이전트는 감지된 기회로부터 자율적으로 목표를 합성하면서 엄격한 가치 안정성을 유지 - 무엇을 추구할지 결정하되 핵심 가치는 무제한 표류할 수 없음:
+>
+> $$g^* = \phi_{\text{valid}}\bigl(\phi_{\text{synth}}(\mathcal{O}_{\text{detect}}(\mathcal{W}))\bigr), \quad \textstyle\sum_{d} |w_d(t) - w_d^{\text{baseline}}| < 0.25$$
 
 > ⚠️ **연구 참고**: 레벨 4.9는 좁은 자율성과 범용 지능 사이의 경계를 나타냅니다. 여기의 메커니즘은 초기 단계 연구 설계입니다. 이는 구현이나 검증이 이루어지지 않았으며 공학 사양이 아닌 개념적 가설로 취급되어야 합니다.
 

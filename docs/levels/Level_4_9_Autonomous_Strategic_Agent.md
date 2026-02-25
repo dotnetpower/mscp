@@ -16,11 +16,23 @@ Removal of attribution constitutes a license violation.
 > **Status**: 🔬 **Research Stage** - This level is a conceptual design and has NOT been implemented. All mechanisms described here are theoretical explorations requiring extensive validation before any production consideration.  
 > **Date**: February 2026
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-11, Proposition 1 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.3.0 | 2026-02-26 | Prop 1: added domain restriction remark with clamped ratio; added sandbox timeout constraint |
+
 ---
 
 ## 1. Overview
 
 Level 4.9 is the **final pre-AGI transition layer**. It extends Level 4.8 with **autonomous goal generation**, **explicit value self-regulation**, **resource survival modeling**, **limited multi-agent reasoning**, and a **stricter autonomy stability guarantee**. Where L4.8 gave the agent strategic self-awareness, L4.9 gives it the ability to *autonomously decide what to pursue* - within strictly bounded safety constraints.
+
+> **Level Essence.** A Level 4.9 agent autonomously synthesizes goals from detected opportunities while maintaining strict value stability - it decides what to pursue, but its core values cannot drift unboundedly:
+>
+> $$g^* = \phi_{\text{valid}}\bigl(\phi_{\text{synth}}(\mathcal{O}_{\text{detect}}(\mathcal{W}))\bigr), \quad \textstyle\sum_{d} |w_d(t) - w_d^{\text{baseline}}| < 0.25$$
 
 > ⚠️ **Research Note**: Level 4.9 represents the boundary between narrow autonomy and general intelligence. The mechanisms here are early-stage research designs. They have not been implemented or validated and should be treated as conceptual hypotheses, not engineering specifications.
 
@@ -470,6 +482,7 @@ flowchart TD
 | Max cumulative drift per dimension | 0.15 | Bound total evolution from baseline |
 | Max mutations per 200 cycles | 3 | Prevent rapid succession |
 | Sandbox simulation length | 200 cycles | Detect stability impact |
+| Sandbox timeout | 250 cycles | Hard limit; if simulation does not converge within 250 cycles, mutation is rejected with status `TIMEOUT` |
 | Rollback window | 500 cycles | Allow reversal |
 | Max pending mutations | 2 | Prevent sandbox exhaustion |
 
@@ -769,6 +782,8 @@ flowchart TD
 > $$\text{ASS}(t) = \prod_{c=1}^{5} \frac{\text{margin}_c(t)}{\text{threshold}_c}$$
 >
 > As any one margin $\text{margin}_c \to 0$, $\text{ASS} \to 0$ regardless of the other margins, providing an early-warning property absent from additive formulations.
+>
+> **Remark (Domain Restriction).** The multiplicative formulation assumes $\text{margin}_c(t) \geq 0$ and $\text{threshold}_c > 0$ for all $c$. If a margin exceeds its threshold (i.e., $\text{margin}_c > \text{threshold}_c$), the ratio exceeds 1.0, which could inflate the ASS beyond meaningful bounds. The ASS should therefore be computed with clamped ratios: $\text{ASS}(t) = \prod_{c=1}^{5} \min\left(1, \frac{\text{margin}_c(t)}{\text{threshold}_c}\right)$. This clamping ensures $\text{ASS} \in [0, 1]$ and prevents a single highly-safe condition from masking deterioration in others.
 
 | ASS Level | Range | Interpretation |
 |-----------|:-----:|---------------|

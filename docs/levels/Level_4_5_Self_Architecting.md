@@ -16,11 +16,23 @@ Removal of attribution constitutes a license violation.
 > **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
 > **Date**: February 2026
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-12, Theorem 3 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.3.0 | 2026-02-26 | Def 8: added frame conflict resolution remark; Section 7.3: added joint failure analysis remark for Existential Guard |
+
 ---
 
 ## 1. Overview
 
 Level 4.5 is the **boundary between conventional AI and AGI**. While Level 4 can modify its parameters, skills, and strategies, it operates within a fixed cognitive architecture. Level 4.5 introduces the ability to reason about and modify its own **cognitive topology** - the structural organization of how it thinks - while maintaining safety invariants that prevent unbounded self-improvement.
+
+> **Level Essence.** A Level 4.5 agent can rewrite its own cognitive topology through a bounded vocabulary of strictly additive mutations - it restructures how it thinks, but never deletes existing capability:
+>
+> $$\mathcal{T}'_{\text{cog}} = \Xi(\mathcal{T}_{\text{cog}}), \quad \Xi \in \mathcal{V}_{\text{recomp}}^{\ast}, \quad |V'| \geq |V|$$
 
 > ⚠️ **Note**: This is the most speculative part of the MSCP taxonomy. The Self-Projection Engine, Architecture Recomposition, and Parallel Cognitive Frames described here are thought experiments grounded in safety analysis. They're meant to explore whether *topology-level self-modification is possible under invariant-preserving constraints* - not to prescribe a production architecture.
 
@@ -388,6 +400,8 @@ flowchart TD
 > $$w_{\text{frame}}(t+1) = w_{\text{frame}}(t) \cdot (1 + \eta \cdot \text{accuracy}_{\text{frame}}(t)), \quad \eta = 0.05$$
 >
 > subject to the constraint $w_{\text{frame}} \in [0.10, 0.35]$. The Ethical Frame's structural veto power is **invariant** under weight adjustments - it operates as an absolute override regardless of its numerical weight.
+>
+> **Remark (Frame Conflict Resolution).** When two or more frames produce contradictory recommendations with high confidence, the system requires a conflict resolution protocol beyond simple weighted aggregation. The inter-frame variance table (Section 5.3) provides escalation thresholds, but a formal arbitration mechanism is needed for the case where exactly two frames are in strong opposition (variance $> 0.5$) while the remaining three are neutral. In this scenario, the system escalates to Purpose Reflection (Phase IV), which invokes the identity vector alignment check to determine which frame's recommendation better serves the agent's core purpose. The Ethical Frame retains veto power regardless of arbitration outcomes - this is the mechanism that prevents deadlocks from resulting in unsafe actions.
 
 ### 5.3 Disagreement as Signal
 
@@ -493,6 +507,8 @@ flowchart LR
 2. **Thresholds** are compile-time constants (cannot be changed at runtime)
 3. **Runs** in a separate execution context (isolated from other modules)
 4. **Direct access** to raw metrics (bypasses GlobalWorkspace to prevent data manipulation)
+
+> **Remark (Joint Failure Analysis).** The Existential Guard's unfalsifiability relies on four independent protection layers. A joint failure analysis should be considered: if the separate execution context (invariant 3) shares a hardware fault domain with the main process, a single hardware failure could disable both the guard and the modules it monitors. Similarly, if raw metric sources (invariant 4) are corrupted before reaching the guard's execution context, all four monitored metrics (ROD, CAS, IFI, GSRS) could simultaneously present false-safe readings. Mitigation: the guard should maintain an independent heartbeat signal. If the heartbeat ceases, external monitoring systems must assume a critical state and halt all self-modification. This defense-in-depth principle extends the guard's protection beyond software-level isolation.
 
 ### 7.4 Graduated De-escalation
 

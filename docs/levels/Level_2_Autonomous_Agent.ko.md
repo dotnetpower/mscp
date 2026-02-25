@@ -16,11 +16,22 @@ Removal of attribution constitutes a license violation.
 > **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-7, Propositions 1-3 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table; reinforced entity lifecycle, importance scoring, and world model architecture from specs |
+
 ---
 
 ## 1. 개요
 
 레벨 2는 반응적 도구 호출을 넘어서는 첫 번째 중요한 도약을 나타냅니다. 자율 에이전트는 **내부 세계 모델**을 유지하고, 상호작용 전반에 걸쳐 개체를 추적하며, 감정적 맥락을 이해하고 - 핵심적으로 - 관찰된 패턴을 기반으로 **자체적으로 목표를 생성**할 수 있습니다.
+
+> **Level Essence.** 레벨 2 에이전트는 누적된 세계 상태와 진화하는 목표에 의존하는 상태 기반 프로세스 - 전이 함수가 매 응답마다 상태와 목표를 함께 갱신:
+>
+> $$(o_t,\; s_{t+1},\; G_{t+1}) = f(r_t,\; s_t,\; G_t)$$
 
 > ⚠️ **참고**: 이 문서는 MSCP 분류 체계 내의 인지 수준을 설명합니다. 여기에 포함된 아키텍처, 의사코드 및 다이어그램은 구조적 개념을 탐색하는 실험적 설계이며 - 프로덕션 수준의 구현이 아닙니다.
 

@@ -16,11 +16,22 @@ Removal of attribution constitutes a license violation.
 > **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-12, Theorem 3 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+
 ---
 
 ## 1. 개요
 
 레벨 4.5는 **기존 AI와 AGI 사이의 경계**입니다. 레벨 4가 매개변수, 기술, 전략을 수정할 수 있지만 고정된 인지 아키텍처 내에서 작동하는 반면, 레벨 4.5는 자신의 **인지 토폴로지** - 사고 방식의 구조적 조직 - 에 대해 추론하고 이를 수정하는 능력을 도입하며, 동시에 무제한적 자기 개선을 방지하는 안전 불변량을 유지합니다.
+
+> **Level Essence.** 레벨 4.5 에이전트는 엄격히 추가적인 변이 어휘의 제한된 얰을 통해 자신의 인지 토폴로지를 재구성 - 사고 방식을 재구성하되 기존 능력을 절대 삭제하지 않음:
+>
+> $$\mathcal{T}'_{\text{cog}} = \Xi(\mathcal{T}_{\text{cog}}), \quad \Xi \in \mathcal{V}_{\text{recomp}}^{\ast}, \quad |V'| \geq |V|$$
 
 > ⚠️ **참고**: 이것은 MSCP 분류 체계에서 가장 추측적인 부분입니다. 여기서 설명하는 자기투영 엔진, 아키텍처 재구성, 병렬 인지 프레임은 안전 분석에 기반한 사고 실험입니다. 이는 *불변량 보존 제약 하에서 토폴로지 수준의 자기수정이 가능한지* 탐구하기 위한 것이지, 프로덕션 아키텍처를 처방하기 위한 것이 아닙니다.
 

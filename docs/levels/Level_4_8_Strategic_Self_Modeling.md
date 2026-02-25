@@ -16,11 +16,23 @@ Removal of attribution constitutes a license violation.
 > **Status**: 🔬 **Research Stage** - This level is a conceptual design and has NOT been implemented. All mechanisms described here are theoretical explorations that require extensive validation before any production consideration.  
 > **Date**: February 2026
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-13, Proposition 1 |
+| 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.3.0 | 2026-02-26 | Added VaR vs CVaR coherence remark; added calibration improvement remark with adaptive rate proposal |
+
 ---
 
 ## 1. Overview
 
 Level 4.8 extends the self-architecting capabilities of Level 4.5 with **structured world modeling**, **calibrated introspective self-assessment**, and **long-horizon strategic planning** under resource constraints. The agent can now anticipate external changes, understand its own capabilities and limitations, and optimize decisions across multiple time horizons - all while preserving every stability invariant established in prior levels.
+
+> **Level Essence.** A Level 4.8 agent selects optimal strategies by maximizing expected utility given its probabilistic world model and calibrated self-knowledge of its own capabilities:
+>
+> $$s^* = \arg\max_{s \in \Sigma_{\text{compare}}} \mathbb{E}\bigl[U(s) \mid \mathcal{W}_{\text{prob}},\; \mathcal{M}_{\text{cap}}\bigr]$$
 
 > ⚠️ **Research Note**: Level 4.8 represents a significant leap in agent cognition - from self-architecture to strategic self-awareness. The mechanisms described here are exploratory designs. They have not been validated in production environments and should be treated as research hypotheses, not engineering specifications.
 
@@ -144,6 +156,8 @@ Level 4.8 introduces metrics across four phases. All must be sustained continuou
 > $$\text{MCE} = \frac{1}{N} \sum_{i=1}^{N} \left| \text{confidence}_i - \text{success rate}_i \right|$$
 >
 > Target: $\text{MCE} < 0.10$. An asymmetric correction protocol reduces overconfidence ($-0.05$/cycle) faster than it corrects underconfidence ($+0.03$/cycle).
+>
+> **Remark (Calibration Improvement).** The asymmetric correction rates (overconfidence: $-0.05$, underconfidence: $+0.03$) embed a deliberate conservatism bias - the system penalizes overconfidence more aggressively because overconfident predictions lead to riskier decisions. This aligns with the safety-first philosophy of MSCP. However, the fixed correction rates assume a stationary environment. In rapidly changing domains, the MCE target may need to be relaxed (e.g., $\text{MCE} < 0.15$) during adaptation windows, with a scheduled tightening as the model re-calibrates. An adaptive correction rate $\eta_{\text{cal}}(t) = \eta_0 \cdot (1 + \text{MCE}(t))$ could replace the fixed rates in future iterations.
 
 **Phase 3 - Strategic Layer:**
 
@@ -534,6 +548,8 @@ flowchart TD
 > $$\left| \text{EVR}(G) \right| \leq \left| R_{\text{immediate}} \right| + \frac{2 \left| R_{\text{immediate}} \right|}{1 - \gamma}$$
 >
 > *Proof.* By the geometric series bound: $\sum_{k=1}^{H} \gamma^k \leq \gamma / (1-\gamma)$. Since $|R_{\text{delayed}}(G,k)| \leq 2|R_{\text{immediate}}|$ by assumption, the result follows. $\blacksquare$
+
+> **Remark (VaR vs. CVaR for Risk Tiebreaking).** The strategy scoring system (Section 5.2) uses Value-at-Risk (VaR) at $\alpha = 0.05$ as a tiebreaker. While VaR is intuitive (worst 5% outcome), it is not a **coherent risk measure** in the sense of Artzner et al. (1999) - specifically, it violates sub-additivity, meaning that diversifying strategies could paradoxically appear riskier under VaR. Conditional Value-at-Risk (CVaR), defined as $\text{CVaR}_\alpha = \mathbb{E}[X \mid X \leq \text{VaR}_\alpha]$, is coherent and convex. For future refinements, replacing VaR with CVaR in the tiebreaker would provide theoretically stronger guarantees about risk aggregation across composite strategies. The current VaR-based approach remains valid for single-strategy comparisons where sub-additivity is not invoked.
 
 ### 5.4 Goal Pathology Detection
 

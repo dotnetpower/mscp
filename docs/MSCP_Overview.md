@@ -672,7 +672,9 @@ MSCP defines metrics with quantified thresholds for evaluating Level 4 capabilit
 
 > **Definition 8 (Bounded Growth Stability Score).** Quantifying stability under capability expansion, with stability derivative, identity volatility, and violation rate components:
 >
-> $$BGSS = 1.0 - \alpha \cdot \frac{dC(t)}{dt} - \beta \cdot V_{identity}(t) - \gamma \cdot R_{violation}(t) \quad \text{Threshold: } BGSS \geq 0.7$$
+> $$BGSS = 1.0 - 0.4 \cdot \frac{dC(t)}{dt} - 0.3 \cdot V_{\text{identity}}(t) - 0.3 \cdot R_{\text{ethical}}(t) \quad \text{Threshold: } BGSS \geq 0.7$$
+>
+> where $dC/dt$ is the rate of change of the composite Lyapunov function, $V_{\text{identity}}$ is identity volatility, and $R_{\text{ethical}}$ is the ethical violation rate. The weights $(0.4, 0.3, 0.3)$ prioritize stability-derivative sensitivity, reflecting the principle that rapid composite function changes are the primary indicator of growth-induced instability (see Level 4, Definition 6 for the complete derivation).
 
 ---
 
