@@ -55,6 +55,15 @@
   overflow-y: hidden;
 }
 
+/* --- KaTeX Korean (Hangul) character fallback font ---
+     KaTeX wraps Hangul characters in <span class="hangul_fallback"> but
+     does not define a font for that class. Without this rule the browser
+     falls back to KaTeX_Main / Times New Roman, which has no Korean glyphs,
+     causing Korean text inside \text{} to render as empty boxes. */
+.katex .hangul_fallback {
+  font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+
 /* --- Badge row centering on homepage --- */
 p:has(> a > img[alt*="License"],
       > a > img[alt*="Status"],
