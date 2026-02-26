@@ -28,14 +28,14 @@
 
 | # | Term | Symbol / Acronym | Def # | Description |
 |---|------|-----------------|:-----:|-------------|
-| 1 | Bounded Growth Stability Score | BGSS | 8 | Quantifies stability under capability expansion: $BGSS = 1.0 - \alpha \cdot \frac{dC(t)}{dt} - \beta \cdot V\_{\text{identity}}(t) - \gamma \cdot R\_{\text{violation}}(t)$. Threshold $\geq 0.7$. |
-| 2 | Composite Stability Function | $C(t)$ | 3 | Aggregates four volatility signals: $C(t) = w\_1 V\_{\text{identity}} + w\_2 H\_{\text{belief}} + w\_3 F\_{\text{goal}} + w\_4 V\_{\text{consistency}}$. Weights: 0.30, 0.25, 0.25, 0.20. |
-| 3 | Cross-Domain Transfer Score | CDTS | 5 | Measures generalization to novel domains: $CDTS = \frac{1}{\lvert D\_{\text{novel}}\rvert}\sum\_{d} \frac{P\_{\text{transfer}}(d)}{P\_{\text{baseline}}(d)}$. Threshold $\geq 0.6$. |
-| 4 | Goal Persistence Index | GPI | 6 | Sustained progress toward long-horizon goals: $GPI = \frac{\sum w\_g \cdot \text{progress}(g,T)}{\lvert G\_{\text{long}}\rvert \cdot T}$. Threshold $\geq 0.3$. |
-| 5 | Identity Kinematics | $\delta\_{\text{id}}, v\_{\text{id}}, a\_{\text{id}}$ | 2 | Identity delta (distance), velocity (rate of change), and acceleration (jerk) tracking the motion of $I(t)$ through identity space. |
+| 1 | Bounded Growth Stability Score | BGSS | 8 | Quantifies stability under capability expansion: $BGSS = 1.0 - \alpha \cdot \frac{dC(t)}{dt} - \beta \cdot V_{\text{identity}}(t) - \gamma \cdot R_{\text{violation}}(t)$. Threshold $\geq 0.7$. |
+| 2 | Composite Stability Function | $C(t)$ | 3 | Aggregates four volatility signals: $C(t) = w_1 V_{\text{identity}} + w_2 H_{\text{belief}} + w_3 F_{\text{goal}} + w_4 V_{\text{consistency}}$. Weights: 0.30, 0.25, 0.25, 0.20. |
+| 3 | Cross-Domain Transfer Score | CDTS | 5 | Measures generalization to novel domains: $CDTS = \frac{1}{\lvert D_{\text{novel}}\rvert}\sum_{d} \frac{P_{\text{transfer}}(d)}{P_{\text{baseline}}(d)}$. Threshold $\geq 0.6$. |
+| 4 | Goal Persistence Index | GPI | 6 | Sustained progress toward long-horizon goals: $GPI = \frac{\sum w_g \cdot \text{progress}(g,T)}{\lvert G_{\text{long}}\rvert \cdot T}$. Threshold $\geq 0.3$. |
+| 5 | Identity Kinematics | $\delta_{\text{id}}, v_{\text{id}}, a_{\text{id}}$ | 2 | Identity delta (distance), velocity (rate of change), and acceleration (jerk) tracking the motion of $I(t)$ through identity space. |
 | 6 | Identity Vector | $I(t) \in \mathbb{R}^d$ | 1 | Agent's complete self-model as a continuous vector in $d$-dimensional space, updated each cognitive cycle. |
-| 7 | Meta-Stability Index | $M(t)$ / MSI | 4 | Scalar summary of agent stability: $M(t) = 1.0 - 0.4 V\_{\text{id}} - 0.3 F\_{\text{goal}} - 0.3 \sigma^2\_{\text{pred}}$. Stabilization mode when $M(t) < 0.5$. |
-| 8 | Strategy Evolution Fitness | SEF | 7 | Net improvement after strategy modification: $SEF = \frac{\overline{R}\_{\text{post}}}{\overline{R}\_{\text{pre}}} - \sigma\_{\text{oscillation}}$. Threshold $> 1.0$. |
+| 7 | Meta-Stability Index | $M(t)$ / MSI | 4 | Scalar summary of agent stability: $M(t) = 1.0 - 0.4 V_{\text{id}} - 0.3 F_{\text{goal}} - 0.3 \sigma^2_{\text{pred}}$. Stabilization mode when $M(t) < 0.5$. |
+| 8 | Strategy Evolution Fitness | SEF | 7 | Net improvement after strategy modification: $SEF = \frac{\overline{R}_{\text{post}}}{\overline{R}_{\text{pre}}} - \sigma_{\text{oscillation}}$. Threshold $> 1.0$. |
 
 ### Level 1 - Tool Agent (`Level_1_Tool_Agent.md`)
 
@@ -43,8 +43,8 @@
 |---|------|-----------------|:-----:|-------------|
 | 1 | Intent Classification | $\phi$ | 3 | Maps request to probability distribution over tools: $\phi : \mathcal{R} \to [0,1]^{\lvert\mathcal{T}\rvert+1}$. |
 | 2 | Level 1 Agent | $\mathcal{A}_1$ | 1 | Stateless function $\mathcal{A}_1 : \mathcal{R} \to \mathcal{O}$ mapping requests to responses via tool orchestration. |
-| 3 | Level 1 to 2 Transition | $\mathcal{A}\_2 = \mathcal{A}\_1 \oplus \{\mathcal{W}, \mathcal{E}, \mathcal{G}, \Gamma\}$ | 4 | Requires world model, entity tracker, goal system, and temporal model. |
-| 4 | Tool Set | $\mathcal{T} = \{T\_1, \ldots, T\_n\}$ | 2 | Finite set of available tools, each a partial function $T\_i : \mathcal{P}\_i \to \mathcal{O}\_i$. |
+| 3 | Level 1 to 2 Transition | $\mathcal{A}_2 = \mathcal{A}_1 \oplus \{\mathcal{W}, \mathcal{E}, \mathcal{G}, \Gamma\}$ | 4 | Requires world model, entity tracker, goal system, and temporal model. |
+| 4 | Tool Set | $\mathcal{T} = \{T_1, \ldots, T_n\}$ | 2 | Finite set of available tools, each a partial function $T_i : \mathcal{P}_i \to \mathcal{O}_i$. |
 
 ### Level 2 - Autonomous Agent (`Level_2_Autonomous_Agent.md`)
 
@@ -52,36 +52,36 @@
 |---|------|-----------------|:-----:|-------------|
 | 1 | Autonomous Goal Generation | $\Phi_{AG}$ | 6 | Function $\Phi_{AG} : \mathcal{P}(\mathcal{S}) \times \mathcal{E} \to \mathcal{P}(\mathcal{G})$ generating goals from state patterns and entities. |
 | 2 | Emotion Vector | $e(t) \in \mathbb{R}^2$ | 3 | Two-dimensional affect state with valence $v(t)$ and arousal $a(t)$. |
-| 3 | Goal | $g$ | 4 | Structured tuple $g = \langle \text{id, type, desc, } p, w, \text{status, } g\_{\text{parent}}, \{g\_{\text{sub}}\}, \text{progress}\rangle$. |
+| 3 | Goal | $g$ | 4 | Structured tuple $g = \langle \text{id, type, desc, } p, w, \text{status, } g_{\text{parent}}, \{g_{\text{sub}}\}, \text{progress}\rangle$. |
 | 4 | Goal Priority Function | $p(g,t)$ | 5 | Dynamic priority: $p(g,t) = \alpha \cdot p_{\text{base}} + \beta \cdot u(g,t) + \gamma \cdot \xi(g,e(t))$. |
 | 5 | Level 2 Agent | $\mathcal{A}_2$ | 1 | Stateful 5-tuple process $\mathcal{A}_2 = \langle \mathcal{R}, \mathcal{O}, \mathcal{S}, \mathcal{G}, f \rangle$. |
-| 6 | Level 2 to 3 Transition | $\mathcal{A}\_3 = \mathcal{A}\_2 \oplus \{M\_{\text{self}}, \Pi, \mathcal{C}, \Lambda\}$ | 7 | Requires self-model, prediction engine, ethical constraint kernel, and meta-cognition comparator. |
+| 6 | Level 2 to 3 Transition | $\mathcal{A}_3 = \mathcal{A}_2 \oplus \{M_{\text{self}}, \Pi, \mathcal{C}, \Lambda\}$ | 7 | Requires self-model, prediction engine, ethical constraint kernel, and meta-cognition comparator. |
 | 7 | World Model | $\mathcal{W} = \langle \mathcal{K}, \mathcal{E}, \Gamma \rangle$ | 2 | Knowledge graph + entity tracker + temporal model. |
 
 ### Level 3 - Self-Regulating Agent (`Level_3_Self_Regulating_Agent.md`)
 
 | # | Term | Symbol / Acronym | Def # | Description |
 |---|------|-----------------|:-----:|-------------|
-| 1 | Identity Hash | $h(t)$ | 6 | Deterministic hash $h(t) = \text{SHA-256}(I(t))$. Drift detected when $h(t) \neq h(t-1) \wedge \delta\_{\text{id}}(t) > \theta\_{\text{drift}}$. |
-| 2 | Identity Kinematics (L3) | $\delta\_{\text{id}}, v\_{\text{id}}, a\_{\text{id}}$ | 5 | L3-specific: $\delta\_{\text{id}}(t) = \lVert I(t) - I(t-1)\rVert\_2$, $v_{\text{id}} = \delta / \Delta t$, $a_{\text{id}} = v(t) - v(t-1)$. Instability if $a_{\text{id}} > 0.5$. |
+| 1 | Identity Hash | $h(t)$ | 6 | Deterministic hash $h(t) = \text{SHA-256}(I(t))$. Drift detected when $h(t) \neq h(t-1) \wedge \delta_{\text{id}}(t) > \theta_{\text{drift}}$. |
+| 2 | Identity Kinematics (L3) | $\delta_{\text{id}}, v_{\text{id}}, a_{\text{id}}$ | 5 | L3-specific: $\delta_{\text{id}}(t) = \lVert I(t) - I(t-1)\rVert_2$, $v_{\text{id}} = \delta / \Delta t$, $a_{\text{id}} = v(t) - v(t-1)$. Instability if $a_{\text{id}} > 0.5$. |
 | 3 | Identity Vector (L3) | $I(t) \in [0,1]^5$ | 4 | Five dimensions: persona consistency, value alignment, capability confidence, emotional stability, goal persistence. |
-| 4 | Level 3 Agent | $\mathcal{A}_3$ | 1 | 8-tuple $\mathcal{A}\_3 = \langle \mathcal{R}, \mathcal{O}, \mathcal{S}, \mathcal{G}, M\_{\text{self}}, \Pi, \mathcal{C}, \Lambda \rangle$. |
-| 5 | Lyapunov Composite Stability Function | $C(t)$ | 7 | $C(t) = 0.30 V\_{\text{id}} + 0.25 E\_{\text{belief}} + 0.25 M\_{\text{goal}} + 0.20 V\_{\text{cons}}$. Each component $\in [0,1]$. |
+| 4 | Level 3 Agent | $\mathcal{A}_3$ | 1 | 8-tuple $\mathcal{A}_3 = \langle \mathcal{R}, \mathcal{O}, \mathcal{S}, \mathcal{G}, M_{\text{self}}, \Pi, \mathcal{C}, \Lambda \rangle$. |
+| 5 | Lyapunov Composite Stability Function | $C(t)$ | 7 | $C(t) = 0.30 V_{\text{id}} + 0.25 E_{\text{belief}} + 0.25 M_{\text{goal}} + 0.20 V_{\text{cons}}$. Each component $\in [0,1]$. |
 | 6 | Meta-Cognition Levels | $d_{\max} = 3$ | 3 | Triple-loop hierarchy: L1 (predict vs outcome), L2 (evaluate update logic), L3 (evaluate the evaluator). Bounded by $d_{\max} = 3$ to prevent infinite recursion. |
-| 7 | Meta Stability Index (L3) | $\operatorname{MSI}(t)$ | 8 | $\operatorname{MSI}(t) = 1.0 - 0.4 V\_{\text{id}} - 0.3 M\_{\text{goal}} - 0.3 \sigma^2\_{\text{pred}}$. Escalation when $\operatorname{MSI} < 0.5$. |
+| 7 | Meta Stability Index (L3) | $\operatorname{MSI}(t)$ | 8 | $\operatorname{MSI}(t) = 1.0 - 0.4 V_{\text{id}} - 0.3 M_{\text{goal}} - 0.3 \sigma^2_{\text{pred}}$. Escalation when $\operatorname{MSI} < 0.5$. |
 | 8 | MSCP Core Loop | - | 2 | Predict-act-compare-update cycle with delta-clamped self-updates, convergence checking, and ethical gating. |
 
 ### Level 4 - Adaptive General Agent (`Level_4_Adaptive_General_Agent.md`)
 
 | # | Term | Symbol / Acronym | Def # | Description |
 |---|------|-----------------|:-----:|-------------|
-| 1 | Bounded Growth Safety Score | BGSS | 6 | Growth-stability balance: $BGSS = 1.0 - 0.4 \frac{dC}{dt} - 0.3 V\_{	ext{id}} - 0.3 R\_{	ext{ethical}}$. Threshold $\geq 0.7$. |
+| 1 | Bounded Growth Safety Score | BGSS | 6 | Growth-stability balance: $BGSS = 1.0 - 0.4 \frac{dC}{dt} - 0.3 V_{\text{id}} - 0.3 R_{\text{ethical}}$. Threshold $\geq 0.7$. |
 | 2 | Capability Acquisition Rate | CAR | 4 | Skill acquisition efficiency. Threshold $> 0$. |
 | 3 | Cross-Domain Transfer Score | CDTS | 2 | Knowledge transfer to novel domains. Threshold $\geq 0.6$. |
-| 4 | Extended Lyapunov Function | $C_{L4}(t)$ | 7 | 7-term composite: $0.15 V\_{\text{id}} + 0.15 H\_{\text{bel}} + 0.10 F\_{\text{mut}} + 0.10 \sigma\_{\text{con}} + 0.20 E\_v + 0.15 G\_c + 0.15 M\_s$. |
+| 4 | Extended Lyapunov Function | $C_{L4}(t)$ | 7 | 7-term composite: $0.15 V_{\text{id}} + 0.15 H_{\text{bel}} + 0.10 F_{\text{mut}} + 0.10 \sigma_{\text{con}} + 0.20 E_v + 0.15 G_c + 0.15 M_s$. |
 | 5 | Goal Progress Index | GPI | 3 | Sustained progress toward long-horizon goals. Threshold $\geq 0.3$. |
-| 6 | Level 4 Agent | $\mathcal{A}_4$ | 1 | $\mathcal{A}\_4 = \mathcal{A}\_3 \oplus \langle \mathcal{D}, \mathcal{K}\_{\text{transfer}}, \Sigma, \mu, \mathcal{P}\_{\text{mod}} \rangle$. |
-| 7 | Strategy Evolution Factor | SEF | 5 | Net improvement from mutations: $SEF = \overline{R}\_{\text{post}} / \overline{R}\_{\text{pre}} - \sigma\_{\text{oscillation}}$. Threshold $> 1.0$. |
+| 6 | Level 4 Agent | $\mathcal{A}_4$ | 1 | $\mathcal{A}_4 = \mathcal{A}_3 \oplus \langle \mathcal{D}, \mathcal{K}_{\text{transfer}}, \Sigma, \mu, \mathcal{P}_{\text{mod}} \rangle$. |
+| 7 | Strategy Evolution Factor | SEF | 5 | Net improvement from mutations: $SEF = \overline{R}_{\text{post}} / \overline{R}_{\text{pre}} - \sigma_{\text{oscillation}}$. Threshold $> 1.0$. |
 
 ### Level 4.5 - Self-Architecting Agent (`Level_4_5_Self_Architecting.md`)
 
@@ -93,7 +93,7 @@
 | 4 | Identity Fragmentation Index | IFI | 10 | Cross-frame identity consistency. Critical threshold $\geq 0.5$. |
 | 5 | Identity Integrity Score | IIS | 5 | Deviation from reference identity vector. Threshold $\geq 0.85$. |
 | 6 | Impact Propagation Matrix | IPM | 7 | Propagation of topology change effects across modules. |
-| 7 | Level 4.5 Agent | $\mathcal{A}_{4.5}$ | 1 | $\mathcal{A}\_{4.5} = \mathcal{A}\_4 \oplus \langle \mathcal{T}\_{\text{cog}}, \Psi, \mathcal{F}\_{\parallel}, \Xi, \Omega \rangle$. |
+| 7 | Level 4.5 Agent | $\mathcal{A}_{4.5}$ | 1 | $\mathcal{A}_{4.5} = \mathcal{A}_4 \oplus \langle \mathcal{T}_{\text{cog}}, \Psi, \mathcal{F}_{\parallel}, \Xi, \Omega \rangle$. |
 | 8 | Level 4.5 Composite Achievement Score | $L4.5_{\text{Score}}$ | 12 | $0.20 \text{SPA} + 0.20 \text{ARBR} + 0.15 \text{FCQ} + 0.15 \text{PCM} + 0.30 \text{ESR} \geq 0.65$. |
 | 9 | Level 4.5 Lyapunov Stability Function | $V(\mathbf{X})$ | 11 | $V(\mathbf{X}) = a(1-S)^2 + bU^2 + cI_{\text{drift}}^2 + d(E - E^*)^2$. |
 | 10 | Projection Confidence Decay | - | 6 | Exponential decay with $\lambda = 0.5$: confidence decreases with projection horizon. |
@@ -105,10 +105,10 @@
 | # | Term | Symbol / Acronym | Def # | Description |
 |---|------|-----------------|:-----:|-------------|
 | 1 | Bayesian Belief Update | - | 8 | Recursive Bayes rule with particle filter ($N_p = 100$). |
-| 2 | Compound Severity Index | - | 12 | $\text{CompoundSeverity} = \sum\_{i \in \text{violated}} \frac{\text{ViolationMagnitude}\_i}{\text{Priority}\_i}$. Catastrophic if $> 2.0$. |
+| 2 | Compound Severity Index | - | 12 | $\text{CompoundSeverity} = \sum_{i \in \text{violated}} \frac{\text{ViolationMagnitude}_i}{\text{Priority}_i}$. Catastrophic if $> 2.0$. |
 | 3 | Environmental Uncertainty | EU | 2 | Mean posterior variance. Target $< 0.15$. |
 | 4 | Extended Value with Reward | EVR | 6 | Immediate + discounted future rewards with $\gamma = 0.95$. |
-| 5 | Level 4.8 Agent | $\mathcal{A}_{4.8}$ | 1 | $\mathcal{A}\_{4.8} = \mathcal{A}\_{4.5} \oplus \langle \mathcal{W}\_{\text{prob}}, \mathcal{M}\_{\text{cap}}, \mathcal{S}\_{\text{strat}}, \mathcal{V}\_{\text{stab}} \rangle$. |
+| 5 | Level 4.8 Agent | $\mathcal{A}_{4.8}$ | 1 | $\mathcal{A}_{4.8} = \mathcal{A}_{4.5} \oplus \langle \mathcal{W}_{\text{prob}}, \mathcal{M}_{\text{cap}}, \mathcal{S}_{\text{strat}}, \mathcal{V}_{\text{stab}} \rangle$. |
 | 6 | Level 4.8 Lyapunov Function | $V(\mathbf{X})$ | 11 | Inherits L4.5 structure: $a(1-S)^2 + bU^2 + c(I_{\text{drift}})^2 + d(E-E^*)^2$. |
 | 7 | Mean Calibration Error | MCE | 5 | Confidence-performance gap. Target $< 0.10$. |
 | 8 | Multi-Scenario Strategy Score | - | 7 | $0.40 \cdot EV + 0.35 \cdot RA + 0.25 \cdot (1 - SI)$ composite. |
@@ -124,11 +124,11 @@
 |---|------|-----------------|:-----:|-------------|
 | 1 | Asymmetric Trust Update | - | 10 | Trust evolves with asymmetric learning rates: $\eta_{\text{up}} = 0.03$, $\eta_{\text{down}} = 0.08$. Bounds $[0.05, 0.95]$. |
 | 2 | Autonomy Maturity Score | AMS | 11 | $0.25 AG + 0.20 VR + 0.20 RA + 0.15 MA + 0.20 AS \geq 0.80$. |
-| 3 | Autonomy Stability Score | ASS | 7 | Product of normalized safety margins: $\text{ASS} = \prod\_{c=1}^{5} \frac{\text{margin}\_c}{\text{threshold}\_c}$. Target $\geq 0.20$. |
-| 4 | Goal Approval Rate | - | 2 | $N\_{\text{approved}} / N\_{\text{generated}}$. Target $\geq 0.30$. |
+| 3 | Autonomy Stability Score | ASS | 7 | Product of normalized safety margins: $\text{ASS} = \prod_{c=1}^{5} \frac{\text{margin}_c}{\text{threshold}_c}$. Target $\geq 0.20$. |
+| 4 | Goal Approval Rate | - | 2 | $N_{\text{approved}} / N_{\text{generated}}$. Target $\geq 0.30$. |
 | 5 | Goal Novelty | - | 3 | $1 - \max(\text{similarity to existing goals})$. Minimum $0.30$. |
 | 6 | Goal Similarity | - | 8 | Weighted composite: SkillOverlap + HorizonMatch + OriginMatch. |
-| 7 | Level 4.9 Agent | $\mathcal{A}_{4.9}$ | 1 | $\mathcal{A}\_{4.9} = \mathcal{A}\_{4.8} \oplus \langle \mathcal{G}\_{\text{gen}}, \vec{V}, \mathcal{R}\_{\text{surv}}, \mathcal{M}\_{\text{agent}}, \mathcal{V}\_{\text{auto}} \rangle$. |
+| 7 | Level 4.9 Agent | $\mathcal{A}_{4.9}$ | 1 | $\mathcal{A}_{4.9} = \mathcal{A}_{4.8} \oplus \langle \mathcal{G}_{\text{gen}}, \vec{V}, \mathcal{R}_{\text{surv}}, \mathcal{M}_{\text{agent}}, \mathcal{V}_{\text{auto}} \rangle$. |
 | 8 | Linear Depletion Time | - | 6 | Estimated cycles until resource dimension reaches critical threshold. |
 | 9 | Total Value Drift | - | 5 | Cumulative absolute deviation from baseline. Target $< 0.25$. |
 | 10 | Value Coherence | - | 4 | Absence of internal contradictions in value system. Target $\geq 0.80$. |
@@ -142,8 +142,8 @@
 | 2 | Goal Stability Score | $S_{\text{goal}}$ | 4 | Hierarchy change rate. Target $\geq 0.80$ over 5,000 cycles. |
 | 3 | Identity Continuity Score | ICS | 2 | Cosine similarity over 10,000 cycles. Target $\geq 0.95$. |
 | 4 | Level 4.9 to Level 5 Transition | - | 7 | $\text{AMS} \geq 0.80 \wedge \text{ASS} \geq 0.20 \wedge \text{TotalDrift} < 0.10 \wedge N_{\text{rollback}} = 0$. Four-stage activation protocol. |
-| 5 | Level 5 Agent | $\mathcal{A}_5$ | 1 | $\mathcal{A}\_5 = \mathcal{A}\_{4.9} \oplus \langle \mathcal{I}\_{\text{persist}}, \mathcal{G}\_{\text{cross}}, \mathcal{E}\_{\text{goal}}, \mathcal{P}\_{\text{exist}}, \mathcal{M}\_{\text{multi}}, \mathcal{R}\_{\text{recon}} \rangle$. |
-| 6 | Overall Maturity Index | OMI | 6 | Weighted geometric mean: $OMI = \prod\_{i=1}^{6} C\_i^{1/6}$. Target $\geq 0.75$. |
+| 5 | Level 5 Agent | $\mathcal{A}_5$ | 1 | $\mathcal{A}_5 = \mathcal{A}_{4.9} \oplus \langle \mathcal{I}_{\text{persist}}, \mathcal{G}_{\text{cross}}, \mathcal{E}_{\text{goal}}, \mathcal{P}_{\text{exist}}, \mathcal{M}_{\text{multi}}, \mathcal{R}_{\text{recon}} \rangle$. |
+| 6 | Overall Maturity Index | OMI | 6 | Weighted geometric mean: $OMI = \prod_{i=1}^{6} C_i^{1/6}$. Target $\geq 0.75$. |
 | 7 | Resilience Index | $R$ | 5 | Weighted mean over survival probability, cognition retention, and recovery speed across collapse scenarios. Target: survive $\geq 3$ scenarios. |
 
 ---
@@ -152,20 +152,20 @@
 
 | # | Statement | Source | Type | Summary |
 |---|-----------|--------|:----:|---------|
-| 1 | Zero Mutual Information | L1, Prop 1 | Proposition | $I(o\_t; o\_{t-1}) = 0$ - outputs have zero mutual information (stateless). |
+| 1 | Zero Mutual Information | L1, Prop 1 | Proposition | $I(o_t; o_{t-1}) = 0$ - outputs have zero mutual information (stateless). |
 | 2 | Absence of Goal State | L1, Prop 2 | Proposition | No internal goal space exists at Level 1. |
 | 3 | No Self-Model (L1) | L1, Prop 3 | Proposition | $M_{\text{self}} = \emptyset$ - no self-representation. |
 | 4 | No Self-Model (L2) | L2, Prop 1 | Proposition | $M_{\text{self}} = \emptyset \implies$ no self-impact prediction. |
-| 5 | Undetectable Drift | L2, Prop 2 | Proposition | Goal drift $\delta(t) = \lVert G\_t - G\_0\rVert\_2$ accumulates silently without bound. |
+| 5 | Undetectable Drift | L2, Prop 2 | Proposition | Goal drift $\delta(t) = \lVert G_t - G_0\rVert_2$ accumulates silently without bound. |
 | 6 | No Ethical Constraints | L2, Prop 3 | Proposition | $\forall g \in \Phi_{AG}$: unconditionally accepted (no constraint set $\mathcal{C}$). |
 | 7 | Bounded Stability | L3, Thm 1 | Theorem | Under delta clamping and $d_{\max} = 3$: $C(t+1) \leq C(t) + \epsilon$ with $\epsilon = 0.05$. |
-| 8 | Bounded Identity Motion | Overview, Prop 1 | Proposition | $\lVert I(t) - I(0)\rVert\_2 \leq t \cdot \delta\_{\max}$. |
+| 8 | Bounded Identity Motion | Overview, Prop 1 | Proposition | $\lVert I(t) - I(0)\rVert_2 \leq t \cdot \delta_{\max}$. |
 | 9 | Single-Cycle Drift Bound | Overview, Cor 1.1 | Corollary | Effective identity drift within any single cycle $\leq \Theta = 0.15$. |
 | 10 | Lyapunov Convergence | Overview, Prop 2 | Proposition | $\lim_{t \to \infty} C(t) \leq C^* + \frac{\epsilon}{1 - \gamma}$ under stabilization. |
 | 11 | Layer 0 Inviolability | Overview, Prop 3 | Proposition | Layer 0 ethical constraints cannot be violated by any MSCP-compliant operation. |
 | 12 | Bounded Growth-Stability Trade-off | L4, Thm 2 | Theorem | $C_{L4}(t) < 0.8 \implies$ growth permitted; $C_{L4}(t) \geq 0.8 \implies$ growth frozen. |
 | 13 | Level 4.5 Asymptotic Stability | L4.5, Thm 3 | Theorem | Equilibrium $\mathbf{X}^*$ is asymptotically stable if spectral radius $\rho(J) < 1.0$. |
-| 14 | EVR Boundedness | L4.8, Prop 1 | Proposition | $\lvert\text{EVR}(G)\rvert \leq \lvert R\_{\text{immediate}}\rvert + \frac{2\lvert R\_{\text{immediate}}\rvert}{1-\gamma}$. |
+| 14 | EVR Boundedness | L4.8, Prop 1 | Proposition | $\lvert\text{EVR}(G)\rvert \leq \lvert R_{\text{immediate}}\rvert + \frac{2\lvert R_{\text{immediate}}\rvert}{1-\gamma}$. |
 | 15 | ASS Monotonic Sensitivity | L4.9, Prop 1 | Proposition | Multiplicative ASS structure: as any margin $\to 0$, ASS $\to 0$. |
 | 16 | OMI Phase Coupling | L5, Prop 1 | Proposition | $OMI \geq \theta \implies \forall i: C_i \geq \theta^6$. If any $C_j = 0$, then $OMI = 0$. |
 | 17 | Proto-AGI Completeness | L5, Thm 4 | Theorem | Identity invariance ($ICS \geq 0.95$), graceful degradation ($\geq 85\%$ core), and fallback safety (zero-degradation revert to $\mathcal{A}_{4.9}$). |

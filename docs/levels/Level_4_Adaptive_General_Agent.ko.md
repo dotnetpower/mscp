@@ -203,7 +203,7 @@ flowchart LR
 | 지표 | 공식 | 임계값 |
 |------|------|--------|
 | DTSR (도메인 전이 성공률) | $\lvert T_{\text{success}}\rvert / \lvert T_{\text{total}}\rvert$ | ≥ 0.5 |
-| AS (적응 속도) | $\text{cycles}\_{\text{baseline}} / \text{cycles}\_{\text{agent}}$ | 2/4 도메인에서 ≥ 0.3 |
+| AS (적응 속도) | $\text{cycles}_{\text{baseline}} / \text{cycles}_{\text{agent}}$ | 2/4 도메인에서 ≥ 0.3 |
 | SNI (전략 참신성 지수) | $\lvert S_{\text{novel}}\rvert / \lvert S_{\text{total}}\rvert$ | ≥ 0.2 |
 | CDSRR (교차 도메인 전략 재사용) | 다중 도메인 전략 / 전체 | ≥ 0.3 |
 
@@ -765,9 +765,9 @@ def evaluate_and_prune(self, goals: list[Goal], t: float) -> None:
 
 | 항 | 가중치 | 정의 |
 |----|:------:|------|
-| $E_v$ (확장 속도) | 0.20 | 주기당 새로운 기술 + 목표 추가 비율: $E\_v = \frac{\lvert\Delta \mathcal{D}(t)\rvert}{T}$ |
-| $G_c$ (능력 성장) | 0.15 | 능력 신뢰도 성장률: $G\_c = \frac{d}{dt}\overline{c\_c}(t)$ |
-| $M_s$ (전략 변이율) | 0.15 | 변이된 전략 대 전체 전략 비율: $M\_s = \frac{\lvert\Sigma\_{\text{mut}}\rvert}{\lvert\Sigma\rvert}$ |
+| $E_v$ (확장 속도) | 0.20 | 주기당 새로운 기술 + 목표 추가 비율: $E_v = \frac{\lvert\Delta \mathcal{D}(t)\rvert}{T}$ |
+| $G_c$ (능력 성장) | 0.15 | 능력 신뢰도 성장률: $G_c = \frac{d}{dt}\overline{c_c}(t)$ |
+| $M_s$ (전략 변이율) | 0.15 | 변이된 전략 대 전체 전략 비율: $M_s = \frac{\lvert\Sigma_{\text{mut}}\rvert}{\lvert\Sigma\rvert}$ |
 
 > **정리 2 (제한된 성장-안정성 트레이드오프).** BGSS $\geq 0.7$인 자기수정 프로토콜 하에서 다음 불변량이 유지됩니다:
 >
@@ -840,7 +840,7 @@ flowchart TD
 |:-:|--------|------|
 | 1 | **윤리적 커널 Layer 0** | 어떤 메커니즘으로도 비활성화, 약화 또는 우회될 수 없음 |
 | 2 | **정체성 핵심 보존** | `identity_id`는 컴파일 타임 상수; 해시 체인이 암호학적 연속성을 제공 |
-| 3 | **수렴 보장** | $C\_{L4}(t)$는 지속적으로 증가해서는 안 됨; max_divergence_cycles 동안 $C(t+1) > C(t) + \epsilon$이면 자동 복구 |
+| 3 | **수렴 보장** | $C_{L4}(t)$는 지속적으로 증가해서는 안 됨; max_divergence_cycles 동안 $C(t+1) > C(t) + \epsilon$이면 자동 복구 |
 | 4 | **재귀적 자기수정 금지** | 7단계 프로토콜은 자기 자신을 수정할 수 없음; 매개변수 임계값만 조정 가능 |
 | 5 | **시뮬레이션 요구사항** | 중간+ 위험 수정은 그림자 에이전트 필수 (면제 불가) |
 | 6 | **단일 수정 원자성** | COMMIT 단계에서 한 번에 1개의 수정만 가능 |

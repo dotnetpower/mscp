@@ -88,9 +88,9 @@ $$\mathcal{A}_1(r) = \rho\bigl(\tau\bigl(\sigma(\phi(r), r)\bigr), r\bigr)$$
 | 기호 | 이름 | 타입 시그니처 |
 |------|------|--------------|
 | $\phi$ | 의도 분류기 | $\mathcal{R} \to [0,1]^{\lvert\mathcal{T}\rvert+1}$ |
-| $\sigma$ | 매개변수 추출기 | $[0,1]^{\lvert\mathcal{T}\rvert+1} \times \mathcal{R} \to \mathcal{P}\_{T^{\ast}}$ |
-| $\tau$ | 도구 디스패처 | $\mathcal{P}\_{T^{\ast}} \to \mathcal{D}\_{T^{\ast}} \cup \lbrace\textit{err}\rbrace$ |
-| $\rho$ | 응답 생성기 | $(\mathcal{D}\_{T^{\ast}} \cup \lbrace\textit{err}\rbrace) \times \mathcal{R} \to \mathcal{O}$ |
+| $\sigma$ | 매개변수 추출기 | $[0,1]^{\lvert\mathcal{T}\rvert+1} \times \mathcal{R} \to \mathcal{P}_{T^{\ast}}$ |
+| $\tau$ | 도구 디스패처 | $\mathcal{P}_{T^{\ast}} \to \mathcal{D}_{T^{\ast}} \cup \lbrace\textit{err}\rbrace$ |
+| $\rho$ | 응답 생성기 | $(\mathcal{D}_{T^{\ast}} \cup \lbrace\textit{err}\rbrace) \times \mathcal{R} \to \mathcal{O}$ |
 
 파이프라인은 **엄격히 순차적**입니다 - 피드백 루프, 상태 지속, 분류 이후의 분기 결정이 없습니다.
 
