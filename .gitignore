@@ -2,6 +2,11 @@ docs/TODO.md
 site/
 __pycache__/
 *.pyc
+venv/
+.venv/
+env/
+.env
+.env.*
 .cache/
 .github/copilot-instructions.md
 
