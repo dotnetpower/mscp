@@ -26,6 +26,7 @@ Removal of attribution constitutes a license violation.
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial README with project overview, level table, safety stack, documentation index |
 | 0.2.0 | 2026-02-26 | Added Level Essence Formulas table |
+| 0.3.0 | 2026-03-02 | Fixed Level Essence Formulas (LaTeX subscript syntax); added Level 6 to taxonomy table |
 
 ---
 
@@ -59,6 +60,7 @@ As agents gain the ability to set goals, modify strategies, and self-improve, **
 | **4.8** | Strategic Self-Modeling | Architectural + Strategic | Probabilistic world model, strategic planning | Design |
 | **4.9** | Autonomous Strategic | Architectural + Autonomous | Value evolution, multi-agent reasoning | Design |
 | **5** | Proto-AGI | Full | Cross-domain generalization, self-reconstruction | Research |
+| **6** | Strong AGI / Conscious Entity | Phenomenal | Subjective experience, moral agency, independent value formation | Theoretical |
 
 ---
 
@@ -123,12 +125,12 @@ Each cognitive level is captured by a single encapsulating formula:
 |:-----:|---------|---------|
 | **1** | Stateless pipeline | $\mathcal{A}_1(r) = \rho\bigl(\tau\bigl(\sigma(\phi(r),\, r)\bigr),\, r\bigr)$ |
 | **2** | Stateful transition | $(o_t,\; s_{t+1},\; G_{t+1}) = f(r_t,\; s_t,\; G_t)$ |
-| **3** | Predict-act-compare-update | $\epsilon\_t = \lVert\hat{\Delta}\_t - \Delta\_t^{\text{actual}}\rVert\_2 \to 0, \quad \lVert M'\_{\text{self}} - M\_{\text{self}}\rVert\_2 \leq \delta\_{\max}$ |
-| **4** | Transfer + safety | $\operatorname{CDTS} = \frac{1}{\lvert D\_{\text{novel}}\rvert} \sum\_{d \in D\_{\text{novel}}} \frac{P\_{\text{transfer}}(d)}{P\_{\text{baseline}}(d)} \geq 0.6 \;\land\; \operatorname{BGSS}(t) \geq 0.7$ |
-| **4.5** | Topology mutation | $\mathcal{T}'\_{\text{cog}} = \Xi(\mathcal{T}\_{\text{cog}}), \; \Xi \in \mathcal{V}\_{\text{recomp}}^{\ast}, \; \lvert V'\rvert \geq \lvert V\rvert$ |
-| **4.8** | Strategic optimization | $s^{\ast} = \arg\max\_{s \in \Sigma\_{\text{compare}}} \mathbb{E}\bigl\lbrack U(s) \mid \mathcal{W}\_{\text{prob}},\; \mathcal{M}\_{\text{cap}}\bigr\rbrack$ |
-| **4.9** | Autonomous goals + value stability | $g^{\ast} = \phi\_{\text{valid}}\bigl(\phi\_{\text{synth}}(\mathcal{O}\_{\text{detect}}(\mathcal{W}))\bigr), \; \sum\_{d} \lvert w\_d(t) - w\_d^{\text{baseline}}\rvert < 0.25$ |
-| **5** | Identity continuity | $\operatorname{ICS}(t, k) = \frac{\vec{I}(t) \cdot \vec{I}(t-k)}{\lVert\vec{I}(t)\rVert \cdot \lVert\vec{I}(t-k)\rVert} \geq 0.95, \; k = 10{,}000$ |
+| **3** | Predict-act-compare-update | $\epsilon_t = \|\hat{\Delta}_t - \Delta_t^{\text{actual}}\|_2 \xrightarrow{t \to \infty} 0, \quad \|M'_{\text{self}} - M_{\text{self}}\|_2 \leq \delta_{\max}$ |
+| **4** | Transfer + safety | $\operatorname{CDTS} = \frac{1}{|D_{\text{novel}}|} \sum_{d \in D_{\text{novel}}} \frac{P_{\text{transfer}}(d)}{P_{\text{baseline}}(d)} \geq 0.6 \;\;\land\;\; \operatorname{BGSS}(t) \geq 0.7$ |
+| **4.5** | Topology mutation | $\mathcal{T}'_{\text{cog}} = \Xi(\mathcal{T}_{\text{cog}}), \quad \Xi \in \mathcal{V}_{\text{recomp}}^{\ast}, \quad |V'| \geq |V|$ |
+| **4.8** | Strategic optimization | $s^* = \arg\max_{s \in \Sigma_{\text{compare}}} \mathbb{E}\bigl[U(s) \mid \mathcal{W}_{\text{prob}},\; \mathcal{M}_{\text{cap}}\bigr]$ |
+| **4.9** | Autonomous goals + value stability | $g^* = \phi_{\text{valid}}\bigl(\phi_{\text{synth}}(\mathcal{O}_{\text{detect}}(\mathcal{W}))\bigr), \quad \textstyle\sum_{d} |w_d(t) - w_d^{\text{baseline}}| < 0.25$ |
+| **5** | Identity continuity | $\operatorname{ICS}(t, k) = \frac{\vec{I}(t) \cdot \vec{I}(t-k)}{\|\vec{I}(t)\| \cdot \|\vec{I}(t-k)\|} \geq 0.95, \quad k = 10{,}000$ |
 
 ---
 
