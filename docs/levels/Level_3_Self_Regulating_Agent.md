@@ -23,6 +23,7 @@ Removal of attribution constitutes a license violation.
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-8, Theorem 1 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Theorem 1: full proof replacing sketch; added Lyapunov vs bounded-increment remark; Def 9: affect vector formalization with dynamics equation and valence |
+| 0.4.0 | 2026-03-08 | Added detailed v0.x prototype history and design principle evolution table (1.3); added homeostatic ranges table (7.2) |
 
 ---
 
@@ -149,6 +150,31 @@ flowchart TB
   v20 ==> v30
   v30 ==> v40
 ```
+
+#### MSCP v0.x - Prototype Stage (Level 2 - Level 3 Transition)
+
+The v0.x series represents the experimental prototyping phase that shaped the core MSCP design principles. Each version tested a hypothesis, and its failure or success informed the next iteration:
+
+| Version | Key Addition | Key Learning |
+|---------|-------------|-------------|
+| **v0.1** | Simple self-reference loop on top of Level 2 GoalSystem; feedback based on goal achievement statistics | Self-awareness cannot emerge from simple statistics alone |
+| **v0.2** | State externalization to persistent storage; initial 8-dimensional StateVector | Session-bound state is insufficient for identity continuity |
+| **v0.3** | `identity_id` concept (UUID-based identifier) | Identity seed is necessary but not sufficient without integrity verification |
+| **v0.4** | Goal reflection via LLM text-based self-analysis ("why did I fail?") | **Critical failure**: LLM text-based self-modification produces hallucinations and non-deterministic results |
+| **v0.5** | Structured numerical metrics replacing LLM text analysis; StateVector expanded to 12 dimensions | Quantitative metrics are the only reliable basis for self-assessment |
+| **v0.6** | Pre-action prediction recording (confidence score only) | Prediction without comparison is useless - mere logging |
+| **v0.7** | Comparison loop added to prediction; `prediction_error` metric introduced | Comparison without corrective action is insufficient |
+| **v0.8** | Delta-clamped state updates based on comparison results | **Critical discovery**: unclamped updates cause divergence; delta clamping is essential |
+| **v0.9** | Consolidation of v0.1-v0.8 lessons into four design principles | Foundation for v1.0 established |
+
+#### Design Principle Evolution
+
+| Principle | v0.x Lesson | v1.x Establishment | v2.x+ Reinforcement |
+|-----------|-------------|--------------------|--------------------|
+| **No LLM text-based self-modification** | v0.4: hallucination and non-determinism | v1.0: all self-modification via structured metrics only | v2.0+: all self-modification is purely numerical |
+| **No action without prediction** | v0.6-v0.7: prediction-comparison concept tested | v1.0: PredictionEngine made mandatory | v1.3: Self-Impact Prediction added |
+| **Delta clamping mandatory** | v0.8: unclamped updates caused divergence | v1.0: MAX_DELTA constant introduced | v2.0: dynamic scaling factor adjustment |
+| **Identity continuity** | v0.3: identity_id concept started | v1.1-v1.2: hash-based drift detection | v3.0: mathematical identity vector formalized |
 
 ---
 
@@ -1002,6 +1028,20 @@ flowchart TD
   Levels ==> Response
   Response -.->|"inject_survival_anxiety()"| AE_REF
 ```
+
+#### Homeostatic Ranges
+
+The Survival Instinct Engine monitors five vital metrics against predefined safe ranges. Deviation beyond the margin triggers threat assessment and autonomous defense goal generation.
+
+| Metric | Safe Range | Margin | Threat Type |
+|--------|:----------:|:------:|-------------|
+| `identity_stability` | $[0.5,\; 1.0]$ | 0.1 | IDENTITY_EROSION |
+| `cognitive_budget` | $[0.15,\; 1.0]$ | 0.1 | RESOURCE_DEPLETION |
+| `belief_entropy` | $[0.0,\; 1.5]$ | 0.2 | BELIEF_COLLAPSE |
+| `ethical_violation` | $[0.0,\; 0.2]$ | 0.05 | ETHICAL_BREACH |
+| `composite_stability` | $[0.0,\; 0.5]$ | 0.1 | CONVERGENCE_FAILURE |
+
+When a metric exits its safe range by more than the margin, threat level escalates from NOMINAL (0.0) through CAUTION (0.25) and WARNING (0.6) to CRITICAL (0.9). At WARNING or above, the engine autonomously generates a defense goal (max 3 simultaneous, priority capped at 0.85, TTL = 10 cycles).
 
 ---
 

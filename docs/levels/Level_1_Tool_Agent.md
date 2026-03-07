@@ -23,6 +23,7 @@ Removal of attribution constitutes a license violation.
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-4, Propositions 1-3 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Def 3: replaced $[0,1]^n$ with probability simplex $\Delta^n$; Def 2: added remark reconciling partial/total function |
+| 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (5.1 - 5.2) |
 
 ---
 
@@ -422,7 +423,7 @@ flowchart TD
   L4 -.-> C4
 ```
 
-### 5.1 Behavioral Example: Repeated Question
+### 5.2 Behavioral Example: Repeated Question
 
 ```
 Interaction 1:

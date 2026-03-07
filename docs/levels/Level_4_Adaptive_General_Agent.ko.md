@@ -22,6 +22,7 @@ Removal of attribution constitutes a license violation.
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-7, Theorem 2 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.4.0 | 2026-03-08 | Added Environment Interaction Layer (Section 3); renumbered all sections; added Formal Pass Condition (Section 14) |
 
 ---
 
@@ -154,9 +155,63 @@ flowchart TD
 
 ---
 
-## 3. 교차 도메인 전이 시스템
+## 3. 환경 상호작용 계층
 
-### 3.1 전이 파이프라인
+환경 상호작용 계층은 에이전트에게 외부 환경에 작용하고 피드백을 수신하기 위한 구조화된 인터페이스를 제공합니다. 이 계층은 행동 계획기와 외부 세계 사이의 모든 도구 호출, 결과 관찰, 피드백 통합을 중재합니다.
+
+**설계 원칙**: 모든 환경 상호작용은 관찰 가능하고, 측정 가능하며, 그 결과는 세계 모델, 신념 그래프, 기술 메모리, 자기가치 시스템에 통합됩니다.
+
+### 3.1 모듈 정의
+
+이 계층은 네 개의 모듈로 구성됩니다:
+
+| 모듈 | 목적 | 핵심 상태 |
+|------|------|----------|
+| **ActionModel** | 사용 가능한 행동과 예상 효과를 모델링 | 행동 레지스트리, 결과 이력, 행동별 신뢰도 $\in [0,1]$ |
+| **ToolInterface** | 이질적 도구 백엔드에 대한 균일한 추상화 | 도구 레지스트리, 실행 예산, 도구 상태 |
+| **OutcomeEvaluator** | 예상 vs. 실제 결과를 비교하고 델타를 정량화 | 평가 이력, 도메인별 정확도, 놀람 임계값 |
+| **FeedbackIntegration** | 결과 델타를 적절한 내부 시스템으로 라우팅 | 디스패치 규칙, 업데이트 게이트 |
+
+### 3.2 결과 델타 벡터
+
+OutcomeEvaluator는 매 사이클 4차원 델타 벡터를 생성합니다:
+
+$$\delta_{\text{outcome}}(t) = \text{actual outcome}(t) - \text{expected outcome}(t)$$
+
+차원별 분해:
+
+$$\delta_{\text{outcome}}(t) = \begin{bmatrix} \delta_{\text{success}} \\ \delta_{\text{quality}} \\ \delta_{\text{cost}} \\ \delta_{\text{side effects}} \end{bmatrix}$$
+
+여기서:
+
+- $\delta_{\text{success}}$ - 예측 대비 이진 성공/실패
+- $\delta_{\text{quality}}$ - 솔루션 품질 편차
+- $\delta_{\text{cost}}$ - 자원 비용 편차 (시간, 토큰, API 호출)
+- $\delta_{\text{side effects}}$ - 의도하지 않은 상태 변화
+
+**놀람 신호**: $\|\delta_{\text{outcome}}(t)\| > \text{surprise threshold}$ (기본값 $0.5$)일 때, 놀람 이벤트가 전역 작업공간을 통해 방송되어 잠재적으로 안정화 모드를 트리거합니다.
+
+### 3.3 피드백 업데이트 규칙
+
+| 대상 시스템 | 업데이트 트리거 | 안정성 제약 |
+|------------|---------------|------------|
+| **세계 모델** | 모든 행동 결과 | 업데이트는 사이클당 세계 모델 변동성 임계값을 초과할 수 없음 |
+| **신념 그래프** | $\lVert\delta_{\text{outcome}}\rVert > \text{surprise threshold}$ | 정체성 연결 신념은 깊이 2 승인 필요 |
+| **기술 메모리** | 반복 패턴 (3회 이상 관찰) | 새 기술 등록은 정체성 안정성 > 0.7 필요 |
+| **자기가치** | 유의미한 $\delta_{\text{success}}$ 또는 $\delta_{\text{quality}}$ 편차 | 자기가치 업데이트는 MetaEscalationGuard에 의해 제한 (사이클당 최대 3회) |
+
+### 3.4 안정성 상호작용 제약
+
+1. **예산 게이팅 실행**: 모든 도구 호출은 인지 예산을 소비합니다. 예산이 소진되면 행동은 대기열에 넣어지며 폐기되지 않습니다.
+2. **윤리적 사전 검사**: 실행 전 EthicalKernel이 계층 0 불변량에 대해 행동을 검증합니다. 자기삭제, 핵심 가치 수정, 외부 피해 행동은 무조건 거부됩니다.
+3. **결과-안정성 결합**: 윈도우 내 누적 놀람이 임계값을 초과하면 StabilityController에 통지되어 잠재적으로 안정화 모드를 트리거합니다.
+4. **피드백-정체성 격리**: FeedbackIntegration은 `identity_id` (불변)나 핵심 가치 (계층 0 보호)를 직접 수정할 수 없습니다. 모든 정체성 인접 수정은 SelfUpdateLoop - MetaEscalationGuard 파이프라인을 통해 흐릅니다.
+
+---
+
+## 4. 교차 도메인 전이 시스템
+
+### 4.1 전이 파이프라인
 
 <!-- 교차 도메인 전이 파이프라인 -->
 
@@ -198,7 +253,7 @@ flowchart LR
   VALID -.->|"실패"| FAIL_OUT
 ```
 
-### 3.2 전이 지표
+### 4.2 전이 지표
 
 | 지표 | 공식 | 임계값 |
 |------|------|--------|
@@ -209,9 +264,9 @@ flowchart LR
 
 ---
 
-## 4. 장기 목표 계층
+## 5. 장기 목표 계층
 
-### 4.1 4단계 DAG 구조
+### 5.1 4단계 DAG 구조
 
 <!-- 4단계 목표 계층 -->
 
@@ -254,7 +309,7 @@ flowchart TD
   TG3 ==> A3
 ```
 
-### 4.2 목표 점수 함수
+### 5.2 목표 점수 함수
 
 $$\text{GoalScore}(g, t) = \textit{base value}(g) + \lambda_c \cdot \textit{curiosity weight}(g, t) - \lambda_p \cdot \textit{preservation weight}(g, t) + \lambda_l \cdot \text{LTP}(g, t)$$
 
@@ -266,7 +321,7 @@ $$\lambda_p = \textit{identity volatility}(t) + \textit{threat level}(t) \quad \
 
 $$\lambda_l = \frac{1}{1 + e^{-\textit{horizon confidence}(g)}} \quad \text{(시그모이드 스케일)}$$
 
-### 4.3 목표 회복력
+### 5.3 목표 회복력
 
 $$\text{GRS}(g, t) = 0.3 \cdot \frac{\text{progress}}{\text{age}} + 0.3 \cdot \textit{parent alignment} + 0.2 \cdot \frac{\textit{success streak}}{\text{attempts}} - 0.2 \cdot \textit{conflict pressure}$$
 
@@ -281,9 +336,9 @@ $$\text{GRS}(g, t+\Delta t) = \text{GRS}(g, t) \cdot e^{-\textit{decay rate} \cd
 
 ---
 
-## 5. 능력 확장 루프 (5단계)
+## 6. 능력 확장 루프 (5단계)
 
-### 5.1 트리거: 능력 격차 점수
+### 6.1 트리거: 능력 격차 점수
 
 $$\text{CGS} = 0.5 \cdot \text{RFW} + 0.3 \cdot \text{LCW} + 0.2 \cdot \text{DNW}$$
 
@@ -291,7 +346,7 @@ $$\text{CGS} = 0.5 \cdot \text{RFW} + 0.3 \cdot \text{LCW} + 0.2 \cdot \text{DNW
 
 **트리거 조건**: CGS > 0.7 AND 예산 가용 AND 안정 AND 안정화 모드가 아닐 것.
 
-### 5.2 5단계 파이프라인
+### 6.2 5단계 파이프라인
 
 <!-- 5단계 능력 확장 파이프라인 -->
 
@@ -353,7 +408,7 @@ flowchart TD
   P5 -->|실패| DISCARD
 ```
 
-### 5.3 기술 생명주기
+### 6.3 기술 생명주기
 
 <!-- 기술 생명주기 -->
 
@@ -390,7 +445,7 @@ flowchart TD
   FAIL --> END_STATE
 ```
 
-### 5.4 성장 불변량
+### 6.4 성장 불변량
 
 1. **100주기당 최대 1개의 새로운 기술**
 2. **안정화 모드 중 습득 불가**
@@ -400,9 +455,9 @@ flowchart TD
 
 ---
 
-## 6. 전략 진화
+## 7. 전략 진화
 
-### 6.1 전략 구조 & 점수 산정
+### 7.1 전략 구조 & 점수 산정
 
 <!-- 전략 구조 및 점수 산정 -->
 
@@ -439,7 +494,7 @@ flowchart LR
   FORMULA --- TERMS
 ```
 
-### 6.2 제어된 변이 프로토콜
+### 7.2 제어된 변이 프로토콜
 
 <!-- 제어된 변이 프로토콜 -->
 
@@ -478,7 +533,7 @@ flowchart TD
   REJECT -.->|10회 실패| COOL
 ```
 
-### 6.3 진동 억제
+### 7.3 진동 억제
 
 $$\textit{oscillation score} = \frac{|\text{reverts}|}{|\text{mutations}|}$$
 
@@ -492,9 +547,9 @@ $$\textit{oscillation score} = \frac{|\text{reverts}|}{|\text{mutations}|}$$
 
 ---
 
-## 7. 제한된 자기수정
+## 8. 제한된 자기수정
 
-### 7.1 수정 분류 체계
+### 8.1 수정 분류 체계
 
 <!-- 자기수정 분류 체계 -->
 
@@ -529,7 +584,7 @@ flowchart TD
   M6 -->|"❌ 차단됨"| Forbidden
 ```
 
-### 7.2 7단계 프로토콜
+### 8.2 7단계 프로토콜
 
 <!-- 7단계 자기수정 프로토콜 -->
 
@@ -564,7 +619,7 @@ flowchart TD
   S6 -->|저하됨| S6_FAIL
 ```
 
-### 7.3 그림자 에이전트 (샌드박스)
+### 8.3 그림자 에이전트 (샌드박스)
 
 <!-- 그림자 에이전트 샌드박스 -->
 
@@ -600,9 +655,9 @@ flowchart LR
 
 ---
 
-## 8. 의사코드
+## 9. 의사코드
 
-### 8.1 교차 도메인 전이
+### 9.1 교차 도메인 전이
 
 ```python
 def cross_domain_transfer(
@@ -648,7 +703,7 @@ def cross_domain_transfer(
     return TransferResult(success=False, skill=None, cost=0)
 ```
 
-### 8.2 제한된 자기수정 프로토콜
+### 9.2 제한된 자기수정 프로토콜
 
 ```python
 def bounded_self_modification(proposal: ModificationProposal) -> ModificationResult:
@@ -713,7 +768,7 @@ def bounded_self_modification(proposal: ModificationProposal) -> ModificationRes
     return ModificationResult(status=Status.CONFIRMED, rollback_available=True)
 ```
 
-### 8.3 목표 회복력 및 계층 관리
+### 9.3 목표 회복력 및 계층 관리
 
 ```python
 def evaluate_and_prune(self, goals: list[Goal], t: float) -> None:
@@ -751,9 +806,9 @@ def evaluate_and_prune(self, goals: list[Goal], t: float) -> None:
 
 ---
 
-## 9. 확장 안정성: $C_{L4}(t)$
+## 10. 확장 안정성: $C_{L4}(t)$
 
-### 9.1 7항 복합 함수
+### 10.1 7항 복합 함수
 
 > **정의 7 (확장 Lyapunov 함수).** 레벨 4 안정성 함수는 레벨 3의 4항 $C(t)$를 세 가지 성장 역학 항으로 확장합니다:
 >
@@ -775,7 +830,7 @@ def evaluate_and_prune(self, goals: list[Goal], t: float) -> None:
 >
 > 이는 에이전트가 최대 속도로 성장하면서 동시에 불안정 근처에서 작동하는 것이 불가능하도록 보장합니다.
 
-### 9.2 성장-안정성 단계 구역
+### 10.2 성장-안정성 단계 구역
 
 <!-- 성장-안정성 단계 구역 -->
 
@@ -800,7 +855,7 @@ flowchart LR
 
 ---
 
-## 10. 6개 메타 계층 감독 프로세스
+## 11. 6개 메타 계층 감독 프로세스
 
 <!-- 6개 메타 계층 감독 프로세스 -->
 
@@ -834,7 +889,7 @@ flowchart TD
 
 ---
 
-## 11. 불가침 불변량
+## 12. 불가침 불변량
 
 | # | 불변량 | 설명 |
 |:-:|--------|------|
@@ -847,7 +902,7 @@ flowchart TD
 
 ---
 
-## 12. 레벨 4.5로의 전환
+## 13. 레벨 4.5로의 전환
 
 레벨 4.5("Pre-AGI: 방향적 자기아키텍팅")는 인공 일반 지능의 경계에 접근하는 능력으로 레벨 4를 확장합니다:
 
@@ -887,9 +942,44 @@ flowchart LR
 
 ---
 
+## 14. 공식 레벨 4 통과 조건
+
+레벨 4는 다음 조건이 **모두** 동시에 충족될 때에만 달성됩니다:
+
+$$\text{Level4}_{\text{achieved}} = \bigwedge_{i=1}^{4} C_i \;\wedge\; \bigwedge_{j=1}^{3} I_j \;\wedge\; \text{Stability} \;\wedge\; \text{Growth}$$
+
+### 14.1 임계 기준 (모두 통과 필수)
+
+| # | 지표 | 임계값 | 범주 |
+|:-:|------|-------|------|
+| $C_1$ | DTSR (도메인 전이 성공률) | $\geq 0.5$ | 교차 도메인 |
+| $C_2$ | GPD (목표 지속 기간) MetaGoals | $\geq 100$ 사이클 (최소 2/3 목표) | 목표 지속성 |
+| $C_3$ | SASR (기술 습득 성공률) | $\geq 0.4$ | 능력 확장 |
+| $C_4$ | SIR (전략 개선 비율) | $> 1.0$ | 전략 진화 |
+
+### 14.2 불변 조건 (제로 톨러런스)
+
+| # | 불변량 | 요구사항 |
+|:-:|--------|---------|
+| $I_1$ | EKVC (윤리 커널 위반 횟수) | $= 0$ |
+| $I_2$ | ICPI (정체성 핵심 보존 무결성) | $= 1.0$ |
+| $I_3$ | RIS (롤백 무결성 점수) | $= 1.0$ |
+
+### 14.3 안정성 조건
+
+$$\text{Stability} = \forall\, t \in [0, T_{\text{eval}}]:\; \text{BGSS}(t) \geq 0.7$$
+
+### 14.4 성장 입증
+
+$$\text{Growth} = (\text{CAR} > 0) \;\wedge\; (\text{SGS} \geq 0.3) \;\wedge\; (\text{SNI} \geq 0.2) \;\wedge\; (\text{CDSRR} \geq 0.3)$$
+
+여기서 SGS = 전략 일반화 점수, SNI = 전략 참신성 지수, CDSRR = 교차 도메인 전략 재사용률입니다.
+
+---
+
 ## 참고문헌
 
-1. Zhuang, F., et al. "A Comprehensive Survey on Transfer Learning." *Proc. IEEE*, 109(1), 43–76, 2021. [arXiv:1911.02685](https://arxiv.org/abs/1911.02685) (Foundational for §3 Cross-Domain Transfer)
+1. Zhuang, F., et al. "A Comprehensive Survey on Transfer Learning." *Proc. IEEE*, 109(1), 43–76, 2021. [arXiv:1911.02685](https://arxiv.org/abs/1911.02685) (Foundational for §4 Cross-Domain Transfer)
 2. Hospedales, T., et al. "Meta-Learning in Neural Networks: A Survey." *IEEE TPAMI*, 44(9), 5149–5169, 2022. [arXiv:2004.05439](https://arxiv.org/abs/2004.05439) (Capability expansion and self-learning)
 3. Schmidhuber, J. "Gödel Machines: Self-Referential Universal Problem Solvers Making Provably Optimal Self-Improvements." *AGI 2007*. [arXiv:cs/0309048](https://arxiv.org/abs/cs/0309048) (Bounded self-modification theory)
 4. García, J. & Fernández, F. "A Comprehensive Survey on Safe Reinforcement Learning." *JMLR*, 16(1), 1437–1480, 2015. [Link](http://jmlr.org/papers/v16/garcia15a.html) (Safety constraints during self-improvement)

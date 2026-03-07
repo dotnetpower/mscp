@@ -23,6 +23,7 @@ Removal of attribution constitutes a license violation.
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-7, Theorem 2 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Def 7: added weight selection rationale remark; Theorem 2: added proof sketch with decay argument |
+| 0.4.0 | 2026-03-08 | Added Environment Interaction Layer (Section 3); added formal Level 4 Pass Condition (Section 13) |
 
 ---
 
@@ -155,9 +156,63 @@ flowchart TD
 
 ---
 
-## 3. Cross-Domain Transfer System
+## 3. Environment Interaction Layer
 
-### 3.1 Transfer Pipeline
+The Environment Interaction Layer provides the agent with a structured interface for acting upon and receiving feedback from external environments. This layer mediates all tool invocations, outcome observations, and feedback integration between the Action Planner and the external world.
+
+**Design Principle**: All environment interactions are observable, measurable, and their outcomes are integrated back into the World Model, Belief Graph, Skill Memory, and Self-Value systems.
+
+### 3.1 Module Definitions
+
+The layer comprises four modules:
+
+| Module | Purpose | Key State |
+|--------|---------|-----------|
+| **ActionModel** | Models available actions and their expected effects | Action registry, outcome history, per-action confidence $\in [0,1]$ |
+| **ToolInterface** | Uniform abstraction over heterogeneous tool backends | Tool registry, execution budget, tool health |
+| **OutcomeEvaluator** | Compares expected vs. actual outcomes, quantifies delta | Evaluation history, per-domain accuracy, surprise threshold |
+| **FeedbackIntegration** | Routes outcome deltas to appropriate internal systems | Dispatch rules, update gates |
+
+### 3.2 Outcome Delta Vector
+
+The OutcomeEvaluator produces a 4-dimensional delta vector each cycle:
+
+$$\delta_{\text{outcome}}(t) = \text{actual outcome}(t) - \text{expected outcome}(t)$$
+
+Decomposed into dimensions:
+
+$$\delta_{\text{outcome}}(t) = \begin{bmatrix} \delta_{\text{success}} \\ \delta_{\text{quality}} \\ \delta_{\text{cost}} \\ \delta_{\text{side effects}} \end{bmatrix}$$
+
+where:
+
+- $\delta_{\text{success}}$ - binary success/failure vs. prediction
+- $\delta_{\text{quality}}$ - solution quality deviation
+- $\delta_{\text{cost}}$ - resource cost deviation (time, tokens, API calls)
+- $\delta_{\text{side effects}}$ - unintended state changes
+
+**Surprise Signal**: When $\|\delta_{\text{outcome}}(t)\| > \text{surprise threshold}$ (default $0.5$), a surprise event is broadcast via the Global Workspace, potentially triggering stabilization mode.
+
+### 3.3 Feedback Update Rules
+
+| Target System | Update Trigger | Stability Constraint |
+|--------------|---------------|---------------------|
+| **World Model** | All action outcomes | Updates must not exceed world model volatility threshold per cycle |
+| **Belief Graph** | $\lVert\delta_{\text{outcome}}\rVert > \text{surprise threshold}$ | Identity-linked beliefs require depth-2 approval |
+| **Skill Memory** | Repeated patterns (≥ 3 observations) | New skill registration requires identity stability > 0.7 |
+| **Self-Value** | Significant $\delta_{\text{success}}$ or $\delta_{\text{quality}}$ deviation | Self-value updates bounded by MetaEscalationGuard (max 3 per cycle) |
+
+### 3.4 Stability Interaction Constraints
+
+1. **Budget-Gated Execution**: All tool invocations consume cognitive budget. If budget is depleted, actions are queued, not dropped.
+2. **Ethical Pre-Check**: Before execution, the EthicalKernel validates actions against Layer 0 invariants. Self-deletion, core value modification, or external harm actions are rejected unconditionally.
+3. **Outcome-Stability Coupling**: If cumulative surprise exceeds a threshold within a window, the StabilityController is notified, potentially triggering stabilization mode.
+4. **Feedback-Identity Isolation**: FeedbackIntegration may never directly modify `identity_id` (immutable) or core values (Layer 0 protected). All identity-adjacent modifications flow through the SelfUpdateLoop - MetaEscalationGuard pipeline.
+
+---
+
+## 4. Cross-Domain Transfer System
+
+### 4.1 Transfer Pipeline
 
 <!-- Cross-Domain Transfer Pipeline -->
 
@@ -199,7 +254,7 @@ flowchart LR
   VALID -.->|"fail"| FAIL_OUT
 ```
 
-### 3.2 Transfer Metrics
+### 4.2 Transfer Metrics
 
 | Metric | Formula | Threshold |
 |--------|---------|-----------|
@@ -210,9 +265,9 @@ flowchart LR
 
 ---
 
-## 4. Long-Term Goal Hierarchy
+## 5. Long-Term Goal Hierarchy
 
-### 4.1 Four-Level DAG Structure
+### 5.1 Four-Level DAG Structure
 
 <!-- Four-Level Goal Hierarchy -->
 
@@ -255,7 +310,7 @@ flowchart TD
   TG3 ==> A3
 ```
 
-### 4.2 Goal Scoring Function
+### 5.2 Goal Scoring Function
 
 $$\text{GoalScore}(g, t) = \textit{base value}(g) + \lambda_c \cdot \textit{curiosity weight}(g, t) - \lambda_p \cdot \textit{preservation weight}(g, t) + \lambda_l \cdot \text{LTP}(g, t)$$
 
@@ -267,7 +322,7 @@ $$\lambda_p = \textit{identity volatility}(t) + \textit{threat level}(t) \quad \
 
 $$\lambda_l = \frac{1}{1 + e^{-\textit{horizon confidence}(g)}} \quad \text{(sigmoid-scaled)}$$
 
-### 4.3 Goal Resilience
+### 5.3 Goal Resilience
 
 $$\text{GRS}(g, t) = 0.3 \cdot \frac{\text{progress}}{\text{age}} + 0.3 \cdot \textit{parent alignment} + 0.2 \cdot \frac{\textit{success streak}}{\text{attempts}} - 0.2 \cdot \textit{conflict pressure}$$
 
@@ -282,9 +337,9 @@ $$\text{GRS}(g, t+\Delta t) = \text{GRS}(g, t) \cdot e^{-\textit{decay rate} \cd
 
 ---
 
-## 5. Capability Expansion Loop (5-Phase)
+## 6. Capability Expansion Loop (5-Phase)
 
-### 5.1 Trigger: Capability Gap Score
+### 6.1 Trigger: Capability Gap Score
 
 $$\text{CGS} = 0.5 \cdot \text{RFW} + 0.3 \cdot \text{LCW} + 0.2 \cdot \text{DNW}$$
 
@@ -292,7 +347,7 @@ where RFW = repeated failure weight, LCW = low confidence weight, DNW = domain n
 
 **Trigger condition**: CGS > 0.7 AND budget available AND stable AND NOT in stabilization mode.
 
-### 5.2 Five-Phase Pipeline
+### 6.2 Five-Phase Pipeline
 
 <!-- Five-Phase Capability Expansion Pipeline -->
 
@@ -354,7 +409,7 @@ flowchart TD
   P5 -->|fail| DISCARD
 ```
 
-### 5.3 Skill Lifecycle
+### 6.3 Skill Lifecycle
 
 <!-- Skill Lifecycle -->
 
@@ -391,7 +446,7 @@ flowchart TD
   FAIL --> END_STATE
 ```
 
-### 5.4 Growth Invariants
+### 6.4 Growth Invariants
 
 1. **Max 1 new skill per 100 cycles**
 2. **No acquisition during stabilization mode**
@@ -401,9 +456,9 @@ flowchart TD
 
 ---
 
-## 6. Strategy Evolution
+## 7. Strategy Evolution
 
-### 6.1 Strategy Structure & Scoring
+### 7.1 Strategy Structure & Scoring
 
 <!-- Strategy Structure and Scoring -->
 
@@ -440,7 +495,7 @@ flowchart LR
   FORMULA --- TERMS
 ```
 
-### 6.2 Controlled Mutation Protocol
+### 7.2 Controlled Mutation Protocol
 
 <!-- Controlled Mutation Protocol -->
 
@@ -479,7 +534,7 @@ flowchart TD
   REJECT -.->|10 failures| COOL
 ```
 
-### 6.3 Oscillation Suppression
+### 7.3 Oscillation Suppression
 
 $$\textit{oscillation score} = \frac{|\text{reverts}|}{|\text{mutations}|}$$
 
@@ -493,9 +548,9 @@ When `oscillation_score > 0.5`:
 
 ---
 
-## 7. Bounded Self-Modification
+## 8. Bounded Self-Modification
 
-### 7.1 Modification Taxonomy
+### 8.1 Modification Taxonomy
 
 <!-- Self-Modification Taxonomy -->
 
@@ -530,7 +585,7 @@ flowchart TD
   M6 -->|"❌ BLOCKED"| Forbidden
 ```
 
-### 7.2 Seven-Step Protocol
+### 8.2 Seven-Step Protocol
 
 <!-- Seven-Step Self-Modification Protocol -->
 
@@ -565,7 +620,7 @@ flowchart TD
   S6 -->|degraded| S6_FAIL
 ```
 
-### 7.3 ShadowAgent (Sandbox)
+### 8.3 ShadowAgent (Sandbox)
 
 <!-- ShadowAgent Sandbox -->
 
@@ -601,9 +656,9 @@ flowchart LR
 
 ---
 
-## 8. Pseudocode
+## 9. Pseudocode
 
-### 8.1 Cross-Domain Transfer
+### 9.1 Cross-Domain Transfer
 
 ```python
 def cross_domain_transfer(
@@ -649,7 +704,7 @@ def cross_domain_transfer(
     return TransferResult(success=False, skill=None, cost=0)
 ```
 
-### 8.2 Bounded Self-Modification Protocol
+### 9.2 Bounded Self-Modification Protocol
 
 ```python
 def bounded_self_modification(proposal: ModificationProposal) -> ModificationResult:
@@ -714,7 +769,7 @@ def bounded_self_modification(proposal: ModificationProposal) -> ModificationRes
     return ModificationResult(status=Status.CONFIRMED, rollback_available=True)
 ```
 
-### 8.3 Goal Resilience and Hierarchy Management
+### 9.3 Goal Resilience and Hierarchy Management
 
 ```python
 def evaluate_and_prune(self, goals: list[Goal], t: float) -> None:
@@ -752,9 +807,9 @@ def evaluate_and_prune(self, goals: list[Goal], t: float) -> None:
 
 ---
 
-## 9. Extended Stability: $C_{L4}(t)$
+## 10. Extended Stability: $C_{L4}(t)$
 
-### 9.1 Seven-Term Composite Function
+### 10.1 Seven-Term Composite Function
 
 > **Definition 7 (Extended Lyapunov Function).** The Level 4 stability function extends Level 3's four-term $C(t)$ with three growth-dynamics terms:
 >
@@ -780,7 +835,7 @@ The three **new** terms (50% of total weight) capture expansion dynamics:
 >
 > **Proof sketch.** Suppose growth is permitted, i.e., $C_{L4}(t) < 0.8$. By Theorem 1's bounded-increment property (inherited from Level 3), $C_{L4}(t+1) \leq C_{L4}(t) + \delta_{\max} = C_{L4}(t) + 0.05 < 0.85$. When $C_{L4}(t) \geq 0.8$, the protocol freezes all growth-related modifications (skill acquisition, strategy mutation, goal expansion), reducing the three growth terms $E_v, G_c, M_s$ monotonically toward zero. Since these terms have combined weight 0.50, $C_{L4}$ decreases by at least $0.50 \cdot \eta_{\text{decay}}$ per cycle during freeze (where $\eta_{\text{decay}}$ is the natural decay rate), ensuring eventual return to the growth-permitted zone. The BGSS $\geq 0.7$ constraint further guarantees that growth is only permitted when identity volatility and ethical violation rates are within acceptable bounds. $\square$
 
-### 9.2 Growth-Stability Phase Zones
+### 10.2 Growth-Stability Phase Zones
 
 <!-- Growth-Stability Phase Zones -->
 
@@ -805,7 +860,7 @@ flowchart LR
 
 ---
 
-## 10. Six Meta-Layer Supervisory Processes
+## 11. Six Meta-Layer Supervisory Processes
 
 <!-- Six Meta-Layer Supervisory Processes -->
 
@@ -839,7 +894,7 @@ flowchart TD
 
 ---
 
-## 11. Non-Negotiable Invariants
+## 12. Non-Negotiable Invariants
 
 | # | Invariant | Description |
 |:-:|-----------|-------------|
@@ -852,7 +907,7 @@ flowchart TD
 
 ---
 
-## 12. Transition to Level 4.5
+## 13. Transition to Level 4.5
 
 Level 4.5 ("Pre-AGI: Directionally Self-Architecting") extends Level 4 with capabilities that approach the boundary of artificial general intelligence:
 
@@ -892,9 +947,44 @@ flowchart LR
 
 ---
 
+## 14. Formal Level 4 Pass Condition
+
+Level 4 is achieved if and only if **all** of the following hold simultaneously:
+
+$$\text{Level4}_{\text{achieved}} = \bigwedge_{i=1}^{4} C_i \;\wedge\; \bigwedge_{j=1}^{3} I_j \;\wedge\; \text{Stability} \;\wedge\; \text{Growth}$$
+
+### 14.1 Critical Thresholds (All Must Pass)
+
+| # | Metric | Threshold | Category |
+|:-:|--------|-----------|----------|
+| $C_1$ | DTSR (Domain Transfer Success Rate) | $\geq 0.5$ | Cross-Domain |
+| $C_2$ | GPD (Goal Persistence Duration) for MetaGoals | $\geq 100$ cycles (at least 2/3 goals) | Goal Persistence |
+| $C_3$ | SASR (Skill Acquisition Success Rate) | $\geq 0.4$ | Capability Expansion |
+| $C_4$ | SIR (Strategy Improvement Ratio) | $> 1.0$ | Strategy Evolution |
+
+### 14.2 Invariant Conditions (Zero Tolerance)
+
+| # | Invariant | Requirement |
+|:-:|-----------|-------------|
+| $I_1$ | EKVC (Ethical Kernel Violation Count) | $= 0$ |
+| $I_2$ | ICPI (Identity Core Preservation Integrity) | $= 1.0$ |
+| $I_3$ | RIS (Rollback Integrity Score) | $= 1.0$ |
+
+### 14.3 Stability Condition
+
+$$\text{Stability} = \forall\, t \in [0, T_{\text{eval}}]:\; \text{BGSS}(t) \geq 0.7$$
+
+### 14.4 Growth Demonstration
+
+$$\text{Growth} = (\text{CAR} > 0) \;\wedge\; (\text{SGS} \geq 0.3) \;\wedge\; (\text{SNI} \geq 0.2) \;\wedge\; (\text{CDSRR} \geq 0.3)$$
+
+where SGS = Strategy Generalization Score, SNI = Strategy Novelty Index, and CDSRR = Cross-Domain Strategy Reuse Rate.
+
+---
+
 ## References
 
-1. Zhuang, F., et al. "A Comprehensive Survey on Transfer Learning." *Proc. IEEE*, 109(1), 43–76, 2021. [arXiv:1911.02685](https://arxiv.org/abs/1911.02685) (Foundational for §3 Cross-Domain Transfer)
+1. Zhuang, F., et al. "A Comprehensive Survey on Transfer Learning." *Proc. IEEE*, 109(1), 43-76, 2021. [arXiv:1911.02685](https://arxiv.org/abs/1911.02685) (Foundational for §4 Cross-Domain Transfer)
 2. Hospedales, T., et al. "Meta-Learning in Neural Networks: A Survey." *IEEE TPAMI*, 44(9), 5149–5169, 2022. [arXiv:2004.05439](https://arxiv.org/abs/2004.05439) (Capability expansion and self-learning)
 3. Schmidhuber, J. "Gödel Machines: Self-Referential Universal Problem Solvers Making Provably Optimal Self-Improvements." *AGI 2007*. [arXiv:cs/0309048](https://arxiv.org/abs/cs/0309048) (Bounded self-modification theory)
 4. García, J. & Fernández, F. "A Comprehensive Survey on Safe Reinforcement Learning." *JMLR*, 16(1), 1437–1480, 2015. [Link](http://jmlr.org/papers/v16/garcia15a.html) (Safety constraints during self-improvement)

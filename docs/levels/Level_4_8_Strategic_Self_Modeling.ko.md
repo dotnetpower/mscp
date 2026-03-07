@@ -22,6 +22,7 @@ Removal of attribution constitutes a license violation.
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-13, Proposition 1 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (1.2 to 1.3); added graduated re-enablement protocol (Section 6.4) with persistent veto tracking |
 
 ---
 
@@ -59,7 +60,7 @@ Removal of attribution constitutes a license violation.
 | 위험 평가 | 성장 조절기 | **정량화된 위험 노출 + 자원 고갈 예측** |
 | 의사결정 | SEOF 기반 | **지연 보상을 포함한 다중 시나리오 전략 비교** |
 
-### 1.2 네 가지 핵심 단계
+### 1.3 네 가지 핵심 단계
 
 <!-- 레벨 4.8 아키텍처 - 네 가지 단계 -->
 
@@ -632,6 +633,45 @@ flowchart TD
 > $$\text{CompoundSeverity} = \sum_{i \in \text{violated}} \frac{\text{ViolationMagnitude}_i}{\text{Priority}_i}$$
 >
 > $\text{CompoundSeverity} > 2.0$이면 상황은 **재앙적**으로 분류되며 레벨 4.5로의 복귀와 함께 즉시 긴급 동결을 발동합니다.
+
+### 6.4 단계적 재활성화 프로토콜
+
+안정성 위반이 동결을 트리거하면, 시스템은 결정론적 4단계 복구 프로토콜을 따릅니다:
+
+**단계 0 - 즉시 동결** (사이클 $t_0$):
+
+- 모든 레벨 4.8 전략적 결정을 동결합니다.
+- 레벨 4.5 기본 동작으로 복귀합니다.
+- 위반한 불변량과 불안정을 일으킨 결정을 기록합니다.
+- $\text{WeaknessMap}$을 증거와 함께 업데이트합니다.
+
+**단계 1 - 제어된 재균형** (사이클 $t_0$ ~ $t_0 + 50$):
+
+- 레벨 4.5 규칙으로만 운영합니다.
+- 안정성 지표를 모니터링하여 복구 여부를 판단합니다.
+- 근본 원인 분석을 수행합니다.
+
+**단계 2 - 복구** (50 연속 사이클 안정 시):
+
+| 단계 | 사이클 범위 | 권한 | 설명 |
+|------|------------|:----:|------|
+| 자문 모드 | $t_0 + 50$ ~ $t_0 + 150$ | 0% | L4.8은 권고만 생성; L4.5가 결정 |
+| 점진적 모드 | $t_0 + 150$ ~ $t_0 + 250$ | 50% | L4.8 결정 허용, 거부 임계값 절반 |
+| 완전 모드 | $t_0 + 250$ 이후 | 100% | L4.8 완전 권한 복구 |
+
+> **공식 복구 조건.** $\mathcal{S}(t)$를 사이클 $t$에서 충족된 불변량 집합이라 할 때, 단계 1에서 자문 모드로의 전환은 다음을 요구합니다:
+>
+> $$\forall t \in [t_0, t_0 + 50]: \lvert \mathcal{S}(t) \rvert = 5$$
+
+**단계 3 - 영구 중단** (폴백):
+
+- 재균형 100 사이클 ($t_0 + 100$) 후에도 안정이 복원되지 않으면, 레벨 4.8은 수동 검토 전까지 영구 중단됩니다.
+
+**지속적 거부 추적.** 동일한 불변량 조건이 1000사이클 윈도우 내에서 3회 이상 거부를 트리거하면, 시스템은 근본 원인을 재활성화가 아닌 구조적 수정이 필요한 아키텍처 결함으로 분류합니다:
+
+$$\text{PersistentVetoFlag}(c) = \begin{cases} 1 & \text{if } \text{VetoCount}(c, W_{1000}) > 3 \\ 0 & \text{otherwise} \end{cases}$$
+
+여기서 $c$는 특정 불변량 조건을 식별하고 $W_{1000}$은 후행 1000사이클 윈도우입니다.
 
 ---
 

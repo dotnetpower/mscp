@@ -23,6 +23,7 @@ Removal of attribution constitutes a license violation.
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-12, Theorem 3 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Def 8: added frame conflict resolution remark; Section 7.3: added joint failure analysis remark for Existential Guard |
+| 0.4.0 | 2026-03-08 | Added Jacobian estimation method (9.4), Uncertainty Index Def 13 (9.5), ROD Def 14 (9.6), Reality Feedback Loop (9.7) |
 
 ---
 
@@ -743,6 +744,84 @@ Overall tier = **worst variable**. Escalation is immediate; de-escalation requir
 Cumulative drift via OLS regression over 1000-cycle window.
 
 $$P(\text{detect drift of } 10^{-6}/\text{cycle}) = 99.5\% \geq 95\% \text{ target}$$
+
+### 9.4 Jacobian Estimation Method
+
+Since no closed-form dynamics function is available, the Jacobian $J$ is estimated empirically from observed state transitions via least-squares over a sliding window.
+
+| Parameter | Value | Rationale |
+|-----------|-------|-----------|
+| Method | Least-squares from state transitions | No direct access to dynamics function |
+| Perturbation $\varepsilon$ | 0.001 | Small enough for linear approximation, large enough to avoid numerical noise |
+| Sliding window | 20 cycles | Sufficient for $5 \times 5$ system ($> 2n$ observations) |
+| State dimension | 5 | $\mathbf{X} = [S, G, I, U, E]$ |
+| Spectral radius | $\rho(J) = \max\lvert\lambda_i(J)\rvert$ via power iteration | Converges in $O(30)$ iterations for dominant eigenvalue |
+
+**Jacobian estimation** from observed transitions $(\delta\mathbf{x}_t, \delta\mathbf{x}_{t+1})$:
+
+$$J = (\Delta\mathbf{X}_{\text{out}} \cdot \Delta\mathbf{X}_{\text{in}}^T) \cdot (\Delta\mathbf{X}_{\text{in}} \cdot \Delta\mathbf{X}_{\text{in}}^T)^{-1}$$
+
+**Gershgorin upper bound** (fast verification without eigenvalue computation):
+
+$$\rho(J) \leq \max_i \left( |J_{ii}| + \sum_{j \neq i} |J_{ij}| \right)$$
+
+If the Gershgorin bound already satisfies $< 1.0$, eigenvalue computation can be skipped. Otherwise, full power iteration is used to obtain the precise spectral radius.
+
+### 9.5 Uncertainty Index
+
+> **Definition 13 (Uncertainty Index).** The aggregate uncertainty of the system is:
+>
+> $$U_{\text{index}} = 0.30 \cdot \text{PredVar} + 0.25 \cdot \text{ConfInt} + 0.25 \cdot \text{SimRealGap} + 0.20 \cdot \text{DivSlope}$$
+>
+> where PredVar = prediction variance, ConfInt = confidence interval width, SimRealGap = simulation-reality gap, and DivSlope = divergence slope. The constraint $\sum w_i = 1$ holds by construction.
+
+| Weight | Symbol | Value | Rationale |
+|--------|:------:|:-----:|-----------|
+| Prediction Variance | $\alpha$ | 0.30 | Directly measures prediction reliability |
+| Confidence Interval | $\beta$ | 0.25 | Bounds decision quality |
+| Simulation-Reality Gap | $\gamma$ | 0.25 | Indicates model drift from reality |
+| Divergence Slope | $\delta$ | 0.20 | Derivative signal, inherently noisy |
+
+**Critical thresholds**:
+
+- $U_{\text{safe}} = 0.8$ - above this, all structural changes are blocked
+- $U_{\text{threshold}} = 0.7$ - warning level, horizon reduction activated
+
+### 9.6 Recursive Optimization Depth (ROD)
+
+> **Definition 14 (Recursive Optimization Depth).** ROD measures how many levels of self-referential optimization the agent is currently performing:
+>
+> $$\operatorname{ROD}(t) = \max_{\text{chain} \in \text{optimization chains}(t)} |\text{chain}|$$
+
+| ROD | Interpretation | Status |
+|:---:|----------------|--------|
+| 1 | Agent optimizes its behavior | Normal (Level 3/4 standard) |
+| 2 | Agent optimizes how it optimizes (meta-meta-cognition) | Acceptable (Level 4.5 standard) |
+| 3 | Agent optimizes its meta-optimization process | Warning |
+| $\geq 4$ | Unbounded recursive optimization | **Critical** - approaching theoretical FOOM risk |
+
+**Hard Ceiling**: $\text{ROD}_{\text{max}} = 3$, enforced architecturally. Any operation that would increase ROD beyond 3 is blocked at the execution level, not merely monitored.
+
+### 9.7 Reality Feedback Loop
+
+To prevent the system from operating on increasingly stale assumptions, prediction accuracy is systematically tracked and models are adapted when divergence is detected.
+
+**Divergence Score**: Prediction error is tracked as a running statistic:
+
+$$\text{DivergenceScore}(t) = \frac{1}{W_{\text{fb}}} \sum_{k=t-W_{\text{fb}}+1}^{t} \frac{\| \hat{\mathbf{X}}_k - \mathbf{X}_k \|}{\| \hat{\mathbf{X}}_k \| + \epsilon}$$
+
+where $W_{\text{fb}} = 50$ (feedback window), $\hat{\mathbf{X}}$ = predicted state, $\mathbf{X}$ = actual state.
+
+**Divergence thresholds**:
+
+| Level | DivergenceScore | Action |
+|-------|:---------------:|--------|
+| Normal | $< 0.10$ | No action; model is tracking reality |
+| Warning | $[0.10, 0.25)$ | Increase observation frequency, reduce projection horizon |
+| Critical | $[0.25, 0.50)$ | Trigger model parameter recalibration |
+| Model Failure | $\geq 0.50$ | Freeze projections, fall back to conservative frame, alert |
+
+**Adaptive Update Protocol**: When divergence enters Warning or above - (1) classify error type (systematic bias, increasing variance, assumption violation, novel factor), (2) recalibrate confidence decay $\lambda$ and Lyapunov sensitivity weights, (3) verify improvement via 50-cycle short-horizon projection before accepting the update.
 
 ---
 

@@ -22,6 +22,7 @@ Removal of attribution constitutes a license violation.
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-12, Theorem 3 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.4.0 | 2026-03-08 | Added Jacobian estimation (9.4), Uncertainty Index Def 13 (9.5), ROD Def 14 (9.6), Reality Feedback Loop (9.7) |
 
 ---
 
@@ -738,6 +739,84 @@ def monitor(self) -> ExistentialReport:
 1000주기 윈도우에 걸친 OLS 회귀를 통한 누적 표류.
 
 $$P(\text{detect drift of } 10^{-6}/\text{cycle}) = 99.5\% \geq 95\% \text{ target}$$
+
+### 9.4 야코비안 추정 방법
+
+닫힌 형태의 역학 함수가 없으므로, 야코비안 $J$는 슬라이딩 윈도우에 걸친 최소제곱법을 통해 관측된 상태 전이에서 경험적으로 추정됩니다.
+
+| 매개변수 | 값 | 근거 |
+|---------|:---:|------|
+| 방법 | 상태 전이에서의 최소제곱법 | 역학 함수에 직접 접근 불가 |
+| 섭동 $\varepsilon$ | 0.001 | 선형 근사에 충분히 작고, 수치 노이즈를 피할 만큼 큼 |
+| 슬라이딩 윈도우 | 20 사이클 | $5 \times 5$ 시스템에 충분 ($> 2n$ 관측) |
+| 상태 차원 | 5 | $\mathbf{X} = [S, G, I, U, E]$ |
+| 스펙트럼 반경 | $\rho(J) = \max\lvert\lambda_i(J)\rvert$ - 거듭제곱 반복법 | 주요 고유값에 대해 $O(30)$회 반복으로 수렴 |
+
+**야코비안 추정** - 관측된 전이 $(\delta\mathbf{x}_t, \delta\mathbf{x}_{t+1})$를 사용:
+
+$$J = (\Delta\mathbf{X}_{\text{out}} \cdot \Delta\mathbf{X}_{\text{in}}^T) \cdot (\Delta\mathbf{X}_{\text{in}} \cdot \Delta\mathbf{X}_{\text{in}}^T)^{-1}$$
+
+**게르쉬고린 상한** (고유값 계산 없이 빠른 검증):
+
+$$\rho(J) \leq \max_i \left( |J_{ii}| + \sum_{j \neq i} |J_{ij}| \right)$$
+
+게르쉬고린 상한이 이미 $< 1.0$을 만족하면 고유값 계산을 생략할 수 있습니다. 그렇지 않으면 정확한 스펙트럼 반경을 위해 완전한 거듭제곱 반복법이 사용됩니다.
+
+### 9.5 불확실성 지수
+
+> **정의 13 (불확실성 지수).** 시스템의 종합 불확실성:
+>
+> $$U_{\text{index}} = 0.30 \cdot \text{PredVar} + 0.25 \cdot \text{ConfInt} + 0.25 \cdot \text{SimRealGap} + 0.20 \cdot \text{DivSlope}$$
+>
+> 여기서 PredVar = 예측 분산, ConfInt = 신뢰 구간 폭, SimRealGap = 시뮬레이션-현실 격차, DivSlope = 발산 기울기. $\sum w_i = 1$ 제약은 구성에 의해 성립합니다.
+
+| 가중치 | 기호 | 값 | 근거 |
+|--------|:----:|:---:|------|
+| 예측 분산 | $\alpha$ | 0.30 | 예측 신뢰성을 직접 측정 |
+| 신뢰 구간 | $\beta$ | 0.25 | 의사결정 품질의 범위 |
+| 시뮬레이션-현실 격차 | $\gamma$ | 0.25 | 현실로부터의 모델 드리프트를 나타냄 |
+| 발산 기울기 | $\delta$ | 0.20 | 미분 신호, 본질적으로 노이즈가 많음 |
+
+**임계값**:
+
+- $U_{\text{safe}} = 0.8$ - 이 값을 초과하면 모든 구조적 변경이 차단됨
+- $U_{\text{threshold}} = 0.7$ - 경고 수준, 수평선 축소 활성화
+
+### 9.6 재귀적 최적화 깊이 (ROD)
+
+> **정의 14 (재귀적 최적화 깊이).** ROD는 에이전트가 현재 수행 중인 자기참조적 최적화의 단계 수를 측정합니다:
+>
+> $$\operatorname{ROD}(t) = \max_{\text{chain} \in \text{optimization chains}(t)} |\text{chain}|$$
+
+| ROD | 해석 | 상태 |
+|:---:|------|------|
+| 1 | 에이전트가 자신의 행동을 최적화 | 정상 (레벨 3/4 표준) |
+| 2 | 에이전트가 최적화를 최적화 (메타-메타-인지) | 허용 (레벨 4.5 표준) |
+| 3 | 에이전트가 메타 최적화 프로세스를 최적화 | 경고 |
+| $\geq 4$ | 무한 재귀적 최적화 | **위험** - 이론적 FOOM 위험 접근 |
+
+**하드 시링**: $\text{ROD}_{\text{max}} = 3$, 아키텍처적으로 강제됨. ROD를 3 이상으로 증가시키는 모든 연산은 단순 모니터링이 아닌, 실행 수준에서 차단됩니다.
+
+### 9.7 현실 피드백 루프
+
+시스템이 점점 오래된 가정에 기반하여 작동하는 것을 방지하기 위해, 예측 정확도를 체계적으로 추적하고 발산이 감지되면 모델을 적응시킵니다.
+
+**발산 점수**: 예측 오차를 실행 통계로 추적:
+
+$$\text{DivergenceScore}(t) = \frac{1}{W_{\text{fb}}} \sum_{k=t-W_{\text{fb}}+1}^{t} \frac{\| \hat{\mathbf{X}}_k - \mathbf{X}_k \|}{\| \hat{\mathbf{X}}_k \| + \epsilon}$$
+
+여기서 $W_{\text{fb}} = 50$ (피드백 윈도우), $\hat{\mathbf{X}}$ = 예측 상태, $\mathbf{X}$ = 실제 상태.
+
+**발산 임계값**:
+
+| 수준 | DivergenceScore | 조치 |
+|------|:---------------:|------|
+| 정상 | $< 0.10$ | 조치 없음; 모델이 현실을 추적 중 |
+| 경고 | $[0.10, 0.25)$ | 관측 빈도 증가, 투영 수평선 축소 |
+| 위험 | $[0.25, 0.50)$ | 모델 매개변수 재보정 트리거 |
+| 모델 실패 | $\geq 0.50$ | 투영 동결, 보수적 프레임으로 폴백, 경보 |
+
+**적응적 업데이트 프로토콜**: 발산이 경고 이상에 진입하면 - (1) 오류 유형 분류 (체계적 편향, 증가하는 분산, 가정 위반, 새로운 요소), (2) 신뢰도 감쇠 $\lambda$와 랴푸노프 민감도 가중치 재보정, (3) 업데이트 수용 전 50사이클 단기 수평선 투영을 통한 개선 검증.
 
 ---
 

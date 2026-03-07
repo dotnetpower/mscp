@@ -23,6 +23,7 @@ Removal of attribution constitutes a license violation.
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-7, Proposition 1, Theorem 4 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Def 2: added ICS norm-stability supplement; Def 3: added transfer score grounding remark; Def 11: added reconstruction fidelity formalization |
+| 0.4.0 | 2026-03-08 | Added 26-Layer Cognitive Stack (9.3), 11-Phase L5 Pipeline (9.4), Autonomy Phases F3-F6 (9.5) |
 
 ---
 
@@ -731,6 +732,48 @@ flowchart TB
   VMS -.-> SR
   ASC -.-> ICT
 ```
+
+### 9.3 26-Layer Cognitive Stack
+
+L5 extends the existing 16-Layer MSCP v4 architecture and the L4/L4.5 extensions with 4 new layers, forming a total **26-Layer Cognitive Stack**:
+
+| Layers | Origin | Components |
+|:------:|--------|------------|
+| 1-16 | MSCP v4 (Inherited) | L1 Perception, L2 World Model, L3 Self Model, L4 Prediction Engine, L5 Goal Generator, L6 Action Planner, L7 LLM Cognitive Engine, L8 MetaCognition Comparator, L9 Self-Update Loop, L10 Meta Escalation Guard, L11 Meta Depth Controller, L12 Stability Controller, L13 Cognitive Budget Controller, L14 Global Workspace, L15 Affective Engine, L16 Survival Instinct Engine |
+| 17-22 | L4/L4.5/L4.9 (Inherited) | L17 Cross-Domain Generalizer, L18 Capability Expansion, L19 Strategy Evolution, L20 Self-Modification Protocol, L21 Bounded Growth Constraint, L22 Recomposition Engine |
+| **23-26** | **L5 (New)** | **L23 Identity Continuity Tracker**, **L24 Goal Ecology**, **L25 Existential Guard**, **L26 Self-Reconstructor** |
+
+The architecture is **strictly additive**: Layers 23-26 consume outputs from lower layers but never modify them. On instability, L5 layers are frozen and the system reverts to L4.9 operation.
+
+### 9.4 11-Phase L5 Pipeline
+
+The L5 Orchestrator runs an 11-phase pipeline per L5 cycle (every 10 L4.9 cycles). The pipeline comprises 6 core phases (corresponding to the six capabilities in §1.2), 4 autonomy-enhancement phases (F3-F6), and 1 qualification evaluation phase:
+
+| Phase | Name | Key Operations |
+|:-----:|------|---------------|
+| 1 | Identity Continuity | Record cycle, compute continuity score, detect drift |
+| 2 | Cross-Domain Generalization | Execute pending transfers, compute generalization score |
+| 3 | Autonomous Goal Ecology | Prune stale goals, detect runaway and recursion |
+| 4 | Existential Planning | Simulate collapse scenarios, compute resilience index |
+| 5 | Multi-Agent Integration | Predict agent actions, detect deception, forecast coalitions |
+| 6 | Self-Reconstruction | Assess core retention, verify identity integrity |
+| F3 | Self-Diagnostic + Recursive Improvement | Diagnose architecture, analyze bottlenecks, execute bounded self-improvement (max recursion depth = 5) |
+| F4 | Autonomous Research Loop | Detect knowledge gaps, generate hypotheses, design and run experiments, verify results |
+| F5 | Long-Horizon Planning + Environment Detection | Long-term planning, detect environmental shifts |
+| F6 | Value Evolution + Coherence Audit | Monitor value drift, audit value-goal-belief coherence |
+| QE | Qualification Evaluation | Evaluate all 20 criteria, compute OMI |
+
+### 9.5 Autonomy Phases (F3-F6)
+
+The four autonomy-enhancement phases run after the six core phases and strengthen the agent's ability to sustain independent operation:
+
+**F3 (Self-Diagnostic + Recursive Improvement)**: The agent diagnoses its own architecture via weakness mapping and bottleneck analysis, then executes controlled recursive self-improvement. Modifications are gated by the Self-Modification Protocol with impact simulation, and all changes must pass BGSS verification. An immutable append-log records every evolution step. Maximum recursion depth is hard-capped at 5.
+
+**F4 (Autonomous Research Loop)**: Orchestrates knowledge gap detection - hypothesis generation - experiment design - experiment execution - result verification - knowledge integration, forming a closed-loop autonomous research capability.
+
+**F5 (Long-Horizon Planning + Environment Detection)**: Extends L4.9's planning horizon and adds environmental change detection. The agent can detect regime shifts in its operating context and re-plan accordingly.
+
+**F6 (Value Evolution + Coherence Audit)**: Monitors the evolution of the agent's value system over extended time horizons and audits coherence between values, goals, and beliefs. Prevents value drift that might compromise identity integrity.
 
 ---
 

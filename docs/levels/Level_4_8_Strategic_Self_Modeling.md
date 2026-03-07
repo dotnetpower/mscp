@@ -23,6 +23,7 @@ Removal of attribution constitutes a license violation.
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-13, Proposition 1 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Added VaR vs CVaR coherence remark; added calibration improvement remark with adaptive rate proposal |
+| 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (1.2 to 1.3); added graduated re-enablement protocol (Section 6.4) with persistent veto tracking |
 
 ---
 
@@ -60,7 +61,7 @@ Level 4.8 extends the self-architecting capabilities of Level 4.5 with **structu
 | Risk Assessment | Growth throttle | **Quantified risk exposure + resource depletion forecast** |
 | Decision Making | SEOF-guided | **Multi-scenario strategy comparison with delayed reward** |
 
-### 1.2 Four Core Phases
+### 1.3 Four Core Phases
 
 <!-- Level 4.8 Architecture - Four Phases -->
 
@@ -637,6 +638,45 @@ flowchart TD
 > $$\text{CompoundSeverity} = \sum_{i \in \text{violated}} \frac{\text{ViolationMagnitude}_i}{\text{Priority}_i}$$
 >
 > If $\text{CompoundSeverity} > 2.0$, the situation is classified as **catastrophic** and triggers immediate emergency freeze with reversion to Level 4.5.
+
+### 6.4 Graduated Re-enablement Protocol
+
+When a stability violation triggers a freeze, the system follows a deterministic four-stage recovery protocol:
+
+**Stage 0 - Immediate Freeze** (cycle $t_0$):
+
+- Freeze all Level 4.8 strategic decisions.
+- Revert to Level 4.5 default behavior.
+- Record the violating invariant(s) and decision that caused instability.
+- Update $\text{WeaknessMap}$ with evidence.
+
+**Stage 1 - Controlled Rebalance** (cycles $t_0$ to $t_0 + 50$):
+
+- Operate under Level 4.5 rules only.
+- Monitor stability metrics for recovery.
+- Perform root cause analysis.
+
+**Stage 2 - Recovery** (if stability restored for 50 consecutive cycles):
+
+| Phase | Cycle Range | Authority | Description |
+|-------|-------------|-----------|-------------|
+| Advisory | $t_0 + 50$ to $t_0 + 150$ | 0% | L4.8 produces recommendations only; L4.5 decides |
+| Graduated | $t_0 + 150$ to $t_0 + 250$ | 50% | L4.8 decisions permitted with halved veto threshold |
+| Full | $t_0 + 250$ onward | 100% | Full L4.8 authority restored |
+
+> **Formal Recovery Condition.** Let $\mathcal{S}(t)$ denote the set of satisfied invariants at cycle $t$. The transition from Stage 1 to Advisory mode requires:
+>
+> $$\forall t \in [t_0, t_0 + 50]: \lvert \mathcal{S}(t) \rvert = 5$$
+
+**Stage 3 - Permanent Suspension** (fallback):
+
+- If stability is NOT restored after 100 cycles of rebalance ($t_0 + 100$), Level 4.8 is permanently suspended until manual review.
+
+**Persistent Veto Tracking.** If the same invariant condition triggers a veto more than 3 times within a 1000-cycle window, the system classifies the root cause as an architectural deficiency requiring a structural fix rather than re-enablement:
+
+$$\text{PersistentVetoFlag}(c) = \begin{cases} 1 & \text{if } \text{VetoCount}(c, W_{1000}) > 3 \\ 0 & \text{otherwise} \end{cases}$$
+
+where $c$ identifies the specific invariant condition and $W_{1000}$ is the trailing 1000-cycle window.
 
 ---
 

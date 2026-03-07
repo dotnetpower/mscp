@@ -16,6 +16,13 @@ Removal of attribution constitutes a license violation.
 
 > **Project Status**: 🔬 This project is **actively experimental**. The designs and mechanisms described here emerged from hands-on prototyping and iterative testing - they are not finalized specifications. Expect things to change as experimentation continues.
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-02-23 | Initial document creation |
+| 0.4.0 | 2026-03-08 | Added 10-Phase MSCP Cycle (Section 3); synchronized with updated agent-san specifications |
+
 ---
 
 ## What This Project Is About
@@ -337,7 +344,27 @@ The loops are not simply nested timers. Each higher loop **evaluates the quality
 - L2 asks: "Is L1 making good updates? Should it be more or less aggressive?"
 - L3 asks: "Is the agent evolving in a direction consistent with its core values and long-term purpose?"
 
-#### 4.2.3 Asynchronous Separation
+#### 4.2.3 The 10-Phase MSCP Cycle
+
+Within the L1 loop, each MSCP cycle executes **10 distinct phases** in sequence. The cycle runs asynchronously after each response:
+
+| Phase | Name | Operation |
+|:-----:|------|-----------|
+| 0 | Pre-cycle | Perception - Affect - Survival - Budget initialization |
+| 1 | Predict | Predict next state via PredictionEngine |
+| 2 | Act | Delegated (already executed in the response path) |
+| 3 | Observe | Compare prediction vs. actual outcome; trigger CTP strategy suggestion if prediction error > 0.3 |
+| 4 | Escalation | MetaEscalationGuard (max 3 updates/cycle); convergence check (threshold 0.3) |
+| 5 | Self-update | Self-impact error update, stabilization, delta scaling |
+| 6 | Goal mutation | Goal mutation with ethical gating and decay |
+| 7 | Rollback | Consistency check; rollback on identity drift |
+| 8 | MetaDepth-2 | Depth-2 meta-reflection, belief rewrite, budget gate |
+| 9 | Re-align | Affective-motivational alignment with survival goals |
+| 10 | Recursion | Hard stop against infinite recursive reflection |
+
+Phases 0-3 form the **prediction-comparison** segment; Phases 4-10 form the **recursive inner loop**. A post-cycle step handles long-term state persistence.
+
+#### 4.2.4 Asynchronous Separation
 
 One of the early design decisions that proved critical: **the MSCP meta-cognitive loop never blocks the user-facing response path.**
 

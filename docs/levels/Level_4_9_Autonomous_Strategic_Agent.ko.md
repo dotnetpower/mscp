@@ -22,6 +22,7 @@ Removal of attribution constitutes a license violation.
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-11, Proposition 1 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (1.2 to 1.3); added formal cascade propagation Definition 13 (Section 5.1) |
 
 ---
 
@@ -60,7 +61,7 @@ Removal of attribution constitutes a license violation.
 | 에이전트 인식 | 읽기 전용 외부 에이전트 모델 | **능동적 신념 모델링 + 신뢰 보정** |
 | 안정성 보장 | 5개 불변량, ρ(J) < 1.0 | **5개 더 엄격한 조건, ρ(J) < 0.98** |
 
-### 1.2 다섯 가지 핵심 단계
+### 1.3 다섯 가지 핵심 단계
 
 <!-- 레벨 4.9 아키텍처 - 다섯 가지 단계 -->
 
@@ -530,6 +531,14 @@ flowchart TD
 
   RV -.-> Dependencies -.-> Cascade
 ```
+
+> **정의 13 (자원 간 연쇄 전파).** 상류 자원 $R_i$가 고갈 $\Delta R_i(t) < 0$을 경험하면, 하류 자원 $R_j$는 전파 지연 후 영향을 받습니다:
+>
+> $$\Delta R_j(t + \tau_{ij}) = -\alpha_{ij} \cdot (1 - \sigma_{ij}) \cdot \Delta R_i(t)$$
+>
+> 여기서 $\alpha_{ij} \in [0,1]$은 의존성 강도 (예: compute - mutation $= 0.80$), $\sigma_{ij} \in [0,1]$은 대체 계수 ($R_i$ 없이 $R_j$가 보상할 수 있는 정도), $\tau_{ij}$는 사이클 단위 전파 지연입니다.
+>
+> **연쇄 깊이 제약**: 최대 연쇄 체인 길이는 $\text{depth} \leq 2$로 제한됩니다. 자원 $A$의 고갈이 $B$를 거쳐 $C$까지 전파될 수 있지만, 더 이상은 불가합니다. 이는 전체 자원 벡터에 걸친 폭주 연쇄 실패를 방지합니다.
 
 ### 5.2 생존 분류
 

@@ -22,6 +22,7 @@ Removal of attribution constitutes a license violation.
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-4, Propositions 1-3 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (5.1 to 5.2) |
 
 ---
 
@@ -419,7 +420,7 @@ flowchart TD
   L4 -.-> C4
 ```
 
-### 5.1 행동 예시: 반복 질문
+### 5.2 행동 예시: 반복 질문
 
 ```
 상호작용 1:

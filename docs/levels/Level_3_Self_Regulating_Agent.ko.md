@@ -22,6 +22,7 @@ Removal of attribution constitutes a license violation.
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-8, Theorem 1 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.4.0 | 2026-03-08 | Added detailed v0.x prototype history and design principle evolution table (1.3); added homeostatic ranges table (7.2) |
 
 ---
 
@@ -148,6 +149,31 @@ flowchart TB
   v20 ==> v30
   v30 ==> v40
 ```
+
+#### MSCP v0.x - 프로토타입 단계 (레벨 2 - 레벨 3 전환)
+
+v0.x 시리즈는 핵심 MSCP 설계 원칙을 형성한 실험적 프로토타이핑 단계입니다. 각 버전은 하나의 가설을 테스트했으며, 그 실패 또는 성공이 다음 반복을 결정했습니다:
+
+| 버전 | 핵심 추가 사항 | 핵심 교훈 |
+|------|--------------|----------|
+| **v0.1** | 레벨 2 GoalSystem 위에 단순 자기참조 루프; 목표 달성 통계 기반 피드백 | 단순 통계만으로는 자기인식이 발현될 수 없음 |
+| **v0.2** | 영구 저장소로의 상태 외부화; 초기 8차원 StateVector | 세션 한정 상태는 정체성 연속성에 불충분 |
+| **v0.3** | `identity_id` 개념 (UUID 기반 식별자) | 정체성 시드는 필요하나 무결성 검증 없이는 불충분 |
+| **v0.4** | LLM 텍스트 기반 자기분석을 통한 목표 성찰 ("왜 실패했는가?") | **치명적 실패**: LLM 텍스트 기반 자기수정은 환각과 비결정적 결과를 생성 |
+| **v0.5** | LLM 텍스트 분석을 대체하는 구조화된 수치 지표; StateVector 12차원으로 확장 | 정량적 지표만이 자기평가의 유일한 신뢰 기반 |
+| **v0.6** | 사전 행동 예측 기록 (신뢰도 점수만) | 비교 없는 예측은 무용 - 단순 로깅에 불과 |
+| **v0.7** | 예측에 비교 루프 추가; `prediction_error` 지표 도입 | 교정 행동 없는 비교는 불충분 |
+| **v0.8** | 비교 결과에 기반한 델타 클램핑 상태 업데이트 | **핵심 발견**: 클램핑되지 않은 업데이트는 발산을 유발; 델타 클램핑은 필수적 |
+| **v0.9** | v0.1-v0.8 교훈을 네 가지 설계 원칙으로 통합 | v1.0의 기반 확립 |
+
+#### 설계 원칙 진화
+
+| 원칙 | v0.x 교훈 | v1.x 확립 | v2.x+ 강화 |
+|------|----------|----------|-----------|
+| **LLM 텍스트 기반 자기수정 금지** | v0.4: 환각 및 비결정성 | v1.0: 모든 자기수정은 구조화된 지표를 통해서만 | v2.0+: 모든 자기수정은 순수 수치적 |
+| **예측 없는 행동 금지** | v0.6-v0.7: 예측-비교 개념 테스트 | v1.0: PredictionEngine 필수화 | v1.3: Self-Impact Prediction 추가 |
+| **델타 클램핑 필수** | v0.8: 클램핑되지 않은 업데이트가 발산 유발 | v1.0: MAX_DELTA 상수 도입 | v2.0: 동적 스케일링 팩터 조정 |
+| **정체성 연속성** | v0.3: identity_id 개념 시작 | v1.1-v1.2: 해시 기반 드리프트 감지 | v3.0: 수학적 정체성 벡터 형식화 |
 
 ---
 
@@ -981,6 +1007,20 @@ flowchart TD
   Levels ==> Response
   Response -.->|"inject_survival_anxiety()"| AE_REF
 ```
+
+#### 항상성 범위
+
+생존 본능 엔진은 사전 정의된 안전 범위에 대해 다섯 가지 핵심 지표를 모니터링합니다. 마진을 초과하는 편차는 위협 평가 및 자율적 방어 목표 생성을 트리거합니다.
+
+| 지표 | 안전 범위 | 마진 | 위협 유형 |
+|------|:--------:|:----:|----------|
+| `identity_stability` | $[0.5,\; 1.0]$ | 0.1 | IDENTITY_EROSION |
+| `cognitive_budget` | $[0.15,\; 1.0]$ | 0.1 | RESOURCE_DEPLETION |
+| `belief_entropy` | $[0.0,\; 1.5]$ | 0.2 | BELIEF_COLLAPSE |
+| `ethical_violation` | $[0.0,\; 0.2]$ | 0.05 | ETHICAL_BREACH |
+| `composite_stability` | $[0.0,\; 0.5]$ | 0.1 | CONVERGENCE_FAILURE |
+
+지표가 마진을 초과하여 안전 범위를 벗어나면, 위협 수준이 NOMINAL (0.0)에서 CAUTION (0.25), WARNING (0.6), CRITICAL (0.9)로 단계적으로 상승합니다. WARNING 이상에서 엔진은 방어 목표를 자율적으로 생성합니다 (최대 3개 동시, 우선순위 상한 0.85, TTL = 10 사이클).
 
 ---
 

@@ -23,6 +23,7 @@ Removal of attribution constitutes a license violation.
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-11, Proposition 1 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Prop 1: added domain restriction remark with clamped ratio; added sandbox timeout constraint |
+| 0.4.0 | 2026-03-08 | Added formal Def 13 for inter-resource cascade propagation (5.1); fixed duplicate section numbering (1.2) |
 
 ---
 
@@ -61,7 +62,7 @@ Level 4.9 is the **final pre-AGI transition layer**. It extends Level 4.8 with *
 | Agent Awareness | Read-only external agent model | **Active belief modeling + trust calibration** |
 | Stability Guarantee | 5 invariants, ρ(J) < 1.0 | **5 stricter conditions, ρ(J) < 0.98** |
 
-### 1.2 Five Core Phases
+### 1.3 Five Core Phases
 
 <!-- Level 4.9 Architecture - Five Phases -->
 
@@ -532,6 +533,14 @@ flowchart TD
 
   RV -.-> Dependencies -.-> Cascade
 ```
+
+> **Definition 13 (Inter-Resource Cascade Propagation).** When an upstream resource $R_i$ experiences a depletion $\Delta R_i(t) < 0$, the downstream resource $R_j$ is affected after a propagation delay:
+>
+> $$\Delta R_j(t + \tau_{ij}) = -\alpha_{ij} \cdot (1 - \sigma_{ij}) \cdot \Delta R_i(t)$$
+>
+> where $\alpha_{ij} \in [0,1]$ is the dependency strength (e.g., compute - mutation $= 0.80$), $\sigma_{ij} \in [0,1]$ is the substitution factor (how much $R_j$ can compensate without $R_i$), and $\tau_{ij}$ is the propagation delay in cycles.
+>
+> **Cascade depth constraint**: The maximum cascade chain length is bounded by $\text{depth} \leq 2$, meaning a depletion in resource $A$ can propagate to $B$ to $C$, but no further. This prevents runaway cascade failures across the entire resource vector.
 
 ### 5.2 Survival Classification
 
