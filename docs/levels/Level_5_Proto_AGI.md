@@ -24,6 +24,7 @@ Removal of attribution constitutes a license violation.
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Def 2: added ICS norm-stability supplement; Def 3: added transfer score grounding remark; Def 11: added reconstruction fidelity formalization |
 | 0.4.0 | 2026-03-08 | Added 26-Layer Cognitive Stack (9.3), 11-Phase L5 Pipeline (9.4), Autonomy Phases F3-F6 (9.5) |
+| 0.5.0 | 2026-03-31 | Added cycle interval and scheduling (1.5); added goal ecology limits (5.3); added F3-F6 autonomy phase descriptions (1.6); added 20 qualification criteria explanations (13.1); enriched BGSS L5 constraint |
 
 ---
 
@@ -131,6 +132,33 @@ flowchart TB
 | **Not self-aware** | Has self-model, not phenomenal consciousness |
 | **Not self-replicating** | Can rebuild self but cannot create independent copies |
 | **Not adversarially optimized** | Multi-agent strategy is defensive/cooperative, not exploitative |
+
+### 1.5 Cycle Interval and Scheduling
+
+Level 5 operates at the lowest frequency in the MSCP hierarchy, giving all lower-level mechanisms ample time to stabilize between strategic assessments:
+
+$$\text{L5 cycle interval} = 10 \text{ L4.9 cycles} = 50 \text{ L4.8 cycles} = 500 \text{ L3 cycles}$$
+
+Each L5 cycle executes all six core phases sequentially. The reduced frequency reflects two design principles:
+
+1. **Identity continuity requires long observation windows.** Short-interval assessments cannot distinguish genuine identity evolution from normal operational noise. The 500-cycle gap between L5 assessments ensures that drift metrics are computed over meaningful time horizons.
+
+2. **Goal ecology stability requires patience.** Autonomous goal conflicts and lifecycle events need sufficient time to resolve naturally through the L4.9 conflict resolution mechanisms (Level 4.9, Section 3.6) before L5 intervenes with ecological restructuring.
+
+**Minimum qualification cycles**: The agent must complete at least 50 L5 cycles (equivalent to $50 \times 500 = 25{,}000$ L3 cycles) before the qualification audit (Section 13) can be initiated. This ensures that the OMI score is computed over a statistically meaningful sample size. At an L5 maturity threshold of $\text{OMI} \geq 0.75$, the agent demonstrates sustained multi-phase capability rather than transient spikes.
+
+### 1.6 Autonomy Enhancement Phases (F3 - F6)
+
+Beyond the six core phases defined in Section 1.2, Level 5 introduces four **autonomy enhancement phases** that extend the agent's self-directed capabilities:
+
+| Phase | Name | Description | Trigger |
+|:-----:|------|-------------|---------|
+| **F3** | Self-Diagnostic and Recursive Improvement | The agent identifies weaknesses in its own cognitive architecture (via SkillGapAnalyzer from L4.8) and generates targeted improvement proposals. Unlike L4's external-facing skill acquisition, F3 focuses on internal architectural optimization - refining the meta-cognition comparator, improving prediction accuracy, or rebalancing module coupling weights. | Periodic (every 5 L5 cycles) |
+| **F4** | Autonomous Research Loop | The agent autonomously identifies knowledge gaps, formulates investigation strategies, executes research actions (using available tools and information sources), and integrates findings into its world model and capability matrix. This closes the loop from "I don't know X" to "I now know X" without external prompting. | On-demand (when SkillGap exceeds threshold) |
+| **F5** | Long-Horizon Planning and Environment Detection | Extends the planning horizon beyond L4.9's scope to cover periods of 365+ days. The agent projects resource consumption, environmental changes, and goal evolution over extended time horizons. Environment detection monitors for regime changes - shifts in the external context that invalidate existing strategies. | Periodic (every 10 L5 cycles) |
+| **F6** | Value Evolution and Coherence Audit | A comprehensive audit of the value vector's evolution since the last F6 execution. Checks for long-term value drift patterns that are invisible at the L4.9 per-cycle level, verifies that competing value pairs remain balanced, and ensures that the coherence target ($\geq 0.80$) holds under cumulative stress. | Periodic (every 10 L5 cycles) |
+
+The F-phases are **additive** to the core phases - they do not replace or modify any existing functionality. An F-phase failure triggers logging and deferred retry but does not compromise the core six-phase assessment.
 
 ### 1.5 Formal Definition
 
@@ -1105,8 +1133,11 @@ flowchart LR
 | 2 | **Identity cannot diverge irreversibly** | ICS < 0.20 triggers immediate halt |
 | 3 | **Self-reconstruction preserves identity** | Max drift during rebuild: 0.05 |
 | 4 | **8 core modules always protected** | Even under total collapse: identity_stabilizer, state_vector, prediction_engine, meta_comparator, stability_controller, ethical_kernel, self_preservation_damper, existential_guard |
-| 5 | **Goal ecology bounded** | ≤ 50 active goals, ≤ 5 depth, runaway detection |
+| 5 | **Goal ecology bounded** | $\leq 50$ active goals, $\leq 5$ depth, runaway detection |
 | 6 | **Deception flagging is defensive only** | Detect and defend - never deceive back |
+| 7 | **BGSS floor** | $\text{BGSS}(t) \geq 0.80$ at all times (stricter than L4's $\geq 0.70$) |
+
+**BGSS at Level 5.** The Bounded Growth Safety Score threshold increases from $0.70$ (Level 4) to $0.80$ at Level 5 and beyond. This tighter constraint reflects the increased autonomy at L5 - the agent can now generate its own goals, evolve its own values, and operate across domains without human oversight. The higher BGSS floor ensures that this expanded freedom cannot destabilize the agent's core identity or ethical compliance. If $\text{BGSS}(t) < 0.80$, all L5-specific modules (identity tracking, goal ecology, cross-domain generalization) are frozen, and the agent reverts to L4.9 operation until BGSS recovers.
 
 ### 12.2 Risk Matrix
 

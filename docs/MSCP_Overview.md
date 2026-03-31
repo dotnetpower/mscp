@@ -22,6 +22,7 @@ Removal of attribution constitutes a license violation.
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation |
 | 0.4.0 | 2026-03-08 | Added 10-Phase MSCP Cycle (Section 3); synchronized with updated agent-san specifications |
+| 0.5.0 | 2026-03-31 | Added key thresholds summary (2.5); enriched level descriptions with concrete parameters |
 
 ---
 
@@ -141,6 +142,26 @@ One of the early observations from this project: **most production AI agents tod
 | DeepMind Levels of AGI | Generality × Performance | - | - | Performance-based |
 | AutoGen Agent Types | Multi-agent orchestration | - | - | - |
 | **MSCP Levels** | **Cognitive architecture** | **Central** | **Mathematical** | **Measurable** |
+
+### 2.5 Key Thresholds Across Levels
+
+The following table summarizes the critical numerical thresholds that govern agent behavior at each MSCP level. These thresholds are not arbitrary - each emerged from iterative prototyping and represents a validated stability boundary.
+
+| Parameter | Level | Value | Description |
+|-----------|:-----:|:-----:|-------------|
+| Prediction error threshold | L3+ | $0.30$ | Actions blocked when prediction error exceeds this value |
+| Identity delta clamp | L3+ | $0.05$ | Maximum per-cycle change to identity vector |
+| Convergence epsilon | L3+ | $0.05$ | Bounded increment tolerance for Lyapunov function |
+| BGSS minimum | L4 | $\geq 0.70$ | Bounded Growth Safety Score floor |
+| BGSS minimum | L5+ | $\geq 0.80$ | Stricter BGSS floor for higher autonomy |
+| CDTS threshold | L4+ | $\geq 0.60$ | Cross-Domain Transfer Score for generalization |
+| Value drift total | L4.9+ | $< 0.25$ | Maximum cumulative value vector deviation |
+| ASS freeze | L4.9+ | $< 0.05$ | Autonomy Stability Score below which L4.9 cycle is skipped entirely |
+| ICS continuity | L5 | $\geq 0.95$ | Identity Continuity Score over 10,000 cycles |
+| OMI qualification | L5 | $\geq 0.75$ | Overall Maturity Index for Proto-AGI certification |
+| L4.8 cycle interval | L4.8 | 10 | L3 cycles between L4.8 assessments |
+| L4.9 cycle interval | L4.9 | 50 | L3 cycles between L4.9 assessments |
+| L5 cycle interval | L5 | 500 | L3 cycles between L5 assessments |
 
 ---
 

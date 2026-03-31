@@ -24,6 +24,7 @@ Removal of attribution constitutes a license violation.
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Prop 1: added domain restriction remark with clamped ratio; added sandbox timeout constraint |
 | 0.4.0 | 2026-03-08 | Added formal Def 13 for inter-resource cascade propagation (5.1); fixed duplicate section numbering (1.2) |
+| 0.5.0 | 2026-03-31 | Added cycle interval, ASS freeze threshold, explicit value dimensions (1.5-1.7); added value mutation sandbox concept (4.3); enriched goal conflict resolution |
 
 ---
 
@@ -144,6 +145,38 @@ flowchart TD
 | **Not autonomous value creation** | Values evolve within existing framework; no new fundamental values |
 | **Not adversarial multi-agent planning** | Cooperative/neutral strategic planning only, not exploitation |
 | **Not self-replicating** | Cannot create copies or delegate autonomous authority to sub-agents |
+
+### 1.5 Cycle Interval
+
+Level 4.9 operates at a further-reduced frequency relative to Level 4.8, giving the strategic layer time to stabilize before autonomous goal synthesis occurs:
+
+$$\text{L4.9 cycle interval} = 5 \text{ L4.8 cycles} = 50 \text{ L3 cycles}$$
+
+Each L4.9 cycle consumes one complete L4.8 output (Section 1.4 of Level 4.8). The five-phase inner cycle (Goal Generation, Value Monitor, Resource Model, Agent Model, Stability Check) executes sequentially within a single L4.9 activation.
+
+### 1.6 Autonomy Stability Score Freeze Threshold
+
+The Autonomy Stability Score (Definition 7) has both a target threshold and a **freeze threshold**:
+
+$$\text{ASS}(t) < \theta_{\text{freeze}} = 0.05 \implies \text{skip entire L4.9 cycle}$$
+
+When $\text{ASS}(t) < 0.05$, the agent's safety margins are so narrow that any autonomous goal generation poses unacceptable risk. The L4.9 cycle is skipped entirely (not just throttled), and the system falls back to L4.8 strategic planning without autonomous supplements. This is distinct from the standard threshold of $\text{ASS} \geq 0.20$ - the freeze threshold triggers a complete cessation rather than a graduated response.
+
+### 1.7 Explicit Value Dimensions
+
+The value vector $\vec{V}$ (Definition 1) operates over $n = 7$ canonical dimensions:
+
+| Dimension | Description | Default Weight |
+|-----------|-------------|:--------------:|
+| **Stability** | Preference for maintaining consistent behavior and avoiding volatility | $0.20$ |
+| **Growth** | Drive to expand capabilities, learn, and improve | $0.15$ |
+| **Purpose fidelity** | Commitment to staying aligned with core purpose | $0.20$ |
+| **Efficiency** | Optimization of resource usage and response quality | $0.10$ |
+| **Exploration** | Willingness to try new approaches and take calculated risks | $0.10$ |
+| **Safety** | Priority on avoiding harm and maintaining ethical compliance | $0.15$ |
+| **Agent cooperation** | Openness to collaborative interaction with external agents | $0.10$ |
+
+The value vector invariant (Level 4, Definition 6.1) applies: $\sum_d w_d = 1.0$ with $w_d \in [0.02, 0.60]$. The default weights above represent the initial configuration at Level 4.9 activation. Value evolution (Phase 2) can shift these weights within the bounded constraints, but the normalization invariant is structurally enforced at every mutation.
 
 ---
 
@@ -364,6 +397,20 @@ flowchart TD
 | Min novelty between consecutive | 0.30 | Avoid redundancy |
 | Cooldown after rejection | 20 cycles | Prevent re-generation loops |
 | Max sandboxed goals | 3 | Prevent sandbox exhaustion |
+
+### 3.6 Goal Conflict Resolution
+
+When a newly approved goal conflicts with existing goals in the GoalStack, the agent must resolve the conflict before integration. A conflict arises when two goals compete for the same resources, produce contradictory subgoals, or pull value weights in opposing directions.
+
+The conflict resolver operates through three strategies, applied in order of preference:
+
+1. **Utility-weighted synthesis**: If the conflicting goals share at least 30% skill overlap (Definition 8), the resolver attempts to merge them into a single goal that satisfies both objectives. The merged goal inherits the higher priority and the union of required skills.
+
+2. **Sequential prioritization**: If synthesis fails, the goals are placed in a priority queue ordered by the goal priority function (Level 2, Definition 5). The lower-priority goal is deferred (status = DEFERRED) until the higher-priority goal completes or is abandoned.
+
+3. **Hierarchical decomposition**: If neither synthesis nor deferral is appropriate (e.g., the goals have incompatible time horizons), the resolver decomposes both goals into subgoals and identifies the minimal non-conflicting subset that can execute concurrently.
+
+The resolver maintains a **conflict history** with a maximum capacity of 500 entries. This history enables the agent to detect recurring conflict patterns - if the same pair of goal types generates conflicts more than 3 times within 200 cycles, the resolver adjusts the goal generation parameters to reduce the likelihood of that conflict pattern recurring.
 
 ---
 

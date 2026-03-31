@@ -24,6 +24,7 @@ Removal of attribution constitutes a license violation.
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Def 8: added frame conflict resolution remark; Section 7.3: added joint failure analysis remark for Existential Guard |
 | 0.4.0 | 2026-03-08 | Added Jacobian estimation method (9.4), Uncertainty Index Def 13 (9.5), ROD Def 14 (9.6), Reality Feedback Loop (9.7) |
+| 0.5.0 | 2026-03-31 | Added Motivation Output synthesis (6.3); enriched existential metric explanations; added deliberation phase scheduling |
 
 ---
 
@@ -457,6 +458,33 @@ flowchart LR
 > where $\text{align}(g, \vec{I})$ measures identity-goal alignment, $\Delta\text{SEOF}(g)$ captures the goal's contribution to SEOF improvement, and $\text{pathology}(g) \in \{\text{redundant}, \text{self-reinforcing}, \text{destabilizing}\}$ penalizes harmful patterns. Threshold: $\text{PCS} \geq 0.6$ - if below, reflection is mandatory within 50 cycles.
 
 **User-assigned goals**: **NEVER pruned**, only CONSTRAINED. Can be SYNTHESIZED with other user goals only if the result covers both purposes.
+
+### 6.3 Motivation Output Synthesis
+
+At Level 4.5, the affect vector (Level 3, Definition 9) is no longer just a secondary monitoring signal - it is transformed into a structured **motivation output** that directly influences deliberation and goal prioritization. The affect-to-motivation mapping produces four drive signals:
+
+| Drive | Source Affect Dimensions | Description |
+|-------|-------------------------|-------------|
+| **Exploration drive** | Curiosity $\uparrow$, Excitement $\uparrow$ | Motivates the agent to seek novel experiences, try new tools, and explore unfamiliar domains. High exploration drive increases willingness to accept topology mutations. |
+| **Consolidation drive** | Satisfaction $\uparrow$, Anxiety $\downarrow$ | Motivates the agent to refine existing skills and stabilize known capabilities. High consolidation drive favors conservative strategies over risky exploration. |
+| **Avoidance drive** | Anxiety $\uparrow$, Frustration $\uparrow$ | Motivates the agent to withdraw from situations that have recently caused negative outcomes. Persistent high avoidance triggers defensive goal generation. |
+| **Urgency modifier** | Survival pressure signal | Amplifies all other drives when the Survival Instinct Engine (Level 3, Section 7.2) detects active threats. Acts as a multiplicative scaling factor. |
+
+The motivation output is broadcast through the Global Workspace (Layer 14) and consumed by multiple subsystems: the Architecture Recomposition protocol uses exploration drive to gate risky topology mutations, the Purpose Reflection phase uses consolidation drive to assess whether the agent should deepen existing capabilities rather than expand, and the Existential Guard monitors avoidance drive as an early warning signal for emerging threats.
+
+### 6.4 Deliberation Phase Scheduling
+
+The five phases of Level 4.5 (Self-Projection, Architecture Recomposition, Parallel Frames, Purpose Reflection, Existential Guard) do not all execute every cycle. Their scheduling is based on the agent's current state and resource constraints:
+
+| Phase | Trigger Condition | Typical Interval |
+|-------|-------------------|-----------------|
+| **Existential Guard** | Always active | Every cycle (never skipped) |
+| **Self-Projection** | Periodic or when aggressive trajectory detected | Every 500 cycles |
+| **Architecture Recomposition** | When self-projection indicates need | On-demand (rare) |
+| **Parallel Frames** | When high-stakes decision detected | On-demand |
+| **Purpose Reflection** | Periodic alignment check | Every 1,000 cycles |
+
+The Existential Guard is the only phase that runs unconditionally. All other phases are **budget-gated** - they are deferred if the cognitive budget (Level 3, Section 9) is below the required threshold. This ensures that safety is never sacrificed for deliberative depth.
 
 ---
 

@@ -24,6 +24,7 @@ Removal of attribution constitutes a license violation.
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Def 7: added weight selection rationale remark; Theorem 2: added proof sketch with decay argument |
 | 0.4.0 | 2026-03-08 | Added Environment Interaction Layer (Section 3); added formal Level 4 Pass Condition (Section 13) |
+| 0.5.0 | 2026-03-31 | Added ValueVector Invariant (Def 6.1); clarified BGSS threshold progression; added value system protection explanation |
 
 ---
 
@@ -120,6 +121,18 @@ A value $> 1.0$ confirms that mutations improve performance beyond oscillation n
 $$\text{BGSS} = 1.0 - 0.4 \cdot \frac{dC(t)}{dt} - 0.3 \cdot V_{\text{identity}}(t) - 0.3 \cdot R_{\text{ethical}}(t) \qquad \geq 0.7$$
 
 where $dC/dt$ is the rate of change of the Lyapunov function, $V_{\text{identity}}$ is identity volatility, and $R_{\text{ethical}}$ is the ethical violation rate. The threshold $0.7$ guarantees that growth never compromises safety.
+>
+> **Remark (BGSS Threshold Progression).** The BGSS threshold is $\geq 0.7$ at Level 4 to permit greater exploration freedom during early self-improvement. As the agent progresses to higher levels with broader autonomy, the threshold increases: Level 5 (Proto-AGI) requires $\text{BGSS} \geq 0.80$ at all times. This progressive tightening reflects the principle that greater autonomy demands stricter safety guarantees.
+
+> **Definition 6.1 (Value Vector Invariant).** The agent's value system is represented by a normalized weight vector $\vec{w} \in \mathbb{R}^n$ over $n$ value dimensions (e.g., $n = 7$ with dimensions: stability, growth, purpose fidelity, efficiency, exploration, safety, agent cooperation). The value vector must satisfy the **normalization invariant** at all times:
+>
+> $$\sum_{d=1}^{n} w_d = 1.0, \quad w_d \in [w_{\min}, w_{\max}] \quad \forall\, d$$
+>
+> where $w_{\min} = 0.02$ prevents any value dimension from being effectively zeroed, and $w_{\max} = 0.60$ prevents any single value from dominating all others.
+>
+> This invariant is **structurally enforced** - any operation that modifies value weights must re-normalize the vector before committing. The constraint $w_{\min} = 0.02$ is particularly important: it ensures that no value dimension (such as safety or growth) can ever be reduced to zero, even through repeated small decreases over many cycles.
+>
+> **Competing pair resolution.** Certain value dimensions are inherently in tension: (stability, exploration), (efficiency, exploration), (growth, safety). When mutations attempt to increase one member of a competing pair, the system checks whether the opposing member would drop below a safety floor and blocks the mutation if so. This prevents pathological value drift where one side of a trade-off is maximized at the expense of the other.
 
 ### 2.2 Metric Relationships
 

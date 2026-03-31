@@ -24,6 +24,7 @@ Removal of attribution constitutes a license violation.
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Theorem 1: full proof replacing sketch; added Lyapunov vs bounded-increment remark; Def 9: affect vector formalization with dynamics equation and valence |
 | 0.4.0 | 2026-03-08 | Added detailed v0.x prototype history and design principle evolution table (1.3); added homeostatic ranges table (7.2) |
+| 0.5.0 | 2026-03-31 | Added Prediction Gating (3.3) with threshold formalization; enriched oscillation detection with 10-cycle window and sign-change mechanics (6.3); enriched identity hash with concrete drift threshold ($\theta_{\text{drift}} = 0.3$); added StateVector growth note (Section 10) |
 
 ---
 
@@ -604,6 +605,22 @@ flowchart TD
   MetaL2 ==>|may trigger| MetaL3
 ```
 
+### 3.3 Prediction Gating
+
+A critical safety mechanism introduced in Level 3 is **prediction-gated action execution**. The MSCP core loop (Definition 2) not only compares predictions with outcomes - it uses the prediction error to **gate whether future actions are permitted**. This prevents the agent from taking actions whose consequences it cannot reliably anticipate.
+
+> **Prediction Gating Rule.** An action $a_t$ proposed at time $t$ is blocked if the agent's recent predictive accuracy is below the gating threshold:
+>
+> $$\text{blocked}(a_t) \iff |\epsilon_{t-1}| > \theta_{\text{pred}}$$
+>
+> where $\epsilon_{t-1} = \|\hat{\Delta}_{t-1} - \Delta_{t-1}^{\text{actual}}\|_2$ is the most recent prediction error (Definition 2, step 3) and $\theta_{\text{pred}} = 0.30$ is the **prediction error threshold**.
+
+The threshold $\theta_{\text{pred}} = 0.30$ represents a design choice: the agent is permitted to act even when its predictions are imperfect (30% error tolerance), but is blocked when its self-model is so inaccurate that it cannot meaningfully anticipate the consequences of its own actions. This value was established through the MSCP v0.7 prototype experiments (Section 1.3), where the prediction-comparison concept was first tested.
+
+**Why prediction gating matters**: Without this gate, an agent with a broken or drifted self-model would continue executing actions whose effects on its identity, beliefs, and goals it cannot predict - a dangerous feedback loop that can amplify errors. Prediction gating ensures that the agent only acts when its self-model is sufficiently calibrated, forcing a pause-and-recalibrate cycle when accuracy degrades.
+
+When an action is blocked by the prediction gate, the agent enters a **recalibration mode** where it performs lightweight introspective cycles (meta-cognition at depth 1) without executing external actions, allowing prediction accuracy to recover before resuming normal operation.
+
 ---
 
 ## 4. Identity & Safety Architecture
@@ -628,9 +645,11 @@ The IdentityVector is the mathematical representation of "who the agent is." It 
 >
 > **Safety invariant**: If $a_{\text{id}}(t) > \theta_{\text{instability}}$ (typically $0.5$), the agent enters **stabilization mode** and halves all self-update deltas.
 
-> **Definition 6 (Identity Hash).** At each cycle, a deterministic hash $h(t) = \text{SHA-256}(I(t))$ is computed. The `identity_id` field is **immutable** - it can never be altered by any internal process. Drift detection fires when:
+> **Definition 6 (Identity Hash).** At each cycle, a deterministic hash $h(t) = \text{SHA-256}(I(t))$ is computed, truncated to the first 16 characters for efficient comparison. The `identity_id` field is **immutable** - it can never be altered by any internal process. Drift detection fires when:
 >
-> $$h(t) \neq h(t-1) \;\land\; \delta_{\text{id}}(t) > \theta_{\text{drift}}$$
+> $$h(t) \neq h(t-1) \;\land\; \delta_{\text{id}}(t) > \theta_{\text{drift}}, \quad \theta_{\text{drift}} = 0.3$$
+>
+> A drift threshold of $\theta_{\text{drift}} = 0.3$ means that the identity vector must change by at least 30% (in $L^2$ norm) relative to its previous state to trigger a drift alert. This avoids false positives from routine minor adjustments while ensuring that meaningful identity shifts are detected. When drift is detected, the agent logs a WARNING-level alert on the first occurrence and subsequently every 100 cycles if drift persists, preventing log flooding while maintaining visibility into identity evolution.
 
 <!-- Identity Vector Class Diagram -->
 
@@ -893,7 +912,27 @@ flowchart TD
   OSC -.->|no| REDUCE
 ```
 
-### 6.2 Meta Stability Index
+### 6.2 Oscillation Detection
+
+The stability monitoring system includes explicit detection of **oscillatory behavior** - situations where the composite function $C(t)$ alternates between rising and falling without converging. Oscillation is dangerous because it indicates the agent is repeatedly overcorrecting, potentially destabilizing its own self-regulation.
+
+**Detection mechanism.** The oscillation detector maintains a sliding window of the $W = 10$ most recent values of $\Delta C(t) = C(t) - C(t-1)$. A **sign change** occurs when consecutive derivatives have opposite signs:
+
+$$\text{sign change at } t \iff \Delta C(t) \cdot \Delta C(t-1) < 0$$
+
+The detector counts the total number of sign changes $n_{\text{sc}}$ within the window:
+
+$$n_{\text{sc}} = \bigl|\{t \in [t-W, t] : \Delta C(t) \cdot \Delta C(t-1) < 0 \}\bigr|$$
+
+**Oscillation threshold.** If $n_{\text{sc}} \geq 3$ within $W = 10$ cycles, the system triggers **stabilization mode**:
+
+- All self-update scaling factors are reduced by a factor of $0.5$ (halved).
+- Cooldown timer increases by 2 units to space out updates.
+- The agent remains in stabilization mode until $n_{\text{sc}} < 2$ for $W$ consecutive cycles, after which normal scaling resumes.
+
+This mechanism ensures that the agent cannot enter a persistent oscillatory state. The reduction of scaling factors dampens the amplitude of corrections, allowing the system to settle toward equilibrium.
+
+### 6.3 Meta Stability Index
 
 > **Definition 8 (Meta Stability Index).** The MSI quantifies the agent's overall self-regulatory health:
 >
@@ -1274,7 +1313,7 @@ flowchart LR
 
 ## 10. State Vector (72 Dimensions)
 
-The Level 3 agent maintains a 72-dimensional state vector that captures all aspects of its cognitive state:
+The Level 3 agent maintains a 72-dimensional state vector that captures all aspects of its cognitive state. This represents the state vector size at Level 3 specifically - as the agent progresses through higher levels (L4 through L5), the state vector grows with each level's additional modules and metrics. By Level 5, the state vector can reach approximately 142 dimensions as cross-domain, strategic, and autonomous capabilities add new tracked quantities.
 
 <!-- 72-Dimensional State Vector -->
 

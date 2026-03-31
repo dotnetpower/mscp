@@ -376,7 +376,7 @@ Level 1 has fundamental limitations that motivate the transition to Level 2. The
 >
 > $$I(o_t ; o_{t-1}) = 0$$
 >
-> This follows directly from the memoryless property in Definition 1 - each request–response pair is conditionally independent of all others.
+> This follows directly from the memoryless property in Definition 1 - each request-response pair is conditionally independent of all others.
 
 > **Proposition 2 (Absence of Goal State).** A Level 1 agent has no internal goal space $\mathcal{G}$. The agent produces output only as a deterministic function of its input, never as a consequence of pursuing an objective:
 >

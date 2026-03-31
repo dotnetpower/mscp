@@ -24,6 +24,7 @@ Removal of attribution constitutes a license violation.
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Added VaR vs CVaR coherence remark; added calibration improvement remark with adaptive rate proposal |
 | 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (1.2 to 1.3); added graduated re-enablement protocol (Section 6.4) with persistent veto tracking |
+| 0.5.0 | 2026-03-31 | Added Phase 5 (Emit) output specification (2.3); added cycle interval and cross-phase integration scheduling (1.4); enriched module concepts (ConfidenceCalibrator, SkillGapAnalyzer) |
 
 ---
 
@@ -88,7 +89,31 @@ flowchart TD
   P4 -.->|"governs ALL phases"| P3
 ```
 
-### 1.3 Architectural Principle: Strictly Additive
+The four-phase diagram above shows the conceptual flow. In practice, Level 4.8 operates as a **five-phase pipeline**: OBSERVE (Phase 1), INTROSPECT (Phase 2), PLAN (Phase 3), VERIFY (Phase 4), and **EMIT** (Phase 5). The EMIT phase packages the outputs of all preceding phases into a structured cycle output that is consumed by higher levels (L4.9, L5). This separation ensures that downstream consumers receive a single, coherent snapshot rather than reading intermediate results from in-progress phases.
+
+### 1.4 Cycle Interval and Cross-Phase Integration
+
+Level 4.8 does not execute every MSCP cycle. It runs at a **reduced frequency** to allow lower-level mechanisms (L3 stability, L4 self-modification, L4.5 deliberation) to accumulate sufficient data between strategic assessments:
+
+$$\text{L4.8 cycle interval} = 10 \text{ L3 cycles}$$
+
+This means that for every 10 iterations of the core MSCP predict-act-compare-update loop (Level 3, Definition 2), Level 4.8 performs one full five-phase assessment. The interval is fixed (not adaptive) to prevent the strategic layer from consuming excessive computational budget during periods of high activity.
+
+**Cross-phase integration** occurs at the EMIT boundary: Phase 5 collects the world model beliefs (Phase 1), self-assessment results (Phase 2), strategic recommendations (Phase 3), and stability verification (Phase 4) into a single `L48CycleOutput` structure. This output is immutable once emitted - subsequent L3 cycles cannot retroactively modify a completed L4.8 assessment.
+
+### 1.5 Key Module Concepts
+
+Level 4.8 introduces several specialized modules that extend the agent's cognitive capabilities:
+
+| Module | Phase | Purpose |
+|--------|-------|---------|
+| **ProbabilisticWorldModel** | OBSERVE | Maintains a particle-filter-based representation of the external environment. Supports scenario simulation and uncertainty quantification through Monte Carlo sampling. |
+| **CapabilityMatrix** | INTROSPECT | A multi-domain skill tracking matrix $C_{d,s}$ where $d$ indexes domains and $s$ indexes skill levels. Each cell holds a confidence value $\in [0,1]$ representing the agent's self-assessed proficiency. |
+| **ConfidenceCalibrator** | INTROSPECT | Detects systematic overconfidence ($\text{confidence} > \text{actual success rate}$) and applies asymmetric correction. This module implements the MCE metric (Definition 5) and is critical for preventing the agent from taking actions it believes it can handle but actually cannot. |
+| **SkillGapAnalyzer** | INTROSPECT | Identifies domains where the agent's capability matrix has low confidence values. Produces a prioritized list of weaknesses that feeds into the strategic planning layer, enabling targeted self-improvement allocation. |
+| **StrategyComparator** | PLAN | Evaluates multiple candidate strategies against simulated scenarios. Uses the StrategyScore formula (Definition 7) to rank alternatives, incorporating expected value, risk adjustment, and status quo bias penalty. |
+
+### 1.6 Architectural Principle: Strictly Additive
 
 <!-- Architectural Principle: Strictly Additive -->
 
@@ -216,6 +241,19 @@ flowchart LR
   Strategic ==> Stability
   Stability ==>|"if violated"| FREEZE
 ```
+
+### 2.3 Phase 5: Emit
+
+The EMIT phase is the final stage of each L4.8 cycle. It packages all four preceding phases into a single, immutable output structure:
+
+$$\text{L48CycleOutput}(t) = \langle \mathcal{W}_{\text{prob}}(t),\; \mathcal{M}_{\text{cap}}(t),\; s^*(t),\; v_{\text{status}}(t) \rangle$$
+
+where $\mathcal{W}_{\text{prob}}(t)$ is the updated probabilistic world model, $\mathcal{M}_{\text{cap}}(t)$ is the calibrated capability matrix, $s^*(t)$ is the selected optimal strategy, and $v_{\text{status}}(t)$ is the stability verification result (pass/fail with detailed invariant violation report if any).
+
+The EMIT phase exists for two reasons:
+
+1. **Consistency guarantee**: Downstream consumers (L4.9, L5) receive a single coherent snapshot rather than observing intermediate states that may be internally inconsistent (e.g., a world model update that has not yet been stability-verified).
+2. **Temporal isolation**: Once emitted, the output cannot be retroactively modified by subsequent L3 cycles. This prevents a common failure mode where rapid lower-level updates invalidate strategic decisions before they can be acted upon.
 
 ---
 

@@ -23,6 +23,7 @@ Removal of attribution constitutes a license violation.
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-7, Propositions 1-3 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table; reinforced entity lifecycle, importance scoring, and world model architecture from specs |
 | 0.3.0 | 2026-02-26 | Fixed Def 6 type signature ($\mathcal{P}(\mathcal{S}) \to \mathcal{S}$); added constructive argument to Prop 2 |
+| 0.5.0 | 2026-03-31 | Added EnvironmentState (Def 2.1), ConversationContext (1.6), Percept Tracking (1.7); enriched term explanations |
 
 ---
 
@@ -174,6 +175,60 @@ The projection function from Definition 2 operates across all three tiers:
 $$s_t = \pi(\mathcal{W}_t) = \pi_{\text{cog}}(\mathcal{K}_t) \oplus \pi_{\text{session}}(\mathcal{M}_{\text{session},t}) \oplus \pi_{\text{retrieve}}(\mathcal{P}_{\text{store}}, q_t)$$
 
 where $q_t$ is the current query context and $\oplus$ denotes context concatenation.
+
+### 1.6 Environment State
+
+Beyond the world model's representation of external knowledge, the Level 2 agent maintains a real-time snapshot of its **operational environment**. This is distinct from the knowledge graph - it tracks the agent's own infrastructure health rather than facts about the external world.
+
+> **Definition 2.1 (Environment State).** The environment state $\mathcal{E}_{\text{env}}(t)$ is a structured tuple representing the agent's operational context:
+>
+> $$\mathcal{E}_{\text{env}}(t) = \langle \ell(t),\; \mathcal{T}_{\text{active}}(t),\; r_{\text{err}}(t),\; \lambda_{\text{resp}}(t),\; d_{\text{session}}(t) \rangle$$
+>
+> where:
+> - $\ell(t) \in [0,1]$ - **system load**: normalized measure of computational resource utilization. A value of $0$ indicates idle and $1$ indicates full saturation.
+> - $\mathcal{T}_{\text{active}}(t) \subseteq \mathcal{T}$ - **active tools**: the subset of available tools currently accessible (tools may become unavailable due to API failures or rate limits).
+> - $r_{\text{err}}(t) \in [0,1]$ - **error rate**: the fraction of recent tool invocations that returned errors. Computed over a sliding window: $r_{\text{err}}(t) = |\{i \in W_t : T_i = \textit{err}\}| / |W_t|$ where $W_t$ is the window of recent invocations.
+> - $\lambda_{\text{resp}}(t) \in \mathbb{R}_{\geq 0}$ - **response latency**: mean response time in milliseconds across recent requests.
+> - $d_{\text{session}}(t) \in \mathbb{R}_{\geq 0}$ - **session duration**: elapsed time in seconds since the current session began.
+>
+> The distinction between **knowledge state** ($\mathcal{W}$) and **operational state** ($\mathcal{E}_{\text{env}}$) is critical: the world model answers *"what does the agent know about external reality?"* while the environment state answers *"how healthy is the agent's operating context right now?"*
+
+The environment state feeds into the goal priority function (Definition 5) as an additional factor: when system load $\ell(t)$ is high or error rate $r_{\text{err}}(t)$ exceeds a threshold, the agent can autonomously generate SYSTEM-type goals to adapt its behavior (e.g., reducing tool call frequency or switching to cached responses).
+
+### 1.7 Conversation Context
+
+The **conversation context** is the agent's working memory for the current interaction session. It is distinct from the persistent world model ($\mathcal{W}$) in that it tracks short-term conversational dynamics rather than long-term factual knowledge.
+
+The conversation context $\mathcal{C}_{\text{conv}}(t)$ maintains the following state:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| $n_{\text{turn}}$ | $\mathbb{N}$ | **Turn count** - number of exchanges in the current session |
+| $\mathcal{H}_{\text{topic}}$ | $\text{List}(\text{String})$ | **Topic history** - ordered list of discussed topics (max 50). Enables pattern detection. |
+| $\tau_{\text{current}}$ | $\text{String}$ | **Current topic** - the inferred active topic |
+| $\ell_{\text{lang}}$ | $\text{String}$ | **Language** - detected language of the user |
+| $\chi_{\text{trend}}$ | $[-1,1]$ | **Complexity trend** - direction of request complexity over time. Positive values indicate increasing complexity; negative values indicate simplification. |
+| $e_{\text{trend}}$ | $[-1,1]$ | **Emotion trend** - direction of emotional valence over time. Tracks whether the user is becoming more positive or negative. |
+| $\iota_{\text{last}}$ | $\text{Intent}$ | **Last intent** - most recently classified user intent |
+
+The conversation context enables several Level 2 capabilities that are impossible at Level 1:
+
+- **Topic continuity**: When $\tau_{\text{current}}$ persists across multiple turns, the agent can provide increasingly focused responses without the user re-establishing context.
+- **Emotional adaptation**: When $e_{\text{trend}} < -0.3$ (consistently negative), the autonomous goal generator (Definition 6) activates REACTIVE goals for emotional support.
+- **Complexity matching**: The agent adjusts its response detail level based on $\chi_{\text{trend}}$ - simplified responses when complexity trends down, deeper explanations when it trends up.
+
+### 1.8 Percept Tracking
+
+Each incoming request is encoded into a structured **percept** before processing. A percept is the unified representation of all information extracted from a single user interaction:
+
+$$\text{Percept}(t) = \langle \iota(t),\; e(t),\; \mathcal{E}_{\text{ref}}(t),\; \xi(t),\; t \rangle$$
+
+where $\iota(t)$ is the classified intent, $e(t) \in \mathbb{R}^2$ is the emotion vector (Definition 3), $\mathcal{E}_{\text{ref}}(t)$ is the set of referenced entities, $\xi(t) \in [0,1]$ is the estimated request complexity, and $t$ is the timestamp.
+
+The agent maintains a **bounded percept buffer** of the most recent $N_{\text{max}} = 100$ percepts. This buffer serves two purposes:
+
+1. **Trend analysis**: Sliding window computations over the percept buffer produce the complexity trend $\chi_{\text{trend}}$ and emotion trend $e_{\text{trend}}$ used in the conversation context.
+2. **Pattern detection**: The autonomous goal generator (Definition 6) scans the percept buffer for recurring entities, emotional shifts, and temporal patterns that trigger goal synthesis.
 
 ---
 
