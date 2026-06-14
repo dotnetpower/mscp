@@ -123,6 +123,94 @@ $$\text{sentiment}_{e_k}(t) = (1 - \lambda) \cdot \text{sentiment}_{e_k}(t-1) + 
 
 여기서 $\lambda \in (0,1)$는 평활 계수 (일반적으로 $\lambda = 0.3$)이며, 역사적 맥락을 보존하면서 최근 상호작용이 더 큰 영향을 미치도록 보장합니다.
 
+#### 1.4.1 개체 생명주기
+
+추적되는 각 개체는 세 단계 생명주기를 따릅니다:
+
+$$\text{lifecycle}(e_k) : \text{NEW} \xrightarrow{\text{언급 횟수} \geq 1} \text{ACTIVE} \xrightarrow{\Delta t > \theta_{\text{stale}}} \text{STALE}$$
+
+여기서 $\Delta t = t_{\text{now}} - t_{\text{last mentioned}}$이고 $\theta_{\text{stale}}$는 진부화 임계값입니다. STALE 개체는 세계 모델에 남지만 맥락 형성에서 가중치가 축소됩니다. 어떤 개체도 삭제되지 않으며 — 단지 감쇠될 뿐입니다.
+
+#### 1.4.2 개체 중요도 점수
+
+시점 $t$에서 개체 $e_k$의 중요도는 **최근성(recency)** 과 **빈도(frequency)** 의 가중 결합입니다:
+
+$$\operatorname{importance}(e_k, t) = \alpha_r \cdot \operatorname{recency}(e_k, t) + \alpha_f \cdot \operatorname{frequency}(e_k)$$
+
+여기서:
+
+$$\operatorname{recency}(e_k, t) = \frac{1}{1 + (t - t_{\text{last}}(e_k)) / \tau}, \quad \operatorname{frequency}(e_k) = \min\!\left(1,\; \frac{\text{언급 횟수}(e_k)}{N_{\text{cap}}}\right)$$
+
+시간 상수 $\tau$(통상 3600초), 언급 한도 $N_{\text{cap}} = 10$, 통상 가중치 $\alpha_r = 0.4$, $\alpha_f = 0.6$입니다.
+
+### 1.5 세계 모델 아키텍처
+
+세계 모델은 세 계층의 개념적 아키텍처로 동작합니다:
+
+1. **인지 계층** ($\mathcal{W}$): 통합 세계 모델(정의 2) — 지식 그래프, 개체 상태, 시간적 사실을 외부 현실에 대한 일관된 표현으로 유지.
+2. **세션 계층** ($\mathcal{M}_{\text{session}}$): 현재 상호작용 세션의 활성 맥락 창을 보유하는 작업 메모리(최근 참조 개체와 그 관련성 점수 포함).
+3. **영속 계층** ($\mathcal{P}_{\text{store}}$): 키워드 매칭·의미 유사도·그래프 순회를 결합한 하이브리드 검색을 통해 세션 간 개체 추적과 시간적 사실 조회를 가능하게 하는 장기 저장소(예: 그래프 데이터베이스).
+
+정의 2의 투영 함수는 세 계층 전반에 걸쳐 동작합니다:
+
+$$s_t = \pi(\mathcal{W}_t) = \pi_{\text{cog}}(\mathcal{K}_t) \oplus \pi_{\text{session}}(\mathcal{M}_{\text{session},t}) \oplus \pi_{\text{retrieve}}(\mathcal{P}_{\text{store}}, q_t)$$
+
+여기서 $q_t$는 현재 질의 맥락이고 $\oplus$는 맥락 연결(concatenation)입니다.
+
+### 1.6 환경 상태
+
+외부 지식을 표현하는 세계 모델 외에도, 레벨 2 에이전트는 자신의 **운영 환경(operational environment)** 에 대한 실시간 스냅샷을 유지합니다. 이는 지식 그래프와는 구분되며 — 외부 세계의 사실이 아니라 에이전트 자신의 인프라 건강 상태를 추적합니다.
+
+> **정의 2.1 (환경 상태).** 환경 상태 $\mathcal{E}_{\text{env}}(t)$는 에이전트의 운영 맥락을 표현하는 구조화된 튜플입니다:
+>
+> $$\mathcal{E}_{\text{env}}(t) = \langle \ell(t),\; \mathcal{T}_{\text{active}}(t),\; r_{\text{err}}(t),\; \lambda_{\text{resp}}(t),\; d_{\text{session}}(t) \rangle$$
+>
+> 여기서:
+> - $\ell(t) \in [0,1]$ — **시스템 부하**: 계산 자원 활용도의 정규화 측정. $0$은 유휴, $1$은 완전 포화.
+> - $\mathcal{T}_{\text{active}}(t) \subseteq \mathcal{T}$ — **활성 도구**: 현재 접근 가능한 사용 가능 도구의 부분집합(API 실패나 속도 제한으로 도구가 사용 불가능해질 수 있음).
+> - $r_{\text{err}}(t) \in [0,1]$ — **오류율**: 최근 도구 호출 중 오류를 반환한 비율. 슬라이딩 윈도우 상에서 계산: $r_{\text{err}}(t) = |\{i \in W_t : T_i = \textit{err}\}| / |W_t|$, $W_t$는 최근 호출 윈도우.
+> - $\lambda_{\text{resp}}(t) \in \mathbb{R}_{\geq 0}$ — **응답 지연**: 최근 요청에 대한 평균 응답 시간(밀리초).
+> - $d_{\text{session}}(t) \in \mathbb{R}_{\geq 0}$ — **세션 지속 시간**: 현재 세션 시작 이후 경과 시간(초).
+>
+> **지식 상태**($\mathcal{W}$)와 **운영 상태**($\mathcal{E}_{\text{env}}$)의 구분은 중요합니다: 세계 모델은 *"에이전트가 외부 현실에 대해 무엇을 알고 있는가?"* 에 답하는 반면, 환경 상태는 *"에이전트의 운영 맥락이 지금 얼마나 건강한가?"* 에 답합니다.
+
+환경 상태는 목표 우선순위 함수(정의 5)의 추가 인자로 공급됩니다: 시스템 부하 $\ell(t)$가 높거나 오류율 $r_{\text{err}}(t)$가 임계값을 초과하면, 에이전트는 자율적으로 SYSTEM 타입 목표를 생성해 행동을 적응시킬 수 있습니다(예: 도구 호출 빈도를 줄이거나 캐시된 응답으로 전환).
+
+### 1.7 대화 맥락
+
+**대화 맥락(conversation context)** 은 현재 상호작용 세션에 대한 에이전트의 작업 메모리입니다. 영속적인 세계 모델($\mathcal{W}$)과 달리 — 장기 사실 지식이 아니라 단기 대화 역학을 추적합니다.
+
+대화 맥락 $\mathcal{C}_{\text{conv}}(t)$는 다음 상태를 유지합니다:
+
+| 필드 | 타입 | 설명 |
+|------|------|------|
+| $n_{\text{turn}}$ | $\mathbb{N}$ | **턴 수** — 현재 세션에서의 교환 횟수 |
+| $\mathcal{H}_{\text{topic}}$ | $\text{List}(\text{String})$ | **주제 이력** — 논의된 주제의 순서 있는 목록(최대 50). 패턴 감지 가능. |
+| $\tau_{\text{current}}$ | $\text{String}$ | **현재 주제** — 추론된 활성 주제 |
+| $\ell_{\text{lang}}$ | $\text{String}$ | **언어** — 사용자에 대해 감지된 언어 |
+| $\chi_{\text{trend}}$ | $[-1,1]$ | **복잡도 추세** — 시간에 따른 요청 복잡도의 방향. 양수는 복잡도 증가, 음수는 단순화. |
+| $e_{\text{trend}}$ | $[-1,1]$ | **감정 추세** — 시간에 따른 감정 가치의 방향. 사용자가 더 긍정적/부정적으로 변하는지 추적. |
+| $\iota_{\text{last}}$ | $\text{Intent}$ | **최근 의도** — 가장 최근에 분류된 사용자 의도 |
+
+대화 맥락은 레벨 1에서는 불가능한 여러 레벨 2 능력을 가능하게 합니다:
+
+- **주제 연속성**: $\tau_{\text{current}}$가 여러 턴에 걸쳐 지속되면, 사용자가 맥락을 다시 설정하지 않아도 점점 더 초점 있는 응답이 가능.
+- **감정 적응**: $e_{\text{trend}} < -0.3$(지속적으로 부정적)이면, 자율 목표 생성기(정의 6)가 정서적 지원을 위한 REACTIVE 목표를 활성화.
+- **복잡도 매칭**: 에이전트는 $\chi_{\text{trend}}$에 따라 응답 상세 수준을 조정 — 복잡도 추세가 하강하면 단순화, 상승하면 더 깊이 있는 설명.
+
+### 1.8 지각(percept) 추적
+
+들어오는 각 요청은 처리 전에 구조화된 **지각(percept)** 으로 인코딩됩니다. 지각은 단일 사용자 상호작용에서 추출된 모든 정보의 통합 표현입니다:
+
+$$\text{Percept}(t) = \langle \iota(t),\; e(t),\; \mathcal{E}_{\text{ref}}(t),\; \xi(t),\; t \rangle$$
+
+여기서 $\iota(t)$는 분류된 의도, $e(t) \in \mathbb{R}^2$는 감정 벡터(정의 3), $\mathcal{E}_{\text{ref}}(t)$는 참조된 개체 집합, $\xi(t) \in [0,1]$는 추정 요청 복잡도, $t$는 타임스탬프입니다.
+
+에이전트는 가장 최근 $N_{\text{max}} = 100$개 지각의 **유한 지각 버퍼(bounded percept buffer)** 를 유지합니다. 이 버퍼는 두 가지 용도가 있습니다:
+
+1. **추세 분석**: 지각 버퍼에 대한 슬라이딩 윈도우 계산이 대화 맥락에서 사용되는 복잡도 추세 $\chi_{\text{trend}}$와 감정 추세 $e_{\text{trend}}$를 생성.
+2. **패턴 감지**: 자율 목표 생성기(정의 6)는 지각 버퍼에서 반복되는 개체, 감정 변동, 시간적 패턴을 스캔해 목표 합성을 트리거.
+
 ---
 
 ## 2. 아키텍처

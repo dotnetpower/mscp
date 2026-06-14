@@ -25,6 +25,7 @@ Removal of attribution constitutes a license violation.
 | 0.3.0 | 2026-02-26 | Added VaR vs CVaR coherence remark; added calibration improvement remark with adaptive rate proposal |
 | 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (1.2 to 1.3); added graduated re-enablement protocol (Section 6.4) with persistent veto tracking |
 | 0.5.0 | 2026-03-31 | Added Phase 5 (Emit) output specification (2.3); added cycle interval and cross-phase integration scheduling (1.4); enriched module concepts (ConfidenceCalibrator, SkillGapAnalyzer) |
+| 0.6.0 | 2026-06-14 | Mermaid label `Level 4.5 (25 modules)` abstracted to `Level 4.5 (Self-Architecting Core)` so that the level diagram no longer encodes a transient module count |
 
 ---
 
@@ -124,7 +125,7 @@ flowchart LR
   classDef l48 fill:#B4009E,stroke:#8E0082,color:#FFF
   classDef fallback fill:#FDE7E9,stroke:#D13438,color:#323130
 
-  subgraph L45["Level 4.5 (25 modules)"]
+  subgraph L45["Level 4.5 (Self-Architecting Core)"]
     L45A["Self-Projection Engine"]:::l45
     L45B["Architecture Recomposition"]:::l45
     L45C["Parallel Cognitive Frames"]:::l45

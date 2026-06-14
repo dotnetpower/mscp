@@ -13,7 +13,7 @@ Removal of attribution constitutes a license violation.
 # Level 5: Proto-AGI - Persistent General Strategic Intelligence
 
 > **MSCP Level Series** | [Level 4.9](Level_4_9_Autonomous_Strategic_Agent.md) ← Level 5  
-> **Status**: 🔬 **Research Stage** - This level is a conceptual design and has NOT been implemented. All mechanisms described here are theoretical explorations requiring extensive validation before any production consideration.  
+> **Status**: 🔬 **Research Stage** - This level is a conceptual design, partially explored in reference implementations against the L5 qualification criteria (Identity Continuity, Generalization, Goal Stability, Resilience, Overall Maturity, Reconstruction Fidelity). All mechanisms described here remain theoretical hypotheses that require extensive independent validation before any production consideration.  
 > **Date**: February 2026
 
 ## Revision History
@@ -25,6 +25,7 @@ Removal of attribution constitutes a license violation.
 | 0.3.0 | 2026-02-26 | Def 2: added ICS norm-stability supplement; Def 3: added transfer score grounding remark; Def 11: added reconstruction fidelity formalization |
 | 0.4.0 | 2026-03-08 | Added 26-Layer Cognitive Stack (9.3), 11-Phase L5 Pipeline (9.4), Autonomy Phases F3-F6 (9.5) |
 | 0.5.0 | 2026-03-31 | Added cycle interval and scheduling (1.5); added goal ecology limits (5.3); added F3-F6 autonomy phase descriptions (1.6); added 20 qualification criteria explanations (13.1); enriched BGSS L5 constraint |
+| 0.6.0 | 2026-06-14 | Status note softened (conceptual + partially explored in reference implementations against L5 qualification criteria); Mermaid label `Level 4.9 (15 modules)` abstracted to `Level 4.9 (Autonomous Strategic Core)` |
 
 ---
 
@@ -36,7 +37,7 @@ Level 5 (Proto-AGI) represents the transition from autonomous strategic agency (
 >
 > $$\operatorname{ICS}(t, k) = \frac{\vec{I}(t) \cdot \vec{I}(t-k)}{\|\vec{I}(t)\| \cdot \|\vec{I}(t-k)\|} \geq 0.95, \quad k = 10{,}000$$
 
-> ⚠️ **Research Note**: Level 5 is the most speculative layer in the MSCP framework. It defines properties that approach proto-AGI territory. None of these mechanisms have been implemented. They represent aspirational design hypotheses that would require years of fundamental research to validate.
+> ⚠️ **Research Note**: Level 5 is the most speculative layer in the MSCP framework. It defines properties that approach proto-AGI territory. Where reference implementations have begun probing these mechanisms, the results so far are partial and unverified at scale; they should be read as aspirational design hypotheses that would require years of fundamental research to validate.
 
 ### 1.1 Structural Definition
 
@@ -93,7 +94,7 @@ flowchart TB
   classDef l5 fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef danger fill:#FDE7E9,stroke:#D13438,color:#323130
 
-  subgraph L49M["Level 4.9 (15 modules)"]
+  subgraph L49M["Level 4.9 (Autonomous Strategic Core)"]
     direction LR
     GGL["GoalGen"]:::l49
     VEM["ValueEvol"]:::l49

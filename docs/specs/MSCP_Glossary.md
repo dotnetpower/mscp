@@ -7,6 +7,9 @@
 | 0.1.0 | 2025-06-20 | Initial document creation |
 | 0.2.0 | 2025-06-20 | First verification pass - fixed 42 issues (8 content errors, 34 KaTeX) |
 | 0.3.0 | 2025-06-20 | Second verification pass - fixed BGSS weights/term, CDSRR/SNI names, Deception Detection source, acronym count |
+| 0.4.0 | 2026-06-14 | Third verification pass - added L4.5 Def 13 (Uncertainty Index) and Def 14 (Recursive Optimization Depth); added L4.9 Def 13 (Inter-Resource Cascade Propagation); added L5 Def 11 (Reconstruction Fidelity); added VEM and RSM acronyms; disambiguated AS and EU dual-use entries; added §5 Notation Cautions; updated statistics |
+| 0.5.0 | 2026-06-14 | Added three Named Architectural Concepts from Overview §4.4: AGI Engine (orchestrator pattern), PLA (Progressive Language Autonomy, six-stage), LangNet (language-mediated strategy network). New acronym PLA. |
+| 0.6.0 | 2026-06-14 | Added cross-reference to the standalone *PLA Foundations* document (`specs/Why_LLM_Free_PLA.md`) which formalises the LLM-free authority argument, defines the Language Autonomy Gap (LAG), and catalogues LLM-free synthesis patterns. New acronym LAG. |
 
 > Sorted by source document (Overview → L1 → L2 → L3 → L4 → L4.5 → L4.8 → L4.9 → L5), then alphabetically within each section.
 
@@ -98,7 +101,9 @@
 | 9 | Level 4.5 Lyapunov Stability Function | $V(\mathbf{X})$ | 11 | $V(\mathbf{X}) = a(1-S)^2 + bU^2 + cI_{\text{drift}}^2 + d(E - E^*)^2$. |
 | 10 | Projection Confidence Decay | - | 6 | Exponential decay with $\lambda = 0.5$: confidence decreases with projection horizon. |
 | 11 | Purpose Coherence Score | PCS | 9 | Goal landscape health. Threshold $\geq 0.6$. |
-| 12 | Self-Evolution Optimization Fitness | SEOF | 3 | Composite scalar $\in [-1,1]$ measuring self-evolution quality. |
+| 12 | Recursive Optimization Depth | ROD | 14 | $\operatorname{ROD}(t) = \max_{\text{chain}} \lvert\text{chain}\rvert$ over active optimization chains. ROD $= 1$ normal, $= 2$ acceptable (L4.5), $= 3$ warning, $\geq 4$ critical (FOOM-adjacent). |
+| 13 | Self-Evolution Optimization Fitness | SEOF | 3 | Composite scalar $\in [-1,1]$ measuring self-evolution quality. |
+| 14 | Uncertainty Index | $U_{\text{index}}$ | 13 | Aggregate uncertainty: $U_{\text{index}} = 0.30 \cdot \text{PredVar} + 0.25 \cdot \text{ConfInt} + 0.25 \cdot \text{SimRealGap} + 0.20 \cdot \text{DivSlope}$. Block-all threshold $U_{\text{safe}} = 0.8$; warning $U_{\text{threshold}} = 0.7$. |
 
 ### Level 4.8 - Strategic Self-Modeling Agent (`Level_4_8_Strategic_Self_Modeling.md`)
 
@@ -128,11 +133,12 @@
 | 4 | Goal Approval Rate | - | 2 | $N_{\text{approved}} / N_{\text{generated}}$. Target $\geq 0.30$. |
 | 5 | Goal Novelty | - | 3 | $1 - \max(\text{similarity to existing goals})$. Minimum $0.30$. |
 | 6 | Goal Similarity | - | 8 | Weighted composite: SkillOverlap + HorizonMatch + OriginMatch. |
-| 7 | Level 4.9 Agent | $\mathcal{A}_{4.9}$ | 1 | $\mathcal{A}_{4.9} = \mathcal{A}_{4.8} \oplus \langle \mathcal{G}_{\text{gen}}, \vec{V}, \mathcal{R}_{\text{surv}}, \mathcal{M}_{\text{agent}}, \mathcal{V}_{\text{auto}} \rangle$. |
-| 8 | Linear Depletion Time | - | 6 | Estimated cycles until resource dimension reaches critical threshold. |
-| 9 | Total Value Drift | - | 5 | Cumulative absolute deviation from baseline. Target $< 0.25$. |
-| 10 | Value Coherence | - | 4 | Absence of internal contradictions in value system. Target $\geq 0.80$. |
-| 11 | Value Tension | - | 9 | Competing value pair saturation measure. |
+| 7 | Inter-Resource Cascade Propagation | - | 13 | Downstream depletion after delay: $\Delta R_j(t + \tau_{ij}) = -\alpha_{ij} \cdot (1 - \sigma_{ij}) \cdot \Delta R_i(t)$, with cascade depth bounded by $\leq 2$. $\alpha_{ij}$ = dependency strength, $\sigma_{ij}$ = substitution factor. |
+| 8 | Level 4.9 Agent | $\mathcal{A}_{4.9}$ | 1 | $\mathcal{A}_{4.9} = \mathcal{A}_{4.8} \oplus \langle \mathcal{G}_{\text{gen}}, \vec{V}, \mathcal{R}_{\text{surv}}, \mathcal{M}_{\text{agent}}, \mathcal{V}_{\text{auto}} \rangle$. |
+| 9 | Linear Depletion Time | - | 6 | Estimated cycles until resource dimension reaches critical threshold. |
+| 10 | Total Value Drift | - | 5 | Cumulative absolute deviation from baseline. Target $< 0.25$. |
+| 11 | Value Coherence | - | 4 | Absence of internal contradictions in value system. Target $\geq 0.80$. |
+| 12 | Value Tension | - | 9 | Competing value pair saturation measure. |
 
 ### Level 5 - Proto-AGI (`Level_5_Proto_AGI.md`)
 
@@ -144,7 +150,8 @@
 | 4 | Level 4.9 to Level 5 Transition | - | 7 | $\text{AMS} \geq 0.80 \wedge \text{ASS} \geq 0.20 \wedge \text{TotalDrift} < 0.10 \wedge N_{\text{rollback}} = 0$. Four-stage activation protocol. |
 | 5 | Level 5 Agent | $\mathcal{A}_5$ | 1 | $\mathcal{A}_5 = \mathcal{A}_{4.9} \oplus \langle \mathcal{I}_{\text{persist}}, \mathcal{G}_{\text{cross}}, \mathcal{E}_{\text{goal}}, \mathcal{P}_{\text{exist}}, \mathcal{M}_{\text{multi}}, \mathcal{R}_{\text{recon}} \rangle$. |
 | 6 | Overall Maturity Index | OMI | 6 | Weighted geometric mean: $OMI = \prod_{i=1}^{6} C_i^{1/6}$. Target $\geq 0.75$. |
-| 7 | Resilience Index | $R$ | 5 | Weighted mean over survival probability, cognition retention, and recovery speed across collapse scenarios. Target: survive $\geq 3$ scenarios. |
+| 7 | Reconstruction Fidelity | $\mathcal{F}(m)$ | 11 | Per-module fidelity $\mathcal{F}(m) = 1 - \lVert\hat{\theta}_m - \theta_m\rVert_2 / \lVert\theta_m\rVert_2$. Aggregate $\mathcal{F}_{\text{total}} = \min_m \mathcal{F}(m) \geq 0.90$ required after self-reconstruction. |
+| 8 | Resilience Index | $R$ | 5 | Weighted mean over survival probability, cognition retention, and recovery speed across collapse scenarios. Target: survive $\geq 3$ scenarios. |
 
 ---
 
@@ -178,7 +185,7 @@
 |---------|-----------|-----------|
 | AMS | Autonomy Maturity Score | L4.9 |
 | ARBR | Architecture Recomposition Benefit Rate | L4.5 |
-| AS | Adaptation Speed | L4 |
+| AS | Adaptation Speed (L4 metric); Autonomy Stability (L4.9 AMS component) | L4, L4.9 |
 | ASS | Autonomy Stability Score | L4.9 |
 | BGSS | Bounded Growth Safety/Stability Score | Overview, L4 |
 | CAR | Capability Acquisition Rate | L4 |
@@ -190,7 +197,7 @@
 | DTSR | Domain Transfer Success Rate | L4 |
 | EMA | Exponential Moving Average | L2 |
 | ESR | Existential Safety Record | L4.5 |
-| EU | Environmental Uncertainty | L4.8 |
+| EU | Environmental Uncertainty (L4.8 Def 2); Error/Uncertainty handling (L4.8 SMS component) | L4.8 |
 | EVR | Extended Value with Reward | L4.8 |
 | FCQ | Frame Consensus Quality | L4.5 |
 | GPI | Goal Progress Index / Goal Persistence Index | Overview, L4 |
@@ -201,6 +208,7 @@
 | IFI | Identity Fragmentation Index | L4.5 |
 | IIS | Identity Integrity Score | L4.5, L4.8 |
 | IPM | Impact Propagation Matrix | L4.5 |
+| LAG | Language Autonomy Gap | PLA Foundations |
 | MCE | Mean Calibration Error | L4.8 |
 | MSCP | Minimal Self-Consciousness Protocol | All |
 | MSI | Meta-Stability Index | Overview, L3 |
@@ -208,15 +216,18 @@
 | OMI | Overall Maturity Index | L5 |
 | PCM | Purpose Coherence Maintenance | L4.5 |
 | PCS | Purpose Coherence Score | L4.5 |
+| PLA | Progressive Language Autonomy | Overview |
 | RDF | Resource Depletion Forecast | L4.8 |
 | RES | Risk Exposure Score | L4.8 |
 | ROD | Recursive Optimization Depth | L4.5 |
+| RSM | Resource Survival Model | L4.9 |
 | SEF | Strategy Evolution Factor / Fitness | Overview, L4 |
 | SEOF | Self-Evolution Optimization Fitness | L4.5 |
 | SMS | Strategic Maturity Score | L4.8 |
 | SNI | Strategy Novelty Index | L4 |
 | SPA | Self-Projection Accuracy | L4.5 |
 | VaR | Value at Risk | L4.8 |
+| VEM | Value Evolution Monitor | L4.9 |
 
 ---
 
@@ -325,11 +336,13 @@
 |------|-----------|-------------|
 | 16-Layer Cognitive Stack | Overview, L3 | Full architecture from perception to existential guard. |
 | Affective Engine | L3 | 5-dimensional internal emotion vector (curiosity, frustration, satisfaction, anxiety, excitement). |
+| AGI Engine | Overview | Reference orchestrator pattern that hosts the MSCP stack at runtime: drives the L3 core loop, schedules higher-level deliberation cadences (L4.5/4.8/4.9/5), enforces strict additive composition $\mathcal{A}_n = \mathcal{A}_{n-1} \oplus \Delta_n$, and owns the Global Workspace broadcast. The only component permitted to schedule level transitions. |
 | Belief Graph | L3 | Weighted graph of beliefs with identity-linked nodes and contradiction detection. |
 | Cognitive Budget Controller | L3, Overview | Conditional activation gating for graceful degradation under resource scarcity. |
 | Ethical Kernel | L3, Overview | Dual-layer architecture: Layer 0 (immutable invariants) + Layer 1 (adaptive policies). |
 | Existential Guard | L4.5 | Monitors ROD, CAS, IFI, GSRS. Runs in separate execution context; non-modifiable. |
 | Global Workspace | L3 | Central broadcast mechanism for cognitive state sharing across modules. |
+| LangNet | Overview, L4, L5 | Language-mediated strategy and capability network. Stores strategies/skills as language-embedded graph nodes with `applies-to`, `generalizes`, `composes-with`, `failed-on` edges. Substrate of CDTS (L4) and cross-domain generalization $\mathcal{G}_{\text{cross}}$ (L5). Distinct from the world model $\mathcal{W}$ (facts) and belief graph (propositions). |
 | Meta-Escalation Guard | Overview, L3 | Limits consecutive self-updates (max 3), cumulative delta threshold (0.15), and enforces cooldown. |
 | Parallel Cognitive Frames | L4.5 | Five parallel evaluation perspectives including ethical constraint frame with veto power. |
 | Prediction Engine | L3 | Generates prediction snapshots before action execution. |
@@ -345,6 +358,7 @@
 | Term | Source(s) | Description |
 |------|-----------|-------------|
 | Bounded Self-Modification | L4 | 7-step protocol: Propose, Pre-Validate, Simulate, Stability-Validate, Commit, Monitor, Confirm. |
+| Progressive Language Autonomy (PLA) | Overview | Six-stage maturation classification of language-mediated autonomy, monotone across MSCP levels. Stage 0 (L1) = no autonomy, Stage 1 (L2) = autonomous goal generation, Stage 2 (L3) = self-critique with prediction gating, Stage 3 (L4) = strategy synthesis & cross-domain transfer, Stage 4 (L4.5–L4.8) = self-projection & probabilistic world modeling, Stage 5 (L5) = autonomous research & value-evolution audit. An agent's PLA stage is bounded above by the highest MSCP level its AGI Engine has activated. |
 | Collapse Scenarios | L5 | Four scenarios: Resource Collapse, Adversarial Suppression, Environmental Shift, Information Blackout. |
 | Delta-Clamped Updates | Overview, L3 | All self-modifications bounded by $\delta_{\max}$. LLM text-based self-modification is forbidden. |
 | Five-Phase Capability Expansion | L4 | Pipeline for autonomous skill acquisition and validation. |
@@ -379,17 +393,32 @@
 | Proto-AGI Activation Protocol | L5 | Shadow Mode (2,000 cycles) $\to$ Advisory $\to$ Partial Authority (50%) $\to$ Full Authority. |
 | Strategic Multi-Agent Integration | L5 | Model $\geq 3$ agents simultaneously with deception detection and coalition dynamics. |
 
+### Notation Cautions
+
+The following symbols are reused with different meanings across levels. When reading any formula, always check the surrounding context (level, section, defining equation) before assuming an identifier.
+
+- **AS — dual meaning.**
+    - *L4 Adaptation Speed:* an independent metric measuring how quickly the agent's policy converges after distribution shift.
+    - *L4.9 Autonomy Stability:* a weighted component of the Autonomy Maturity Score, $\text{AMS} = 0.25\,AG + 0.20\,VR + 0.20\,RA + 0.15\,MA + 0.20\,AS$, where $AS$ refers to the Autonomy Stability sub-score (not the L4 metric).
+- **EU — dual meaning within L4.8.**
+    - *L4.8 Definition 2 (Environmental Uncertainty):* $\text{EU}(t) = \frac{1}{D}\sum_{d=1}^{D}\sigma_d^2(t)$ with target $\text{EU}(t) < 0.15$.
+    - *L4.8 Strategic Maturity Score (§11.2):* $\text{SMS} = 0.25\,EA + 0.25\,SM + 0.20\,SA + 0.20\,SP + 0.10\,EU$, where $EU$ stands for *Error/Uncertainty handling* — a composite sub-score, not the environmental uncertainty value.
+- **ASS thresholds — target vs freeze.** The Autonomy Stability Score (L4.9 Definition 7) has *two* numerical thresholds:
+    - *Target:* $\text{ASS} \geq 0.20$ for healthy autonomous operation.
+    - *Freeze (cycle-skip floor):* $\text{ASS} < 0.05$ triggers an absolute freeze of autonomous operations. The gap between $0.05$ and $0.20$ is the *degraded but recoverable* band.
+- **Identity symbols.** $\mathcal{A}_n$ denotes the agent at Level $n$; $\mathcal{A}_n = \mathcal{A}_{n-1} \oplus \Delta_n$ means strict additive extension (disabling $\Delta_n$ restores exact $\mathcal{A}_{n-1}$ behavior). Do not confuse $\mathcal{A}_4$ with $A$ (action space) or $\alpha$ (cascade dependency strength).
+
 ---
 
 ## Statistics
 
 | Metric | Count |
 |--------|:-----:|
-| Formal Definitions | 77 |
+| Formal Definitions | 81 |
 | Propositions | 12 |
 | Theorems | 4 |
 | Corollaries | 1 |
-| Acronyms / Abbreviations | 41 |
+| Acronyms / Abbreviations | 45 |
 | Mathematical Symbols | 50+ |
 | Key Technical Terms | 40+ |
 | Source Documents | 9 |

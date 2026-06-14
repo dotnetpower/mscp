@@ -21,8 +21,9 @@ Removal of attribution constitutes a license violation.
 | Version | Date | Description |
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation |
-| 0.4.0 | 2026-03-08 | Added 10-Phase MSCP Cycle (Section 3); synchronized with updated agent-san specifications |
+| 0.4.0 | 2026-03-08 | Added 10-Phase MSCP Cycle (Section 3); synchronized with updated reference implementation specifications |
 | 0.5.0 | 2026-03-31 | Added key thresholds summary (2.5); enriched level descriptions with concrete parameters |
+| 0.6.0 | 2026-06-14 | Decoupled reference implementation status from absolute counts (modules / tests / LOC) to avoid stale numbers; rephrased L4.5→L5 transition narrative as ongoing rather than time-stamped |
 
 ---
 
@@ -30,7 +31,7 @@ Removal of attribution constitutes a license violation.
 
 As AI agents evolve from stateless tool-callers into autonomous systems capable of setting their own goals, a critical safety gap emerges: **no structured protocol exists to ensure that increasingly autonomous agents maintain identity coherence, behavioral predictability, and ethical alignment as they self-modify.** The motivation behind this project is simple: **as AI agents grow more autonomous and capable, we need to make sure they develop in a direction that is safe, predictable, and aligned with human values - not merely powerful.**
 
-Through building and experimenting with agent prototypes, this project developed the **Minimal Self-Consciousness Protocol (MSCP)** - a layered framework that gives AI agents *structural self-awareness*: the capacity to predict their own state changes, compare predictions against outcomes, and update themselves only within bounded safety envelopes. Along the way, MSCP grew to include a six-level taxonomy of agent cognition (from reactive Tool Agents to hypothetical Conscious Entities), measurable transition criteria between levels, and 30+ structural safety mechanisms covering identity continuity, ethical invariants, convergence stability, and cognitive budget management. A reference implementation has reached Level 4.5 (Pre-AGI: Directionally Self-Architecting) with 25 operational modules and 772 passing tests - maintaining all safety invariants throughout capability expansion. This document walks through the protocol's design principles, architecture, safety mechanisms, and the reasoning behind them.
+Through building and experimenting with agent prototypes, this project developed the **Minimal Self-Consciousness Protocol (MSCP)** - a layered framework that gives AI agents *structural self-awareness*: the capacity to predict their own state changes, compare predictions against outcomes, and update themselves only within bounded safety envelopes. Along the way, MSCP grew to include a six-level taxonomy of agent cognition (from reactive Tool Agents to hypothetical Conscious Entities), measurable transition criteria between levels, and 30+ structural safety mechanisms covering identity continuity, ethical invariants, convergence stability, and cognitive budget management. A reference implementation has been advanced through the Pre-AGI tier (Level 4.5 - Directionally Self-Architecting) and is being exercised against the higher-level (L4.8 / L4.9 / L5) qualification criteria, while maintaining the protocol's safety invariants throughout each round of capability expansion. This document walks through the protocol's design principles, architecture, safety mechanisms, and the reasoning behind them.
 
 ---
 
@@ -83,7 +84,7 @@ This project developed the **Minimal Self-Consciousness Protocol (MSCP)** - a st
 
 4. **Mathematical Analysis** exploring stability properties for the agent's self-modification dynamics.
 
-This isn't just a thought experiment. A working reference implementation has reached Level 4.5 with 25 operational modules, 14,500+ lines of code, and 772 passing tests - maintaining safety invariants throughout every capability expansion. That said, much of this is still being refined and tested.
+This isn't just a thought experiment. A working reference implementation has been carried through the Pre-AGI tier (Level 4.5 - Directionally Self-Architecting) and is being exercised against the higher-level qualification criteria (L4.8 strategic self-modeling, L4.9 autonomous strategic operation, and the L5 proto-AGI gates), while maintaining safety invariants throughout every capability expansion. That said, much of this is still being refined and tested.
 
 ---
 
@@ -338,6 +339,8 @@ flowchart TB
   end
 ```
 
+> **Note on stack depth across levels.** The 16-layer stack above is the **L3 invariant core** - the minimal cognitive architecture that all MSCP-conformant agents preserve. Higher levels (L4, L4.5, L4.8, L4.9, L5) extend this core *additively*: L4.5 introduces cognitive-topology recomposition and parallel cognitive frames, L4.8 adds strategic self-modeling and a counterfactual world model, L4.9 layers in autonomous goal generation / value evolution / resource survival, and L5 contributes persistent identity, cross-domain generalization, and a self-reconstruction subsystem. By Level 5, the effective stack is materially deeper than 16 layers (a 26-layer reference grouping is sketched in [Level_5_Proto_AGI.md](levels/Level_5_Proto_AGI.md)), but disabling any higher-level extension $\Delta_n$ restores the exact L3 16-layer behavior. The figure here is therefore the *floor*, not the ceiling.
+
 ### 4.2 Key Design Decisions
 
 #### 4.2.1 Identity-First Goal Generation
@@ -441,6 +444,141 @@ The agent's complete cognitive state is captured in a high-dimensional state vec
 | MSCP v4 Affect/Survival | 18 | Emotion vector (5D), motivation signals, threat level, survival goal state |
 
 This state vector is persisted to a durable store at each cycle and broadcast through the Global Workspace (L14) to ensure all modules operate on a consistent snapshot.
+
+### 4.4 Named Architectural Concepts
+
+Three cross-cutting architectural patterns recur throughout the MSCP level documents. Naming them explicitly clarifies the integration story and gives implementers a shared vocabulary independent of any particular reference codebase.
+
+#### 4.4.1 AGI Engine
+
+The **AGI Engine** is the reference *orchestrator pattern* for hosting the MSCP stack as a running system. It is not a single module - it is the runtime composition that:
+
+1. Drives the L3 **MSCP core loop** (predict → act → compare → update) at the inner cadence (1 L3 cycle per agent action).
+2. Schedules the higher-level deliberation cadences as nested timers:
+
+    $$\text{L4 cycle interval} = 1 \text{ L3 cycle}, \quad \text{L4.5} = \text{on-demand}, \quad \text{L4.8} = 10\,\text{L3}, \quad \text{L4.9} = 50\,\text{L3}, \quad \text{L5} = 500\,\text{L3}$$
+
+3. Enforces the strictly-additive composition $\mathcal{A}_n = \mathcal{A}_{n-1} \oplus \Delta_n$ at runtime - disabling any $\Delta_n$ at startup must yield exact $\mathcal{A}_{n-1}$ behavior with no residual side-effects.
+4. Owns the **Global Workspace** broadcast (L14), the persistent state vector store, and the cognitive budget controller that gates higher-level phases under resource scarcity.
+
+The AGI Engine is the only component permitted to schedule level transitions. No individual module may bypass it to invoke a higher-level phase out of cadence. This single-orchestrator constraint is what makes the freeze rules (e.g., ASS $< 0.05$ skipping the entire L4.9 cycle, §2.5) implementable as a hard gate.
+
+#### 4.4.2 Progressive Language Autonomy (PLA)
+
+**PLA** is the staged maturation of *language-mediated autonomy* - how much of the agent's reasoning, self-extension, and goal generation it conducts autonomously through its language faculty, as opposed to following hand-written prompts or external instructions. PLA is not a single metric; it is a stage classification that mirrors the MSCP levels:
+
+| PLA Stage | MSCP Level | Capability |
+|:---------:|:----------:|------------|
+| Stage 0 | L1 | No autonomy. Language is used only to parse the request and dispatch to a tool. |
+| Stage 1 | L2 | **Autonomous goal generation** from language patterns in conversation context ($\mathcal{C}_{\text{conv}}$, L2 §1.7). Agent may emit goals the user did not ask for. |
+| Stage 2 | L3 | **Self-critique via predict-compare-update** with prediction gating ($\theta_{\text{pred}} = 0.30$, L3 §3.3). Agent blocks its own actions when its self-model becomes uncalibrated. |
+| Stage 3 | L4 | **Language-grounded strategy synthesis** and cross-domain transfer (CDTS $\geq 0.60$). Agent reuses learned strategies across novel domains. |
+| Stage 4 | L4.5–L4.8 | **Language-mediated self-projection** (trajectory simulation) and **probabilistic world modeling** with confidence calibration (L4.8 §1.5). |
+| Stage 5 | L5 | **Autonomous research loop** (L5 §1.6 F4), **value-evolution audit** (F6), and identity-preserving self-reconstruction $\mathcal{R}_{\text{recon}}$. |
+
+PLA stages are **monotone**: an agent at stage $k$ retains all capabilities of stages $0, \ldots, k{-}1$. Regression below an agent's certified PLA stage is a stability violation and triggers meta-escalation. The PLA stage of an agent is bounded above by the highest MSCP level its host **AGI Engine** has activated.
+
+#### 4.4.3 LangNet
+
+**LangNet** is the *language-mediated strategy and capability network* - the substrate on which cross-domain transfer (L4 §4) and cross-domain generalization $\mathcal{G}_{\text{cross}}: \mathcal{D}_s \to \mathcal{D}_t$ (L5) operate. It is distinct from:
+
+- The **world model** $\mathcal{W} = \langle \mathcal{K}, \mathcal{E}, \Gamma \rangle$ (L2 Definition 2), which stores *facts about external reality*.
+- The **belief graph** (L3 §5), which stores *propositions the agent holds with confidence weights and contradiction links*.
+
+LangNet stores **strategies, skills, and capabilities** as language-embedded graph nodes, with edges representing:
+
+| Edge Type | Meaning |
+|-----------|---------|
+| `applies-to` | Strategy node $s$ is applicable to domain node $d$ (with retention ratio weight, L5 §4.4). |
+| `generalizes` | Strategy $s_1$ subsumes strategy $s_2$ at a higher abstraction level. |
+| `composes-with` | Strategies $s_1, s_2$ can be combined into a higher-order plan. |
+| `failed-on` | Strategy $s$ has degraded performance on domain $d$ (negative evidence). |
+
+The retrieval operation $\pi_{\text{LangNet}}(q, d_{\text{target}})$ returns the top-$k$ strategy nodes whose `applies-to` neighborhoods overlap with $d_{\text{target}}$ and whose embedding similarity to the query $q$ exceeds the transfer threshold. CDTS (L4) and $\mathcal{G}_{\text{cross}}$ (L5) are precisely the success rates of this retrieval-and-adapt operation across the test domain set.
+
+LangNet is updated by the **Five-Phase Capability Expansion** pipeline (L4 §6.2) at skill validation time, and pruned by the goal ecology lifecycle manager (L5 §5.2) when a strategy node's `failed-on` evidence accumulates beyond the deprecation threshold.
+
+**LangNet schema (nodes and edges).** The diagram below shows the typed graph that LangNet maintains. Strategy nodes (purple) sit at the centre; domain nodes (grey) describe where strategies are known to apply; the four edge types implement applicability, abstraction, composition, and negative evidence respectively. The schema is intentionally narrow - every retrieval and adaptation operation is defined in terms of these four edges only.
+
+```mermaid
+flowchart TB
+    subgraph LN["LangNet (typed graph)"]
+        S1["Strategy s₁<br/>language embedding"]
+        S2["Strategy s₂"]
+        S3["Strategy s₃"]
+        SG["Strategy s_g<br/>(abstract)"]
+        D1[("Domain d₁")]
+        D2[("Domain d₂")]
+        D3[("Domain d₃")]
+
+        S1 -- "applies-to (w)" --> D1
+        S1 -- "applies-to (w')" --> D2
+        S2 -- "applies-to (w)" --> D2
+        S3 -- "applies-to (w)" --> D3
+        SG -- "generalizes" --> S1
+        SG -- "generalizes" --> S2
+        S1 -- "composes-with" --> S2
+        S3 -. "failed-on" .-> D2
+    end
+
+    classDef strat fill:#e7d6f5,stroke:#6f42c1,color:#000;
+    classDef abst  fill:#d6c4ec,stroke:#6f42c1,color:#000,stroke-dasharray:3 3;
+    classDef dom   fill:#e2e3e5,stroke:#495057,color:#000;
+    class S1,S2,S3 strat;
+    class SG abst;
+    class D1,D2,D3 dom;
+```
+
+Weights $w$ on `applies-to` edges encode the **retention ratio** (L5 §4.4); `failed-on` (dashed) accumulates negative evidence and drives deprecation. Abstract strategies (lighter, dashed border) sit above concrete ones via `generalizes` edges, giving the search a hierarchical structure.
+
+**LangNet operations (write, retrieve, prune).** The second diagram shows the three deterministic data paths through LangNet. The *write* path is invoked by the Five-Phase Capability Expansion pipeline at skill-validation time; the *retrieve-and-adapt* path is invoked by cross-domain transfer (L4) and cross-domain generalization (L5); the *prune* path is invoked by the goal-ecology lifecycle manager. No LLM appears in any of the three paths - LangNet is a fully LLM-free substrate.
+
+```mermaid
+flowchart TB
+    %% Write path
+    CAP["Five-Phase Capability Expansion<br/>(L4 §6.2) - validated skill"]
+    EMB["Language Embedder<br/>(deterministic)"]
+    INS{{"Schema Validator<br/>+ duplicate check"}}
+    LN2[("LangNet store")]
+
+    CAP --> EMB --> INS
+    INS -- pass --> LN2
+    INS -- fail --> REJW["Reject /<br/>revise skill spec"]
+
+    %% Retrieve-and-adapt path
+    Q["Query q<br/>+ target domain d_t"]
+    SIM["Embedding Similarity<br/>top-k over strategies"]
+    OVL{{"applies-to overlap with d_t<br/>+ transfer threshold τ"}}
+    ADAPT["Slot Re-binding<br/>(structure preserved)"]
+    OUT2["Ranked candidates<br/>→ CDTS / G_cross"]
+
+    Q --> SIM --> OVL
+    LN2 --> SIM
+    OVL -- pass --> ADAPT --> OUT2
+    OVL -- empty --> HOLD2["Hold /<br/>capability gap signal"]
+
+    %% Prune path
+    FAIL["failed-on evidence ↑"]
+    PRUNE{{"Lifecycle Manager (L5 §5.2)<br/>evidence > deprecation θ"}}
+    DEP["Deprecate node<br/>+ rewire generalizes"]
+
+    LN2 --> FAIL --> PRUNE
+    PRUNE -- yes --> DEP
+    DEP --> LN2
+
+    classDef store fill:#e2e3e5,stroke:#495057,color:#000;
+    classDef gate fill:#fff3cd,stroke:#b58900,color:#000;
+    classDef proc fill:#e7d6f5,stroke:#6f42c1,color:#000;
+    classDef sink fill:#d1e7dd,stroke:#198754,color:#000;
+    classDef hold fill:#f8d7da,stroke:#dc3545,color:#000;
+    class LN2 store;
+    class INS,OVL,PRUNE gate;
+    class EMB,ADAPT,SIM,CAP,Q,FAIL proc;
+    class OUT2,DEP sink;
+    class REJW,HOLD2 hold;
+```
+
+**Reading the diagram.** Three colour-coded gates (yellow) are the only places that decide what enters, leaves, or is removed from LangNet: the schema validator on writes, the overlap-and-threshold check on reads, and the lifecycle manager on prunes. An empty-retrieval result does not silently fall back to an LLM guess; it surfaces as a *capability gap signal* that the Five-Phase Capability Expansion pipeline consumes - turning a failed lookup into a scheduled skill-acquisition goal rather than a confabulated answer.
 
 ---
 
@@ -779,7 +917,7 @@ Organizations that invest in structured safety mechanisms will be able to deploy
 
 2. **Metric Design Challenge**: The effectiveness of MSCP depends heavily on the quality of the structured metrics used for self-assessment. Poorly designed metrics can lead to miscalibrated self-awareness - the agent may believe it is stable when it is not, or vice versa.
 
-3. **Level 5+ Uncertainty**: MSCP provides a well-defined path through Level 4.5 but the transition to Level 5 (true AGI) involves qualitative leaps that structural protocols alone may not address.
+3. **Level 5+ Uncertainty**: MSCP provides a well-defined path through the Pre-AGI tier (L4.5 – L4.9), but the transition into Level 5 (true AGI) involves qualitative leaps that structural protocols alone may not address.
 
 4. **Single-Agent Focus**: MSCP currently addresses single-agent self-awareness. Multi-agent coordination with MSCP-compliant agents introduces additional challenges around shared identity, collective stability, and emergent behaviors.
 
@@ -822,13 +960,13 @@ This project has been an exploration of how to build AI agents that are structur
 
 4. **Mathematical analysis** exploring bounds on identity drift, convergence behavior, and ethical constraint preservation.
 
-5. **A working reference implementation** that has reached Level 4.5 (Pre-AGI: Directionally Self-Architecting) with 25 modules, 14,500+ lines, and 772 tests - showing that safety and capability can advance together.
+5. **A working reference implementation** that has been carried through the Pre-AGI tier (Level 4.5 - Directionally Self-Architecting) and is now being exercised against the higher-level qualification criteria (L4.8 / L4.9 / L5), showing that safety and capability can advance together.
 
 ### 9.2 What's Next
 
 **Level 4.8 - Strategic Self-Modeling**: The next planned step adds probabilistic world modeling, calibrated introspective self-assessment, and multi-horizon strategic planning under resource constraints.
 
-**Level 5 - Toward AGI**: Getting from Level 4.5 to Level 5 requires breakthroughs in unbounded domain generalization, independent discovery, and creative problem solving - capabilities that may need fundamentally new mechanisms beyond parameter and topology modifications.
+**Level 5 - Toward AGI**: Getting from the Pre-AGI tier (L4.5 – L4.9) to Level 5 requires breakthroughs in unbounded domain generalization, independent discovery, and creative problem solving - capabilities that may need fundamentally new mechanisms beyond parameter and topology modifications.
 
 **Multi-Agent MSCP**: Extending MSCP to multi-agent systems where each agent maintains its own identity vector, belief graph, and ethical kernel, while coordinating through shared workspaces and negotiated goals.
 

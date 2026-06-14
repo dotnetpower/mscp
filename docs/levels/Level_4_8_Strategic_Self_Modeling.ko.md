@@ -23,6 +23,7 @@ Removal of attribution constitutes a license violation.
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-13, Proposition 1 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (1.2 to 1.3); added graduated re-enablement protocol (Section 6.4) with persistent veto tracking |
+| 0.6.0 | 2026-06-14 | Mermaid 라벨 `레벨 4.5 (25개 모듈)`을 `레벨 4.5 (자기설계 코어)`로 추상화 — 일시적인 모듈 수를 계층 다이어그램이 더 이상 박아넣지 않도록 조정 |
 
 ---
 
@@ -87,7 +88,31 @@ flowchart TD
   P4 -.->|"모든 단계 관장"| P3
 ```
 
-### 1.3 아키텍처 원칙: 엄격히 가산적
+위의 4단계 다이어그램은 개념적 흐름을 보여줍니다. 실제 구현에서 레벨 4.8은 **5단계 파이프라인**으로 동작합니다: OBSERVE(단계 1), INTROSPECT(단계 2), PLAN(단계 3), VERIFY(단계 4), 그리고 **EMIT**(단계 5). EMIT 단계는 선행 단계들의 출력을 상위 레벨(L4.9, L5)이 소비할 구조화된 사이클 출력으로 패키징합니다. 이 분리 덕분에 하류 소비자는 진행 중인 단계의 중간 결과를 읽는 대신 일관된 단일 스냅샷을 받게 됩니다.
+
+### 1.4 사이클 간격과 단계 간 통합
+
+레벨 4.8은 모든 MSCP 사이클마다 실행되지 않습니다. 하위 메커니즘(L3 안정성, L4 자기수정, L4.5 숙고)이 전략적 평가 사이에 충분한 데이터를 축적할 수 있도록 **감소된 빈도**로 동작합니다:
+
+$$\text{L4.8 사이클 간격} = 10 \text{ L3 사이클}$$
+
+즉, 핵심 MSCP 예측-행동-비교-갱신 루프(레벨 3, 정의 2)가 10회 반복될 때마다 레벨 4.8은 5단계 평가를 1회 수행합니다. 이 간격은 (적응적이지 않고) 고정값으로, 활동량이 많은 시기에 전략 계층이 과도한 계산 자원을 소모하지 않도록 합니다.
+
+**단계 간 통합**은 EMIT 경계에서 일어납니다: 단계 5는 세계 모델 신념(단계 1), 자기평가 결과(단계 2), 전략 권고(단계 3), 안정성 검증(단계 4)을 단일 `L48CycleOutput` 구조로 모읍니다. 이 출력은 발행되면 불변이며, 후속 L3 사이클이 이미 완료된 L4.8 평가를 소급 수정할 수 없습니다.
+
+### 1.5 핵심 모듈 개념
+
+레벨 4.8은 에이전트의 인지 능력을 확장하는 여러 전문 모듈을 도입합니다:
+
+| 모듈 | 단계 | 목적 |
+|------|------|------|
+| **ProbabilisticWorldModel** | OBSERVE | 파티클 필터 기반으로 외부 환경을 표현. Monte Carlo 샘플링을 통해 시나리오 시뮬레이션과 불확실성 정량화를 지원. |
+| **CapabilityMatrix** | INTROSPECT | 다중 도메인 기술 추적 행렬 $C_{d,s}$ ($d$=도메인, $s$=기술 수준). 각 셀은 에이전트가 스스로 평가한 능숙도 신뢰값 $\in [0,1]$을 보유. |
+| **ConfidenceCalibrator** | INTROSPECT | 체계적 과신($\text{confidence} > \text{actual success rate}$)을 탐지해 비대칭 보정을 적용. MCE 지표(정의 5)를 구현하며, 에이전트가 "처리 가능하다고 믿지만 실제로는 불가능한" 행동을 취하지 못하도록 막는 핵심 모듈. |
+| **SkillGapAnalyzer** | INTROSPECT | 능력 행렬의 신뢰값이 낮은 도메인을 식별. 우선순위가 매겨진 약점 목록을 생성해 전략 계획 계층으로 전달하고, 타겟형 자기개선 자원 배분을 가능하게 함. |
+| **StrategyComparator** | PLAN | 시뮬레이션된 시나리오에 대해 다수 후보 전략을 평가. StrategyScore 공식(정의 7)으로 대안을 순위화하며 기대값·위험 조정·현상 유지 편향 패널티를 통합. |
+
+### 1.6 아키텍처 원칙: 엄격히 가산적
 
 <!-- 아키텍처 원칙: 엄격히 가산적 -->
 
@@ -98,7 +123,7 @@ flowchart LR
   classDef l48 fill:#B4009E,stroke:#8E0082,color:#FFF
   classDef fallback fill:#FDE7E9,stroke:#D13438,color:#323130
 
-  subgraph L45["레벨 4.5 (25개 모듈)"]
+  subgraph L45["레벨 4.5 (자기설계 코어)"]
     L45A["자기투영 엔진"]:::l45
     L45B["아키텍처 재구성"]:::l45
     L45C["병렬 인지 프레임"]:::l45
@@ -213,6 +238,19 @@ flowchart LR
   Strategic ==> Stability
   Stability ==>|"위반 시"| FREEZE
 ```
+
+### 2.3 단계 5: Emit
+
+EMIT 단계는 각 L4.8 사이클의 마지막 단계입니다. 선행 네 단계 전체를 단일·불변 출력 구조로 패키징합니다:
+
+$$\text{L48CycleOutput}(t) = \langle \mathcal{W}_{\text{prob}}(t),\; \mathcal{M}_{\text{cap}}(t),\; s^*(t),\; v_{\text{status}}(t) \rangle$$
+
+여기서 $\mathcal{W}_{\text{prob}}(t)$는 갱신된 확률적 세계 모델, $\mathcal{M}_{\text{cap}}(t)$는 보정된 능력 행렬, $s^*(t)$는 선택된 최적 전략, $v_{\text{status}}(t)$는 안정성 검증 결과(통과/실패와 위반 시 상세 불변량 위반 보고)를 의미합니다.
+
+EMIT 단계는 두 가지 이유로 존재합니다:
+
+1. **일관성 보장**: 하류 소비자(L4.9, L5)는 내부적으로 모순될 수 있는 중간 상태(예: 아직 안정성 검증을 거치지 않은 세계 모델 갱신)를 관찰하는 대신 일관된 단일 스냅샷을 받습니다.
+2. **시간적 격리**: 출력이 발행된 뒤에는 후속 L3 사이클이 이를 소급 수정할 수 없습니다. 이는 하위 레벨의 빠른 갱신이 전략적 결정을 실행하기 전에 무효화시키는 흔한 실패 모드를 방지합니다.
 
 ---
 

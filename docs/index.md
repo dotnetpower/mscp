@@ -136,6 +136,7 @@ Dive into the documentation:
 1. **[MSCP Overview](MSCP_Overview.md)** - Complete framework specification
 2. **[Level Series](levels/README.md)** - Navigation index with cumulative safety summary
 3. **[Level 3: Self-Regulating Agent](levels/Level_3_Self_Regulating_Agent.md)** - The core MSCP level (start here for technical depth)
+4. **[Glossary](specs/MSCP_Glossary.md)** - Master index of formal definitions, propositions, acronyms, symbols, and notation cautions (AS / EU duality, ASS thresholds)
 
 ---
 

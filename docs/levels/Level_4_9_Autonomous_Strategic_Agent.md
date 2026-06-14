@@ -25,6 +25,7 @@ Removal of attribution constitutes a license violation.
 | 0.3.0 | 2026-02-26 | Prop 1: added domain restriction remark with clamped ratio; added sandbox timeout constraint |
 | 0.4.0 | 2026-03-08 | Added formal Def 13 for inter-resource cascade propagation (5.1); fixed duplicate section numbering (1.2) |
 | 0.5.0 | 2026-03-31 | Added cycle interval, ASS freeze threshold, explicit value dimensions (1.5-1.7); added value mutation sandbox concept (4.3); enriched goal conflict resolution |
+| 0.6.0 | 2026-06-14 | Mermaid labels `Level 4.8 (13 modules)` / `L4.8 Architecture (13 modules)` abstracted to `Level 4.8 (Strategic Self-Model)` / `L4.8 Architecture (Strategic Self-Model)` so that level diagrams no longer encode transient module counts |
 
 ---
 
@@ -112,7 +113,7 @@ flowchart TD
   classDef l49 fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef danger fill:#FDE7E9,stroke:#D13438,color:#323130
 
-  subgraph L48["📦 Level 4.8 (13 modules)"]
+  subgraph L48["📦 Level 4.8 (Strategic Self-Model)"]
     WM["World Model"]:::l48
     SM["Self Model"]:::l48
     SL["Strategic Layer"]:::l48
@@ -889,7 +890,7 @@ flowchart TD
   classDef p5 fill:#FDE7E9,stroke:#D13438,color:#323130
   classDef out fill:#DFF6DD,stroke:#107C10,color:#323130
 
-  subgraph L48["📦 L4.8 Architecture (13 modules)"]
+  subgraph L48["📦 L4.8 Architecture (Strategic Self-Model)"]
     L48W["WorldModel"]:::l48
     L48S["SelfModel"]:::l48
     L48ST["StrategyLayer"]:::l48

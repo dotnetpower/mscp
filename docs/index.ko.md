@@ -12,10 +12,10 @@ Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
 
-# MSCP - 최소 자기의식 프로토콜
+# MSCP - 최소 자의식 프로토콜
 
 <p align="center" style="font-size: 1.2em; color: var(--md-default-fg-color--light);" markdown>
-  **구조적 자기인식 AI 에이전트를 위한 안전 지향 프레임워크**
+  **구조적 자의식 AI 에이전트를 위한 안전 지향 프레임워크**
 </p>
 
 <p align="center" markdown>
@@ -36,7 +36,7 @@ Removal of attribution constitutes a license violation.
 
 ## MSCP란 무엇인가?
 
-**최소 자기의식 프로토콜(MSCP)**은 *안전한 구조적 자기인식*을 갖춘 AI 에이전트를 구축하기 위한 구조화된 프로토콜입니다 - 자신의 상태 변화를 예측하고, 예측을 결과와 비교하며, 제한된 안전 범위 내에서만 자기 자신을 업데이트하는 능력을 말합니다.
+**최소 자의식 프로토콜(MSCP)**은 *안전한 구조적 자의식*을 갖춘 AI 에이전트를 구축하기 위한 구조화된 프로토콜입니다 - 자신의 상태 변화를 예측하고, 예측을 결과와 비교하며, 제한된 안전 범위 내에서만 자기 자신을 업데이트하는 능력을 말합니다.
 
 에이전트가 목표를 설정하고, 전략을 수정하며, 자기 개선하는 능력을 갖추게 되면, **어떻게 안정적이고, 정렬되며, 예측 가능하게 유지할 수 있을까요?** MSCP는 다음 원칙으로 이에 답합니다:
 
@@ -136,6 +136,7 @@ Removal of attribution constitutes a license violation.
 1. **[MSCP 개요](MSCP_Overview.ko.md)** - 전체 프레임워크 명세
 2. **[레벨 시리즈](levels/README.ko.md)** - 누적 안전 요약이 포함된 탐색 색인
 3. **[레벨 3: 자기조절 에이전트](levels/Level_3_Self_Regulating_Agent.ko.md)** - MSCP 핵심 레벨 (기술적 깊이를 원하면 여기서 시작)
+4. **[용어집](specs/MSCP_Glossary.md)** - 형식적 정의·명제·약어·기호 마스터 색인 및 표기 주의 사항 (AS / EU 이중 의미, ASS 임계값)
 
 ---
 

@@ -81,6 +81,8 @@ theme:
 nav:
   - Home: index.md
   - MSCP Overview: MSCP_Overview.md
+  - PLA Foundations: specs/Why_LLM_Free_PLA.md
+  - Glossary: specs/MSCP_Glossary.md
   - Agent Levels:
     - Level Series: levels/README.md
     - "L1: Tool Agent": levels/Level_1_Tool_Agent.md
@@ -118,6 +120,8 @@ plugins:
           nav_translations:
             Home: 홈
             MSCP Overview: MSCP 개요
+            PLA Foundations: PLA 기반론
+            Glossary: 용어집
             Agent Levels: 에이전트 레벨
             Level Series: 레벨 시리즈
             "L1: Tool Agent": "L1: 도구 에이전트"
