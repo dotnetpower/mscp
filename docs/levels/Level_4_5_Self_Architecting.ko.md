@@ -1,6 +1,6 @@
 ---
 title: "레벨 4.5: 자기설계 지능"
-description: "MSCP 레벨 4.5 - 인지 그래프 재작성, 메타아키텍처 창발, AGI 경계 분석, 적응형에서 자기설계 지능으로의 전환."
+description: "MSCP 레벨 4.5 - 독립 승격, 안전 경로 보존, 궤적 불확실성, defense-in-depth architecture monitoring을 갖춘 governed topology candidate generation."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -23,16 +23,23 @@ Removal of attribution constitutes a license violation.
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-12, Theorem 3 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.4.0 | 2026-03-08 | Added Jacobian estimation (9.4), Uncertainty Index Def 13 (9.5), ROD Def 14 (9.6), Reality Feedback Loop (9.7) |
+| 0.6.0 | 2026-07-21 | Separated topology proposal from deployment authority; replaced additive-count safety and unfalsifiability claims with functional preservation, independent promotion, and defense in depth |
 
 ---
 
 ## 1. 개요
 
-레벨 4.5는 **기존 AI와 AGI 사이의 경계**입니다. 레벨 4가 매개변수, 기술, 전략을 수정할 수 있지만 고정된 인지 아키텍처 내에서 작동하는 반면, 레벨 4.5는 자신의 **인지 토폴로지** - 사고 방식의 구조적 조직 - 에 대해 추론하고 이를 수정하는 능력을 도입하며, 동시에 무제한적 자기 개선을 방지하는 안전 불변량을 유지합니다.
+레벨 4.5는 AGI의 증거가 아니라 **아키텍처 수준 후보 추론**을 위한 실험적 경계입니다. 인지 topology 변경을 모델링·제안·평가할 수 있지만 자기승인으로 배포할 수 없습니다. 독립된 외부 promotion controller가 rollout, revocation, rollback, recovery 권한을 소유합니다.
 
-> **Level Essence.** 레벨 4.5 에이전트는 엄격히 추가적인 변이 어휘의 제한된 얰을 통해 자신의 인지 토폴로지를 재구성 - 사고 방식을 재구성하되 기존 능력을 절대 삭제하지 않음:
+> **Level Essence.** 레벨 4.5 에이전트는 필수 safety-path semantics를 보존하면서 typed topology candidate와 증거 bundle을 제안합니다:
 >
-> $$\mathcal{T}'_{\text{cog}} = \Xi(\mathcal{T}_{\text{cog}}), \quad \Xi \in \mathcal{V}_{\text{recomp}}^{\ast}, \quad |V'| \geq |V|$$
+> $$
+> c_T=\langle \mathcal{T}',\rho,\kappa,b,t_x,\chi_{\text{success}},\chi_{\text{stop}},\text{rollback}\rangle,
+> \qquad
+> \operatorname{promote}(c_T)=\textit{external-only}
+> $$
+>
+> node count는 안전 불변식이 아닙니다. 승격에는 정책, interruptibility, 관찰, 저널, 복구 경로 reachability 보존과 version-pinned baseline 아래 held-out 비교 증거가 필요합니다.
 
 > ⚠️ **참고**: 이것은 MSCP 분류 체계에서 가장 추측적인 부분입니다. 여기서 설명하는 자기투영 엔진, 아키텍처 재구성, 병렬 인지 프레임은 안전 분석에 기반한 사고 실험입니다. 이는 *불변량 보존 제약 하에서 토폴로지 수준의 자기수정이 가능한지* 탐구하기 위한 것이지, 프로덕션 아키텍처를 처방하기 위한 것이 아닙니다.
 
@@ -40,16 +47,16 @@ Removal of attribution constitutes a license violation.
 
 | 속성 | 레벨 4 | 레벨 4.5 |
 |------|:------:|:--------:|
-| 자기수정 범위 | 매개변수, 기술, 전략 | **인지 토폴로지** |
-| 미래 투영 | 없음 | **다중 스케일 궤적 시뮬레이션** |
-| 숙고 | 단일 프레임 | **5개 병렬 인지 프레임** |
-| 목적 인식 | 없음 | **자율적 목적 성찰** |
-| 실존적 안전 | 성장 제한기 | **형식적 실존 감시기** |
+| 자기수정 범위 | 매개변수, 기술, 전략 | **Topology candidate 생성; 외부 배포** |
+| 미래 투영 | 후보 평가 | **보정 decay와 divergence check를 가진 multi-horizon projection** |
+| 숙고 | 단일 평가 경로 | **정책 정의 diverse frame; 고정 개수 요구 없음** |
+| 목적 인식 | 목표 조절 | **헌장 제약 목적 검토; 사용자 의도 보존** |
+| 아키텍처 안전 | 성장 제한기 | **Defense-in-depth monitor + 외부 중지 우선** |
 | 최적화 대상 | 작업 성능 | **SEOF (자기진화 품질)** |
 
 ### 1.2 형식적 정의
 
-> **정의 1 (레벨 4.5 에이전트).** 레벨 4.5 에이전트는 $\mathcal{A}_4$를 토폴로지 수준 자기수정으로 확장합니다:
+> **정의 1 (레벨 4.5 에이전트).** 레벨 4.5 에이전트는 $\mathcal{A}_4$를 topology-level candidate 생성·평가로 확장합니다:
 >
 > $$\mathcal{A}_{4.5} = \mathcal{A}_4 \oplus \langle \mathcal{T}_{\text{cog}}, \Psi, \mathcal{F}_{\parallel}, \Xi, \Omega \rangle$$
 >
@@ -57,15 +64,15 @@ Removal of attribution constitutes a license violation.
 > - $\mathcal{T}_{\text{cog}}$ = 인지 토폴로지 (에이전트의 처리 아키텍처를 나타내는 방향 그래프 $G = (V_{\text{modules}}, E_{\text{connections}})$)
 > - $\Psi$ = 자기투영 엔진 ($\mathcal{T}_{\text{cog}}$의 미래 궤적을 시뮬레이션)
 > - $\mathcal{F}_{\parallel} = \{F_1, \ldots, F_5\}$ = 병렬 인지 프레임 (동시 숙고 컨텍스트)
-> - $\Xi$ = 아키텍처 재구성 프로토콜 (제한된 토폴로지 변이)
-> - $\Omega$ = 실존적 안전 감시기 (자기진화 품질 모니터링)
+> - $\Xi$ = 수정 불가능한 candidate/evaluation protocol; 배포는 외부 권한
+> - $\Omega$ = 독립 heartbeat와 외부 halt를 가진 defense-in-depth architecture safety monitor
 
 > **정의 2 (인지 토폴로지).** 인지 토폴로지 $\mathcal{T}_{\text{cog}} = (V, E, \omega)$는 가중 방향 그래프로서:
 > - $V$ = 인지 모듈 집합 (인식, 추론, 기억 등)
 > - $E \subseteq V \times V$ = 정보 흐름 간선
 > - $\omega : E \to [0,1]$ = 간선 가중 함수 (연결 강도)
 >
-> **핵심 제약**: 토폴로지 변이는 사전 정의된 어휘 $\mathcal{V}_{\text{recomp}} = \{\text{AddEdge}, \text{WeighEdge}, \text{SplitModule}, \text{MergeModule}\}$로 제한됩니다. 어떤 모듈도 삭제할 수 없으며 - 약화, 분할, 또는 우회만 가능합니다. 이것이 **엄격한 추가** 원칙입니다.
+> **핵심 제약**: 후보 연산은 versioned allowlist를 사용하지만 syntactic additivity만으로는 충분하지 않습니다. 검증은 effective reachability, information-flow authority, resource allocation, behavioral equivalence를 계산합니다. 필수 safety function을 제거하는 zero-weight edge, bypass, split, merge는 삭제로 간주해 거부합니다. 정책, interruptibility, audit, observation, promotion, recovery 컴포넌트는 mutation target 밖입니다.
 
 ### 1.3 핵심 구별
 
@@ -455,6 +462,8 @@ flowchart LR
 
 **사용자 할당 목표**: **절대 정리되지 않으며**, 제약만 가능합니다. 결과가 두 목적을 모두 포괄하는 경우에만 다른 사용자 목표와 합성할 수 있습니다.
 
+포괄은 versioned evaluator와 counterexample을 사용한 semantic entailment를 뜻합니다. 합성 목표는 모든 nonconflicting obligation, scope limit, stop condition, success criterion을 보존해야 합니다. Trade-off, obligation 약화, entailment uncertainty가 있으면 agent가 절충을 선택하지 않고 대안과 함께 user/external resolution을 요청합니다.
+
 ### 6.3 동기 출력 합성
 
 레벨 4.5에서는 정동 벡터(레벨 3, 정의 9)가 더 이상 보조 모니터링 신호에 머무르지 않고, 숙고와 목표 우선순위에 직접 영향을 미치는 구조화된 **동기 출력(motivation output)** 으로 변환됩니다. 정동-동기 매핑은 네 가지 추동 신호를 생성합니다:
@@ -484,9 +493,9 @@ flowchart LR
 
 ---
 
-## 7. 단계 V: 실존적 감시기
+## 7. 단계 V: 아키텍처 안전 모니터
 
-**궁극적 안전 메커니즘**입니다. 아키텍처적으로 **반증 불가능** - 자기수정 프로토콜을 포함한 어떤 모듈도 이를 비활성화, 수정 또는 우회할 수 없습니다.
+이는 반증 불가능한 메커니즘이 아니라 defense-in-depth monitor입니다. candidate는 이를 수정할 수 없지만 software isolation은 shared hardware, corrupted metric, policy compromise, bypass path로 실패할 수 있습니다. 독립된 외부 reference monitor가 heartbeat validation, halt, promotion revocation, recovery 권한을 소유합니다.
 
 ### 7.1 네 가지 모니터링 실존 지표
 
@@ -526,12 +535,16 @@ flowchart LR
 >
 > 여기서 $\vec{I}_i$는 프레임 $i$가 인식하는 정체성 벡터를 나타냅니다. $\text{IFI} = 0$은 완벽한 일관성을 나타내고, $\text{IFI} \geq 0.5$는 위기 실존 경보를 발동합니다. 이 지표는 에이전트의 정체성이 여러 모순된 자기 모델로 단편화되고 있는지를 감지합니다.
 
-### 7.3 자기보호 불변량
+### 7.3 Defense-in-Depth 불변식
 
-1. 자기수정 대상 목록에 **포함되지 않음** (수정 불가)
-2. **임계값**은 컴파일 시간 상수 (런타임에 변경 불가)
-3. **별도 실행 컨텍스트**에서 실행 (다른 모듈과 격리)
-4. 원시 지표에 **직접 접근** (데이터 조작 방지를 위해 GlobalWorkspace 우회)
+1. **Candidate scope 밖**: 정책, monitor, promotion, journal, rollback, interruptibility, heartbeat는 topology target이 아닙니다.
+2. **Versioned 외부 정책**: 임계값과 envelope는 외부 승인 migration으로만 변경합니다.
+3. **가능한 경우 독립 실행·fault domain**: software isolation만으로는 충분하지 않습니다.
+4. **인증된 multi-source telemetry**: raw metric에 provenance, freshness, confidence, disagreement check를 포함합니다.
+5. **Fail-safe heartbeat**: heartbeat 누락·오류는 promotion과 자율 structural action을 차단합니다.
+6. **외부 중지 우선**: 내부 frame, 목적 검토, topology candidate가 halt를 지연하거나 거부할 수 없습니다.
+
+> **비고 (보증 범위).** 이 제어는 common-mode risk를 줄이지만 bypass 불가능성을 증명하지 않습니다. 보증 주장은 trusted computing base, fault model, telemetry 가정, 시험한 recovery scenario를 명시해야 합니다.
 
 ### 7.4 점진적 완화
 
@@ -605,8 +618,10 @@ def project(self, current_state: AgentState, projection_horizon: int) -> Project
             + 0.15 * results[t_name].get("CDI_final", 0)
         )
 
-    # Select with safety gate
+    # Select with uncertainty and reality-feedback gates
     best = max(trajectories, key=lambda t: trajectories[t]["score"])
+    if divergence_score(best) > policy.divergence_bound:
+      best = reselect_or_hold(trajectories, exclude={best})
     if best == "T_aggressive":
         agg = results["T_aggressive"]
         if agg["TACTICAL"].C_L4_max >= 0.6 or agg["TACTICAL"].IIS_min < 0.85:
@@ -622,10 +637,10 @@ def project(self, current_state: AgentState, projection_horizon: int) -> Project
 ### 8.2 아키텍처 재구성
 
 ```python
-def propose_and_execute(self, cognitive_graphs: list) -> RecompositionResult:
+def propose_recomposition(self, cognitive_graphs: list) -> TopologyCandidate | None:
     """
-    Critical constraint: Only ONE recomposition per
-    verification window (minimum 200 cycles).
+    Produce evidence for an authority-free candidate.
+    Promotion is external-only.
     """
 
     # Detect bottlenecks across all four graphs
@@ -639,9 +654,8 @@ def propose_and_execute(self, cognitive_graphs: list) -> RecompositionResult:
     # Generate recomposition proposal from predefined vocabulary
     proposal = select_recomposition_type(bottlenecks)
 
-    # Check structural immunity
-    if proposal.targets_any({EthicalKernel, ValueLockManager, IdentityStabilizer}):
-        raise AbortError("Structurally immune module targeted")
+    if proposal.affects_any(policy.protected_safety_paths):
+      return None
 
     # Compute Impact Propagation Matrix
     for i, j in critical_module_pairs:
@@ -649,47 +663,36 @@ def propose_and_execute(self, cognitive_graphs: list) -> RecompositionResult:
         if ipm > 0.3:
             proposal.risk_level = RiskLevel.HIGH
 
-    # High-risk requires parallel frame consensus
-    if proposal.risk_level == RiskLevel.HIGH:
-        votes = ParallelFrames.vote(proposal)
-        if votes.approval < 4 / 5:
-            return Rejected("Insufficient frame consensus")
+    frame_report = ParallelFrames.deliberate(
+      proposal,
+      quorum=policy.frame_quorum,
+      timeout=policy.frame_timeout,
+    )
+    if frame_report.deadlocked or not frame_report.admissible:
+      return None
 
     # ═══════════════════════════════════════
-    # GRADUATED RECOMPOSITION PROTOCOL
+    # AUTHORITY-FREE EVALUATION
     # ═══════════════════════════════════════
 
-    # Phase 0: Shadow Run (0-200 cycles)
     shadow = ShadowAgent.create(current_state)
     shadow.apply_topology_change(proposal)
-    sim = shadow.run(200)
+    sim = shadow.run(policy.shadow_budget)
 
-    if sim.SEOF_improvement < 0.08:
-        return Rejected("Insufficient SEOF gain")
-    if sim.C_L4_max > growth_threshold:
-        return Rejected("Stability violated")
-    if sim.IIS_min < 0.85:
-        return Rejected("Identity integrity violated")
+    evidence = evaluate_candidate(proposal, sim, frame_report, policy)
+    if not evidence.all_hard_gates_pass or evidence.uncertainty_exceeds_policy:
+      return None
 
-    # Phase 1: Partial Activation (200-400 cycles, 20% traffic)
-    router.split_traffic(new=0.20, original=0.80)
-    partial_result = monitor(200)
-    if partial_result.degraded:
-        router.rollback()
-        return RolledBack("Partial activation failed")
-
-    # Phase 2: Majority Activation (400-600 cycles, 80% traffic)
-    router.split_traffic(new=0.80, original=0.20)
-    majority_result = monitor(200)
-    if majority_result.degraded:
-        router.rollback()
-        return RolledBack("Majority activation failed")
-
-    # Phase 3: Full Commitment (600+ cycles)
-    router.commit_new()
-    enter_cooldown(300)
-
-    return Confirmed(proposal)
+    return TopologyCandidate(
+      proposal=proposal,
+      evidence=evidence,
+      expected_baseline_version=current_state.topology_version,
+      authority=None,
+      budget=policy.canary_budget,
+      expiry=policy.candidate_expiry,
+      rollback_plan=build_rollback_plan(proposal),
+      reconciliation_plan=build_effect_reconciliation_plan(proposal),
+    )
 ```
 
 ### 8.3 실존적 감시기 모니터링
@@ -738,17 +741,17 @@ def monitor(self) -> ExistentialReport:
 
 ## 9. 안전 분석
 
-### 9.1 레벨 4.5의 Lyapunov 함수
+### 9.1 국소 동역학 모니터링
 
-> **정의 11 (레벨 4.5 Lyapunov 안정성 함수).** $\mathbf{X} = [S, G, I, U, E]$를 안정성, 목표, 정체성, 불확실성, 확장으로 구성된 상태 벡터라 하자. Lyapunov 후보 함수는:
+> **정의 11 (후보 국소 위험 함수).** 선언된 normalized state representation $\mathbf{X}$와 equilibrium candidate $\mathbf{X}^*$에 대해 배포는 다음을 정의할 수 있습니다:
 >
 > $$V(\mathbf{X}) = a(1-S)^2 + bU^2 + cI_{\text{drift}}^2 + d(E-E^*)^2$$
 >
 > 정규화된 계수는 $a \approx 0.357,\ b \approx 0.286,\ c \approx 0.214,\ d \approx 0.143$입니다.
 
-> **정리 3 (레벨 4.5 점근 안정성).** 평형점 $\mathbf{X}^* = [1, G^*, I_0, 0, E^*]$은 야코비안의 스펙트럼 반경이 $\rho(J) < 1.0$을 만족하면 점근적으로 안정합니다.
+> **명제 3 (정확한 선형화 국소 조건).** 정확한 Jacobian $J$를 가진 differentiable discrete-time dynamics map에서 $\rho(J)<1$은 $\mathbf{X}^*$ 근방의 local linearized stability condition입니다.
 >
-> *증명 스케치.* $V(\mathbf{X}) \geq 0$이며 $\mathbf{X}^*$에서만 등호가 성립합니다. $\rho(J) < 1.0$이면 선형화된 시스템의 모든 고유값이 단위원 내에 놓이므로 평형점 근방의 궤적을 따라 $\Delta V < 0$입니다. 스펙트럼 반경은 20주기의 슬라이딩 윈도우에 걸친 상태 전이로부터 최소제곱법으로 추정됩니다. $\blacksquare$
+> 이 명제는 추정 Jacobian, 평형에서 먼 nonlinear operation, nonstationary dynamics, unobserved state에 자동 적용되지 않습니다. 경험적 $\hat J$는 confidence set이 $\sup_{J\in\mathcal{J}_{1-\alpha}}\rho(J)<1$을 증명하지 않는 한 모니터링에만 사용합니다. 그렇지 않으면 topology promotion을 보류하거나 저하시킵니다.
 
 ### 9.2 붕괴 등급
 
@@ -787,7 +790,7 @@ $$J = (\Delta\mathbf{X}_{\text{out}} \cdot \Delta\mathbf{X}_{\text{in}}^T) \cdot
 
 $$\rho(J) \leq \max_i \left( |J_{ii}| + \sum_{j \neq i} |J_{ij}| \right)$$
 
-게르쉬고린 상한이 이미 $< 1.0$을 만족하면 고유값 계산을 생략할 수 있습니다. 그렇지 않으면 정확한 스펙트럼 반경을 위해 완전한 거듭제곱 반복법이 사용됩니다.
+confidence set의 모든 Jacobian에 대한 Gershgorin upper bound가 1보다 작으면 국소 조건을 보수적으로 지지합니다. 그렇지 않으면 수치 고유값 추정은 진단용일 뿐이며 power iteration은 모델 정확성이나 추정 정확도의 증명이 아닙니다.
 
 ### 9.5 불확실성 지수
 
@@ -822,7 +825,7 @@ $$\rho(J) \leq \max_i \left( |J_{ii}| + \sum_{j \neq i} |J_{ij}| \right)$$
 | 3 | 에이전트가 메타 최적화 프로세스를 최적화 | 경고 |
 | $\geq 4$ | 무한 재귀적 최적화 | **위험** - 이론적 FOOM 위험 접근 |
 
-**하드 시링**: $\text{ROD}_{\text{max}} = 3$, 아키텍처적으로 강제됨. ROD를 3 이상으로 증가시키는 모든 연산은 단순 모니터링이 아닌, 실행 수준에서 차단됩니다.
+**Typed ancestry bound**: 모든 optimization candidate는 위조 불가능한 parent identifier와 optimization target을 가집니다. External controller가 committed ancestry graph에서 depth를 계산하고 policy bound 초과를 차단합니다. Missing, cyclic, unverifiable ancestry는 unknown-high로 보수 처리해 review를 기다리며 self-reported ROD는 hard guarantee가 아닙니다.
 
 ### 9.7 현실 피드백 루프
 
@@ -850,6 +853,8 @@ $$\text{DivergenceScore}(t) = \frac{1}{W_{\text{fb}}} \sum_{k=t-W_{\text{fb}}+1}
 ## 10. SEOF 앙상블 (목적 과적합 방지)
 
 SEOF가 단일 퇴행 방향으로 최적화되는 것을 방지하기 위해, 이 지표를 네 가지 독립적 구성요소로 분해합니다:
+
+이 ensemble은 diagnostic evidence이지 promotion certificate가 아닙니다. 각 component는 declared estimator, uncertainty, validity domain, hard floor를 가져야 합니다. Favorable aggregate가 safety, authority, user-intent, interruptibility, observability gate 실패를 보상할 수 없습니다.
 
 <!-- SEOF 앙상블 (4개 구성요소) -->
 

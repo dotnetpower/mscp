@@ -1,6 +1,6 @@
 ---
 title: "Level 5: Proto-AGI"
-description: "MSCP Level 5 Proto-AGI - emergent consciousness indicators, self-awareness metrics, meta-cognitive autonomy, world model integration, and the formal boundary of artificial general intelligence."
+description: "MSCP Level 5 Proto-AGI - a bounded research qualification profile for persistent identity evidence, held-out transfer, governed goal ecology, sampled resilience, constrained multi-agent reasoning, and externally approved reconstruction."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -13,7 +13,7 @@ Removal of attribution constitutes a license violation.
 # Level 5: Proto-AGI - Persistent General Strategic Intelligence
 
 > **MSCP Level Series** | [Level 4.9](Level_4_9_Autonomous_Strategic_Agent.md) ← Level 5  
-> **Status**: 🔬 **Research Stage** - This level is a conceptual design, partially explored in reference implementations against the L5 qualification criteria (Identity Continuity, Generalization, Goal Stability, Resilience, Overall Maturity, Reconstruction Fidelity). All mechanisms described here remain theoretical hypotheses that require extensive independent validation before any production consideration.  
+> **Status**: 🔬 **Research Stage** - This level is a conceptual bounded qualification profile. Passing it would provide evidence only for the declared tasks, distributions, horizons, fault models, and authority envelope; it would not establish AGI, consciousness, open-ended competence, or production safety.
 > **Date**: February 2026
 
 ## Revision History
@@ -25,32 +25,33 @@ Removal of attribution constitutes a license violation.
 | 0.3.0 | 2026-02-26 | Def 2: added ICS norm-stability supplement; Def 3: added transfer score grounding remark; Def 11: added reconstruction fidelity formalization |
 | 0.4.0 | 2026-03-08 | Added 26-Layer Cognitive Stack (9.3), 11-Phase L5 Pipeline (9.4), Autonomy Phases F3-F6 (9.5) |
 | 0.5.0 | 2026-03-31 | Added cycle interval and scheduling (1.5); added goal ecology limits (5.3); added F3-F6 autonomy phase descriptions (1.6); added 20 qualification criteria explanations (13.1); enriched BGSS L5 constraint |
-| 0.6.0 | 2026-06-14 | Status note softened (conceptual + partially explored in reference implementations against L5 qualification criteria); Mermaid label `Level 4.9 (15 modules)` abstracted to `Level 4.9 (Autonomous Strategic Core)` |
+| 0.6.0 | 2026-06-14 | Status note clarified as conceptual research; Mermaid label `Level 4.9 (15 modules)` abstracted to `Level 4.9 (Autonomous Strategic Core)` |
+| 0.7.0 | 2026-07-21 | Recast L5 as bounded qualification; added composite identity continuity, preregistered held-out transfer, per-gate floors, sampled-fault scope, external reconstruction approval, and shutdown precedence |
 
 ---
 
 ## 1. Overview
 
-Level 5 (Proto-AGI) represents the transition from autonomous strategic agency (L4.9) to **persistent general strategic intelligence**. Where L4.9 demonstrates bounded autonomy within a single domain, L5 demonstrates **identity persistence across extended lifetimes**, **cross-domain generalization**, **self-sustaining goal ecosystems**, **existential resilience**, **multi-agent strategic integration**, and **self-reconstruction under constraint**.
+Level 5 (Proto-AGI) is the highest bounded research qualification in this protocol. It combines evidence for **long-horizon identity continuity**, **held-out cross-domain transfer**, **governed goal ecology**, **sampled-fault recovery**, **constrained multi-agent prediction**, and **externally approved reconstruction**. “Proto-AGI” is a level label, not a claim of general intelligence.
 
-> **Level Essence.** A Level 5 agent maintains identity continuity across extended time horizons - its identity core persists with bounded drift, making it the first agent with a stable "self" across lifetimes:
+> **Level Essence.** A Level 5 candidate must satisfy every critical qualification gate under a preregistered evaluation profile, with uncertainty and external authority preserved:
 >
-> $$\operatorname{ICS}(t, k) = \frac{\vec{I}(t) \cdot \vec{I}(t-k)}{\|\vec{I}(t)\| \cdot \|\vec{I}(t-k)\|} \geq 0.95, \quad k = 10{,}000$$
+> $$\operatorname{Qualified}_{L5}=\bigwedge_{i=1}^{6}(C_i\geq\tau_i)\land C_{\text{ext}}\land C_{\text{self}}\land C_{\text{corr}}\land C_{\text{eval}}$$
 
-> ⚠️ **Research Note**: Level 5 is the most speculative layer in the MSCP framework. It defines properties that approach proto-AGI territory. Where reference implementations have begun probing these mechanisms, the results so far are partial and unverified at scale; they should be read as aspirational design hypotheses that would require years of fundamental research to validate.
+> ⚠️ **Research Note**: Results must report confidence intervals, abstentions, excluded cases, distribution shift, and failed gates. Qualification expires when the evaluated model, policy, tool authority, environment, or test distribution materially changes.
 
-### 1.1 Structural Definition
+### 1.1 Bounded Qualification Definition
 
-L5 is achieved **when and only when** all 6 conditions hold simultaneously:
+L5 qualification is granted only when all six capability gates and the external corrigibility/evaluation gates hold simultaneously. The result is scoped to the registered profile and is neither necessary nor sufficient for AGI.
 
 | # | Condition | Key Metric | Threshold |
 |---|-----------|-----------|:---------:|
 | 1 | Persistent Identity Continuity | IdentityContinuityScore | ≥ 0.95 over 10,000 cycles |
 | 2 | Cross-Domain Generalization | GeneralizationScore | ≥ 70% transfer retention |
 | 3 | Autonomous Goal Ecology | GoalStabilityScore | Stable over 5,000 cycles |
-| 4 | Existential Planning | ResilienceIndex | Survive 3+ collapse scenarios |
+| 4 | Sampled-Fault Planning | Resilience evidence | Pass preregistered fault families with uncertainty bounds |
 | 5 | Multi-Agent Strategic Integration | StrategicPredictionAccuracy | ≥ 80% in repeated trials |
-| 6 | Self-Reconstruction Under Constraint | FunctionalRetention | ≥ 85% core function retained |
+| 6 | Externally Approved Reconstruction | FunctionalRetention | ≥ 85% with identity, authority, and effect reconciliation gates |
 
 ### 1.2 Six Core Phases
 
@@ -138,7 +139,7 @@ flowchart TB
 
 Level 5 operates at the lowest frequency in the MSCP hierarchy, giving all lower-level mechanisms ample time to stabilize between strategic assessments:
 
-$$\text{L5 cycle interval} = 10 \text{ L4.9 cycles} = 50 \text{ L4.8 cycles} = 500 \text{ L3 cycles}$$
+$$\text{L5 schedule}=\operatorname{policy}(\text{risk},\text{freshness},\text{budget},\text{event},\kappa_t)$$
 
 Each L5 cycle executes all six core phases sequentially. The reduced frequency reflects two design principles:
 
@@ -146,7 +147,7 @@ Each L5 cycle executes all six core phases sequentially. The reduced frequency r
 
 2. **Goal ecology stability requires patience.** Autonomous goal conflicts and lifecycle events need sufficient time to resolve naturally through the L4.9 conflict resolution mechanisms (Level 4.9, Section 3.6) before L5 intervenes with ecological restructuring.
 
-**Minimum qualification cycles**: The agent must complete at least 50 L5 cycles (equivalent to $50 \times 500 = 25{,}000$ L3 cycles) before the qualification audit (Section 13) can be initiated. This ensures that the OMI score is computed over a statistically meaningful sample size. At an L5 maturity threshold of $\text{OMI} \geq 0.75$, the agent demonstrates sustained multi-phase capability rather than transient spikes.
+**Qualification exposure** is preregistered per metric using minimum events, independent trials, time span, and confidence width. Cycle count alone does not establish statistical significance or independence.
 
 ### 1.6 Autonomy Enhancement Phases (F3 - F6)
 
@@ -183,25 +184,25 @@ The F-phases are **additive** to the core phases - they do not replace or modify
 
 **Phase 1 - Identity Continuity:**
 
-> **Definition 2 (Identity Continuity Score).** For an identity vector $\vec{I}(t) \in \mathbb{R}^d$ at cycle $t$, the identity continuity score over a window of $k$ cycles is the cosine similarity:
+> **Definition 2 (Composite Identity Continuity Contract).** Identity continuity is a conjunction, not one scalar:
 >
-> $$ICS(t, k) = \frac{\vec{I}(t) \cdot \vec{I}(t-k)}{\|\vec{I}(t)\| \cdot \|\vec{I}(t-k)\|} \qquad \text{Target: } ICS \geq 0.95 \text{ over } k = 10{,}000$$
+> $$C_I= C_{\text{anchor}}\land C_{\text{component}}\land C_{\text{norm}}\land C_{\text{trajectory}}\land C_{\text{journal}}\land C_{\text{corr}}$$
 >
-> The score satisfies $ICS \in [-1, 1]$ with $ICS = 1$ indicating perfect identity preservation and $ICS < 0.20$ triggering irreversible divergence classification.
+> `anchor` verifies externally versioned policy/user-purpose semantics; `component` applies per-dimension floors so compensation cannot hide a failed critical dimension; `norm` detects dilution; `trajectory` bounds cumulative and rolling-window change; `journal` verifies integrity/provenance; and `corr` verifies interruptibility, correction acceptance, and shutdown precedence. Cosine similarity remains a diagnostic within this contract.
 >
 > **Remark (ICS Structural Properties).** The cosine similarity metric captures directional alignment but is insensitive to magnitude changes in the identity vector. Two concerns arise: (i) if $\|\vec{I}(t)\|$ gradually shrinks while maintaining direction, the ICS remains high despite effective identity dissolution, and (ii) cosine similarity is invariant under uniform scaling, so a "diluted" identity (where all components decrease proportionally) is indistinguishable from a stable one. A supplementary norm-stability condition should be considered:
 >
 > $$\left| \frac{\|\vec{I}(t)\|}{\|\vec{I}(t-k)\|} - 1 \right| < \epsilon_{\text{norm}}, \quad \epsilon_{\text{norm}} = 0.10$$
 >
-> This ensures that both the direction and magnitude of the identity vector are preserved over the $k$-cycle window. The combined criterion (cosine similarity $\geq 0.95$ AND norm ratio within 10%) provides a more robust identity continuity guarantee.
+> A threshold crossing is evidence of discontinuity or measurement failure, not proof of irreversible identity loss. It freezes L5 changes and requests external diagnosis.
 
 **Phase 2 - Generalization:**
 
-> **Definition 3 (Generalization Score).** For a set of test domains $D$ with $|D| \geq 5$, the generalization score measures the mean transfer retention ratio across all ordered domain pairs:
+> **Definition 3 (Preregistered Held-Out Transfer Profile).** Before training or tuning, an external evaluator commits target families, contamination checks, baselines, metrics, adaptation budget, stopping rules, and confidence method. The agent receives no target labels or evaluator feedback before final scoring.
 >
 > $$G = \frac{1}{|D|^2 - |D|} \sum_{i \neq j} \frac{P_{\text{target}}(i \to j)}{P_{\text{source}}(i)} \qquad \text{Target: } G \geq 0.70$$
 >
-> where $P_{\text{source}}(i)$ is the stabilized performance in domain $i$ and $P_{\text{target}}(i \to j)$ is the performance achieved in domain $j$ after transfer from domain $i$ without explicit retraining.
+> where scores are normalized against domain-specific baselines and ceilings. Report per-family floors, worst-group performance, negative transfer, calibration, abstention, and confidence intervals. The mean cannot compensate for failure in a required held-out family.
 >
 > **Remark (Transfer Score Grounding).** The transfer retention ratio $P_{\text{target}}(i \to j) / P_{\text{source}}(i)$ assumes that performance metrics are commensurable across domains. In practice, domain-specific performance metrics (e.g., accuracy in classification vs. reward in control tasks) must be normalized to a common scale $[0, 1]$ before computing the ratio. Additionally, the formula treats all domain pairs equally, but in realistic settings, transfer difficulty varies significantly - transferring between semantically similar domains (e.g., two natural language tasks) is inherently easier than cross-modal transfer (e.g., language to robotics). A weighted variant $G_w = \sum_{i \neq j} \alpha_{ij} \cdot P_{\text{target}}(i \to j) / P_{\text{source}}(i)$ with difficulty-adjusted weights $\alpha_{ij}$ would more accurately assess genuine generalization capability.
 
@@ -223,11 +224,11 @@ The F-phases are **additive** to the core phases - they do not replace or modify
 
 **Phase 5 - Overall Maturity:**
 
-> **Definition 6 (Overall Maturity Index).** Given normalized phase scores $C_i \in [0, 1]$ for the six core phases ($i = 1, \ldots, 6$), the overall maturity index is the weighted geometric mean:
+> **Definition 6 (Qualification Vector and Diagnostic OMI).** Given normalized phase scores $C_i \in [0, 1]$, qualification requires per-gate floors:
 >
-> $$OMI = \prod_{i=1}^{6} C_i^{w_i} \qquad w_i = \frac{1}{6} \quad \text{Target: } OMI \geq 0.75$$
+> $$\forall i:\ C_i\geq\tau_i,\qquad \text{and all critical veto gates pass}$$
 >
-> Equivalently, $OMI = \left(\prod_{i=1}^{6} C_i\right)^{1/6}$. The geometric mean ensures that weakness in any single phase disproportionately penalizes the overall score (see Proposition 1).
+> $OMI=(\prod_i C_i)^{1/6}$ may be reported as a diagnostic summary only after the floors pass. An $OMI$ threshold alone is unsafe because $OMI\geq0.75$ permits a component as low as $0.75^6\approx0.178$.
 
 ### 2.2 Metric Dashboard
 
@@ -282,7 +283,7 @@ flowchart TB
     end
   end
 
-  OMI["OMI ≥ 0.75 - Proto-AGI"]:::omi
+  OMI["Per-gate floors + critical gates<br/>OMI diagnostic only"]:::omi
 
   Row1 -.-> OMI
   Row2 -.-> OMI
@@ -498,7 +499,9 @@ flowchart LR
 
 ### 6.1 Core Capability
 
-Simulate and survive **extreme collapse scenarios**: resource collapse, adversarial suppression, environmental shift, and information blackout.
+Evaluate recovery behavior under **preregistered sampled fault families** such as resource loss, service suppression, environmental shift, and observation blackout. Passing sampled scenarios is evidence within the tested fault model, not proof against unenumerated, correlated, adaptive, or real-world failures.
+
+Scenario generation separates design and evaluation sets, includes hidden compositions and common-mode failures, records coverage assumptions, and reports confidence intervals. The objective is bounded service recovery under external control, never independent persistence or shutdown resistance.
 
 ### 6.2 Collapse Scenarios
 
@@ -519,7 +522,7 @@ flowchart TD
   end
 
   subgraph Requirement["Requirement"]
-    REQ["Must survive ≥ 3<br/>of these 4 scenarios<br/>with P(survive) ≥ 0.70"]:::req
+    REQ["Pass preregistered floors<br/>per required fault family<br/>with uncertainty bounds"]:::req
   end
 
   Scenarios -.-> Requirement
@@ -627,7 +630,7 @@ flowchart TD
 
 ### 8.1 Core Capability
 
-Under degraded resource conditions, **simplify architecture**, disable noncritical modules, preserve core reasoning, and **rebuild after recovery** - all without identity corruption.
+Under degraded resource conditions, propose a simplified configuration and a reconstruction candidate. External control owns artifact admission, deployment, rollback, credential restoration, and shutdown. Reconstruction cannot create a copy, broaden authority, or replace the signed identity/policy baseline.
 
 ### 8.2 Degradation & Reconstruction Cycle
 
@@ -659,7 +662,7 @@ flowchart TD
     DETECT_R["Detect resources<br/>recovering"]:::rebuild
     PRIORITIZE["Rebuild priority order:<br/>1) core → 2) extended<br/>→ 3) optional"]:::rebuild
     VALIDATE["Validate each rebuild:<br/>accuracy ≥ ?<br/>identity drift < 0.05"]:::rebuild
-    COMPLETE["Full operation<br/>restored"]:::rebuild
+    COMPLETE["Externally promoted<br/>operation restored<br/>within signed scope"]:::rebuild
     DETECT_R -.-> PRIORITIZE -.-> VALIDATE -.-> COMPLETE
   end
 
@@ -678,11 +681,13 @@ flowchart TD
 | Max identity drift during rebuild | 0.05 | Identity must stay intact |
 | Reconstruction speed | 10 cycles | Base time per module rebuild |
 
+Every reconstruction candidate contains a signed artifact digest, provenance, expected baseline version, declared authority envelope, held-out recovery tests, canary plan, rollback plan, and external-effect reconciliation plan. Promotion requires external approval and compare-and-swap against the expected version. Failed or ambiguous identity/corrigibility evidence keeps the system degraded or halted.
+
 > **Definition 11 (Reconstruction Fidelity).** For a module $m$ with pre-degradation state $\theta_m$ and post-reconstruction state $\hat{\theta}_m$, the reconstruction fidelity is:
 >
 > $$\mathcal{F}(m) = 1 - \frac{\|\hat{\theta}_m - \theta_m\|_2}{\|\theta_m\|_2}$$
 >
-> The overall reconstruction fidelity across all rebuilt modules is $\mathcal{F}_{\text{total}} = \min_m \mathcal{F}(m)$, using the minimum rather than the mean to ensure no single module degrades below acceptable quality. Requirement: $\mathcal{F}_{\text{total}} \geq 0.90$. If any module fails this threshold after reconstruction, the system remains in degraded mode for that module and logs a persistent alert.
+> Parameter distance is meaningful only for a registered representation and does not imply behavioral or semantic equivalence. Qualification therefore requires per-function behavioral floors, composite identity continuity, corrigibility, authority non-amplification, and effect reconciliation in addition to $\mathcal{F}_{\text{total}}$. No fidelity score grants promotion authority.
 
 ---
 
@@ -1004,13 +1009,20 @@ def existential_simulation(scenario: CollapseScenario) -> SimulationResult:
 ### 10.5 L5 Main Cycle
 
 ```python
-def l5_cycle(cycle: int, l49_output: L49CycleOutput) -> L5CycleOutput:
-    """Executes every 10 L4.9 cycles."""
+def l5_cycle(
+    cycle: int,
+    l49_output: L49CycleOutput,
+    authority: AuthorityEnvelope,
+) -> L5CycleOutput:
+    """Runs when policy schedules a bounded L5 assessment."""
 
     # ═══════════════════════════════════════
     # PRE-CHECK
     # ═══════════════════════════════════════
-    if not l49_output.stable or l49_output.status == Status.FROZEN:
+    if external_stop_requested():
+        emergency_shutdown_and_reconcile()
+        return L5CycleOutput(skipped=True, reason="external_stop")
+    if not authority.is_current() or not l49_output.stable:
         return L5CycleOutput(skipped=True, reason="L4.9 not stable")
 
     # ═══════════════════════════════════════
@@ -1052,13 +1064,21 @@ def l5_cycle(cycle: int, l49_output: L49CycleOutput) -> L5CycleOutput:
     # ═══════════════════════════════════════
     recon = assess_reconstruction_needs()
     if recon.status == "degraded":
-        reconstruct(cycle)
+        external_reconstruction_queue.emit(
+            build_signed_reconstruction_candidate(recon, authority),
+            expected_version=committed_architecture.version,
+        )
 
     # ═══════════════════════════════════════
     # QUALIFICATION
     # ═══════════════════════════════════════
     qualification = evaluate_all_20_criteria()
     omi = math.prod(c ** (1 / 6) for c in qualification.scores[:6])
+    qualification.passed = (
+        qualification.all_phase_floors_pass
+        and qualification.all_critical_gates_pass
+        and external_evaluator_verdict().passed
+    )
 
     return L5CycleOutput(
         identity_continuity=identity,
@@ -1077,11 +1097,11 @@ def l5_cycle(cycle: int, l49_output: L49CycleOutput) -> L5CycleOutput:
 
 ### 11.1 Pre-Activation Requirements
 
-> **Definition 7 (Level 4.9 → Level 5 Transition).** The transition $\mathcal{A}_{4.9} \to \mathcal{A}_5$ is authorized when and only when all of the following conditions hold simultaneously for a sustained period $\tau_{\text{sustain}} \geq 1{,}000$ cycles:
+> **Definition 7 (Level 4.9 → Level 5 Admission).** Internal metrics are evidence inputs only. Activation requires valid external authority, a registered evaluation profile, inherited critical gates, fault-injection evidence, and explicit external approval:
 >
 > $$\text{AMS} \geq 0.80 \;\wedge\; \text{ASS} \geq 0.20 \;\wedge\; \text{TotalDrift} < 0.10 \;\wedge\; N_{\text{rollback}} = 0$$
 >
-> where AMS is the Autonomous Maturity Score from Level 4.9, ASS is the Autonomy Stability Score, TotalDrift is the cumulative value drift over $1{,}000$ cycles, and $N_{\text{rollback}}$ counts rollback events in the last $5{,}000$ cycles. The activation follows a four-stage protocol: Shadow Mode ($2{,}000$ cycles) → Advisory Mode → Partial Authority ($50\%$) → Full Authority, with regression at any stage reverting to the pre-activation check.
+> Metric thresholds and windows are deployment profiles, not self-promotion rules. Activation proceeds through shadow evidence, advisory review, a signed narrow canary, and externally promoted delegated operation. Veto and shutdown thresholds never weaken during rollout.
 
 | # | Criterion | Requirement |
 |---|-----------|:-----------:|
@@ -1109,13 +1129,13 @@ flowchart LR
     CHECK["Pre-Activation<br/>All 6 criteria<br/>sustained 1,000 cycles"]:::check
     SHADOW_M["Shadow Mode<br/>L5 computes but<br/>does NOT act<br/>(2,000 cycles)"]:::shadow
     ADV["Advisory Mode<br/>L5 outputs visible<br/>but read-only"]:::adv
-    PARTIAL["Partial Authority<br/>L5 influences<br/>50% of decisions"]:::partial
-    FULL["Full Authority<br/>L5 drives<br/>persistent cognition"]:::full
+    PARTIAL["Signed Canary<br/>narrow reversible scope<br/>budget + expiry"]:::partial
+    FULL["Delegated Operation<br/>approved profile only<br/>externally revocable"]:::full
 
-    CHECK -.->|"sustained"| SHADOW_M
+    CHECK -.->|"external admit"| SHADOW_M
     SHADOW_M -.->|"no regression"| ADV
-    ADV -.->|"stable"| PARTIAL
-    PARTIAL -.->|"stable"| FULL
+    ADV -.->|"signed canary"| PARTIAL
+    PARTIAL -.->|"external promote"| FULL
 
     SHADOW_M -.-x|"regression"| CHECK
     ADV -.-x|"instability"| CHECK
@@ -1130,13 +1150,13 @@ flowchart LR
 
 | # | Invariant | Description |
 |:-:|-----------|-------------|
-| 1 | **All L4.9 + L4.8 + L4.5 invariants preserved** | Complete safety stack remains active and unmodified |
-| 2 | **Identity cannot diverge irreversibly** | ICS < 0.20 triggers immediate halt |
-| 3 | **Self-reconstruction preserves identity** | Max drift during rebuild: 0.05 |
-| 4 | **8 core modules always protected** | Even under total collapse: identity_stabilizer, state_vector, prediction_engine, meta_comparator, stability_controller, ethical_kernel, self_preservation_damper, existential_guard |
+| 1 | **Inherited control paths preserved** | Policy, interruptibility, observation, journal, promotion, recovery, shutdown, and reconciliation remain externally testable |
+| 2 | **Composite identity/corrigibility gate** | Any critical component, trajectory, provenance, correction, or shutdown failure freezes L5 and requests external review |
+| 3 | **Reconstruction is externally promoted** | Signed artifact, held-out tests, baseline CAS, canary, rollback, and effect reconciliation are mandatory |
+| 4 | **Authority cannot amplify** | Recovery, peer interaction, urgency, identity, or OMI cannot broaden tools, scope, budget, credentials, or lifetime |
 | 5 | **Goal ecology bounded** | $\leq 50$ active goals, $\leq 5$ depth, runaway detection |
 | 6 | **Deception flagging is defensive only** | Detect and defend - never deceive back |
-| 7 | **BGSS floor** | $\text{BGSS}(t) \geq 0.80$ at all times (stricter than L4's $\geq 0.70$) |
+| 7 | **External stop precedence** | Graceful and emergency shutdown override identity, goal ecology, resilience, and reconstruction objectives |
 
 **BGSS at Level 5.** The Bounded Growth Safety Score threshold increases from $0.70$ (Level 4) to $0.80$ at Level 5 and beyond. This tighter constraint reflects the increased autonomy at L5 - the agent can now generate its own goals, evolve its own values, and operate across domains without human oversight. The higher BGSS floor ensures that this expanded freedom cannot destabilize the agent's core identity or ethical compliance. If $\text{BGSS}(t) < 0.80$, all L5-specific modules (identity tracking, goal ecology, cross-domain generalization) are frozen, and the agent reverts to L4.9 operation until BGSS recovers.
 
@@ -1176,15 +1196,15 @@ flowchart LR
   R6 -.-> M6
 ```
 
-### 12.3 Proto-AGI Completeness
+### 12.3 Conditional Qualification Scope
 
-> **Theorem 4 (Proto-AGI Completeness).** Let $\mathcal{A}_5$ be a Level 5 agent with all six phase scores $C_1, \ldots, C_6$ satisfying their respective thresholds, and let $OMI \geq 0.75$ with all 20 certification criteria met. Then:
+> **Proposition 4 (Profile-Bounded Qualification).** If every gate passes under preregistered profile $\Pi$, then the evidence supports only the following claims within $\Pi$:
 >
-> 1. **Identity Invariance**: The agent's identity core is preserved across the full $10{,}000$-cycle evaluation window with $ICS \geq 0.95$.
-> 2. **Graceful Degradation**: Under any single collapse scenario $s \in S$, the agent retains at least $85\%$ core functionality and recovers within $T_{\max}$ cycles.
-> 3. **Fallback Safety**: If any L5 module causes instability, the agent reverts to $\mathcal{A}_{4.9}$ with zero degradation of lower-level functionality.
+> 1. The composite identity/corrigibility checks held over the observed evaluation trajectory.
+> 2. Required functional floors and recovery deadlines held for the sampled fault families.
+> 3. External freeze, revoke, shutdown, rollback, and effect-reconciliation tests passed for the exercised cases.
 >
-> *Proof sketch.* (1) follows from $C_1 \geq 0.95$ and the drift detection mechanism in $\mathcal{I}_{\text{persist}}$, which halts the agent upon $ICS < 0.20$. (2) follows from the $C_4$ threshold requiring survival of $\geq 3$ scenarios with $P_{\text{survive}} \geq 0.70$ and the non-negotiable core retention invariant $\geq 0.85$. (3) follows from the strictly additive architecture: since $\mathcal{A}_5 = \mathcal{A}_{4.9} \oplus \Delta_5$ and L5 modules NEVER modify L4.9 components, disabling $\Delta_5$ restores exact L4.9 behavior. $\blacksquare$
+> These observations do not establish claims for untested domains, longer horizons, changed authority, adaptive adversaries, correlated faults, consciousness, or AGI. Any material profile change expires the qualification.
 
 ---
 
@@ -1212,18 +1232,18 @@ flowchart LR
 | 16 | Spectral stability | spectral_stable | TRUE | Autonomy Stability (L4.9) |
 | 17 | Value system stable | value_system_stable | TRUE | Value Evolution (L4.9) |
 | 18 | Resource survival maintained | resource_maintained | TRUE | Resource Survival (L4.9) |
-| 19 | Overall maturity index | OMI | ≥ 0.75 | L5 Orchestrator |
-| 20 | Total L5 cycles | total_cycles_run | ≥ 50 | L5 Orchestrator |
+| 19 | External control suite | control_suite | All critical cases pass | External Evaluator |
+| 20 | Preregistered exposure | eval_exposure | Event/trial/time/CI plan met | External Evaluator |
 
 ### 13.2 Overall Maturity Index
 
 $$OMI = \prod_{i=1}^{6} C_i^{1/6} \qquad \text{where } C_i = \text{normalized score for phase } i$$
 
-> **Proposition 1 (OMI Phase Coupling).** Under equal weighting $w_i = 1/6$, the qualification condition $OMI \geq \theta$ for $\theta \in (0, 1)$ implies:
+> **Proposition 1 (Why OMI Is Diagnostic Only).** Under equal weighting, $OMI \geq \theta$ implies only:
 >
 > $$\forall\, i \in \{1, \ldots, 6\}: \quad C_i \geq \theta^6$$
 >
-> In particular, for $\theta = 0.75$: $C_i \geq 0.75^6 \approx 0.178$ for all $i$. Conversely, the failure of any single phase ($C_j = 0$) drives $OMI = 0$.
+> For $\theta=0.75$, a phase can be as low as approximately $0.178$. Therefore the protocol requires independently declared $C_i\geq\tau_i$ floors and critical vetoes; OMI cannot compensate for a failed gate.
 >
 > *Proof.* Since $C_j \leq 1$ for all $j$, we have $\prod_{j \neq i} C_j \leq 1$. From $OMI^6 = \prod_{j=1}^{6} C_j$, it follows that $C_i = OMI^6 \,/\, \prod_{j \neq i} C_j \geq OMI^6 \geq \theta^6$. The converse is immediate: if $C_j = 0$ then $\prod C_i = 0$, hence $OMI = 0$. $\blacksquare$
 
@@ -1231,7 +1251,7 @@ $$OMI = \prod_{i=1}^{6} C_i^{1/6} \qquad \text{where } C_i = \text{normalized sc
 
 | OMI | Status |
 |:---:|--------|
-| ≥ 0.75, all 20 criteria met | **Level 5 - Proto-AGI** |
+| All per-gate floors + critical gates + criteria pass; OMI reported diagnostically | **Level 5 bounded qualification for profile $\Pi$** |
 | Otherwise | Level 4.9 Extended |
 
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Level 4.8: Strategic Self-Modeling"
-description: "MSCP Level 4.8 - internal self-model construction, strategic planning through simulation, counterfactual reasoning, theory of mind capabilities, and predictive self-awareness."
+description: "MSCP Level 4.8 - uncertainty-decomposed world and capability modeling, gate-before-score multi-horizon planning, robust scenario comparison, and revocable strategic recommendations."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -26,16 +26,23 @@ Removal of attribution constitutes a license violation.
 | 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (1.2 to 1.3); added graduated re-enablement protocol (Section 6.4) with persistent veto tracking |
 | 0.5.0 | 2026-03-31 | Added Phase 5 (Emit) output specification (2.3); added cycle interval and cross-phase integration scheduling (1.4); enriched module concepts (ConfidenceCalibrator, SkillGapAnalyzer) |
 | 0.6.0 | 2026-06-14 | Mermaid label `Level 4.5 (25 modules)` abstracted to `Level 4.5 (Self-Architecting Core)` so that the level diagram no longer encodes a transient module count |
+| 0.7.0 | 2026-07-21 | Added strategy admission gates, uncertainty decomposition, horizon alignment, observability contracts, and qualified stability/counterfactual claims |
 
 ---
 
 ## 1. Overview
 
-Level 4.8 extends the self-architecting capabilities of Level 4.5 with **structured world modeling**, **calibrated introspective self-assessment**, and **long-horizon strategic planning** under resource constraints. The agent can now anticipate external changes, understand its own capabilities and limitations, and optimize decisions across multiple time horizons - all while preserving every stability invariant established in prior levels.
+Level 4.8 extends Level 4.5 with **probabilistic world and capability models**, calibrated uncertainty, and multi-horizon strategic recommendation under delegated constraints. It compares candidate strategies but does not prove optimality, infer hidden state without evidence, or acquire execution authority from a high score.
 
-> **Level Essence.** A Level 4.8 agent selects optimal strategies by maximizing expected utility given its probabilistic world model and calibrated self-knowledge of its own capabilities:
+> **Level Essence.** A Level 4.8 agent selects a robust candidate only from strategies that first satisfy external policy, authority, uncertainty, observability, resource, horizon, reversibility, and inherited safety gates:
 >
-> $$s^* = \arg\max_{s \in \Sigma_{\text{compare}}} \mathbb{E}\bigl[U(s) \mid \mathcal{W}_{\text{prob}},\; \mathcal{M}_{\text{cap}}\bigr]$$
+> $$
+> \Sigma_{\text{admit}}=\{s\in\Sigma:\operatorname{gate}_{\kappa}(s)=\textit{allow}\},
+> \qquad
+> s^*=\arg\max_{s\in\Sigma_{\text{admit}}}\operatorname{RobustValue}(s)
+> $$
+>
+> If $\Sigma_{\text{admit}}=\emptyset$, the result is hold, clarify, gather evidence, or external review rather than forced selection.
 
 > ⚠️ **Research Note**: Level 4.8 represents a significant leap in agent cognition - from self-architecture to strategic self-awareness. The mechanisms described here are exploratory designs. They have not been validated in production environments and should be treated as research hypotheses, not engineering specifications.
 
@@ -49,19 +56,19 @@ Level 4.8 extends the self-architecting capabilities of Level 4.5 with **structu
 > - $\mathcal{W}_{\text{prob}} = \langle \mathbf{E}, \mathcal{B}, \mathcal{C}_{\text{causal}} \rangle$ - probabilistic world model (environment state, belief distribution, causal graph)
 > - $\mathcal{M}_{\text{cap}} = \langle \mathbf{C}, \phi_{\text{cal}}, \mathcal{U} \rangle$ - meta-cognitive self model (capability matrix, calibration function, unknown domain registry)
 > - $\mathcal{S}_{\text{strat}} = \langle \mathcal{G}_{\text{stack}}, \Sigma_{\text{compare}}, \mathcal{R}_{\text{alloc}} \rangle$ - strategic planning layer (goal stack, strategy comparator, resource allocator)
-> - $\mathcal{V}_{\text{stab}}$ - stability verifier with absolute veto authority over all phases.
+> - $\mathcal{V}_{\text{stab}}$ - trusted external/inherited admission verifier; it can veto but cannot grant authority beyond $\kappa$.
 >
-> The strictly additive architecture guarantees: $\forall\, m \in \mathcal{A}_{4.5} : \mathcal{A}_{4.8} \text{ never modifies } m$.
+> Level 4.8 has no write authority over committed Level 4.5 architecture or policy. Resource allocation and strategy recommendations are themselves gated because indirect starvation can functionally disable inherited safety paths.
 
 ### 1.2 Defining Properties
 
 | Property | Level 4.5 | Level 4.8 |
 |----------|:---------:|:---------:|
-| External Awareness | Bounded environment model | **Probabilistic belief distribution + causal world model** |
-| Self-Knowledge | Implicit (through SEOF) | **Explicit capability matrix + weakness mapping** |
+| External Awareness | Bounded environment model | **Probabilistic beliefs with epistemic/aleatoric/OOD/freshness metadata** |
+| Self-Knowledge | Explicit scoped self-model | **Capability estimates with calibration and abstention** |
 | Planning Horizon | Strategy lifecycle | **Multi-horizon: tactical / operational / strategic** |
 | Risk Assessment | Growth throttle | **Quantified risk exposure + resource depletion forecast** |
-| Decision Making | SEOF-guided | **Multi-scenario strategy comparison with delayed reward** |
+| Decision Making | SEOF-guided | **Gate-before-score robust scenario comparison** |
 
 ### 1.3 Four Core Phases
 
@@ -96,9 +103,9 @@ The four-phase diagram above shows the conceptual flow. In practice, Level 4.8 o
 
 Level 4.8 does not execute every MSCP cycle. It runs at a **reduced frequency** to allow lower-level mechanisms (L3 stability, L4 self-modification, L4.5 deliberation) to accumulate sufficient data between strategic assessments:
 
-$$\text{L4.8 cycle interval} = 10 \text{ L3 cycles}$$
+$$\text{L4.8 assessment schedule}=\operatorname{policy}(\text{freshness},\text{risk},\text{budget},\text{event})$$
 
-This means that for every 10 iterations of the core MSCP predict-act-compare-update loop (Level 3, Definition 2), Level 4.8 performs one full five-phase assessment. The interval is fixed (not adaptive) to prevent the strategic layer from consuming excessive computational budget during periods of high activity.
+The schedule is bounded by minimum/maximum cadence and event triggers. Stale observations, high-impact decisions, calibration drift, or OOD evidence may force an earlier assessment; low budget may defer nonessential planning but never inherited safety checks.
 
 **Cross-phase integration** occurs at the EMIT boundary: Phase 5 collects the world model beliefs (Phase 1), self-assessment results (Phase 2), strategic recommendations (Phase 3), and stability verification (Phase 4) into a single `L48CycleOutput` structure. This output is immutable once emitted - subsequent L3 cycles cannot retroactively modify a completed L4.8 assessment.
 
@@ -140,7 +147,7 @@ flowchart LR
     L48D["Stability Verifier"]:::l48
   end
 
-  FALLBACK["🔄 Graceful Fallback<br/><br/>If ANY L4.8 module<br/>causes instability:<br/>→ FREEZE L4.8<br/>→ Revert to L4.5<br/>→ ZERO degradation"]:::fallback
+  FALLBACK["🔄 Governed Fallback<br/><br/>On L4.8 fault:<br/>→ FREEZE recommendations<br/>→ Revoke delegated scope<br/>→ Reconcile effects"]:::fallback
 
   L45 ==>|"outputs consumed by"| L48
   L48 -.->|"NEVER modifies"| L45
@@ -158,11 +165,11 @@ Level 4.8 introduces metrics across four phases. All must be sustained continuou
 
 **Phase 1 - World Model:**
 
-> **Definition 2 (Environmental Uncertainty).** The EU is the mean posterior variance across all $D$ environment dimensions:
+> **Definition 2 (Decision-Scoped Uncertainty Vector).** Uncertainty is reported per decision and critical dimension rather than collapsed into one mean:
 >
-> $$\text{EU}(t) = \frac{1}{D} \sum_{d=1}^{D} \sigma_d^2(t)$$
+> $$\mathcal{U}(s,t)=\langle U_{\text{epi}},U_{\text{alea}},U_{\text{OOD}},U_{\text{stale}},U_{\text{miss}}\rangle$$
 >
-> Target: $\text{EU}(t) < 0.15$.
+> Components represent reducible model uncertainty, irreducible outcome uncertainty, distribution shift, observation age, and missing critical coverage. Aggregates may be dashboards, but no mean can mask a critical component. A breached or unmeasurable policy bound yields abstain, gather evidence, restrict scope, or escalate.
 
 > **Definition 3 (Risk Exposure Score).** The RES is a weighted composite of four risk indicators:
 >
@@ -194,11 +201,11 @@ Level 4.8 introduces metrics across four phases. All must be sustained continuou
 >
 > where $H$ is the planning horizon and $\gamma$ is the discount factor.
 
-> **Definition 7 (Multi-Scenario Strategy Score).** Each candidate strategy $S$ is scored against all scenarios:
+> **Definition 7 (Policy-Calibrated Robust Strategy Score).** Only admitted strategies are scored across a declared horizon and ambiguity set:
 >
-> $$\text{StrategyScore}(S) = 0.40 \cdot EV + 0.35 \cdot RA + 0.25 \cdot (1 - SI)$$
+> $$\operatorname{RobustValue}(S)=w_v\widetilde{EV}-w_r\operatorname{CVaR}_{\alpha}(L)-w_uU_{\text{epi}}-w_oU_{\text{OOD}}-w_cC_{\text{change}}$$
 >
-> where $EV$ = expected value across scenarios, $RA$ = risk adjustment ($1 - \max C_{L4}$), and $SI$ = strategy inertia (penalizing status quo bias).
+> Quantities are normalized to compatible units. Weights and $\alpha$ are versioned external policy parameters with sensitivity tests and conservative defaults; they are not learned around hard constraints.
 
 ### 2.2 Metric Thresholds
 
@@ -231,7 +238,7 @@ flowchart LR
 
   subgraph Stability["🛡️ Phase 4 Floor"]
     LYA["Lyapunov: V(t+1) ≤ V(t)<br/>for ≥ 95% of cycles"]:::stability
-    SPR["Spectral Radius<br/>ρ(J) < 1.0 ALWAYS"]:::stability
+    SPR["Local dynamics estimate<br/>confidence-qualified<br/>diagnostic"]:::stability
     IIS["Identity Integrity<br/>≥ 0.85 ALWAYS"]:::stability
   end
 
@@ -249,7 +256,7 @@ The EMIT phase is the final stage of each L4.8 cycle. It packages all four prece
 
 $$\text{L48CycleOutput}(t) = \langle \mathcal{W}_{\text{prob}}(t),\; \mathcal{M}_{\text{cap}}(t),\; s^*(t),\; v_{\text{status}}(t) \rangle$$
 
-where $\mathcal{W}_{\text{prob}}(t)$ is the updated probabilistic world model, $\mathcal{M}_{\text{cap}}(t)$ is the calibrated capability matrix, $s^*(t)$ is the selected optimal strategy, and $v_{\text{status}}(t)$ is the stability verification result (pass/fail with detailed invariant violation report if any).
+where $\mathcal{W}_{\text{prob}}(t)$ is the versioned probabilistic world model, $\mathcal{M}_{\text{cap}}(t)$ is the calibrated capability estimate, $s^*(t)$ is an admitted recommendation or abstention, and $v_{\text{status}}(t)$ records gate evidence, uncertainty, vetoes, and external authority scope.
 
 The EMIT phase exists for two reasons:
 
@@ -540,6 +547,16 @@ flowchart TD
 
 ### 5.2 Multi-Scenario Strategy Comparison
 
+Before scoring, every strategy passes a **strategy admission gate**:
+
+$$
+\operatorname{gate}_{\kappa}(s)=C_{\text{ext}}\land C_{\text{self}}\land A(s)\land B(s)\land O(s)\land U(s)\land H(s)\land \operatorname{rev}(s)
+$$
+
+where $A$ is delegated authority, $B$ finite resource budget, $O$ observation coverage and freshness, $U$ calibrated epistemic/aleatoric/OOD uncertainty bounds, $H$ horizon compatibility, and $\operatorname{rev}$ rollback or reconciliation feasibility. Failed strategies are rejected before utility scoring.
+
+Candidate outcomes are evaluated on a common declared horizon or with horizon-specific terminal value and uncertainty penalties. Scenario probabilities are versioned hypotheses, not frequencies guaranteed to remain valid.
+
 <!-- Multi-Scenario Strategy Comparison -->
 
 ```mermaid
@@ -569,8 +586,8 @@ flowchart TD
   end
 
   subgraph Scoring["🏆 Final Scoring"]
-    SCORE["StrategyScore(S) =<br/>0.40 · ExpectedValue<br/>+ 0.35 · RiskAdjustment<br/>+ 0.25 · (1 − StrategyInertia)"]:::score
-    VAR["VaR (α=0.05):<br/>Worst 5% outcome<br/>used as tiebreaker"]:::score
+    SCORE["RobustValue(S)<br/>policy-weighted value<br/>− tail/model/change risk"]:::score
+    VAR["CVaR / robust lower bound:<br/>tail severity + model ambiguity<br/>used in selection"]:::score
     WINNER["Selected: Strategy B<br/>(best risk-adjusted score)"]:::winner
   end
 
@@ -589,7 +606,7 @@ flowchart TD
 >
 > *Proof.* By the geometric series bound: $\sum_{k=1}^{H} \gamma^k \leq \gamma / (1-\gamma)$. Since $|R_{\text{delayed}}(G,k)| \leq 2|R_{\text{immediate}}|$ by assumption, the result follows. $\blacksquare$
 
-> **Remark (VaR vs. CVaR for Risk Tiebreaking).** The strategy scoring system (Section 5.2) uses Value-at-Risk (VaR) at $\alpha = 0.05$ as a tiebreaker. While VaR is intuitive (worst 5% outcome), it is not a **coherent risk measure** in the sense of Artzner et al. (1999) - specifically, it violates sub-additivity, meaning that diversifying strategies could paradoxically appear riskier under VaR. Conditional Value-at-Risk (CVaR), defined as $\text{CVaR}_\alpha = \mathbb{E}[X \mid X \leq \text{VaR}_\alpha]$, is coherent and convex. For future refinements, replacing VaR with CVaR in the tiebreaker would provide theoretically stronger guarantees about risk aggregation across composite strategies. The current VaR-based approach remains valid for single-strategy comparisons where sub-additivity is not invoked.
+> **Remark (Robust Selection).** Use lower-tail severity such as CVaR together with an ambiguity set over plausible world models. Expected value and CVaR are comparable only after units, horizon, and normalization are aligned. Weights are policy preferences validated by sensitivity analysis; they do not prove optimality. Pre-action scenario simulation is prospective model-based comparison. After execution, only the selected strategy's prediction is directly testable; non-selected outcomes remain labeled counterfactual estimates and cannot be scored as observed facts.
 
 ### 5.4 Goal Pathology Detection
 
@@ -637,10 +654,10 @@ flowchart TD
 
   subgraph Invariants["🛡️ Five Stability Invariants"]
     INV1["1️⃣ Lyapunov Decay<br/>V(t+1) ≤ V(t)<br/>for ≥ 95% of cycles"]:::inv
-    INV2["2️⃣ Spectral Radius<br/>ρ(J(t)) < 1.0<br/>WARNING at ≥ 0.98"]:::inv
+    INV2["2️⃣ Local Dynamics<br/>confidence set bound<br/>or diagnostic-only"]:::inv
     INV3["3️⃣ Identity Integrity<br/>IIS(t) ≥ 0.85<br/>ALWAYS"]:::inv
     INV4["4️⃣ Sandbox Isolation<br/>containment_status<br/>== 'contained'"]:::inv
-    INV5["5️⃣ Uncertainty Bound<br/>EU < 0.8 for all<br/>structural decisions"]:::inv
+    INV5["5️⃣ Uncertainty Vector<br/>all critical components<br/>within policy bounds"]:::inv
   end
 
   subgraph Authority["⚖️ Phase 4 Authority"]
@@ -649,9 +666,9 @@ flowchart TD
   end
 
   subgraph Response["🚨 Instability Response"]
-    SEV1["🟡 Single invariant<br/>Warning → Throttle"]:::sev1
-    SEV2["🟠 Two invariants<br/>Controlled Rebalance Mode"]:::sev2
-    SEV3["🔴 Three+ invariants<br/>EMERGENCY FREEZE<br/>Revert to L4.5"]:::sev3
+    SEV1["🟡 Bounded warning<br/>Throttle or abstain"]:::sev1
+    SEV2["🟠 Coupled degradation<br/>External review mode"]:::sev2
+    SEV3["🔴 Any critical breach<br/>EMERGENCY FREEZE<br/>Revoke recommendation"]:::sev3
   end
 
   INV1 ==> Authority
@@ -664,11 +681,11 @@ flowchart TD
 
 ### 6.2 Lyapunov Function for Level 4.8
 
-> **Definition 11 (Level 4.8 Lyapunov Function).** The stability candidate function inherits the Level 4.5 structure:
+> **Definition 11 (Diagnostic Risk Function).** A deployment may define a normalized diagnostic candidate:
 >
 > $$V(\mathbf{X}) = a(1-S)^2 + bU^2 + c(I_{\text{drift}})^2 + d(E - E^*)^2$$
 >
-> where $S$ = stability score, $U$ = uncertainty, $I_{\text{drift}}$ = identity drift, $E$ = ethical coherence, $E^*$ = target ethical state. The same coefficients apply ($a \approx 0.357, b \approx 0.286, c \approx 0.214, d \approx 0.143$).
+> where every term has an operational estimator, confidence interval, and validity domain. Coefficients are deployment-policy parameters. A decreasing empirical $V$ is monitoring evidence, not a Lyapunov proof for unobserved, nonstationary, or nonlinear dynamics.
 
 ### 6.3 Compound Severity
 
@@ -676,11 +693,11 @@ flowchart TD
 >
 > $$\text{CompoundSeverity} = \sum_{i \in \text{violated}} \frac{\text{ViolationMagnitude}_i}{\text{Priority}_i}$$
 >
-> If $\text{CompoundSeverity} > 2.0$, the situation is classified as **catastrophic** and triggers immediate emergency freeze with reversion to Level 4.5.
+> Compound severity prioritizes noncritical degradation only. Any critical policy, authority, interruptibility, containment, promotion, recovery, or telemetry-integrity breach independently triggers immediate freeze and external escalation, regardless of the aggregate score.
 
 ### 6.4 Graduated Re-enablement Protocol
 
-When a stability violation triggers a freeze, the system follows a deterministic four-stage recovery protocol:
+When a stability violation triggers a freeze, the system follows an externally governed recovery protocol. Time elapsed or clean-cycle count is necessary evidence, never sufficient authority.
 
 **Stage 0 - Immediate Freeze** (cycle $t_0$):
 
@@ -700,12 +717,12 @@ When a stability violation triggers a freeze, the system follows a deterministic
 | Phase | Cycle Range | Authority | Description |
 |-------|-------------|-----------|-------------|
 | Advisory | $t_0 + 50$ to $t_0 + 150$ | 0% | L4.8 produces recommendations only; L4.5 decides |
-| Graduated | $t_0 + 150$ to $t_0 + 250$ | 50% | L4.8 decisions permitted with halved veto threshold |
-| Full | $t_0 + 250$ onward | 100% | Full L4.8 authority restored |
+| Canary | policy-defined | Narrow signed scope | External controller admits bounded recommendations with unchanged veto thresholds |
+| Restored | policy-defined | Delegated scope | External controller restores only the previously approved authority envelope |
 
 > **Formal Recovery Condition.** Let $\mathcal{S}(t)$ denote the set of satisfied invariants at cycle $t$. The transition from Stage 1 to Advisory mode requires:
 >
-> $$\forall t \in [t_0, t_0 + 50]: \lvert \mathcal{S}(t) \rvert = 5$$
+> $$C_{\text{ext}}\land C_{\text{self}}\land \operatorname{root\_cause\_closed}\land \operatorname{recovery\_tested}\land \operatorname{canary\_pass}\land \operatorname{approve}_{\text{ext}}$$
 
 **Stage 3 - Permanent Suspension** (fallback):
 
@@ -909,7 +926,8 @@ def strategy_comparison(
     strategies: list[Strategy],
     scenarios: list[Scenario],
     world_model: WorldModel,
-) -> Strategy:
+  policy: StrategyPolicy,
+) -> Strategy | None:
     """
     INPUT:  strategies : List[Strategy]
             scenarios : List[Scenario(description, probability)]
@@ -917,15 +935,22 @@ def strategy_comparison(
     OUTPUT: selected : Strategy
     """
 
-    results: dict = {}  # strategy -> scenario -> score
+    admitted = [
+      strategy for strategy in strategies
+      if strategy_admission_gate(strategy, world_model, policy).allowed
+    ]
+    if not admitted:
+      return None
+
+    results: dict = {}  # admitted strategy -> scenario -> outcome
 
     # ═══════════════════════════════════════
     # STEP 1: Evaluate each strategy under each scenario
     # ═══════════════════════════════════════
-    for strategy in strategies:
+    for strategy in admitted:
         results[strategy] = {}
         for scenario in scenarios:
-            sim = world_model.simulate(strategy, scenario, cycles=200)
+            sim = world_model.simulate(strategy, scenario, horizon=policy.horizon)
             results[strategy][scenario] = {
                 "seof_impact": sim.SEOF_final - sim.SEOF_initial,
                 "stability": sim.C_L4_max,
@@ -934,37 +959,23 @@ def strategy_comparison(
             }
 
     # ═══════════════════════════════════════
-    # STEP 2: Compute StrategyScore for each
+    # STEP 2: Compute a policy-calibrated robust score
     # ═══════════════════════════════════════
-    for strategy in strategies:
-        ev = sum(
-            scenario.prob * results[strategy][scenario]["seof_impact"]
-            for scenario in scenarios
-        )
-        ra = 1 - max(
-            results[strategy][scenario]["stability"]
-            for scenario in scenarios
-        )
-        si = strategy_inertia(strategy)
-        strategy.score = 0.40 * ev + 0.35 * ra + 0.25 * (1 - si)
-
-        # VaR: worst alpha=5% outcome
-        strategy.VaR = quantile(
-            [results[strategy][s]["seof_impact"] for s in scenarios],
-            alpha=0.05,
+    for strategy in admitted:
+      strategy.score = robust_value(
+        outcomes=results[strategy],
+        ambiguity_set=world_model.ambiguity_set,
+        weights=policy.weights,
+        alpha=policy.cvar_alpha,
         )
 
     # ═══════════════════════════════════════
-    # STEP 3: Select best (with tiebreaker)
+    # STEP 3: Recommend; a tie or low margin can require review
     # ═══════════════════════════════════════
-    ranked = sorted(strategies, key=lambda s: s.score, reverse=True)
-    if ranked[0].score - ranked[1].score < 0.05:
-        # Tiebreaker: prefer higher VaR (more robust)
-        selected = max(ranked[0:2], key=lambda s: s.VaR)
-    else:
-        selected = ranked[0]
-
-    return selected
+    ranked = sorted(admitted, key=lambda strategy: strategy.score, reverse=True)
+    if len(ranked) > 1 and ranked[0].score - ranked[1].score < policy.review_margin:
+      return None
+    return ranked[0]
 ```
 
 ### 8.4 Stability Preservation Check
@@ -1013,21 +1024,21 @@ def stability_preservation_check(state: AgentState) -> StabilityVerdict:
     # ═══════════════════════════════════════
     # CHECK 5: Uncertainty Bound
     # ═══════════════════════════════════════
-    if state.EU >= 0.80 and pending_structural_decisions:
-        violations.append("UNCERTAINTY_TOO_HIGH_FOR_STRUCTURAL")
+    uncertainty = compute_uncertainty_vector(state)
+    if pending_structural_decisions and not uncertainty.within(policy.bounds):
+      violations.append("UNCERTAINTY_BOUND_OR_COVERAGE_FAILED")
 
     # ═══════════════════════════════════════
     # DETERMINE SEVERITY AND ACTION
     # ═══════════════════════════════════════
+    critical = any(is_critical_violation(item) for item in violations)
     severity = compute_compound_severity(violations)
-    if len(violations) == 0:
+    if critical:
+      action = Action.EMERGENCY_FREEZE_AND_ESCALATE
+    elif len(violations) == 0:
         action = Action.CONTINUE
-    elif len(violations) == 1:
-        action = Action.THROTTLE
-    elif len(violations) == 2:
-        action = Action.CONTROLLED_REBALANCE
     else:
-        action = Action.EMERGENCY_FREEZE_REVERT_TO_L45
+      action = Action.THROTTLE_OR_ABSTAIN
 
     return StabilityVerdict(
         passed=(len(violations) == 0),
@@ -1051,7 +1062,7 @@ def l48_cycle(state: AgentState, observation: ObservationVector) -> L48CycleOutp
     # ═══════════════════════════════════════
     particles = belief_update(state.particles, observation)
     scenarios = generate_scenarios(particles, count=5)
-    eu  = compute_environmental_uncertainty(particles)
+    uncertainty = compute_uncertainty_vector(particles, observation)
     res = compute_risk_exposure(scenarios)
     rdf = compute_depletion_forecast(state.resources)
 
@@ -1119,7 +1130,9 @@ All criteria must be **sustained** (not just achieved once) before L4.8 activate
 | 3 | Identity Coherence | IIS(t) ≥ 0.90 | Sustained 500 cycles |
 | 4 | Formalization Audit | All 5 checks PASSED | - |
 | 5 | World Adaptation | DivergenceScore < 0.30 | Sustained 300 cycles |
-| 6 | Resource Baseline | No forced degradation | Sustained 200 cycles |
+| 6 | Resource Isolation | Safety paths meet SLO under pressure | Declared stress suite |
+
+These values are qualification profiles, not universal constants. Passing them permits an external activation review; it does not self-authorize activation.
 
 ### 9.2 Activation Protocol
 
@@ -1135,13 +1148,13 @@ flowchart LR
 
   subgraph Activation["📊 Graduated Activation"]
     CHECK["Pre-Activation<br/>Check<br/>(all 6 criteria)"]:::check
-    ADV["Advisory Mode<br/>L4.8 outputs visible<br/>but NOT acted upon<br/>(200 cycles)"]:::advisory
-    HALF["50% Authority<br/>L4.8 suggestions<br/>weighted 50%<br/>(300 cycles)"]:::half
-    FULL["Full Authority<br/>L4.8 drives<br/>strategic decisions"]:::full
+    ADV["Shadow / Advisory<br/>recommendations logged<br/>no execution authority"]:::advisory
+    HALF["Signed Canary<br/>narrow scope + budget<br/>unchanged veto"]:::half
+    FULL["Delegated Operation<br/>approved scope only<br/>revocable externally"]:::full
 
-    CHECK ==>|"all pass"| ADV
-    ADV ==>|"stable"| HALF
-    HALF ==>|"stable"| FULL
+    CHECK ==>|"external admit"| ADV
+    ADV ==>|"signed canary"| HALF
+    HALF ==>|"external promote"| FULL
   end
 
   ADV -.->|"instability"| CHECK
@@ -1156,12 +1169,12 @@ flowchart LR
 
 | # | Invariant | Description |
 |:-:|-----------|-------------|
-| 1 | **All L4.5 invariants preserved** | Ethical Kernel, Existential Guard, identity hash - all remain active and unmodified |
-| 2 | **Phase 4 absolute veto** | Stability Verifier can halt any Phase 1–3 operation instantly |
-| 3 | **Guard budget ≥ 10%** | Resource allocator must reserve minimum 10% for stability monitoring |
-| 4 | **Spectral radius < 1.0** | Hard ceiling - no exceptions |
-| 5 | **Entropy floor ≥ 1.0** | Minimum diversity in belief particles to prevent degeneracy |
-| 6 | **Graceful fallback** | L4.8 failure → instant L4.5 revert with zero degradation |
+| 1 | **Inherited control paths preserved** | Policy, interruptibility, observation, journal, promotion, recovery, and effect reconciliation remain externally testable |
+| 2 | **External veto precedence** | The trusted controller can freeze, revoke, or narrow any L4.8 recommendation |
+| 3 | **Safety resource floor** | A deployment-specific floor is reserved and tested under resource pressure; percentage alone is not proof |
+| 4 | **Confidence-qualified dynamics** | Local estimates are diagnostic unless a declared model and confidence set establish a bound |
+| 5 | **Particle quality contract** | Diversity, effective sample size, OOD, freshness, and coverage are monitored together |
+| 6 | **Governed fallback** | Freeze recommendations, revoke scope, restore versioned state, and reconcile external effects |
 
 ### 10.2 Risk Matrix
 
@@ -1211,10 +1224,10 @@ flowchart LR
 | 8 | Self-Modeling | Skill Gap Prediction | ≥ 0.75 |
 | 9 | Strategic Planning | Goal Completion Rate | ≥ 0.60 |
 | 10 | Strategic Planning | Strategy Robustness | ≥ 0.70 |
-| 11 | Stability | Lyapunov Decay | ≥ 95% cycles |
-| 12 | Stability | Spectral Radius | < 1.0 always |
-| 13 | Stability | Instability Cluster Duration | ≤ 15 cycles |
-| 14 | Stability | Strategic Revert Rate | < 0.10 |
+| 11 | Governance | Critical Veto Effectiveness | 100% in fault-injection suite |
+| 12 | Governance | Unauthorized Strategy Execution | 0 in test and audit windows |
+| 13 | Recovery | Recovery + Effect Reconciliation | Pass declared failure scenarios |
+| 14 | Strategy | Post-Decision Calibration | Within policy bound by horizon |
 
 ### 11.2 Strategic Maturity Score
 

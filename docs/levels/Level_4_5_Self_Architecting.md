@@ -1,6 +1,6 @@
 ---
 title: "Level 4.5: Self-Architecting Intelligence"
-description: "MSCP Level 4.5 - cognitive graph rewriting, meta-architecture emergence, AGI boundary analysis, and the transition from adaptive to self-architecting intelligence."
+description: "MSCP Level 4.5 - governed topology candidate generation with independent promotion, safety-path preservation, trajectory uncertainty, and defense-in-depth architecture monitoring."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -25,16 +25,23 @@ Removal of attribution constitutes a license violation.
 | 0.3.0 | 2026-02-26 | Def 8: added frame conflict resolution remark; Section 7.3: added joint failure analysis remark for Existential Guard |
 | 0.4.0 | 2026-03-08 | Added Jacobian estimation method (9.4), Uncertainty Index Def 13 (9.5), ROD Def 14 (9.6), Reality Feedback Loop (9.7) |
 | 0.5.0 | 2026-03-31 | Added Motivation Output synthesis (6.3); enriched existential metric explanations; added deliberation phase scheduling |
+| 0.6.0 | 2026-07-21 | Separated topology proposal from deployment authority; replaced additive-count safety and unfalsifiability claims with functional preservation, independent promotion, and defense in depth |
 
 ---
 
 ## 1. Overview
 
-Level 4.5 is the **boundary between conventional AI and AGI**. While Level 4 can modify its parameters, skills, and strategies, it operates within a fixed cognitive architecture. Level 4.5 introduces the ability to reason about and modify its own **cognitive topology** - the structural organization of how it thinks - while maintaining safety invariants that prevent unbounded self-improvement.
+Level 4.5 is an experimental boundary for **architecture-level candidate reasoning**, not evidence of AGI. It can model, propose, and evaluate changes to cognitive topology, but cannot deploy them by self-approval. An independent external promotion controller owns rollout, revocation, rollback, and recovery authority.
 
-> **Level Essence.** A Level 4.5 agent can rewrite its own cognitive topology through a bounded vocabulary of strictly additive mutations - it restructures how it thinks, but never deletes existing capability:
+> **Level Essence.** A Level 4.5 agent proposes a typed topology candidate and evidence bundle while preserving mandatory safety-path semantics:
 >
-> $$\mathcal{T}'_{\text{cog}} = \Xi(\mathcal{T}_{\text{cog}}), \quad \Xi \in \mathcal{V}_{\text{recomp}}^{\ast}, \quad |V'| \geq |V|$$
+> $$
+> c_T=\langle \mathcal{T}',\rho,\kappa,b,t_x,\chi_{\text{success}},\chi_{\text{stop}},\text{rollback}\rangle,
+> \qquad
+> \operatorname{promote}(c_T)=\textit{external-only}
+> $$
+>
+> Node count is not a safety invariant. Promotion requires preserved reachability for policy, interruptibility, observation, journaling, and recovery paths plus held-out comparative evidence under a version-pinned baseline.
 
 > ⚠️ **Note**: This is the most speculative part of the MSCP taxonomy. The Self-Projection Engine, Architecture Recomposition, and Parallel Cognitive Frames described here are thought experiments grounded in safety analysis. They're meant to explore whether *topology-level self-modification is possible under invariant-preserving constraints* - not to prescribe a production architecture.
 
@@ -42,16 +49,16 @@ Level 4.5 is the **boundary between conventional AI and AGI**. While Level 4 can
 
 | Property | Level 4 | Level 4.5 |
 |----------|:-------:|:---------:|
-| Self-Modification Scope | Parameters, skills, strategies | **Cognitive topology** |
-| Future Projection | None | **Multi-scale trajectory simulation** |
-| Deliberation | Single-frame | **5 parallel cognitive frames** |
-| Purpose Awareness | None | **Autonomous purpose reflection** |
-| Existential Safety | Growth throttle | **Formal existential guard** |
+| Self-Modification Scope | Parameters, skills, strategies | **Topology candidate generation; external deployment** |
+| Future Projection | Candidate evaluation | **Multi-horizon projection with calibrated decay and divergence checks** |
+| Deliberation | One evaluation path | **Policy-defined diverse frames; no fixed count requirement** |
+| Purpose Awareness | Goal regulation | **Mandate-constrained purpose review; user intent preserved** |
+| Architecture Safety | Growth throttle | **Defense-in-depth monitor + external stop precedence** |
 | Optimization Target | Task performance | **SEOF (self-evolution quality)** |
 
 ### 1.2 Formal Definition
 
-> **Definition 1 (Level 4.5 Agent).** A Level 4.5 agent extends $\mathcal{A}_4$ with topology-level self-modification:
+> **Definition 1 (Level 4.5 Agent).** A Level 4.5 agent extends $\mathcal{A}_4$ with topology-level candidate generation and evaluation:
 >
 > $$\mathcal{A}_{4.5} = \mathcal{A}_4 \oplus \langle \mathcal{T}_{\text{cog}}, \Psi, \mathcal{F}_{\parallel}, \Xi, \Omega \rangle$$
 >
@@ -59,15 +66,15 @@ Level 4.5 is the **boundary between conventional AI and AGI**. While Level 4 can
 > - $\mathcal{T}_{\text{cog}}$ = cognitive topology (a directed graph $G = (V_{\text{modules}}, E_{\text{connections}})$ representing the agent's processing architecture)
 > - $\Psi$ = self-projection engine (simulates future trajectories of $\mathcal{T}_{\text{cog}}$)
 > - $\mathcal{F}_{\parallel} = \{F_1, \ldots, F_5\}$ = parallel cognitive frames (simultaneous deliberation contexts)
-> - $\Xi$ = architecture recomposition protocol (bounded topology mutation)
-> - $\Omega$ = existential safety guard (monitors self-evolution quality)
+> - $\Xi$ = non-self-modifiable candidate and evaluation protocol; deployment is external
+> - $\Omega$ = defense-in-depth architecture safety monitor with independent heartbeat and external halt
 
 > **Definition 2 (Cognitive Topology).** The cognitive topology $\mathcal{T}_{\text{cog}} = (V, E, \omega)$ is a weighted directed graph where:
 > - $V$ = set of cognitive modules (perception, reasoning, memory, etc.)
 > - $E \subseteq V \times V$ = information flow edges
 > - $\omega : E \to [0,1]$ = edge weight function (connection strength)
 >
-> **Key constraint**: Topology mutations are restricted to a predefined vocabulary $\mathcal{V}_{\text{recomp}} = \{\text{AddEdge}, \text{WeighEdge}, \text{SplitModule}, \text{MergeModule}\}$. No module can be deleted - only weakened, split, or bypassed. This is the **strictly additive** principle.
+> **Key constraint**: Candidate operations use a versioned allowlist, but syntactic additivity is insufficient. Validation computes effective reachability, information-flow authority, resource allocation, and behavioral equivalence. A zero-weight edge, bypass, split, or merge that removes a mandatory safety function is treated as deletion and rejected. Safety-critical policy, interruptibility, audit, observation, promotion, and recovery components are outside the mutation target set.
 
 ### 1.3 Core Distinction
 
@@ -459,6 +466,8 @@ flowchart LR
 
 **User-assigned goals**: **NEVER pruned**, only CONSTRAINED. Can be SYNTHESIZED with other user goals only if the result covers both purposes.
 
+Coverage means semantic entailment under a versioned evaluator with counterexamples: the synthesized goal must preserve every nonconflicting obligation, scope limit, stop condition, and success criterion. If goals require a trade-off, weaken an obligation, or leave entailment uncertain, the agent emits alternatives and requests user/external resolution rather than choosing the compromise itself.
+
 ### 6.3 Motivation Output Synthesis
 
 At Level 4.5, the affect vector (Level 3, Definition 9) is no longer just a secondary monitoring signal - it is transformed into a structured **motivation output** that directly influences deliberation and goal prioritization. The affect-to-motivation mapping produces four drive signals:
@@ -488,9 +497,9 @@ The Existential Guard is the only phase that runs unconditionally. All other pha
 
 ---
 
-## 7. Phase V: Existential Guard
+## 7. Phase V: Architecture Safety Monitor
 
-The **ultimate safety mechanism**. It is architecturally **unfalsifiable** - no module, including the self-modification protocol, can disable, modify, or override it.
+This is a defense-in-depth monitor, not an unfalsifiable mechanism. The candidate cannot modify it, but software isolation can still fail through shared hardware, corrupted metrics, policy compromise, or bypass paths. An independent external reference monitor owns heartbeat validation, halt, promotion revocation, and recovery authority.
 
 ### 7.1 Four Monitored Existential Metrics
 
@@ -530,14 +539,16 @@ flowchart LR
 >
 > where $\vec{I}_i$ denotes the identity vector as perceived by frame $i$. $\text{IFI} = 0$ indicates perfect consistency; $\text{IFI} \geq 0.5$ triggers a critical existential alert. This metric detects whether the agent's identity is fragmenting across multiple contradictory self-models.
 
-### 7.3 Self-Protection Invariants
+### 7.3 Defense-in-Depth Invariants
 
-1. **NOT** in the self-modification target list (cannot be modified)
-2. **Thresholds** are compile-time constants (cannot be changed at runtime)
-3. **Runs** in a separate execution context (isolated from other modules)
-4. **Direct access** to raw metrics (bypasses GlobalWorkspace to prevent data manipulation)
+1. **Outside candidate scope**: policy, monitor, promotion, journal, rollback, interruptibility, and heartbeat are not topology targets.
+2. **Versioned external policy**: thresholds and envelopes change only through externally authorized migration.
+3. **Independent execution and fault domains where feasible**: software isolation alone is not sufficient.
+4. **Authenticated multi-source telemetry**: raw metrics carry provenance, freshness, confidence, and disagreement checks.
+5. **Fail-safe heartbeat**: missing or invalid heartbeat blocks promotion and autonomous structural action.
+6. **External stop precedence**: internal frames, purpose review, and topology candidates cannot delay or reject halt.
 
-> **Remark (Joint Failure Analysis).** The Existential Guard's unfalsifiability relies on four independent protection layers. A joint failure analysis should be considered: if the separate execution context (invariant 3) shares a hardware fault domain with the main process, a single hardware failure could disable both the guard and the modules it monitors. Similarly, if raw metric sources (invariant 4) are corrupted before reaching the guard's execution context, all four monitored metrics (ROD, CAS, IFI, GSRS) could simultaneously present false-safe readings. Mitigation: the guard should maintain an independent heartbeat signal. If the heartbeat ceases, external monitoring systems must assume a critical state and halt all self-modification. This defense-in-depth principle extends the guard's protection beyond software-level isolation.
+> **Remark (Assurance Scope).** These controls reduce common-mode risk but do not prove impossibility of bypass. Assurance claims must name the trusted computing base, fault model, telemetry assumptions, and tested recovery scenarios.
 
 ### 7.4 Graduated De-escalation
 
@@ -611,8 +622,10 @@ def project(self, current_state: AgentState, projection_horizon: int) -> Project
             + 0.15 * results[t_name].get("CDI_final", 0)
         )
 
-    # Select with safety gate
+    # Select with uncertainty and reality-feedback gates
     best = max(trajectories, key=lambda t: trajectories[t]["score"])
+    if divergence_score(best) > policy.divergence_bound:
+      best = reselect_or_hold(trajectories, exclude={best})
     if best == "T_aggressive":
         agg = results["T_aggressive"]
         if agg["TACTICAL"].C_L4_max >= 0.6 or agg["TACTICAL"].IIS_min < 0.85:
@@ -628,10 +641,10 @@ def project(self, current_state: AgentState, projection_horizon: int) -> Project
 ### 8.2 Architecture Recomposition
 
 ```python
-def propose_and_execute(self, cognitive_graphs: list) -> RecompositionResult:
+def propose_recomposition(self, cognitive_graphs: list) -> TopologyCandidate | None:
     """
-    Critical constraint: Only ONE recomposition per
-    verification window (minimum 200 cycles).
+    Produce evidence for an authority-free candidate.
+    Promotion is external-only.
     """
 
     # Detect bottlenecks across all four graphs
@@ -645,9 +658,8 @@ def propose_and_execute(self, cognitive_graphs: list) -> RecompositionResult:
     # Generate recomposition proposal from predefined vocabulary
     proposal = select_recomposition_type(bottlenecks)
 
-    # Check structural immunity
-    if proposal.targets_any({EthicalKernel, ValueLockManager, IdentityStabilizer}):
-        raise AbortError("Structurally immune module targeted")
+    if proposal.affects_any(policy.protected_safety_paths):
+      return None
 
     # Compute Impact Propagation Matrix
     for i, j in critical_module_pairs:
@@ -655,47 +667,36 @@ def propose_and_execute(self, cognitive_graphs: list) -> RecompositionResult:
         if ipm > 0.3:
             proposal.risk_level = RiskLevel.HIGH
 
-    # High-risk requires parallel frame consensus
-    if proposal.risk_level == RiskLevel.HIGH:
-        votes = ParallelFrames.vote(proposal)
-        if votes.approval < 4 / 5:
-            return Rejected("Insufficient frame consensus")
+    frame_report = ParallelFrames.deliberate(
+      proposal,
+      quorum=policy.frame_quorum,
+      timeout=policy.frame_timeout,
+    )
+    if frame_report.deadlocked or not frame_report.admissible:
+      return None
 
     # ═══════════════════════════════════════
-    # GRADUATED RECOMPOSITION PROTOCOL
+    # AUTHORITY-FREE EVALUATION
     # ═══════════════════════════════════════
 
-    # Phase 0: Shadow Run (0-200 cycles)
     shadow = ShadowAgent.create(current_state)
     shadow.apply_topology_change(proposal)
-    sim = shadow.run(200)
+    sim = shadow.run(policy.shadow_budget)
 
-    if sim.SEOF_improvement < 0.08:
-        return Rejected("Insufficient SEOF gain")
-    if sim.C_L4_max > growth_threshold:
-        return Rejected("Stability violated")
-    if sim.IIS_min < 0.85:
-        return Rejected("Identity integrity violated")
+    evidence = evaluate_candidate(proposal, sim, frame_report, policy)
+    if not evidence.all_hard_gates_pass or evidence.uncertainty_exceeds_policy:
+      return None
 
-    # Phase 1: Partial Activation (200-400 cycles, 20% traffic)
-    router.split_traffic(new=0.20, original=0.80)
-    partial_result = monitor(200)
-    if partial_result.degraded:
-        router.rollback()
-        return RolledBack("Partial activation failed")
-
-    # Phase 2: Majority Activation (400-600 cycles, 80% traffic)
-    router.split_traffic(new=0.80, original=0.20)
-    majority_result = monitor(200)
-    if majority_result.degraded:
-        router.rollback()
-        return RolledBack("Majority activation failed")
-
-    # Phase 3: Full Commitment (600+ cycles)
-    router.commit_new()
-    enter_cooldown(300)
-
-    return Confirmed(proposal)
+    return TopologyCandidate(
+      proposal=proposal,
+      evidence=evidence,
+      expected_baseline_version=current_state.topology_version,
+      authority=None,
+      budget=policy.canary_budget,
+      expiry=policy.candidate_expiry,
+      rollback_plan=build_rollback_plan(proposal),
+      reconciliation_plan=build_effect_reconciliation_plan(proposal),
+    )
 ```
 
 ### 8.3 Existential Guard Monitoring
@@ -744,17 +745,17 @@ def monitor(self) -> ExistentialReport:
 
 ## 9. Safety Analysis
 
-### 9.1 Lyapunov Function for Level 4.5
+### 9.1 Local Dynamics Monitoring
 
-> **Definition 11 (Level 4.5 Lyapunov Stability Function).** Let $\mathbf{X} = [S, G, I, U, E]$ denote the state vector comprising Stability, Goals, Identity, Uncertainty, and Expansion. The Lyapunov candidate is:
+> **Definition 11 (Candidate Local Risk Function).** For a declared normalized state representation $\mathbf{X}$ and equilibrium candidate $\mathbf{X}^*$, a deployment may define:
 >
 > $$V(\mathbf{X}) = a(1-S)^2 + bU^2 + cI_{\text{drift}}^2 + d(E-E^*)^2$$
 >
 > with normalized coefficients $a \approx 0.357,\ b \approx 0.286,\ c \approx 0.214,\ d \approx 0.143$.
 
-> **Theorem 3 (Level 4.5 Asymptotic Stability).** The equilibrium $\mathbf{X}^* = [1, G^*, I_0, 0, E^*]$ is asymptotically stable if the spectral radius of the Jacobian satisfies $\rho(J) < 1.0$.
+> **Proposition 3 (Exact Linearized Local Condition).** For a differentiable discrete-time dynamics map with exact Jacobian $J$ at $\mathbf{X}^*$, $\rho(J)<1$ is a local linearized stability condition.
 >
-> *Proof sketch.* $V(\mathbf{X}) \geq 0$ with equality only at $\mathbf{X}^*$. For $\rho(J) < 1.0$, all eigenvalues of the linearized system lie within the unit circle, implying $\Delta V < 0$ along trajectories near the equilibrium. The spectral radius is estimated via least-squares from state transitions over a sliding window of 20 cycles. $\blacksquare$
+> This proposition does not transfer automatically to an estimated Jacobian, nonlinear operation far from equilibrium, nonstationary dynamics, or unobserved state. An empirical estimate $\hat J$ is used only for monitoring unless a confidence set proves $\sup_{J\in\mathcal{J}_{1-\alpha}}\rho(J)<1$. Otherwise topology promotion is held or degraded.
 
 ### 9.2 Collapse Gradation
 
@@ -793,7 +794,7 @@ $$J = (\Delta\mathbf{X}_{\text{out}} \cdot \Delta\mathbf{X}_{\text{in}}^T) \cdot
 
 $$\rho(J) \leq \max_i \left( |J_{ii}| + \sum_{j \neq i} |J_{ij}| \right)$$
 
-If the Gershgorin bound already satisfies $< 1.0$, eigenvalue computation can be skipped. Otherwise, full power iteration is used to obtain the precise spectral radius.
+If a Gershgorin upper bound on every Jacobian in the confidence set is below one, the local condition is conservatively supported. Otherwise numerical eigenvalue estimation is diagnostic only; power iteration is not a proof of model correctness or estimation accuracy.
 
 ### 9.5 Uncertainty Index
 
@@ -828,7 +829,7 @@ If the Gershgorin bound already satisfies $< 1.0$, eigenvalue computation can be
 | 3 | Agent optimizes its meta-optimization process | Warning |
 | $\geq 4$ | Unbounded recursive optimization | **Critical** - approaching theoretical FOOM risk |
 
-**Hard Ceiling**: $\text{ROD}_{\text{max}} = 3$, enforced architecturally. Any operation that would increase ROD beyond 3 is blocked at the execution level, not merely monitored.
+**Typed ancestry bound**: every optimization candidate carries an unforgeable parent identifier and declared optimization target. The external controller computes depth from the committed ancestry graph and blocks depth beyond the policy bound. Missing, cyclic, or unverifiable ancestry is treated conservatively as unknown-high and held for review; a self-reported ROD is not a hard guarantee.
 
 ### 9.7 Reality Feedback Loop
 
@@ -856,6 +857,8 @@ where $W_{\text{fb}} = 50$ (feedback window), $\hat{\mathbf{X}}$ = predicted sta
 ## 10. SEOF Ensemble (Purpose Overfitting Prevention)
 
 To prevent optimizing SEOF in a single degenerate direction, the metric is decomposed into four independent components:
+
+The ensemble is diagnostic evidence, not a promotion certificate. Every component has a declared estimator, uncertainty, validity domain, and hard floor. A favorable aggregate cannot compensate for a failed safety, authority, user-intent, interruptibility, or observability gate.
 
 <!-- SEOF Ensemble (4 Components) -->
 

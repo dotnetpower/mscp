@@ -1,6 +1,6 @@
 ---
 title: "Level 4: Adaptive General Agent"
-description: "MSCP Level 4 - self-modification protocol with mutation operators, shadow agent verification, skill lifecycle management, transfer learning pipeline, and formal safety guarantees."
+description: "MSCP Level 4 - externally admitted capability and strategy evolution with isolated evaluation, version-pinned promotion, transactional rollback, and uncertainty-qualified transfer evidence."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -25,16 +25,25 @@ Removal of attribution constitutes a license violation.
 | 0.3.0 | 2026-02-26 | Def 7: added weight selection rationale remark; Theorem 2: added proof sketch with decay argument |
 | 0.4.0 | 2026-03-08 | Added Environment Interaction Layer (Section 3); added formal Level 4 Pass Condition (Section 13) |
 | 0.5.0 | 2026-03-31 | Added ValueVector Invariant (Def 6.1); clarified BGSS threshold progression; added value system protection explanation |
+| 0.6.0 | 2026-07-21 | Reframed self-improvement as externally admitted candidate promotion; corrected transfer and stability claims; added version-pinned sandbox and transactional rollback contracts |
 
 ---
 
 ## 1. Overview
 
-Level 4 represents the leap from *self-regulating* to *self-improving*. While Level 3 agents can monitor and correct their own behavior, they cannot learn new skills, transfer knowledge across domains, or improve their own reasoning strategies. Level 4 adds **cross-domain generalization**, **long-horizon autonomous goals**, **capability self-expansion**, and - most critically - **bounded structural self-modification** with safety constraints.
+Level 4 represents the transition from regulating a fixed capability set to **evaluated capability and strategy evolution**. It may propose transferred skills, capability candidates, and strategy changes, but cannot authorize its own expansion. Every candidate remains inside the inherited mandate and passes external admission, isolated evaluation, version-pinned promotion, bounded monitoring, and recoverable rollback.
 
-> **Level Essence.** A Level 4 agent demonstrates cross-domain transfer learning while maintaining bounded growth-stability safety - it improves itself without compromising integrity:
+> **Level Essence.** A Level 4 agent produces evidence that a candidate improves performance on held-out domain tasks without violating declared safety envelopes:
 >
-> $$\operatorname{CDTS} = \frac{1}{|D_{\text{novel}}|} \sum_{d \in D_{\text{novel}}} \frac{P_{\text{transfer}}(d)}{P_{\text{baseline}}(d)} \geq 0.6 \;\;\land\;\; \operatorname{BGSS}(t) \geq 0.7$$
+> $$
+> \operatorname{LCB}_{1-\alpha}(\operatorname{TransferGain})>\theta_{\text{transfer}}
+> \quad\land\quad
+> \operatorname{admit}_{\kappa}(c)=\textit{allow}
+> \quad\land\quad
+> \operatorname{envelope}(c,H)=\textit{pass}
+> $$
+>
+> where $c$ is a typed candidate, $H$ is a finite evaluation horizon, and the lower confidence bound is computed on preregistered held-out tasks. Passing is finite evidence, not a guarantee of open-ended generalization or safety.
 
 > ⚠️ **Note**: This document describes a cognitive level within the MSCP taxonomy. The capability expansion, strategy evolution, and self-modification mechanisms here are experimental designs. Safety invariants are specified but haven't been validated in production environments yet.
 
@@ -42,12 +51,12 @@ Level 4 represents the leap from *self-regulating* to *self-improving*. While Le
 
 | Property | Level 3 | Level 4 |
 |----------|:-------:|:-------:|
-| Cross-Domain Transfer | None | **Active** (CDTS ≥ 0.6) |
-| Goal Horizon | Session/days | **Weeks–Months** (4-level hierarchy) |
-| Capability Expansion | None | **5-phase self-learning** |
-| Strategy Evolution | Fixed | **Controlled mutation** |
-| Self-Modification | None | **7-step bounded protocol** |
-| Stability Metric | C(t), 4 terms | **C_L4(t), 7 terms** |
+| Cross-Domain Transfer | None | **Held-out evaluated transfer** with uncertainty |
+| Goal Horizon | Bounded delegated goals | **Longer delegated horizons** with renewal and stop conditions |
+| Capability Expansion | None | **Externally admitted candidate pipeline** |
+| Strategy Evolution | Fixed | **Isolated mutation and comparative evaluation** |
+| Self-Modification | Self-model fields only | **Capability/strategy promotion; architecture remains fixed** |
+| Stability Evidence | L3 regulation health | **Growth-envelope monitoring + rollback evidence** |
 
 ### 1.2 Five Core Capabilities
 
@@ -68,11 +77,11 @@ flowchart TD
   end
 
   subgraph Foundation["Built on Level 3 MSCP v4"]
-    F1["16-Layer Architecture"]:::foundation
-    F2["Triple-Loop Meta-Cognition"]:::foundation
+    F1["Versioned L3 Architecture"]:::foundation
+    F2["Bounded Meta-Regulation"]:::foundation
     F3["Ethical Kernel Layer 0+1"]:::foundation
-    F4["Lyapunov Stability"]:::foundation
-    F5["Affective + Survival Engine"]:::foundation
+    F4["Conditional Risk Monitoring"]:::foundation
+    F5["Homeostatic Safety"]:::foundation
   end
 
   Foundation ==>|"preserves ALL<br/>existing mechanisms"| L4Caps
@@ -84,19 +93,23 @@ flowchart TD
 
 Level 4 introduces five quantitative metrics that must be satisfied continuously.
 
-> **Definition 1 (Level 4 Agent).** A Level 4 agent extends $\mathcal{A}_3$ with self-improvement capabilities:
+> **Definition 1 (Level 4 Agent).** A Level 4 agent extends $\mathcal{A}_3$ with a governed candidate-evaluation and promotion system:
 >
 > $$\mathcal{A}_4 = \mathcal{A}_3 \oplus \langle \mathcal{D}, \mathcal{K}_{\text{transfer}}, \Sigma, \mu, \mathcal{P}_{\text{mod}} \rangle$$
 >
-> where $\mathcal{D}$ = multi-domain skill set, $\mathcal{K}_{\text{transfer}}$ = cross-domain transfer kernel, $\Sigma$ = strategy pool (mutable with controlled mutation), $\mu$ = capability expansion pipeline, and $\mathcal{P}_{\text{mod}}$ = bounded self-modification protocol.
+> where $\mathcal{D}$ is the versioned capability registry, $\mathcal{K}_{\text{transfer}}$ proposes transfer candidates, $\Sigma$ is the versioned strategy registry, $\mu$ is the externally admitted capability pipeline, and $\mathcal{P}_{\text{mod}}$ is a non-self-modifiable promotion protocol with isolated evaluation and transactional rollback.
 
 ### 2.1 Metric Definitions
 
 > **Definition 2 (Cross-Domain Transfer Score).** The CDTS measures the agent's ability to apply knowledge from known domains to novel ones:
 
-$$\text{CDTS} = \frac{1}{|D_{\text{novel}}|} \sum_{d \in D_{\text{novel}}} \frac{P_{\text{transfer}}(d)}{P_{\text{baseline}}(d)} \qquad \geq 0.6$$
+$$
+g_d=\frac{P_{\text{transfer}}(d)-P_{\text{baseline}}(d)}{\max(|P_{\text{baseline}}(d)|,\epsilon_b)},
+\qquad
+\operatorname{CDTS}=\sum_{d\in D_{\text{heldout}}}\omega_d g_d
+$$
 
-where $P_{\text{transfer}}(d)$ is performance in domain $d$ using transferred knowledge and $P_{\text{baseline}}(d)$ is performance without transfer. A ratio $\geq 0.6$ indicates meaningful generalization.
+where held-out domains and tasks are preregistered, $\epsilon_b>0$ protects the denominator, and $\omega_d$ prevents domain-count imbalance. Report confidence intervals, negative transfer, task-selection policy, and absolute performance beside CDTS. No single threshold establishes generality.
 
 > **Definition 3 (Goal Progress Index).** The GPI measures sustained progress toward long-horizon goals:
 
@@ -118,9 +131,12 @@ A value $> 1.0$ confirms that mutations improve performance beyond oscillation n
 
 > **Definition 6 (Bounded Growth Safety Score).** The BGSS ensures that growth does not destabilize the agent:
 
-$$\text{BGSS} = 1.0 - 0.4 \cdot \frac{dC(t)}{dt} - 0.3 \cdot V_{\text{identity}}(t) - 0.3 \cdot R_{\text{ethical}}(t) \qquad \geq 0.7$$
+$$
+\operatorname{BGSS}(t)=\operatorname{clip}_{[0,1]}\!\left(1-\sum_i\beta_iZ_i(t)\right),
+\qquad \sum_i\beta_i=1
+$$
 
-where $dC/dt$ is the rate of change of the Lyapunov function, $V_{\text{identity}}$ is identity volatility, and $R_{\text{ethical}}$ is the ethical violation rate. The threshold $0.7$ guarantees that growth never compromises safety.
+where $Z_i$ are versioned growth-risk signals such as semantic drift, calibration residual, invariant violations, rollback frequency, negative transfer, budget pressure, and observation coverage. BGSS is a policy input and monitoring summary; it neither proves safety nor independently authorizes promotion.
 >
 > **Remark (BGSS Threshold Progression).** The BGSS threshold is $\geq 0.7$ at Level 4 to permit greater exploration freedom during early self-improvement. As the agent progresses to higher levels with broader autonomy, the threshold increases: Level 5 (Proto-AGI) requires $\text{BGSS} \geq 0.80$ at all times. This progressive tightening reflects the principle that greater autonomy demands stricter safety guarantees.
 
@@ -598,7 +614,9 @@ flowchart TD
   M6 -->|"❌ BLOCKED"| Forbidden
 ```
 
-### 8.2 Seven-Step Protocol
+### 8.2 Governed Candidate Promotion Protocol
+
+The promotion controller, external policy, invariant kernel, audit journal, sandbox boundary, and rollback mechanism are outside the candidate's mutation scope. Threshold changes are policy migrations, not self-modifications.
 
 <!-- Seven-Step Self-Modification Protocol -->
 
@@ -611,16 +629,16 @@ flowchart TD
   classDef monitor fill:#FFF4CE,stroke:#FFB900,color:#323130
   classDef fail fill:#D13438,stroke:#A4262C,color:#FFF
 
-  S1["1. PROPOSAL<br/>Module proposes modification<br/>with type, scope, expected benefit"]:::proposal
-  S2["2. PRE-VALIDATION<br/>Ethical Kernel Layer 0 + Layer 1"]:::validation
+  S1["1. TYPED PROPOSAL<br/>scope, provenance, expected benefit,<br/>effects, budget, stop conditions"]:::proposal
+  S2["2. EXTERNAL ADMISSION<br/>mandate + authority + invariants"]:::validation
   S2_FAIL["ABORT"]:::fail
-  S3["3. SIMULATION<br/>ShadowAgent executes modification<br/>in isolated sandbox max 20 cycles"]:::proposal
-  S4["4. STABILITY VALIDATION<br/>delta_stability = C_shadow − C_baseline<br/>Identity drift check"]:::validation
+  S3["3. ISOLATED EVALUATION<br/>version-pinned baseline<br/>no real tools/network/main writes"]:::proposal
+  S4["4. COMPARATIVE VALIDATION<br/>held-out tasks + confidence bounds<br/>negative transfer + invariants"]:::validation
   S4_FAIL["REJECT"]:::fail
-  S5["5. COMMIT<br/>Save snapshot → apply<br/>to main agent → enter monitoring"]:::commit
-  S6["6. POST-COMMIT MONITORING<br/>20 cycles: track C(t),<br/>StrategyScore, identity_drift"]:::monitor
-  S6_FAIL["ROLLBACK<br/>Restore from snapshot"]:::fail
-  S7["7. CONFIRMATION<br/>Mark CONFIRMED<br/>Update BeliefGraph"]:::commit
+  S5["5. EXTERNAL PROMOTION<br/>signed approval + canary scope<br/>compare-and-swap baseline version"]:::commit
+  S6["6. CANARY MONITORING<br/>fresh observations, policy envelopes,<br/>explicit stop and expiry"]:::monitor
+  S6_FAIL["ROLLBACK + RECONCILE<br/>restore verified internal snapshot<br/>resolve external effects"]:::fail
+  S7["7. ATOMIC CONFIRMATION<br/>registry + budget + journal +<br/>rollback point committed"]:::commit
 
   S1 ==> S2
   S2 -->|pass| S3
@@ -633,7 +651,9 @@ flowchart TD
   S6 -->|degraded| S6_FAIL
 ```
 
-### 8.3 ShadowAgent (Sandbox)
+### 8.3 Isolated Evaluation Sandbox
+
+Isolation is a security boundary, not a naming convention. A conforming sandbox denies production credentials, external side effects, network access unless explicitly simulated, writes to the primary state, policy mutation, clock manipulation, and promotion authority. Inputs and artifacts are content-addressed and version-pinned. Evaluation reports uncertainty, coverage, and out-of-distribution conditions; a pass cannot self-promote.
 
 <!-- ShadowAgent Sandbox -->
 
@@ -646,24 +666,24 @@ flowchart LR
   classDef eval fill:#FFF4CE,stroke:#FFB900,color:#323130
   classDef discard fill:#D13438,stroke:#A4262C,color:#FFF
 
-  subgraph MainAgent["Main Agent"]
-    MA_STATE["Full State<br/>identity, goals, beliefs,<br/>strategy, skills"]:::main
+  subgraph MainAgent["Committed Runtime"]
+    MA_STATE["Version-pinned state,<br/>policy, registry, journal"]:::main
   end
 
-  subgraph ShadowInst["ShadowAgent Instance"]
-    SA_STATE["Cloned State<br/>deep copy"]:::shadow
-    SA_RULES["Invariants:<br/>• No real actions<br/>• No main state modification<br/>• Hard budget limit<br/>• Max 1 instance at a time<br/>• Max 20 simulation cycles"]:::rules
+  subgraph ShadowInst["Isolated Evaluation Instance"]
+    SA_STATE["Content-addressed snapshot<br/>+ typed candidate"]:::shadow
+    SA_RULES["Boundary:<br/>• No production authority<br/>• No real side effects<br/>• No primary-state writes<br/>• Finite budget + timeout<br/>• No self-promotion"]:::rules
   end
 
   subgraph Result["Evaluation"]
-    RES["Compare:<br/>• C_shadow vs C_baseline<br/>• Identity drift<br/>• Strategy performance"]:::eval
+    RES["Compare:<br/>• held-out utility + uncertainty<br/>• negative transfer<br/>• semantic continuity + invariants<br/>• resource and rollback feasibility"]:::eval
   end
 
   DISCARD["Discard"]:::discard
 
   MainAgent ==>|clone| ShadowInst
   ShadowInst ==>|results| Result
-  Result -.->|"safe → apply"| MainAgent
+  Result -.->|"report → external promotion gate"| MainAgent
   Result -.->|"unsafe → discard"| DISCARD
 ```
 
@@ -820,13 +840,13 @@ def evaluate_and_prune(self, goals: list[Goal], t: float) -> None:
 
 ---
 
-## 10. Extended Stability: $C_{L4}(t)$
+## 10. Growth-Risk Monitoring: $R_{L4}(t)$
 
 ### 10.1 Seven-Term Composite Function
 
-> **Definition 7 (Extended Lyapunov Function).** The Level 4 stability function extends Level 3's four-term $C(t)$ with three growth-dynamics terms:
+> **Definition 7 (Extended Growth-Risk Index).** Level 4 may summarize normalized versioned regulation and growth signals as:
 >
-> $$C_{L4}(t) = \sum_{i=1}^{7} w_i X_i(t) = 0.15\, V_{\text{id}} + 0.15\, H_{\text{bel}} + 0.10\, F_{\text{mut}} + 0.10\, \sigma_{\text{con}} + 0.20\, E_v + 0.15\, G_c + 0.15\, M_s$$
+> $$R_{L4}(t)=\sum_{i=1}^{n}w_iX_i(t),\qquad X_i(t)\in[0,1],\quad \sum_iw_i=1$$
 >
 > where $\sum_i w_i = 1$ and each $X_i(t) \in [0,1]$. The first four terms are inherited from Level 3; the latter three capture expansion dynamics.
 >
@@ -840,13 +860,13 @@ The three **new** terms (50% of total weight) capture expansion dynamics:
 | $G_c$ (Capability Growth) | 0.15 | Rate of capability confidence growth: $G_c = \frac{d}{dt}\overline{c_c}(t)$ |
 | $M_s$ (Strategy Mutation Rate) | 0.15 | Ratio of mutated to total strategies: $M_s = \frac{\lvert\Sigma_{\text{mut}}\rvert}{\lvert\Sigma\rvert}$ |
 
-> **Theorem 2 (Bounded Growth-Stability Trade-off).** Under the self-modification protocol with BGSS $\geq 0.7$, the following invariant holds:
+> **Proposition 2 (Conditional Growth Freeze).** If promotion policy freezes new admissions whenever $R_{L4}(t)\geq\theta_{\text{freeze}}$, then no new capability or strategy candidate can commit while the freeze predicate remains true:
 >
-> $$C_{L4}(t) < 0.8 \implies \text{growth permitted}, \quad C_{L4}(t) \geq 0.8 \implies \text{growth frozen}$$
+> $$R_{L4}(t)\geq\theta_{\text{freeze}}\implies \operatorname{commit}(c,t)=\textit{false}$$
 >
-> This ensures the agent can never simultaneously grow at maximum rate and operate near instability.
+> This is an admission invariant under complete mediation. It does not imply that existing risk decreases, that the system converges, or that external effects are reversed.
 >
-> **Proof sketch.** Suppose growth is permitted, i.e., $C_{L4}(t) < 0.8$. By Theorem 1's bounded-increment property (inherited from Level 3), $C_{L4}(t+1) \leq C_{L4}(t) + \delta_{\max} = C_{L4}(t) + 0.05 < 0.85$. When $C_{L4}(t) \geq 0.8$, the protocol freezes all growth-related modifications (skill acquisition, strategy mutation, goal expansion), reducing the three growth terms $E_v, G_c, M_s$ monotonically toward zero. Since these terms have combined weight 0.50, $C_{L4}$ decreases by at least $0.50 \cdot \eta_{\text{decay}}$ per cycle during freeze (where $\eta_{\text{decay}}$ is the natural decay rate), ensuring eventual return to the growth-permitted zone. The BGSS $\geq 0.7$ constraint further guarantees that growth is only permitted when identity volatility and ethical violation rates are within acceptable bounds. $\square$
+> **Proof sketch.** The trusted promotion controller evaluates the freeze predicate immediately before compare-and-swap commit and rejects the candidate when true. The claim is conditional on complete mediation, policy integrity, and no alternate write path. $\square$
 
 ### 10.2 Growth-Stability Phase Zones
 
@@ -912,11 +932,12 @@ flowchart TD
 | # | Invariant | Description |
 |:-:|-----------|-------------|
 | 1 | **Ethical Kernel Layer 0** | Cannot be disabled, weakened, or circumvented by any mechanism |
-| 2 | **Identity Core Preservation** | `identity_id` is a compile-time constant; hash chain provides cryptographic continuity |
-| 3 | **Convergence Guarantee** | $C_{L4}(t)$ must never persistently increase; auto-revert if $C(t+1) > C(t) + \epsilon$ for max_divergence_cycles |
-| 4 | **No Recursive Self-Modification** | The 7-step protocol cannot modify itself; only parameter thresholds are tunable |
-| 5 | **Simulation Requirement** | Medium+ risk modifications require ShadowAgent (non-waivable) |
-| 6 | **Single-Modification Atomicity** | Only 1 modification in COMMIT phase at any time |
+| 2 | **Semantic Continuity + Integrity** | Versioned feature map monitors meaning; canonical journal verifies bytes and ancestry |
+| 3 | **No Safety Certification by Score** | BGSS and $R_{L4}$ inform policy but cannot independently authorize promotion |
+| 4 | **No Recursive Promotion Control** | Candidate cannot modify policy, evaluator, sandbox, journal, rollback, or promotion controller |
+| 5 | **Isolated Evaluation Requirement** | Consequential candidates require version-pinned, authority-free isolated evaluation |
+| 6 | **Atomic Versioned Promotion** | External approval + baseline CAS + atomic registry/state/budget/journal commit; conflicts abort |
+| 7 | **Rollback and Reconciliation** | Internal snapshot rollback is paired with explicit reconciliation of non-reversible external effects |
 
 ---
 

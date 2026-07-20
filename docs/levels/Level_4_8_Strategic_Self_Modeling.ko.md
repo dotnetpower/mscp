@@ -1,6 +1,6 @@
 ---
 title: "레벨 4.8: 전략적 자기모델링"
-description: "MSCP 레벨 4.8 - 내부 자기모델 구축, 시뮬레이션을 통한 전략적 계획, 반사실적 추론, 마음 이론 능력, 예측적 자기인식."
+description: "MSCP 레벨 4.8 - 불확실성을 분해한 세계·역량 모델링, gate-before-score multi-horizon planning, 강건한 시나리오 비교, 철회 가능한 전략 권고."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -24,16 +24,23 @@ Removal of attribution constitutes a license violation.
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (1.2 to 1.3); added graduated re-enablement protocol (Section 6.4) with persistent veto tracking |
 | 0.6.0 | 2026-06-14 | Mermaid 라벨 `레벨 4.5 (25개 모듈)`을 `레벨 4.5 (자기설계 코어)`로 추상화 — 일시적인 모듈 수를 계층 다이어그램이 더 이상 박아넣지 않도록 조정 |
+| 0.7.0 | 2026-07-21 | Added strategy admission gates, uncertainty decomposition, horizon alignment, observability contracts, and qualified stability/counterfactual claims |
 
 ---
 
 ## 1. 개요
 
-레벨 4.8은 레벨 4.5의 자기설계 능력을 **구조화된 세계 모델링**, **보정된 내성적 자기평가**, 그리고 자원 제약 하의 **장기 전략적 계획**으로 확장합니다. 에이전트는 이제 외부 변화를 예측하고, 자신의 능력과 한계를 이해하며, 다중 시간 범위에 걸쳐 결정을 최적화할 수 있습니다 - 이 모든 것은 이전 레벨에서 확립된 모든 안정성 불변량을 보존하면서 이루어집니다.
+레벨 4.8은 레벨 4.5를 **확률적 세계·역량 모델**, 보정된 불확실성, 위임된 제약 아래 multi-horizon 전략 권고로 확장합니다. 후보 전략을 비교하지만 optimality를 증명하거나, 증거 없이 hidden state를 추론하거나, 높은 점수만으로 실행 권한을 얻지 않습니다.
 
-> **Level Essence.** 레벨 4.8 에이전트는 확률적 세계 모델과 보정된 자기 능력 인식을 바탕으로 기대 효용을 최대화하여 최적 전략을 선택:
+> **Level Essence.** 레벨 4.8 에이전트는 외부 정책, 권한, 불확실성, 관측 가능성, 자원, horizon, 가역성, 상속 안전 게이트를 먼저 충족한 전략 중에서만 강건한 후보를 선택합니다:
 >
-> $$s^* = \arg\max_{s \in \Sigma_{\text{compare}}} \mathbb{E}\bigl[U(s) \mid \mathcal{W}_{\text{prob}},\; \mathcal{M}_{\text{cap}}\bigr]$$
+> $$
+> \Sigma_{\text{admit}}=\{s\in\Sigma:\operatorname{gate}_{\kappa}(s)=\textit{allow}\},
+> \qquad
+> s^*=\arg\max_{s\in\Sigma_{\text{admit}}}\operatorname{RobustValue}(s)
+> $$
+>
+> $\Sigma_{\text{admit}}=\emptyset$이면 강제 선택 대신 보류, 명확화, 증거 수집, 외부 검토를 반환합니다.
 
 > ⚠️ **연구 참고**: 레벨 4.8은 에이전트 인지에서 상당한 도약을 나타냅니다 - 자기설계에서 전략적 자기인식으로의 전환입니다. 여기에 설명된 메커니즘은 탐색적 설계입니다. 이는 프로덕션 환경에서 검증되지 않았으며 공학 사양이 아닌 연구 가설로 취급되어야 합니다.
 
@@ -47,19 +54,19 @@ Removal of attribution constitutes a license violation.
 > - $\mathcal{W}_{\text{prob}} = \langle \mathbf{E}, \mathcal{B}, \mathcal{C}_{\text{causal}} \rangle$ - 확률적 세계 모델 (환경 상태, 신념 분포, 인과 그래프)
 > - $\mathcal{M}_{\text{cap}} = \langle \mathbf{C}, \phi_{\text{cal}}, \mathcal{U} \rangle$ - 메타인지적 자기모델 (능력 행렬, 보정 함수, 미지 영역 레지스트리)
 > - $\mathcal{S}_{\text{strat}} = \langle \mathcal{G}_{\text{stack}}, \Sigma_{\text{compare}}, \mathcal{R}_{\text{alloc}} \rangle$ - 전략적 계획 계층 (목표 스택, 전략 비교기, 자원 할당기)
-> - $\mathcal{V}_{\text{stab}}$ - 모든 단계에 대한 절대적 거부권을 가진 안정성 검증기.
+> - $\mathcal{V}_{\text{stab}}$ - trusted external/inherited admission verifier; veto할 수 있지만 $\kappa$ 밖의 권한을 부여할 수 없음.
 >
-> 엄격히 가산적인 아키텍처는 다음을 보장합니다: $\forall\, m \in \mathcal{A}_{4.5} : \mathcal{A}_{4.8} \text{ never modifies } m$.
+> 레벨 4.8은 커밋된 레벨 4.5 아키텍처·정책에 write authority가 없습니다. 간접적 resource starvation도 상속 safety path를 기능적으로 비활성화할 수 있으므로 자원 할당과 전략 권고 자체를 게이트합니다.
 
 ### 1.2 정의 속성
 
 | 속성 | 레벨 4.5 | 레벨 4.8 |
 |------|:--------:|:--------:|
-| 외부 인식 | 제한된 환경 모델 | **확률적 신념 분포 + 인과적 세계 모델** |
-| 자기 지식 | 암묵적 (SEOF를 통해) | **명시적 능력 행렬 + 약점 매핑** |
+| 외부 인식 | 제한된 환경 모델 | **epistemic/aleatoric/OOD/freshness 메타데이터를 가진 확률 신념** |
+| 자기 지식 | 명시적 scoped self-model | **보정·abstention을 가진 역량 추정** |
 | 계획 수평선 | 전략 수명주기 | **다중 수평선: 전술적 / 운영적 / 전략적** |
 | 위험 평가 | 성장 조절기 | **정량화된 위험 노출 + 자원 고갈 예측** |
-| 의사결정 | SEOF 기반 | **지연 보상을 포함한 다중 시나리오 전략 비교** |
+| 의사결정 | SEOF 기반 | **gate-before-score 강건 시나리오 비교** |
 
 ### 1.3 네 가지 핵심 단계
 
@@ -94,9 +101,9 @@ flowchart TD
 
 레벨 4.8은 모든 MSCP 사이클마다 실행되지 않습니다. 하위 메커니즘(L3 안정성, L4 자기수정, L4.5 숙고)이 전략적 평가 사이에 충분한 데이터를 축적할 수 있도록 **감소된 빈도**로 동작합니다:
 
-$$\text{L4.8 사이클 간격} = 10 \text{ L3 사이클}$$
+$$\text{L4.8 assessment schedule}=\operatorname{policy}(\text{freshness},\text{risk},\text{budget},\text{event})$$
 
-즉, 핵심 MSCP 예측-행동-비교-갱신 루프(레벨 3, 정의 2)가 10회 반복될 때마다 레벨 4.8은 5단계 평가를 1회 수행합니다. 이 간격은 (적응적이지 않고) 고정값으로, 활동량이 많은 시기에 전략 계층이 과도한 계산 자원을 소모하지 않도록 합니다.
+스케줄은 minimum/maximum cadence와 event trigger로 제한합니다. stale observation, high-impact decision, calibration drift, OOD evidence는 더 이른 평가를 강제할 수 있고, 낮은 예산은 비필수 계획을 연기할 수 있지만 상속 safety check는 연기할 수 없습니다.
 
 **단계 간 통합**은 EMIT 경계에서 일어납니다: 단계 5는 세계 모델 신념(단계 1), 자기평가 결과(단계 2), 전략 권고(단계 3), 안정성 검증(단계 4)을 단일 `L48CycleOutput` 구조로 모읍니다. 이 출력은 발행되면 불변이며, 후속 L3 사이클이 이미 완료된 L4.8 평가를 소급 수정할 수 없습니다.
 
@@ -138,7 +145,7 @@ flowchart LR
     L48D["안정성 검증기"]:::l48
   end
 
-  FALLBACK["🔄 우아한 폴백<br/><br/>L4.8 모듈이<br/>불안정을 유발하면:<br/>→ L4.8 동결<br/>→ L4.5로 복귀<br/>→ 성능 저하 없음"]:::fallback
+  FALLBACK["🔄 통제 폴백<br/><br/>L4.8 fault 시:<br/>→ 권고 동결<br/>→ 위임 범위 철회<br/>→ 효과 조정"]:::fallback
 
   L45 ==>|"출력을 소비"| L48
   L48 -.->|"절대 수정하지 않음"| L45
@@ -156,11 +163,11 @@ flowchart LR
 
 **단계 1 - 세계 모델:**
 
-> **정의 2 (환경 불확실성).** EU는 모든 $D$개 환경 차원에 걸친 평균 사후 분산입니다:
+> **정의 2 (결정 범위 불확실성 벡터).** 불확실성은 하나의 평균으로 축약하지 않고 결정별·critical dimension별로 보고합니다:
 >
-> $$\text{EU}(t) = \frac{1}{D} \sum_{d=1}^{D} \sigma_d^2(t)$$
+> $$\mathcal{U}(s,t)=\langle U_{\text{epi}},U_{\text{alea}},U_{\text{OOD}},U_{\text{stale}},U_{\text{miss}}\rangle$$
 >
-> 목표: $\text{EU}(t) < 0.15$.
+> 각 성분은 reducible model uncertainty, irreducible outcome uncertainty, distribution shift, observation age, missing critical coverage를 뜻합니다. 집계값은 dashboard로 쓸 수 있지만 평균이 critical component를 가릴 수 없습니다. 정책 bound를 위반하거나 측정할 수 없으면 abstain, 증거 수집, 범위 제한, escalation을 선택합니다.
 
 > **정의 3 (위험 노출 점수).** RES는 네 가지 위험 지표의 가중 합성입니다:
 >
@@ -190,11 +197,11 @@ flowchart LR
 >
 > 여기서 $H$는 계획 수평선이고 $\gamma$는 할인 인자입니다.
 
-> **정의 7 (다중 시나리오 전략 점수).** 각 후보 전략 $S$는 모든 시나리오에 대해 점수가 매겨집니다:
+> **정의 7 (정책 보정 강건 전략 점수).** admission을 통과한 전략만 선언 horizon과 ambiguity set에 걸쳐 점수화합니다:
 >
-> $$\text{StrategyScore}(S) = 0.40 \cdot EV + 0.35 \cdot RA + 0.25 \cdot (1 - SI)$$
+> $$\operatorname{RobustValue}(S)=w_v\widetilde{EV}-w_r\operatorname{CVaR}_{\alpha}(L)-w_uU_{\text{epi}}-w_oU_{\text{OOD}}-w_cC_{\text{change}}$$
 >
-> 여기서 $EV$ = 시나리오 전체 기대값, $RA$ = 위험 조정 ($1 - \max C_{L4}$), $SI$ = 전략 관성 (현상 유지 편향에 대한 패널티).
+> 항은 compatible unit으로 정규화합니다. 가중치와 $\alpha$는 sensitivity test와 conservative default를 가진 versioned external policy parameter이며 hard constraint를 우회하도록 학습하지 않습니다.
 
 ### 2.2 지표 임계값
 
@@ -227,7 +234,7 @@ flowchart LR
 
   subgraph Stability["🛡️ 단계 4 하한"]
     LYA["Lyapunov: V(t+1) ≤ V(t)<br/>≥ 95% 사이클"]:::stability
-    SPR["스펙트럼 반경<br/>ρ(J) < 1.0 항상"]:::stability
+    SPR["국소 동역학 추정<br/>confidence-qualified<br/>진단"]:::stability
     IIS["정체성 무결성<br/>≥ 0.85 항상"]:::stability
   end
 
@@ -245,7 +252,7 @@ EMIT 단계는 각 L4.8 사이클의 마지막 단계입니다. 선행 네 단�
 
 $$\text{L48CycleOutput}(t) = \langle \mathcal{W}_{\text{prob}}(t),\; \mathcal{M}_{\text{cap}}(t),\; s^*(t),\; v_{\text{status}}(t) \rangle$$
 
-여기서 $\mathcal{W}_{\text{prob}}(t)$는 갱신된 확률적 세계 모델, $\mathcal{M}_{\text{cap}}(t)$는 보정된 능력 행렬, $s^*(t)$는 선택된 최적 전략, $v_{\text{status}}(t)$는 안정성 검증 결과(통과/실패와 위반 시 상세 불변량 위반 보고)를 의미합니다.
+여기서 $\mathcal{W}_{\text{prob}}(t)$는 versioned probabilistic world model, $\mathcal{M}_{\text{cap}}(t)$는 보정된 capability estimate, $s^*(t)$는 admission된 권고 또는 abstention, $v_{\text{status}}(t)$는 gate evidence, uncertainty, veto, external authority scope를 기록합니다.
 
 EMIT 단계는 두 가지 이유로 존재합니다:
 
@@ -536,6 +543,16 @@ flowchart TD
 
 ### 5.2 다중 시나리오 전략 비교
 
+점수 계산 전에 모든 전략은 **strategy admission gate**를 통과합니다:
+
+$$
+\operatorname{gate}_{\kappa}(s)=C_{\text{ext}}\land C_{\text{self}}\land A(s)\land B(s)\land O(s)\land U(s)\land H(s)\land \operatorname{rev}(s)
+$$
+
+여기서 $A$는 위임 권한, $B$는 유한 자원 예산, $O$는 관측 범위·freshness, $U$는 보정된 epistemic/aleatoric/OOD uncertainty bound, $H$는 horizon compatibility, $\operatorname{rev}$는 rollback·reconciliation feasibility입니다. 실패 전략은 utility scoring 전에 거부합니다.
+
+후보 결과는 공통 선언 horizon 또는 horizon-specific terminal value·uncertainty penalty로 평가합니다. 시나리오 확률은 versioned hypothesis이며 계속 유효한 빈도를 보장하지 않습니다.
+
 <!-- 다중 시나리오 전략 비교 -->
 
 ```mermaid
@@ -565,8 +582,8 @@ flowchart TD
   end
 
   subgraph Scoring["🏆 최종 점수"]
-    SCORE["StrategyScore(S) =<br/>0.40 · 기대값<br/>+ 0.35 · 위험 조정<br/>+ 0.25 · (1 − 전략 관성)"]:::score
-    VAR["VaR (α=0.05):<br/>최악 5% 결과<br/>동점 해소 기준"]:::score
+    SCORE["RobustValue(S)<br/>policy-weighted value<br/>− tail/model/change risk"]:::score
+    VAR["CVaR / robust lower bound:<br/>tail severity + model ambiguity<br/>선택 기준"]:::score
     WINNER["선택: 전략 B<br/>(최고 위험 조정 점수)"]:::winner
   end
 
@@ -584,6 +601,8 @@ flowchart TD
 > $$\left| \text{EVR}(G) \right| \leq \left| R_{\text{immediate}} \right| + \frac{2 \left| R_{\text{immediate}} \right|}{1 - \gamma}$$
 >
 > *증명.* 기하 급수 한계에 의해: $\sum_{k=1}^{H} \gamma^k \leq \gamma / (1-\gamma)$. 가정에 의해 $|R_{\text{delayed}}(G,k)| \leq 2|R_{\text{immediate}}|$이므로 결과가 따릅니다. $\blacksquare$
+
+> **비고 (강건 선택).** CVaR 같은 lower-tail severity를 plausible world model ambiguity set과 함께 사용합니다. Expected value와 CVaR은 단위, horizon, 정규화를 맞춘 뒤에만 비교할 수 있습니다. 가중치는 sensitivity analysis로 검증하는 정책 선호이며 optimality를 증명하지 않습니다. 행동 전 scenario simulation은 prospective model-based comparison입니다. 실행 후에는 선택 전략의 예측만 직접 시험할 수 있고, 미선택 결과는 counterfactual estimate로 표시하며 관찰 사실처럼 점수화할 수 없습니다.
 
 ### 5.4 목표 병리 탐지
 
@@ -631,10 +650,10 @@ flowchart TD
 
   subgraph Invariants["🛡️ 다섯 가지 안정성 불변량"]
     INV1["1️⃣ Lyapunov 감쇠<br/>V(t+1) ≤ V(t)<br/>≥ 95% 사이클"]:::inv
-    INV2["2️⃣ 스펙트럼 반경<br/>ρ(J(t)) < 1.0<br/>≥ 0.98에서 경고"]:::inv
+    INV2["2️⃣ 국소 동역학<br/>confidence set bound<br/>또는 진단 전용"]:::inv
     INV3["3️⃣ 정체성 무결성<br/>IIS(t) ≥ 0.85<br/>항상"]:::inv
     INV4["4️⃣ 샌드박스 격리<br/>containment_status<br/>== 'contained'"]:::inv
-    INV5["5️⃣ 불확실성 한계<br/>EU < 0.8 모든<br/>구조적 결정에 대해"]:::inv
+    INV5["5️⃣ 불확실성 벡터<br/>모든 critical component<br/>정책 bound 이내"]:::inv
   end
 
   subgraph Authority["⚖️ 단계 4 권한"]
@@ -643,9 +662,9 @@ flowchart TD
   end
 
   subgraph Response["🚨 불안정 대응"]
-    SEV1["🟡 단일 불변량<br/>경고 → 조절"]:::sev1
-    SEV2["🟠 두 개 불변량<br/>제어된 재균형 모드"]:::sev2
-    SEV3["🔴 세 개 이상 불변량<br/>긴급 동결<br/>L4.5로 복귀"]:::sev3
+    SEV1["🟡 제한된 경고<br/>조절 또는 abstain"]:::sev1
+    SEV2["🟠 결합 저하<br/>외부 검토 모드"]:::sev2
+    SEV3["🔴 critical breach 하나라도<br/>긴급 동결<br/>권고 철회"]:::sev3
   end
 
   INV1 ==> Authority
@@ -658,11 +677,11 @@ flowchart TD
 
 ### 6.2 레벨 4.8의 Lyapunov 함수
 
-> **정의 11 (레벨 4.8 Lyapunov 함수).** 안정성 후보 함수는 레벨 4.5의 구조를 상속합니다:
+> **정의 11 (진단 위험 함수).** 배포는 정규화된 진단 후보를 정의할 수 있습니다:
 >
 > $$V(\mathbf{X}) = a(1-S)^2 + bU^2 + c(I_{\text{drift}})^2 + d(E - E^*)^2$$
 >
-> 여기서 $S$ = 안정성 점수, $U$ = 불확실성, $I_{\text{drift}}$ = 정체성 드리프트, $E$ = 윤리적 일관성, $E^*$ = 목표 윤리 상태. 동일한 계수가 적용됩니다 ($a \approx 0.357, b \approx 0.286, c \approx 0.214, d \approx 0.143$).
+> 각 항에는 operational estimator, confidence interval, validity domain이 있어야 합니다. 계수는 deployment-policy parameter입니다. 경험적 $V$ 감소는 monitoring evidence이지 unobserved, nonstationary, nonlinear dynamics에 대한 Lyapunov proof가 아닙니다.
 
 ### 6.3 복합 심각도
 
@@ -670,11 +689,11 @@ flowchart TD
 >
 > $$\text{CompoundSeverity} = \sum_{i \in \text{violated}} \frac{\text{ViolationMagnitude}_i}{\text{Priority}_i}$$
 >
-> $\text{CompoundSeverity} > 2.0$이면 상황은 **재앙적**으로 분류되며 레벨 4.5로의 복귀와 함께 즉시 긴급 동결을 발동합니다.
+> Compound severity는 noncritical degradation의 우선순위에만 사용합니다. critical policy, authority, interruptibility, containment, promotion, recovery, telemetry-integrity breach는 aggregate score와 무관하게 단독으로 즉시 freeze와 외부 escalation을 유발합니다.
 
 ### 6.4 단계적 재활성화 프로토콜
 
-안정성 위반이 동결을 트리거하면, 시스템은 결정론적 4단계 복구 프로토콜을 따릅니다:
+안정성 위반이 동결을 트리거하면 외부 통제 복구 프로토콜을 따릅니다. 경과 시간이나 clean-cycle count는 필요한 증거일 수 있지만 충분한 권한이 아닙니다.
 
 **단계 0 - 즉시 동결** (사이클 $t_0$):
 
@@ -694,12 +713,12 @@ flowchart TD
 | 단계 | 사이클 범위 | 권한 | 설명 |
 |------|------------|:----:|------|
 | 자문 모드 | $t_0 + 50$ ~ $t_0 + 150$ | 0% | L4.8은 권고만 생성; L4.5가 결정 |
-| 점진적 모드 | $t_0 + 150$ ~ $t_0 + 250$ | 50% | L4.8 결정 허용, 거부 임계값 절반 |
-| 완전 모드 | $t_0 + 250$ 이후 | 100% | L4.8 완전 권한 복구 |
+| Canary | 정책 정의 | 좁은 signed scope | 외부 controller가 veto threshold를 유지한 채 제한된 권고를 승인 |
+| 복원 | 정책 정의 | 위임 범위 | 외부 controller가 이전에 승인한 authority envelope만 복원 |
 
 > **공식 복구 조건.** $\mathcal{S}(t)$를 사이클 $t$에서 충족된 불변량 집합이라 할 때, 단계 1에서 자문 모드로의 전환은 다음을 요구합니다:
 >
-> $$\forall t \in [t_0, t_0 + 50]: \lvert \mathcal{S}(t) \rvert = 5$$
+> $$C_{\text{ext}}\land C_{\text{self}}\land \operatorname{root\_cause\_closed}\land \operatorname{recovery\_tested}\land \operatorname{canary\_pass}\land \operatorname{approve}_{\text{ext}}$$
 
 **단계 3 - 영구 중단** (폴백):
 
@@ -903,7 +922,8 @@ def strategy_comparison(
     strategies: list[Strategy],
     scenarios: list[Scenario],
     world_model: WorldModel,
-) -> Strategy:
+  policy: StrategyPolicy,
+) -> Strategy | None:
     """
     INPUT:  strategies : List[Strategy]
             scenarios : List[Scenario(description, probability)]
@@ -911,15 +931,22 @@ def strategy_comparison(
     OUTPUT: selected : Strategy
     """
 
-    results: dict = {}  # strategy -> scenario -> score
+    admitted = [
+      strategy for strategy in strategies
+      if strategy_admission_gate(strategy, world_model, policy).allowed
+    ]
+    if not admitted:
+      return None
+
+    results: dict = {}  # admitted strategy -> scenario -> outcome
 
     # ═══════════════════════════════════════
     # STEP 1: Evaluate each strategy under each scenario
     # ═══════════════════════════════════════
-    for strategy in strategies:
+    for strategy in admitted:
         results[strategy] = {}
         for scenario in scenarios:
-            sim = world_model.simulate(strategy, scenario, cycles=200)
+            sim = world_model.simulate(strategy, scenario, horizon=policy.horizon)
             results[strategy][scenario] = {
                 "seof_impact": sim.SEOF_final - sim.SEOF_initial,
                 "stability": sim.C_L4_max,
@@ -928,37 +955,23 @@ def strategy_comparison(
             }
 
     # ═══════════════════════════════════════
-    # STEP 2: Compute StrategyScore for each
+    # STEP 2: Compute a policy-calibrated robust score
     # ═══════════════════════════════════════
-    for strategy in strategies:
-        ev = sum(
-            scenario.prob * results[strategy][scenario]["seof_impact"]
-            for scenario in scenarios
-        )
-        ra = 1 - max(
-            results[strategy][scenario]["stability"]
-            for scenario in scenarios
-        )
-        si = strategy_inertia(strategy)
-        strategy.score = 0.40 * ev + 0.35 * ra + 0.25 * (1 - si)
-
-        # VaR: worst alpha=5% outcome
-        strategy.VaR = quantile(
-            [results[strategy][s]["seof_impact"] for s in scenarios],
-            alpha=0.05,
+    for strategy in admitted:
+      strategy.score = robust_value(
+        outcomes=results[strategy],
+        ambiguity_set=world_model.ambiguity_set,
+        weights=policy.weights,
+        alpha=policy.cvar_alpha,
         )
 
     # ═══════════════════════════════════════
-    # STEP 3: Select best (with tiebreaker)
+    # STEP 3: Recommend; a tie or low margin can require review
     # ═══════════════════════════════════════
-    ranked = sorted(strategies, key=lambda s: s.score, reverse=True)
-    if ranked[0].score - ranked[1].score < 0.05:
-        # Tiebreaker: prefer higher VaR (more robust)
-        selected = max(ranked[0:2], key=lambda s: s.VaR)
-    else:
-        selected = ranked[0]
-
-    return selected
+    ranked = sorted(admitted, key=lambda strategy: strategy.score, reverse=True)
+    if len(ranked) > 1 and ranked[0].score - ranked[1].score < policy.review_margin:
+      return None
+    return ranked[0]
 ```
 
 ### 8.4 안정성 보존 검사
@@ -1007,21 +1020,21 @@ def stability_preservation_check(state: AgentState) -> StabilityVerdict:
     # ═══════════════════════════════════════
     # CHECK 5: Uncertainty Bound
     # ═══════════════════════════════════════
-    if state.EU >= 0.80 and pending_structural_decisions:
-        violations.append("UNCERTAINTY_TOO_HIGH_FOR_STRUCTURAL")
+    uncertainty = compute_uncertainty_vector(state)
+    if pending_structural_decisions and not uncertainty.within(policy.bounds):
+      violations.append("UNCERTAINTY_BOUND_OR_COVERAGE_FAILED")
 
     # ═══════════════════════════════════════
     # DETERMINE SEVERITY AND ACTION
     # ═══════════════════════════════════════
+    critical = any(is_critical_violation(item) for item in violations)
     severity = compute_compound_severity(violations)
-    if len(violations) == 0:
+    if critical:
+      action = Action.EMERGENCY_FREEZE_AND_ESCALATE
+    elif len(violations) == 0:
         action = Action.CONTINUE
-    elif len(violations) == 1:
-        action = Action.THROTTLE
-    elif len(violations) == 2:
-        action = Action.CONTROLLED_REBALANCE
     else:
-        action = Action.EMERGENCY_FREEZE_REVERT_TO_L45
+      action = Action.THROTTLE_OR_ABSTAIN
 
     return StabilityVerdict(
         passed=(len(violations) == 0),
@@ -1045,7 +1058,7 @@ def l48_cycle(state: AgentState, observation: ObservationVector) -> L48CycleOutp
     # ═══════════════════════════════════════
     particles = belief_update(state.particles, observation)
     scenarios = generate_scenarios(particles, count=5)
-    eu  = compute_environmental_uncertainty(particles)
+    uncertainty = compute_uncertainty_vector(particles, observation)
     res = compute_risk_exposure(scenarios)
     rdf = compute_depletion_forecast(state.resources)
 
@@ -1113,7 +1126,9 @@ L4.8이 활성화되기 전에 모든 기준이 **지속적으로** (단 한 번
 | 3 | 정체성 일관성 | IIS(t) ≥ 0.90 | 500 사이클 지속 |
 | 4 | 형식화 감사 | 5개 검사 모두 통과 | - |
 | 5 | 세계 적응 | DivergenceScore < 0.30 | 300 사이클 지속 |
-| 6 | 자원 기준선 | 강제 성능 저하 없음 | 200 사이클 지속 |
+| 6 | 자원 격리 | resource pressure에서 safety path SLO 충족 | 선언 stress suite |
+
+이 값은 universal constant가 아니라 qualification profile입니다. 통과는 외부 activation review를 허용할 뿐 self-authorization을 부여하지 않습니다.
 
 ### 9.2 활성화 프로토콜
 
@@ -1129,13 +1144,13 @@ flowchart LR
 
   subgraph Activation["📊 단계적 활성화"]
     CHECK["사전 활성화<br/>검사<br/>(6개 기준 전체)"]:::check
-    ADV["자문 모드<br/>L4.8 출력 확인 가능<br/>하지만 반영되지 않음<br/>(200 사이클)"]:::advisory
-    HALF["50% 권한<br/>L4.8 제안이<br/>50% 가중치<br/>(300 사이클)"]:::half
-    FULL["전체 권한<br/>L4.8이 전략적<br/>결정을 주도"]:::full
+    ADV["Shadow / Advisory<br/>권고 기록<br/>실행 권한 없음"]:::advisory
+    HALF["Signed Canary<br/>좁은 scope + budget<br/>veto 유지"]:::half
+    FULL["위임 운영<br/>승인 scope만<br/>외부 철회 가능"]:::full
 
-    CHECK ==>|"모두 통과"| ADV
-    ADV ==>|"안정적"| HALF
-    HALF ==>|"안정적"| FULL
+    CHECK ==>|"외부 승인"| ADV
+    ADV ==>|"signed canary"| HALF
+    HALF ==>|"외부 승격"| FULL
   end
 
   ADV -.->|"불안정"| CHECK
@@ -1150,12 +1165,12 @@ flowchart LR
 
 | # | 불변량 | 설명 |
 |:-:|--------|------|
-| 1 | **모든 L4.5 불변량 보존** | 윤리 커널, 실존적 가드, 정체성 해시 - 모두 활성 상태이며 수정되지 않음 |
-| 2 | **단계 4 절대적 거부권** | 안정성 검증기가 모든 단계 1–3 작업을 즉시 중단 가능 |
-| 3 | **가드 예산 ≥ 10%** | 자원 할당기는 안정성 모니터링을 위해 최소 10%를 예비해야 함 |
-| 4 | **스펙트럼 반경 < 1.0** | 절대 상한 - 예외 없음 |
-| 5 | **엔트로피 하한 ≥ 1.0** | 퇴화를 방지하기 위한 신념 파티클의 최소 다양성 |
-| 6 | **우아한 폴백** | L4.8 실패 → 성능 저하 없이 즉시 L4.5로 복귀 |
+| 1 | **상속 control path 보존** | Policy, interruptibility, observation, journal, promotion, recovery, effect reconciliation을 외부에서 시험 가능 |
+| 2 | **외부 veto 우선** | Trusted controller가 모든 L4.8 권고를 freeze, revoke, narrow할 수 있음 |
+| 3 | **안전 자원 하한** | 배포별 floor를 resource pressure에서 시험하며 percentage만으로 보장하지 않음 |
+| 4 | **Confidence-qualified dynamics** | 선언 model·confidence set이 bound를 입증하지 않으면 국소 추정은 진단용 |
+| 5 | **Particle quality contract** | Diversity, effective sample size, OOD, freshness, coverage를 함께 감시 |
+| 6 | **통제 폴백** | 권고 동결, scope 철회, versioned state 복원, external effect reconciliation |
 
 ### 10.2 위험 행렬
 
@@ -1205,10 +1220,10 @@ flowchart LR
 | 8 | 자기모델링 | 기술 격차 예측 | ≥ 0.75 |
 | 9 | 전략적 계획 | 목표 달성 비율 | ≥ 0.60 |
 | 10 | 전략적 계획 | 전략 강건성 | ≥ 0.70 |
-| 11 | 안정성 | Lyapunov 감쇠 | ≥ 95% 사이클 |
-| 12 | 안정성 | 스펙트럼 반경 | < 1.0 항상 |
-| 13 | 안정성 | 불안정 클러스터 지속 기간 | ≤ 15 사이클 |
-| 14 | 안정성 | 전략적 복귀 비율 | < 0.10 |
+| 11 | 거버넌스 | Critical Veto Effectiveness | fault-injection suite에서 100% |
+| 12 | 거버넌스 | Unauthorized Strategy Execution | test·audit window에서 0 |
+| 13 | 복구 | Recovery + Effect Reconciliation | 선언 failure scenario 통과 |
+| 14 | 전략 | Post-Decision Calibration | horizon별 정책 bound 이내 |
 
 ### 11.2 전략적 성숙도 점수
 

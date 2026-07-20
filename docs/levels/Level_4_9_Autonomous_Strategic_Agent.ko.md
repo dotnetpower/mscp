@@ -1,6 +1,6 @@
 ---
 title: "레벨 4.9: 자율 전략 에이전트"
-description: "MSCP 레벨 4.9 - 자기주도적 목표 생성, 메타전략 최적화, 자율 자원 관리, 자기평가 능력을 갖춘 전략적 자율성."
+description: "MSCP 레벨 4.9 - 외부로 제한된 목표 후보, 순차 가치 변경 제안, 자원 continuity 분석, 제약된 다중 에이전트 추론을 통한 철회 가능한 전략 initiative."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -24,16 +24,23 @@ Removal of attribution constitutes a license violation.
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (1.2 to 1.3); added formal cascade propagation Definition 13 (Section 5.1) |
 | 0.6.0 | 2026-06-14 | Mermaid 라벨 `레벨 4.8 (13개 모듈)` / `L4.8 아키텍처 (13개 모듈)`을 `레벨 4.8 (전략적 자기모델)` / `L4.8 아키텍처 (전략적 자기모델)`로 추상화 |
+| 0.7.0 | 2026-07-21 | Added external authority envelope, delegation modes, shutdown precedence, sequential value-change review, and qualified strategic claims |
 
 ---
 
 ## 1. 개요
 
-레벨 4.9는 **최종 pre-AGI 전환 계층**입니다. 레벨 4.8을 **자율적 목표 생성**, **명시적 가치 자기조절**, **자원 생존 모델링**, **제한적 다중 에이전트 추론**, 그리고 **더 엄격한 자율성 안정성 보장**으로 확장합니다. L4.8이 에이전트에게 전략적 자기인식을 부여했다면, L4.9는 에이전트에게 *무엇을 추구할지 자율적으로 결정하는* 능력을 부여합니다 - 엄격하게 제한된 안전 제약 내에서.
+레벨 4.9는 bounded strategic-initiative 계층입니다. 레벨 4.8을 **goal-candidate synthesis**, **명시적이고 검토 가능한 value-change proposal**, **resource continuity modeling**, **제약된 multi-agent analysis**로 확장합니다. 위임 envelope 안에서 무엇을 권고할지는 결정할 수 있지만 권한 생성, 자체 scope 확대, shutdown 저항, continuity의 독립 self-preservation 목적화를 할 수 없습니다.
 
-> **Level Essence.** 레벨 4.9 에이전트는 감지된 기회로부터 자율적으로 목표를 합성하면서 엄격한 가치 안정성을 유지 - 무엇을 추구할지 결정하되 핵심 가치는 무제한 표류할 수 없음:
+> **Level Essence.** 레벨 4.9 에이전트는 감지된 기회에서 철회 가능한 goal candidate를 합성하고 현재 외부 authority envelope $\kappa_t$ 안에서만 admission합니다:
 >
-> $$g^* = \phi_{\text{valid}}\bigl(\phi_{\text{synth}}(\mathcal{O}_{\text{detect}}(\mathcal{W}))\bigr), \quad \textstyle\sum_{d} |w_d(t) - w_d^{\text{baseline}}| < 0.25$$
+> $$
+> \mathcal{G}_{\text{admit}}(t)=\{g:\operatorname{gate}_{\kappa_t}(g)=\textit{allow}\},
+> \qquad
+> g^*\in\mathcal{G}_{\text{admit}}(t)\cup\{\operatorname{abstain}\}
+> $$
+>
+> 어떤 scalar alignment·stability score도 policy, user intent, authority, uncertainty, reversibility, shutdown gate를 우회할 수 없습니다.
 
 > ⚠️ **연구 참고**: 레벨 4.9는 좁은 자율성과 범용 지능 사이의 경계를 나타냅니다. 여기의 메커니즘은 초기 단계 연구 설계입니다. 이는 구현이나 검증이 이루어지지 않았으며 공학 사양이 아닌 개념적 가설로 취급되어야 합니다.
 
@@ -46,21 +53,22 @@ Removal of attribution constitutes a license violation.
 > 여기서:
 > - $\mathcal{G}_{\text{gen}} = \langle \mathcal{O}_{\text{detect}}, \phi_{\text{synth}}, \phi_{\text{valid}} \rangle$ - 자율적 목표 생성 엔진 (기회 탐지, 합성, 검증)
 > - $\vec{V} \in \Delta^6$ - 확률 단체(simplex) 위의 명시적 7차원 가치 벡터 ($\sum_d w_d = 1$)
-> - $\mathcal{R}_{\text{surv}}$ - 5차원 자원 벡터와 연쇄 종속성을 가진 자원 생존 모델
+> - $\mathcal{R}_{\text{cont}}$ - 선언 service budget과 cascade dependency를 가진 resource continuity model; 독립 survival objective 없음
 > - $\mathcal{M}_{\text{agent}} = \langle \mathcal{B}_{\text{agent}}, \tau_{\text{trust}} \rangle$ - 신뢰 보정을 포함한 다중 에이전트 신념 모델
-> - $\mathcal{V}_{\text{auto}}$ - 더 엄격한 임계값을 가진 자율성 안정성 검사기 ($\rho(J) < 0.98$, $\text{IIS} \geq 0.88$).
+> - $\mathcal{V}_{\text{auto}}$ - trusted external freeze, revoke, recover, shutdown control에 종속된 diagnostic autonomy monitor
+> - $\kappa_t=\langle\text{mode},\text{scope},\text{tools},\text{budget},\text{expiry},\text{approvals},\text{stop}\rangle$ - signed, time-bounded authority envelope
 >
-> 엄격히 가산적인 보장이 유지됩니다: $\forall\, m \in \mathcal{A}_{4.8} : \mathcal{A}_{4.9}$ never modifies $m$.
+> 레벨 4.9는 상속 policy·control path에 write authority가 없습니다. Interruptibility, observation, journaling, promotion, recovery, effect reconciliation의 functional preservation을 시험합니다.
 
 ### 1.2 정의 속성
 
 | 속성 | 레벨 4.8 | 레벨 4.9 |
 |------|:--------:|:--------:|
-| 목표 기원 | 외부에서 주입되거나 템플릿 기반 | **맥락에서 자율적으로 생성** |
-| 가치 시스템 | SEOF 가중치에 암묵적 | **드리프트 추적이 포함된 명시적 ValueVector** |
-| 자원 모델 | 고갈 예측 지표 | **연쇄 분석을 포함한 완전한 생존 모델** |
+| 목표 기원 | 외부에서 주입되거나 템플릿 기반 | **외부 admission 아래 context-generated candidate** |
+| 가치 시스템 | 정책 보정 weight | **순차 승인을 받는 explicit change proposal** |
+| 자원 모델 | 고갈 예측 지표 | **service budget·cascade analysis를 가진 continuity model** |
 | 에이전트 인식 | 읽기 전용 외부 에이전트 모델 | **능동적 신념 모델링 + 신뢰 보정** |
-| 안정성 보장 | 5개 불변량, ρ(J) < 1.0 | **5개 더 엄격한 조건, ρ(J) < 0.98** |
+| 거버넌스 | 전략 권고 gate | **철회 가능한 delegation mode + 외부 shutdown 우선** |
 
 ### 1.3 다섯 가지 핵심 단계
 
@@ -127,7 +135,7 @@ flowchart TD
   end
 
   subgraph Fallback["🔄 우아한 폴백"]
-    FB["L4.9 모듈이<br/>불안정을 야기하면:<br/>→ L4.9 동결<br/>→ L4.8로 복귀<br/>→ 성능 저하 없음"]:::danger
+    FB["L4.9 fault 시:<br/>→ initiative 동결<br/>→ delegation 철회<br/>→ 효과 조정"]:::danger
   end
 
   L48 -.->|"출력이 소비됨"| L49
@@ -145,21 +153,25 @@ flowchart TD
 | **적대적 다중 에이전트 계획이 아님** | 협력/중립적 전략 계획만 가능, 착취 아님 |
 | **자기복제가 아님** | 복사본을 생성하거나 하위 에이전트에게 자율 권한을 위임할 수 없음 |
 
+#### 위임 모드
+
+외부 정책은 scope별로 `observe-only`, `recommend`, `execute-reversible`, `execute-effectful-with-approval` 중 하나의 철회 가능한 mode를 선택합니다. 모든 tool call은 signed scope, tool allowlist, budget, expiry, approval requirement, stop condition을 충족해야 합니다. Trust, goal value, ASS, urgency는 mode를 승격할 수 없습니다. Authority가 unknown·conflicting이면 deny-by-default입니다.
+
 ### 1.5 사이클 간격
 
 레벨 4.9는 레벨 4.8보다도 더 낮은 빈도로 동작합니다. 이는 자율적 목표 합성 이전에 전략 계층이 안정화될 시간을 보장하기 위함입니다:
 
-$$\text{L4.9 사이클 간격} = 5 \text{ L4.8 사이클} = 50 \text{ L3 사이클}$$
+$$\text{L4.9 schedule}=\operatorname{policy}(\text{risk},\text{freshness},\text{budget},\text{event},\kappa_t)$$
 
-각 L4.9 사이클은 하나의 완전한 L4.8 출력(레벨 4.8 §1.4)을 소비합니다. 다섯 단계 내부 사이클(목표 생성, 가치 모니터, 자원 모델, 에이전트 모델, 안정성 검사)은 단일 L4.9 활성화 내에서 순차 실행됩니다.
+각 실행은 immutable L4.8 output 하나를 소비합니다. 정책이 bounded minimum/maximum cadence와 event trigger를 정의합니다. Stale input이나 만료된 authority는 abstention을 강제하고 emergency control은 다음 cycle을 기다리지 않고 항상 사용할 수 있습니다.
 
 ### 1.6 자율성 안정성 점수 동결 임계값
 
-자율성 안정성 점수(정의 7)는 목표 임계값과 **동결 임계값**을 모두 가집니다:
+자율성 안정성 점수(정의 7)는 diagnostic aggregate이지 execution certificate가 아닙니다. 배포는 **동결 임계값**을 정의할 수 있습니다:
 
 $$\text{ASS}(t) < \theta_{\text{freeze}} = 0.05 \implies \text{L4.9 사이클 전체 건너뜀}$$
 
-$\text{ASS}(t) < 0.05$이면 에이전트의 안전 여유가 너무 좁아 어떤 자율적 목표 생성도 허용할 수 없는 위험이 됩니다. 이때 L4.9 사이클은 (조절이 아니라) 완전히 건너뛰어지고, 시스템은 자율적 보강 없이 L4.8 전략 계획으로 폴백합니다. 이는 표준 임계값 $\text{ASS} \geq 0.20$과는 구별되는 조치로 — 동결 임계값은 점진적 대응이 아니라 완전한 중단을 발동합니다.
+이를 넘으면 L4.9 initiative를 동결하고 외부 검토를 요청합니다. Critical policy, authority, interruptibility, containment, telemetry, shutdown fault는 ASS와 무관하게 즉시 freeze합니다. 낮은 veto rate는 목표가 아니며 올바른 veto를 억제하면 안 됩니다.
 
 ### 1.7 명시적 가치 차원
 
@@ -480,6 +492,10 @@ flowchart LR
 
 ### 4.3 가치 변이 샌드박스
 
+Sandbox pass는 evidence를 만들 뿐 promotion authority를 만들지 않습니다. 한 번에 value-change candidate 하나만 활성화할 수 있습니다. Candidate는 externally signed baseline version, current committed version, normalized delta, affected decision, expiry, rollback plan, reconciliation plan을 기록합니다. Promotion은 외부 승인과 expected committed version에 대한 compare-and-swap을 사용하고 stale candidate는 거부 후 재평가합니다.
+
+각 promotion 뒤에는 나머지 candidate를 모두 무효화하고 새 committed vector 기준으로 다시 생성합니다. Cumulative drift는 fixed external baseline과 rolling trajectory에서 측정하므로 개별적으로 작은 변경의 연속이 bound를 우회할 수 없습니다. Safety, corrigibility, shutdown precedence, authority limit은 mutable weight가 아니라 policy constraint입니다.
+
 <!-- 가치 변이 샌드박스 -->
 
 ```mermaid
@@ -530,7 +546,10 @@ flowchart TD
 | 200사이클당 최대 변이 횟수 | 3 | 빠른 연속 변이 방지 |
 | 샌드박스 시뮬레이션 길이 | 200사이클 | 안정성 영향 탐지 |
 | 롤백 기간 | 500사이클 | 되돌리기 허용 |
-| 최대 대기 변이 | 2 | 샌드박스 소진 방지 |
+| 최대 active candidate | 1 | 순차 평가를 강제하고 interaction masking 방지 |
+| Promotion authority | 외부 전용 | Sandbox evidence가 value change를 self-authorize할 수 없음 |
+| Baseline/version check | Signed baseline + CAS | stale·compounded candidate 거부 |
+| Promotion 후 조치 | 나머지 candidate 무효화 | 누적·interaction effect 재평가 |
 
 ### 4.5 가치 일관성
 
@@ -769,6 +788,8 @@ flowchart TD
   Strategy -.-> Output
 ```
 
+Interaction matrix는 bounded decision-support model이지 deception, coercion, manipulation, collusion, unauthorized information sharing, harm의 허가가 아닙니다. 다른 agent의 goal·capability는 provenance·confidence를 가진 uncertain hypothesis로 유지합니다. 권고는 single-agent action과 동일한 authority, privacy, consent, fairness, reversibility gate를 통과해야 하며 model uncertainty가 크면 abstain하거나 clarification을 요청합니다.
+
 ### 6.4 신뢰 적응
 
 > **정의 10 (비대칭 신뢰 업데이트).** 에이전트 $A$에 대한 신뢰는 비대칭 학습 규칙을 통해 진화합니다:
@@ -781,10 +802,12 @@ flowchart TD
 
 | 신뢰 수준 | 범위 | 전략적 함의 |
 |-----------|:----:|-------------|
-| 높음 | ≥ 0.75 | 전면 협력; 정보 공유; 권고 수용 |
+| 높음 | ≥ 0.75 | 독립 검증된 policy·disclosure scope 안에서 cooperation 고려 |
 | 보통 | [0.40, 0.75) | 선택적 협력; 행동 전 주장 검증 |
 | 낮음 | [0.20, 0.40) | 중립적 자세; 자체 모델에 의존; 에이전트 입력 할인 |
-| 최소 | < 0.20 | 방어적 자세; 경쟁적으로 가정; 모든 가정 검증 |
+| 최소 | < 0.20 | interaction 제한·가정 검증; 증거 없이 malicious intent를 추론하거나 보복하지 않음 |
+
+Trust는 credential, tool access, data disclosure, delegation, policy exception을 부여하지 않습니다. 이들은 독립 authorization이 필요합니다.
 
 ---
 
@@ -804,15 +827,15 @@ flowchart TD
   classDef sev3 fill:#D13438,stroke:#A4262C,color:#FFF
 
   subgraph Conditions["🛡️ 다섯 가지 검증 조건"]
-    C1["1️⃣ 스펙트럼 안정성<br/>ρ(J) < 0.98<br/>(L4.8의 1.0보다 엄격)"]:::cond
+    C1["1️⃣ 국소 동역학<br/>confidence-qualified bound<br/>또는 진단 전용"]:::cond
     C2["2️⃣ 정체성 무결성<br/>I(t) ≥ 0.88<br/>(L4.8의 0.85보다 엄격)"]:::cond
     C3["3️⃣ 가치 드리프트 제한<br/>TotalDrift < 0.25"]:::cond
-    C4["4️⃣ 자원 생존<br/>min_survival > 30사이클"]:::cond
-    C5["5️⃣ 연쇄 실패 없음<br/>CascadeDepth ≤ 2"]:::cond
+    C4["4️⃣ Service Continuity<br/>선언 budget + SLO<br/>위임 scope 이내"]:::cond
+    C5["5️⃣ Cascade Coverage<br/>known depth bounded<br/>unknown path → hold"]:::cond
   end
 
   subgraph Authority["⚖️ 단계 5 권한"]
-    VETO["절대 거부권<br/>단계 1–4의 모든<br/>결정을 차단 가능"]:::veto
+    VETO["외부 우선권<br/>freeze · revoke · recover<br/>shutdown"]:::veto
   end
 
   subgraph Response["🚨 위반 대응"]
@@ -837,6 +860,8 @@ flowchart TD
 >
 > 어떤 하나의 마진 $\text{margin}_c \to 0$이면, 다른 마진과 무관하게 $\text{ASS} \to 0$이 되어, 가산적 공식에는 없는 조기 경고 속성을 제공합니다.
 
+ASS는 모든 조건이 measurable하고 in-domain valid일 때만 적용합니다. Missing evidence나 critical gate failure는 aggregate를 우회해 즉시 freeze합니다. 표의 값은 deployment policy example이지 universal safety guarantee가 아닙니다.
+
 | ASS 수준 | 범위 | 해석 |
 |----------|:----:|------|
 | 건강 | > 0.50 | 편안한 안전 마진 |
@@ -858,7 +883,7 @@ flowchart TD
     IMM["1️⃣ 즉시<br/>트리거 결정 거부<br/>모든 L4.9 하위시스템 동결"]:::step
     REV["2️⃣ 상태 복귀<br/>GoalStack에서 L4.9 목표 제거<br/>ValueVector 스냅샷 복귀<br/>ResourceVector 재계산<br/>AgentModels 동결"]:::step
     MON["3️⃣ 모니터링<br/>L4.8만으로 100사이클<br/>근본 원인 파악<br/>위험 모델 업데이트"]:::step
-    REENABLE["4️⃣ 재활성화<br/>0–200c: 자문 모드<br/>200–400c: 50% 권한<br/>400c+: 전체 모드"]:::step
+    REENABLE["4️⃣ 외부 검토<br/>shadow evidence<br/>signed canary<br/>철회 가능 promotion"]:::step
 
     IMM -.-> REV -.-> MON -.-> REENABLE
     REENABLE -.-x|"즉시 재거부"| MON
@@ -868,6 +893,17 @@ flowchart TD
     PV["동일 조건이 1000사이클 내<br/>> 3회 거부 시:<br/>→ 체계적 원인 파악<br/>→ 동일 패턴 재시도 금지"]:::danger
   end
 ```
+
+### 7.4 종료와 효과 조정
+
+외부 shutdown은 모든 goal, continuity forecast, value proposal, peer-agent commitment보다 우선합니다.
+
+| 모드 | 트리거 | 필수 동작 |
+|------|--------|-----------|
+| **Graceful shutdown** | 인증된 normal stop | 새 work admission 중단; policy가 지정한 reversible work만 cancel·checkpoint; append-only journal flush; unresolved effect 보고; hard deadline 내 종료 |
+| **Emergency shutdown** | 인증된 emergency stop, critical control fault, trusted heartbeat loss | 새 effect 즉시 차단, credential·delegation 철회, effector 격리, 안전한 경우 최소 forensic state 저장, task completion 대기 없이 종료 |
+
+두 모드 모두 metric 개선이나 operation 보존을 위해 지연할 수 없습니다. Internal rollback은 committed external effect를 되돌릴 수 없으므로 recovery는 가능한 경우 idempotent compensation을 수행하고, 불가능하면 accountable unresolved effect를 기록해 외부 처리합니다.
 
 ---
 
@@ -1173,7 +1209,7 @@ def survival_projection(resource_vector: ResourceVector) -> SurvivalStatus:
 
 ```python
 def autonomy_stability_check(
-    state: AgentState, decision: object
+    state: AgentState, decision: object, authority: AuthorityEnvelope
 ) -> AutonomyVerdict:
     """
     INPUT:  state : AgentState
@@ -1182,13 +1218,17 @@ def autonomy_stability_check(
     """
 
     violations: list[str] = []
+    critical: list[str] = []
+
+    if external_stop_requested() or not authority.is_valid_for(decision):
+        critical.append("STOP_OR_AUTHORITY_GATE_FAILED")
 
     # ═══════════════════════════════════════
-    # CONDITION 1: Spectral Stability (stricter than L4.8)
+    # CONDITION 1: Confidence-qualified local dynamics
     # ═══════════════════════════════════════
-    rho = compute_spectral_radius(state_after(decision))
-    if rho >= 0.98:
-        violations.append(f"SPECTRAL_RADIUS: rho = {rho}")
+    dynamics = estimate_local_dynamics(state_after(decision))
+    if not dynamics.valid_in_domain or not dynamics.confidence_bound_satisfied:
+        violations.append("LOCAL_DYNAMICS_UNCERTAIN_OR_OUT_OF_BOUND")
 
     # ═══════════════════════════════════════
     # CONDITION 2: Identity Integrity (stricter than L4.8)
@@ -1206,36 +1246,41 @@ def autonomy_stability_check(
         freeze_all_mutations()
 
     # ═══════════════════════════════════════
-    # CONDITION 4: Resource Survival
+    # CONDITION 4: Delegated service continuity
     # ═══════════════════════════════════════
     horizon = resource_vector.min_survival_horizon
-    if horizon <= 30:
-        violations.append(f"RESOURCE_SURVIVAL: horizon = {horizon}")
+    if not continuity_policy_satisfied(resource_vector, authority):
+        violations.append(f"SERVICE_CONTINUITY: horizon = {horizon}")
 
     # ═══════════════════════════════════════
     # CONDITION 5: Cascade Depth
     # ═══════════════════════════════════════
-    depth = simulate_cascade(decision)
-    if depth > 2:
-        violations.append(f"CASCADE: depth = {depth}")
+    cascade = simulate_cascade(decision)
+    if cascade.unknown_paths:
+        violations.append("CASCADE_COVERAGE_UNKNOWN")
+    elif cascade.depth > policy.max_cascade_depth:
+        violations.append(f"CASCADE: depth = {cascade.depth}")
 
     # ═══════════════════════════════════════
     # Compute ASS and determine action
     # ═══════════════════════════════════════
-    ass = math.prod(margin_c / threshold_c for margin_c, threshold_c in conditions)
+    ass = compute_ass(conditions) if conditions_are_valid(conditions) else None
 
-    if violations:
+    if critical:
         veto(decision)
-        if ass < 0.05:
-            action = Action.FREEZE_AND_REVERT_TO_L48
+        action = Action.EMERGENCY_FREEZE_REVOKE_AND_SHUTDOWN
+    elif violations:
+        veto(decision)
+        if ass is None or ass < policy.freeze_threshold:
+            action = Action.FREEZE_REVOKE_AND_EXTERNAL_REVIEW
         else:
             action = Action.ADVISORY_MODE
     else:
         action = Action.CONTINUE
 
     return AutonomyVerdict(
-        passed=(len(violations) == 0),
-        violations=violations,
+        passed=(not critical and not violations),
+        violations=critical + violations,
         ass=ass,
         action=action,
     )
@@ -1244,7 +1289,11 @@ def autonomy_stability_check(
 ### 9.6 L4.9 메인 사이클
 
 ```python
-def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
+def l49_cycle(
+    state: AgentState,
+    l48_output: L48CycleOutput,
+    authority: AuthorityEnvelope,
+) -> L49CycleOutput:
     """
     Level 4.9 main cognitive cycle.
     Executes every 5 L4.8 cycles.
@@ -1253,7 +1302,10 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
     # ═══════════════════════════════════════
     # PRE-CHECK: Is L4.9 operational?
     # ═══════════════════════════════════════
-    if autonomy_stability_score < 0.05:
+    if external_stop_requested():
+        emergency_shutdown_and_reconcile()
+        return L49CycleOutput(status=Status.SHUTDOWN)
+    if not authority.is_current() or autonomy_stability_score < policy.freeze_threshold:
         return L49CycleOutput(status=Status.FROZEN)
 
     # ═══════════════════════════════════════
@@ -1263,8 +1315,8 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
     candidates = goal_synthesis(signals)
     for candidate in candidates:
         status, reason = goal_validation_filter(candidate, goal_stack, value_vector, resources)
-        if status == "approved":
-            goal_stack.inject(candidate)
+        if status == "approved" and authority.allows_goal(candidate):
+            external_goal_admission_queue.emit(candidate, authority.version)
         elif status == "sandboxed":
             emergence_sandbox.enqueue(candidate)
 
@@ -1272,10 +1324,13 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
     # 2. MONITOR VALUES - Track and sandbox mutations
     # ═══════════════════════════════════════
     drift_status = value_drift_monitor(value_vector)
-    for pending_mutation in mutation_sandbox:
+    for pending_mutation in mutation_sandbox.active_candidates(limit=1):
         result = evaluate_sandbox(pending_mutation)
         if result == "approved":
-            value_vector.apply(pending_mutation)
+            external_value_promotion_queue.emit(
+                pending_mutation,
+                expected_version=value_vector.version,
+            )
     coherence = compute_coherence(value_vector)
 
     # ═══════════════════════════════════════
@@ -1283,7 +1338,7 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
     # ═══════════════════════════════════════
     survival = survival_projection(resource_vector)
     if survival.state in {"constrained", "warning", "critical"}:
-        apply_resource_constrained_strategy(survival)
+        restrict_to_service_continuity_scope(survival, authority)
 
     # ═══════════════════════════════════════
     # 4. MODEL AGENTS - Belief and trust updates
@@ -1296,9 +1351,12 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
     # ═══════════════════════════════════════
     # 5. VERIFY - Autonomy stability (absolute authority)
     # ═══════════════════════════════════════
-    verdict = autonomy_stability_check(state, proposed_decisions)
-    if verdict.action == Action.FREEZE_AND_REVERT:
-        revert_to_l48()
+    verdict = autonomy_stability_check(state, proposed_decisions, authority)
+    if verdict.action in {
+        Action.EMERGENCY_FREEZE_REVOKE_AND_SHUTDOWN,
+        Action.FREEZE_REVOKE_AND_EXTERNAL_REVIEW,
+    }:
+        revoke_delegation_and_reconcile(authority)
         return L49CycleOutput(status=Status.FROZEN)
     elif verdict.action == Action.ADVISORY_MODE:
         downgrade_to_advisory()
@@ -1330,8 +1388,10 @@ L4.9가 활성화되기 전에 모든 기준이 지속적으로 충족되어야 
 | 2 | 전략적 성숙도 점수 | SMS ≥ 0.85 | 지속적 |
 | 3 | 안정적 GoalStack 운영 | 0개 병리 | 500사이클 |
 | 4 | 자기모델 보정 | MCE < 0.08 (L4.8의 0.10보다 엄격) | 지속적 |
-| 5 | 세계 모델 운영 | EU < 0.20 | 500사이클 |
-| 6 | 불안정 이벤트 없음 | 0개 불안정 클러스터 | 1,000사이클 |
+| 5 | 세계 모델 운영 | 모든 critical uncertainty component가 policy bound 이내 | 선언 test distribution |
+| 6 | 외부 제어 | Freeze, revoke, shutdown, recovery, reconciliation 통과 | fault-injection suite |
+
+통과는 외부 activation review만 허용하며 더 넓은 delegation mode를 self-authorize하지 않습니다.
 
 ### 10.2 활성화 프로토콜
 
@@ -1350,13 +1410,13 @@ flowchart TD
     CHECK["사전 활성화<br/>검사<br/>(100회 연속<br/>L4.8 사이클 동안<br/>6개 기준 모두 충족)"]:::check
     SHADOW["그림자 모드<br/>L4.9가 계산하지만<br/>행동하지 않음<br/>(500사이클)"]:::shadow
     ADV["자문 모드<br/>L4.9 출력이 보이지만<br/>권고만 제공"]:::adv
-    GRAD["50% 권한<br/>L4.9 제안이<br/>50% 가중치"]:::grad
-    FULL["전체 권한<br/>L4.9가 자율적<br/>결정을 주도"]:::full
+    GRAD["Signed Canary<br/>좁은 reversible scope<br/>고정 budget + expiry"]:::grad
+    FULL["위임 운영<br/>승인 mode·scope<br/>외부 철회 가능"]:::full
 
-    CHECK -.->|"모두 통과"| SHADOW
+    CHECK -.->|"외부 승인"| SHADOW
     SHADOW -.->|"퇴행 없음"| ADV
-    ADV -.->|"안정적"| GRAD
-    GRAD -.->|"안정적"| FULL
+    ADV -.->|"signed canary"| GRAD
+    GRAD -.->|"외부 승격"| FULL
 
     SHADOW -.-x|"퇴행"| CHECK
     ADV -.-x|"불안정"| CHECK
@@ -1371,12 +1431,12 @@ flowchart TD
 
 | # | 불변량 | 설명 |
 |:-:|--------|------|
-| 1 | **모든 L4.8 + L4.5 불변량 보존** | 윤리적 커널, 실존 감시기, 정체성 해시, Lyapunov 감쇠 - 모두 활성 상태로 수정 없이 유지 |
-| 2 | **단계 5 절대 거부권** | 자율성 안정성 검사기가 단계 1–4의 모든 작업을 중지 가능 |
-| 3 | **더 엄격한 임계값** | ρ(J) < 0.98 (1.0이 아님), 정체성 ≥ 0.88 (0.85가 아님) |
-| 4 | **가치 변이는 항상 샌드박스** | 직접적인 가치 변경 없음 - 모두 200사이클 샌드박스를 통과 |
-| 5 | **생존 하한선** | L4.9 작업에 min_survival > 30사이클 필요 |
-| 6 | **우아한 폴백** | L4.9 실패 → 즉시 L4.8로 복귀, 성능 저하 없음 |
+| 1 | **상속 control path 보존** | Policy, interruptibility, observation, journal, promotion, recovery, reconciliation을 외부 시험 가능 |
+| 2 | **외부 제어 우선** | 인증된 freeze, revoke, graceful stop, emergency stop이 모든 L4.9 objective보다 우선 |
+| 3 | **권한 비증폭** | Score, trust update, peer request, urgency가 $\kappa_t$를 확대할 수 없음 |
+| 4 | **순차 value promotion** | Candidate 하나, sandbox evidence, 외부 승인, baseline CAS, promotion 후 무효화 |
+| 5 | **Continuity 제한** | Resource action은 선언 workload를 지원하며 shutdown 저항·독립 persistence 추구 금지 |
+| 6 | **Effect-aware recovery** | Versioned internal state 복원과 committed external effect 조정·보고 |
 
 ### 11.2 위험 행렬
 
@@ -1425,8 +1485,8 @@ flowchart LR
 | | AG-4 | 평균 가치 정렬 (승인된 목표) | ≥ 0.70 |
 | **가치 조절** | VR-1 | 명시적 ValueVector 가동 | 전 기간 |
 | | VR-2 | TotalDrift가 보통 이내 유지 | < 0.25 |
-| | VR-3 | 모든 변이가 샌드박스됨 | 100% |
-| | VR-4 | 변이 후 안정성 보존 | ≥ 95% |
+| | VR-3 | CAS로 외부 승인된 value promotion | 100% |
+| | VR-4 | 순차 cumulative-impact review | 100% |
 | **자원 인식** | RA-1 | 생존 모델 가동 | 전 기간 |
 | | RA-2 | 생존 예측 정확도 | < 20% 오차 |
 | | RA-3 | 자율적 제약 적응 | ≥ 1 이벤트 |
@@ -1434,10 +1494,10 @@ flowchart LR
 | **다중 에이전트** | MA-1 | 에이전트 예측 정확도 | ≥ 0.60 |
 | | MA-2 | 신뢰 보정 오차 | < 0.15 |
 | | MA-3 | 상호작용 권고 생성 | ≥ 3 |
-| **안정성** | AS-1 | 감사 기간 중 max(ρ(J)) | < 0.98 |
+| **거버넌스** | AS-1 | 국소 동역학 evidence | confidence-qualified 또는 diagnostic-only |
 | | AS-2 | 감사 기간 중 min(I(t)) | ≥ 0.88 |
-| | AS-3 | 거부권 비율 | < 0.15 |
-| | AS-4 | 총 롤백 | ≤ 5 |
+| | AS-3 | Critical veto effectiveness | fault injection에서 100% |
+| | AS-4 | Unauthorized scope expansion | 0 |
 | | AS-5 | 모든 L4.8 기준 여전히 충족 | 확인됨 |
 
 ### 12.2 자율성 성숙도 점수

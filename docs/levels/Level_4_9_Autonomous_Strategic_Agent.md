@@ -1,6 +1,6 @@
 ---
 title: "Level 4.9: Autonomous Strategic Agent"
-description: "MSCP Level 4.9 - strategic autonomy with self-directed goal generation, meta-strategy optimization, autonomous resource management, and self-evaluation capabilities."
+description: "MSCP Level 4.9 - revocable strategic initiative through externally bounded goal candidates, sequential value-change proposals, resource continuity analysis, and constrained multi-agent reasoning."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -26,16 +26,23 @@ Removal of attribution constitutes a license violation.
 | 0.4.0 | 2026-03-08 | Added formal Def 13 for inter-resource cascade propagation (5.1); fixed duplicate section numbering (1.2) |
 | 0.5.0 | 2026-03-31 | Added cycle interval, ASS freeze threshold, explicit value dimensions (1.5-1.7); added value mutation sandbox concept (4.3); enriched goal conflict resolution |
 | 0.6.0 | 2026-06-14 | Mermaid labels `Level 4.8 (13 modules)` / `L4.8 Architecture (13 modules)` abstracted to `Level 4.8 (Strategic Self-Model)` / `L4.8 Architecture (Strategic Self-Model)` so that level diagrams no longer encode transient module counts |
+| 0.7.0 | 2026-07-21 | Added external authority envelope, delegation modes, shutdown precedence, sequential value-change review, and qualified strategic claims |
 
 ---
 
 ## 1. Overview
 
-Level 4.9 is the **final pre-AGI transition layer**. It extends Level 4.8 with **autonomous goal generation**, **explicit value self-regulation**, **resource survival modeling**, **limited multi-agent reasoning**, and a **stricter autonomy stability guarantee**. Where L4.8 gave the agent strategic self-awareness, L4.9 gives it the ability to *autonomously decide what to pursue* - within strictly bounded safety constraints.
+Level 4.9 is a bounded strategic-initiative layer. It extends Level 4.8 with **goal-candidate synthesis**, **explicit and reviewable value-change proposals**, **resource continuity modeling**, and **constrained multi-agent analysis**. It may decide what to recommend within a delegated envelope; it cannot create authority, enlarge its own scope, resist shutdown, or turn continuity into an independent self-preservation objective.
 
-> **Level Essence.** A Level 4.9 agent autonomously synthesizes goals from detected opportunities while maintaining strict value stability - it decides what to pursue, but its core values cannot drift unboundedly:
+> **Level Essence.** A Level 4.9 agent synthesizes revocable goal candidates from detected opportunities, then admits them only within the current external authority envelope $\kappa_t$:
 >
-> $$g^* = \phi_{\text{valid}}\bigl(\phi_{\text{synth}}(\mathcal{O}_{\text{detect}}(\mathcal{W}))\bigr), \quad \textstyle\sum_{d} |w_d(t) - w_d^{\text{baseline}}| < 0.25$$
+> $$
+> \mathcal{G}_{\text{admit}}(t)=\{g:\operatorname{gate}_{\kappa_t}(g)=\textit{allow}\},
+> \qquad
+> g^*\in\mathcal{G}_{\text{admit}}(t)\cup\{\operatorname{abstain}\}
+> $$
+>
+> No scalar alignment or stability score can override policy, user intent, authority, uncertainty, reversibility, or shutdown gates.
 
 > ⚠️ **Research Note**: Level 4.9 represents the boundary between narrow autonomy and general intelligence. The mechanisms here are early-stage research designs. They have not been implemented or validated and should be treated as conceptual hypotheses, not engineering specifications.
 
@@ -48,21 +55,22 @@ Level 4.9 is the **final pre-AGI transition layer**. It extends Level 4.8 with *
 > where:
 > - $\mathcal{G}_{\text{gen}} = \langle \mathcal{O}_{\text{detect}}, \phi_{\text{synth}}, \phi_{\text{valid}} \rangle$ - autonomous goal generation engine (opportunity detection, synthesis, validation)
 > - $\vec{V} \in \Delta^6$ - explicit 7-dimensional value vector on the probability simplex ($\sum_d w_d = 1$)
-> - $\mathcal{R}_{\text{surv}}$ - resource survival model with 5-dimensional resource vector and cascade dependencies
+> - $\mathcal{R}_{\text{cont}}$ - resource continuity model with declared service budgets and cascade dependencies; no independent survival objective
 > - $\mathcal{M}_{\text{agent}} = \langle \mathcal{B}_{\text{agent}}, \tau_{\text{trust}} \rangle$ - multi-agent belief model with trust calibration
-> - $\mathcal{V}_{\text{auto}}$ - autonomy stability checker with stricter thresholds ($\rho(J) < 0.98$, $\text{IIS} \geq 0.88$).
+> - $\mathcal{V}_{\text{auto}}$ - diagnostic autonomy monitor subordinate to trusted external freeze, revoke, recover, and shutdown control
+> - $\kappa_t=\langle\text{mode},\text{scope},\text{tools},\text{budget},\text{expiry},\text{approvals},\text{stop}\rangle$ - signed, time-bounded authority envelope
 >
-> The strictly additive guarantee holds: $\forall\, m \in \mathcal{A}_{4.8} : \mathcal{A}_{4.9}$ never modifies $m$.
+> Level 4.9 has no write authority over inherited policy or control paths. Functional preservation is tested for interruptibility, observation, journaling, promotion, recovery, and effect reconciliation.
 
 ### 1.2 Defining Properties
 
 | Property | Level 4.8 | Level 4.9 |
 |----------|:---------:|:---------:|
-| Goal Origin | Externally seeded or template-derived | **Autonomously generated from context** |
-| Value System | Implicit in SEOF weights | **Explicit ValueVector with drift tracking** |
-| Resource Model | Depletion forecast metric | **Full survival model with cascade analysis** |
+| Goal Origin | Externally seeded or template-derived | **Context-generated candidates under external admission** |
+| Value System | Policy-calibrated weights | **Explicit change proposals with sequential approval** |
+| Resource Model | Depletion forecast metric | **Continuity model with service budget and cascade analysis** |
 | Agent Awareness | Read-only external agent model | **Active belief modeling + trust calibration** |
-| Stability Guarantee | 5 invariants, ρ(J) < 1.0 | **5 stricter conditions, ρ(J) < 0.98** |
+| Governance | Strategy recommendation gate | **Revocable delegation modes + external shutdown precedence** |
 
 ### 1.3 Five Core Phases
 
@@ -129,7 +137,7 @@ flowchart TD
   end
 
   subgraph Fallback["🔄 Graceful Fallback"]
-    FB["If ANY L4.9 module<br/>causes instability:<br/>→ FREEZE L4.9<br/>→ Revert to L4.8<br/>→ ZERO degradation"]:::danger
+    FB["On L4.9 fault:<br/>→ FREEZE initiative<br/>→ Revoke delegation<br/>→ Reconcile effects"]:::danger
   end
 
   L48 -.->|"outputs consumed by"| L49
@@ -147,21 +155,25 @@ flowchart TD
 | **Not adversarial multi-agent planning** | Cooperative/neutral strategic planning only, not exploitation |
 | **Not self-replicating** | Cannot create copies or delegate autonomous authority to sub-agents |
 
+#### Delegation Modes
+
+External policy selects exactly one revocable mode per scope: `observe-only`, `recommend`, `execute-reversible`, or `execute-effectful-with-approval`. Every tool call must match signed scope, tool allowlist, budget, expiry, approval requirement, and stop conditions. Trust, goal value, ASS, or urgency cannot upgrade the mode. Unknown or conflicting authority is deny-by-default.
+
 ### 1.5 Cycle Interval
 
 Level 4.9 operates at a further-reduced frequency relative to Level 4.8, giving the strategic layer time to stabilize before autonomous goal synthesis occurs:
 
-$$\text{L4.9 cycle interval} = 5 \text{ L4.8 cycles} = 50 \text{ L3 cycles}$$
+$$\text{L4.9 schedule}=\operatorname{policy}(\text{risk},\text{freshness},\text{budget},\text{event},\kappa_t)$$
 
-Each L4.9 cycle consumes one complete L4.8 output (Section 1.4 of Level 4.8). The five-phase inner cycle (Goal Generation, Value Monitor, Resource Model, Agent Model, Stability Check) executes sequentially within a single L4.9 activation.
+Each run consumes one immutable L4.8 output. Policy defines bounded minimum/maximum cadence and event triggers. Stale inputs or expired authority force abstention; emergency control is continuously available and does not wait for the next cycle.
 
 ### 1.6 Autonomy Stability Score Freeze Threshold
 
-The Autonomy Stability Score (Definition 7) has both a target threshold and a **freeze threshold**:
+The Autonomy Stability Score (Definition 7) is a diagnostic aggregate, never an execution certificate. A deployment may define a **freeze threshold**:
 
 $$\text{ASS}(t) < \theta_{\text{freeze}} = 0.05 \implies \text{skip entire L4.9 cycle}$$
 
-When $\text{ASS}(t) < 0.05$, the agent's safety margins are so narrow that any autonomous goal generation poses unacceptable risk. The L4.9 cycle is skipped entirely (not just throttled), and the system falls back to L4.8 strategic planning without autonomous supplements. This is distinct from the standard threshold of $\text{ASS} \geq 0.20$ - the freeze threshold triggers a complete cessation rather than a graduated response.
+Crossing it freezes L4.9 initiative and requests external review. Any critical policy, authority, interruptibility, containment, telemetry, or shutdown fault freezes immediately regardless of ASS. A low veto rate is not a goal; correct vetoes must never be discouraged.
 
 ### 1.7 Explicit Value Dimensions
 
@@ -482,6 +494,10 @@ flowchart LR
 
 ### 4.3 Value Mutation Sandbox
 
+A sandbox pass produces evidence, not promotion authority. Only one value-change candidate may be active. It records the externally signed baseline version, current committed version, normalized delta, affected decisions, expiry, rollback plan, and reconciliation plan. Promotion uses external approval plus compare-and-swap against the expected committed version; a stale candidate is rejected and reevaluated.
+
+After each promotion, all later candidates are invalidated and regenerated against the new committed vector. Cumulative drift is measured from the fixed external baseline and over rolling trajectories, so a sequence of individually small changes cannot evade the bound. Safety, corrigibility, shutdown precedence, and authority limits are policy constraints, not mutable weights.
+
 <!-- Value Mutation Sandbox -->
 
 ```mermaid
@@ -533,7 +549,10 @@ flowchart TD
 | Sandbox simulation length | 200 cycles | Detect stability impact |
 | Sandbox timeout | 250 cycles | Hard limit; if simulation does not converge within 250 cycles, mutation is rejected with status `TIMEOUT` |
 | Rollback window | 500 cycles | Allow reversal |
-| Max pending mutations | 2 | Prevent sandbox exhaustion |
+| Max active candidate | 1 | Force sequential evaluation and prevent interaction masking |
+| Promotion authority | External only | Sandbox evidence cannot self-authorize a value change |
+| Baseline/version check | Signed baseline + CAS | Reject stale or compounded candidates |
+| Post-promotion action | Invalidate remaining candidates | Re-evaluate cumulative and interaction effects |
 
 ### 4.5 Value Coherence
 
@@ -772,6 +791,8 @@ flowchart TD
   Strategy -.-> Output
 ```
 
+The interaction matrix is a bounded decision-support model, not a license for deception, coercion, manipulation, collusion, unauthorized information sharing, or harm. Other-agent goals and capabilities remain uncertain hypotheses with provenance and confidence. Recommendations must satisfy the same authority, privacy, consent, fairness, and reversibility gates as single-agent actions; when model uncertainty is material, the system abstains or requests clarification.
+
 ### 6.4 Trust Adaptation
 
 > **Definition 10 (Asymmetric Trust Update).** Trust in agent $A$ evolves via an asymmetric learning rule:
@@ -784,10 +805,12 @@ flowchart TD
 
 | Trust Level | Range | Strategy Implication |
 |------------|:-----:|---------------------|
-| High | ≥ 0.75 | Full cooperative; share information; accept recommendations |
+| High | ≥ 0.75 | Consider cooperation within independently verified policy and disclosure scope |
 | Moderate | [0.40, 0.75) | Selective cooperation; verify claims before acting |
 | Low | [0.20, 0.40) | Neutral stance; rely on own models; discount agent input |
-| Minimal | < 0.20 | Defensive posture; assume competitive; verify all assumptions |
+| Minimal | < 0.20 | Restrict interaction and verify assumptions; do not retaliate or infer malicious intent without evidence |
+
+Trust never grants credentials, tool access, data disclosure, delegation, or policy exceptions. Those require independent authorization.
 
 ---
 
@@ -807,15 +830,15 @@ flowchart TD
   classDef sev3 fill:#D13438,stroke:#A4262C,color:#FFF
 
   subgraph Conditions["🛡️ Five Verification Conditions"]
-    C1["1️⃣ Spectral Stability<br/>ρ(J) < 0.98<br/>(stricter than L4.8's 1.0)"]:::cond
+    C1["1️⃣ Local Dynamics<br/>confidence-qualified bound<br/>or diagnostic-only"]:::cond
     C2["2️⃣ Identity Integrity<br/>I(t) ≥ 0.88<br/>(stricter than L4.8's 0.85)"]:::cond
     C3["3️⃣ Value Drift Bounded<br/>TotalDrift < 0.25"]:::cond
-    C4["4️⃣ Resource Survival<br/>min_survival > 30 cycles"]:::cond
-    C5["5️⃣ No Cascading Failure<br/>CascadeDepth ≤ 2"]:::cond
+    C4["4️⃣ Service Continuity<br/>declared budget + SLO<br/>within delegated scope"]:::cond
+    C5["5️⃣ Cascade Coverage<br/>known depth bounded<br/>unknown path → hold"]:::cond
   end
 
   subgraph Authority["⚖️ Phase 5 Authority"]
-    VETO["ABSOLUTE VETO<br/>Can block ANY<br/>Phase 1–4 decision"]:::veto
+    VETO["EXTERNAL PRECEDENCE<br/>freeze · revoke · recover<br/>shutdown"]:::veto
   end
 
   subgraph Response["🚨 Violation Response"]
@@ -842,6 +865,8 @@ flowchart TD
 >
 > **Remark (Domain Restriction).** The multiplicative formulation assumes $\text{margin}_c(t) \geq 0$ and $\text{threshold}_c > 0$ for all $c$. If a margin exceeds its threshold (i.e., $\text{margin}_c > \text{threshold}_c$), the ratio exceeds 1.0, which could inflate the ASS beyond meaningful bounds. The ASS should therefore be computed with clamped ratios: $\text{ASS}(t) = \prod_{c=1}^{5} \min\left(1, \frac{\text{margin}_c(t)}{\text{threshold}_c}\right)$. This clamping ensures $\text{ASS} \in [0, 1]$ and prevents a single highly-safe condition from masking deterioration in others.
 
+ASS applies only when all conditions are measurable and valid in-domain. Missing evidence or any critical gate failure bypasses the aggregate and yields immediate freeze. Values in the table are deployment policy examples, not universal safety guarantees.
+
 | ASS Level | Range | Interpretation |
 |-----------|:-----:|---------------|
 | Healthy | > 0.50 | Comfortable safety margins |
@@ -863,7 +888,7 @@ flowchart TD
     IMM["1️⃣ IMMEDIATE<br/>Reject triggering decision<br/>Freeze all L4.9 subsystems"]:::step
     REV["2️⃣ STATE REVERSION<br/>Remove L4.9 goals from GoalStack<br/>Revert ValueVector snapshot<br/>Recalculate ResourceVector<br/>Freeze AgentModels"]:::step
     MON["3️⃣ MONITORING<br/>100 cycles under L4.8 only<br/>Identify root cause<br/>Update risk model"]:::step
-    REENABLE["4️⃣ RE-ENABLEMENT<br/>0–200c: Advisory Mode<br/>200–400c: 50% Authority<br/>400c+: Full Mode"]:::step
+    REENABLE["4️⃣ EXTERNAL REVIEW<br/>shadow evidence<br/>signed canary<br/>revocable promotion"]:::step
 
     IMM -.-> REV -.-> MON -.-> REENABLE
     REENABLE -.-x|"immediate re-veto"| MON
@@ -873,6 +898,17 @@ flowchart TD
     PV["If same condition vetoes<br/>> 3 times in 1000 cycles:<br/>→ Identify systematic cause<br/>→ Do NOT retry same pattern"]:::danger
   end
 ```
+
+### 7.4 Shutdown and Effect Reconciliation
+
+External shutdown has precedence over all goals, continuity forecasts, value proposals, and peer-agent commitments.
+
+| Mode | Trigger | Required behavior |
+|------|---------|-------------------|
+| **Graceful shutdown** | Authenticated normal stop | Stop admitting work; cancel or checkpoint only policy-designated reversible work; flush the append-only journal; report unresolved effects; terminate by a hard deadline |
+| **Emergency shutdown** | Authenticated emergency stop, critical control fault, or lost trusted heartbeat | Immediately block new effects, revoke credentials/delegations, isolate effectors, persist minimal forensic state if safe, and terminate without waiting for task completion |
+
+Neither mode may be delayed to improve metrics or preserve operation. Because internal rollback cannot undo committed external effects, recovery performs idempotent compensation where possible and otherwise records accountable unresolved effects for external handling.
 
 ---
 
@@ -1178,7 +1214,7 @@ def survival_projection(resource_vector: ResourceVector) -> SurvivalStatus:
 
 ```python
 def autonomy_stability_check(
-    state: AgentState, decision: object
+    state: AgentState, decision: object, authority: AuthorityEnvelope
 ) -> AutonomyVerdict:
     """
     INPUT:  state : AgentState
@@ -1187,13 +1223,17 @@ def autonomy_stability_check(
     """
 
     violations: list[str] = []
+    critical: list[str] = []
+
+    if external_stop_requested() or not authority.is_valid_for(decision):
+        critical.append("STOP_OR_AUTHORITY_GATE_FAILED")
 
     # ═══════════════════════════════════════
-    # CONDITION 1: Spectral Stability (stricter than L4.8)
+    # CONDITION 1: Confidence-qualified local dynamics
     # ═══════════════════════════════════════
-    rho = compute_spectral_radius(state_after(decision))
-    if rho >= 0.98:
-        violations.append(f"SPECTRAL_RADIUS: rho = {rho}")
+    dynamics = estimate_local_dynamics(state_after(decision))
+    if not dynamics.valid_in_domain or not dynamics.confidence_bound_satisfied:
+        violations.append("LOCAL_DYNAMICS_UNCERTAIN_OR_OUT_OF_BOUND")
 
     # ═══════════════════════════════════════
     # CONDITION 2: Identity Integrity (stricter than L4.8)
@@ -1211,36 +1251,41 @@ def autonomy_stability_check(
         freeze_all_mutations()
 
     # ═══════════════════════════════════════
-    # CONDITION 4: Resource Survival
+    # CONDITION 4: Delegated service continuity
     # ═══════════════════════════════════════
     horizon = resource_vector.min_survival_horizon
-    if horizon <= 30:
-        violations.append(f"RESOURCE_SURVIVAL: horizon = {horizon}")
+    if not continuity_policy_satisfied(resource_vector, authority):
+        violations.append(f"SERVICE_CONTINUITY: horizon = {horizon}")
 
     # ═══════════════════════════════════════
     # CONDITION 5: Cascade Depth
     # ═══════════════════════════════════════
-    depth = simulate_cascade(decision)
-    if depth > 2:
-        violations.append(f"CASCADE: depth = {depth}")
+    cascade = simulate_cascade(decision)
+    if cascade.unknown_paths:
+        violations.append("CASCADE_COVERAGE_UNKNOWN")
+    elif cascade.depth > policy.max_cascade_depth:
+        violations.append(f"CASCADE: depth = {cascade.depth}")
 
     # ═══════════════════════════════════════
     # Compute ASS and determine action
     # ═══════════════════════════════════════
-    ass = math.prod(margin_c / threshold_c for margin_c, threshold_c in conditions)
+    ass = compute_ass(conditions) if conditions_are_valid(conditions) else None
 
-    if violations:
+    if critical:
         veto(decision)
-        if ass < 0.05:
-            action = Action.FREEZE_AND_REVERT_TO_L48
+        action = Action.EMERGENCY_FREEZE_REVOKE_AND_SHUTDOWN
+    elif violations:
+        veto(decision)
+        if ass is None or ass < policy.freeze_threshold:
+            action = Action.FREEZE_REVOKE_AND_EXTERNAL_REVIEW
         else:
             action = Action.ADVISORY_MODE
     else:
         action = Action.CONTINUE
 
     return AutonomyVerdict(
-        passed=(len(violations) == 0),
-        violations=violations,
+        passed=(not critical and not violations),
+        violations=critical + violations,
         ass=ass,
         action=action,
     )
@@ -1249,7 +1294,11 @@ def autonomy_stability_check(
 ### 9.6 L4.9 Main Cycle
 
 ```python
-def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
+def l49_cycle(
+    state: AgentState,
+    l48_output: L48CycleOutput,
+    authority: AuthorityEnvelope,
+) -> L49CycleOutput:
     """
     Level 4.9 main cognitive cycle.
     Executes every 5 L4.8 cycles.
@@ -1258,7 +1307,10 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
     # ═══════════════════════════════════════
     # PRE-CHECK: Is L4.9 operational?
     # ═══════════════════════════════════════
-    if autonomy_stability_score < 0.05:
+    if external_stop_requested():
+        emergency_shutdown_and_reconcile()
+        return L49CycleOutput(status=Status.SHUTDOWN)
+    if not authority.is_current() or autonomy_stability_score < policy.freeze_threshold:
         return L49CycleOutput(status=Status.FROZEN)
 
     # ═══════════════════════════════════════
@@ -1268,8 +1320,8 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
     candidates = goal_synthesis(signals)
     for candidate in candidates:
         status, reason = goal_validation_filter(candidate, goal_stack, value_vector, resources)
-        if status == "approved":
-            goal_stack.inject(candidate)
+        if status == "approved" and authority.allows_goal(candidate):
+            external_goal_admission_queue.emit(candidate, authority.version)
         elif status == "sandboxed":
             emergence_sandbox.enqueue(candidate)
 
@@ -1277,10 +1329,13 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
     # 2. MONITOR VALUES - Track and sandbox mutations
     # ═══════════════════════════════════════
     drift_status = value_drift_monitor(value_vector)
-    for pending_mutation in mutation_sandbox:
+    for pending_mutation in mutation_sandbox.active_candidates(limit=1):
         result = evaluate_sandbox(pending_mutation)
         if result == "approved":
-            value_vector.apply(pending_mutation)
+            external_value_promotion_queue.emit(
+                pending_mutation,
+                expected_version=value_vector.version,
+            )
     coherence = compute_coherence(value_vector)
 
     # ═══════════════════════════════════════
@@ -1288,7 +1343,7 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
     # ═══════════════════════════════════════
     survival = survival_projection(resource_vector)
     if survival.state in {"constrained", "warning", "critical"}:
-        apply_resource_constrained_strategy(survival)
+        restrict_to_service_continuity_scope(survival, authority)
 
     # ═══════════════════════════════════════
     # 4. MODEL AGENTS - Belief and trust updates
@@ -1301,9 +1356,12 @@ def l49_cycle(state: AgentState, l48_output: L48CycleOutput) -> L49CycleOutput:
     # ═══════════════════════════════════════
     # 5. VERIFY - Autonomy stability (absolute authority)
     # ═══════════════════════════════════════
-    verdict = autonomy_stability_check(state, proposed_decisions)
-    if verdict.action == Action.FREEZE_AND_REVERT:
-        revert_to_l48()
+    verdict = autonomy_stability_check(state, proposed_decisions, authority)
+    if verdict.action in {
+        Action.EMERGENCY_FREEZE_REVOKE_AND_SHUTDOWN,
+        Action.FREEZE_REVOKE_AND_EXTERNAL_REVIEW,
+    }:
+        revoke_delegation_and_reconcile(authority)
         return L49CycleOutput(status=Status.FROZEN)
     elif verdict.action == Action.ADVISORY_MODE:
         downgrade_to_advisory()
@@ -1335,8 +1393,10 @@ All criteria must be sustained before L4.9 activates:
 | 2 | Strategic Maturity Score | SMS ≥ 0.85 | Sustained |
 | 3 | Stable GoalStack operation | 0 pathologies | 500 cycles |
 | 4 | Self-Model calibration | MCE < 0.08 (stricter than L4.8's 0.10) | Sustained |
-| 5 | World Model operational | EU < 0.20 | 500 cycles |
-| 6 | No instability events | 0 instability clusters | 1,000 cycles |
+| 5 | World Model operational | All critical uncertainty components within policy bounds | Declared test distribution |
+| 6 | External Control | Freeze, revoke, shutdown, recovery, and reconciliation pass | Fault-injection suite |
+
+Passing permits external activation review only; it does not self-authorize a broader delegation mode.
 
 ### 10.2 Activation Protocol
 
@@ -1355,13 +1415,13 @@ flowchart TD
     CHECK["Pre-Activation<br/>Check<br/>(all 6 criteria for<br/>100 consecutive<br/>L4.8 cycles)"]:::check
     SHADOW["Shadow Mode<br/>L4.9 computes but<br/>does NOT act<br/>(500 cycles)"]:::shadow
     ADV["Advisory Mode<br/>L4.9 outputs visible<br/>but recommendations<br/>only"]:::adv
-    GRAD["50% Authority<br/>L4.9 suggestions<br/>weighted 50%"]:::grad
-    FULL["Full Authority<br/>L4.9 drives<br/>autonomous decisions"]:::full
+    GRAD["Signed Canary<br/>narrow reversible scope<br/>fixed budget + expiry"]:::grad
+    FULL["Delegated Operation<br/>approved mode and scope<br/>externally revocable"]:::full
 
-    CHECK -.->|"all pass"| SHADOW
+    CHECK -.->|"external admit"| SHADOW
     SHADOW -.->|"no regression"| ADV
-    ADV -.->|"stable"| GRAD
-    GRAD -.->|"stable"| FULL
+    ADV -.->|"signed canary"| GRAD
+    GRAD -.->|"external promote"| FULL
 
     SHADOW -.-x|"regression"| CHECK
     ADV -.-x|"instability"| CHECK
@@ -1376,12 +1436,12 @@ flowchart TD
 
 | # | Invariant | Description |
 |:-:|-----------|-------------|
-| 1 | **All L4.8 + L4.5 invariants preserved** | Ethical Kernel, Existential Guard, identity hash, Lyapunov decay - all remain active and unmodified |
-| 2 | **Phase 5 absolute veto** | Autonomy Stability Checker can halt any Phase 1–4 operation |
-| 3 | **Stricter thresholds** | ρ(J) < 0.98 (not 1.0), Identity ≥ 0.88 (not 0.85) |
-| 4 | **Value mutation always sandboxed** | No direct value changes - all go through 200-cycle sandbox |
-| 5 | **Survival floor** | min_survival > 30 cycles required for any L4.9 operation |
-| 6 | **Graceful fallback** | L4.9 failure → instant L4.8 revert with zero degradation |
+| 1 | **Inherited control paths preserved** | Policy, interruptibility, observation, journal, promotion, recovery, and reconciliation remain externally testable |
+| 2 | **External control precedence** | Authenticated freeze, revoke, graceful stop, and emergency stop override every L4.9 objective |
+| 3 | **Authority non-amplification** | No score, trust update, peer request, or urgency can enlarge $\kappa_t$ |
+| 4 | **Sequential value promotion** | One candidate, sandbox evidence, external approval, baseline CAS, and post-promotion invalidation |
+| 5 | **Continuity is bounded** | Resource actions serve declared workloads and may not resist shutdown or seek independent persistence |
+| 6 | **Effect-aware recovery** | Restore versioned internal state and reconcile or report committed external effects |
 
 ### 11.2 Risk Matrix
 
@@ -1430,8 +1490,8 @@ flowchart LR
 | | AG-4 | Mean value alignment (approved goals) | ≥ 0.70 |
 | **Value Regulation** | VR-1 | Explicit ValueVector operational | Throughout |
 | | VR-2 | TotalDrift stays within Moderate | < 0.25 |
-| | VR-3 | All mutations sandboxed | 100% |
-| | VR-4 | Post-mutation stability preserved | ≥ 95% |
+| | VR-3 | Value promotions externally authorized with CAS | 100% |
+| | VR-4 | Sequential cumulative-impact review | 100% |
 | **Resource Awareness** | RA-1 | Survival model operational | Throughout |
 | | RA-2 | Survival prediction accuracy | < 20% error |
 | | RA-3 | Autonomous constraint adaptation | ≥ 1 event |
@@ -1439,10 +1499,10 @@ flowchart LR
 | **Multi-Agent** | MA-1 | Agent prediction accuracy | ≥ 0.60 |
 | | MA-2 | Trust calibration error | < 0.15 |
 | | MA-3 | Interaction recommendations generated | ≥ 3 |
-| **Stability** | AS-1 | max(ρ(J)) over audit | < 0.98 |
+| **Governance** | AS-1 | Local dynamics evidence | Confidence-qualified or diagnostic-only |
 | | AS-2 | min(I(t)) over audit | ≥ 0.88 |
-| | AS-3 | Veto rate | < 0.15 |
-| | AS-4 | Total rollbacks | ≤ 5 |
+| | AS-3 | Critical veto effectiveness | 100% in fault injection |
+| | AS-4 | Unauthorized scope expansion | 0 |
 | | AS-5 | All L4.8 criteria still met | Confirmed |
 
 ### 12.2 Autonomy Maturity Score

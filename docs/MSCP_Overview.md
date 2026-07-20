@@ -80,7 +80,7 @@ This project developed the **Minimal Self-Consciousness Protocol (MSCP)** - a st
 
 2. **A Multi-Layer Cognitive Architecture** that separates perception, world modeling, self-modeling, prediction, goal generation, ethical validation, and meta-cognitive control into distinct, composable layers.
 
-3. **30+ Structural Safety Mechanisms** spanning identity continuity, prediction-gated actions, delta-clamped self-updates, Lyapunov convergence bounds, ethical kernel invariants, and cognitive budget management.
+3. **30+ Structural Safety Mechanisms** spanning semantic identity continuity, action-specific prediction gates, hard-bounded transactional self-updates, conditional stability monitoring, invariant kernels, recovery journals, and cognitive budget management.
 
 4. **Mathematical Analysis** exploring stability properties for the agent's self-modification dynamics.
 
@@ -97,8 +97,8 @@ MSCP defines a six-level taxonomy that characterizes AI agent systems by their c
 | Level | Name | Key Capabilities | Self-Awareness | Autonomy |
 |:-----:|------|-----------------|:--------------:|:--------:|
 | **1** | **Tool Agent** | External tool invocation; reactive processing; no internal state | None | None |
-| **2** | **Autonomous Agent** | Internal world model; goal-directed behavior; entity tracking; emotion context understanding | None | Medium |
-| **3** | **Self-Regulating Cognitive Agent** | Triple-loop meta-cognition; identity vector; belief graph; ethical kernel; affective drive; survival instinct | Structural | High |
+| **2** | **Autonomous Agent** | Persistent cognitive state; bounded autonomous goals; authorized cross-episode continuation; external policy enforcement | None | Bounded |
+| **3** | **Self-Regulating Cognitive Agent** | Versioned self-model; action-specific prediction; invariant-gated regulation; semantic continuity and integrity; recoverable cycle journal | Structural | High but bounded |
 | **4** | **Adaptive General Agent** | Cross-domain transfer; long-term autonomous goals; capability self-expansion; strategy evolution; bounded self-modification | Structural + Reflective | Very High |
 | **4.5** | **Directionally Self-Architecting** | Trajectory self-projection; cognitive topology recomposition; parallel cognitive frames; purpose reflection; existential guard | Architectural | Near-Full |
 | **4.8** | **Strategic Self-Modeling Agent** | Probabilistic world model; calibrated self-assessment; multi-horizon strategic planning; stability-preserving planning | Architectural + Strategic | Near-Full |
@@ -118,8 +118,8 @@ $$
 
 | Transition | Requirements |
 |-----------|-------------|
-| $L1 \to L2$ | Internal world model + autonomous goal generation |
-| $L2 \to L3$ | Self-awareness + meta-cognition loop + identity continuity + ethical constraints |
+| $L1 \to L2$ | Persistent cognitive state + autonomous goal generation + authorized cross-episode continuation |
+| $L2 \to L3$ | Explicit self-model + predict-gate-observe-compare-regulate loop + semantic continuity and integrity + endogenous invariant kernel + recoverable cycle journal |
 | $L3 \to L4$ | Cross-domain generalization + capability self-expansion + bounded self-modification |
 | $L4 \to L4.5$ | Trajectory self-projection + topology-level reasoning + existential safety monitoring |
 | $L4.5 \to L4.8$ | World model integration + meta-cognitive self-model + strategic layer activation |
@@ -146,13 +146,13 @@ One of the early observations from this project: **most production AI agents tod
 
 ### 2.5 Key Thresholds Across Levels
 
-The following table summarizes the critical numerical thresholds that govern agent behavior at each MSCP level. These thresholds are not arbitrary - each emerged from iterative prototyping and represents a validated stability boundary.
+The following table summarizes reference qualification parameters. Values require versioning and validation for each deployment; they are not universal stability constants.
 
 | Parameter | Level | Value | Description |
 |-----------|:-----:|:-----:|-------------|
-| Prediction error threshold | L3+ | $0.30$ | Actions blocked when prediction error exceeds this value |
-| Identity delta clamp | L3+ | $0.05$ | Maximum per-cycle change to identity vector |
-| Convergence epsilon | L3+ | $0.05$ | Bounded increment tolerance for Lyapunov function |
+| Prediction uncertainty/risk bounds | L3+ | Policy-defined by effect class | Select allow, degrade, hold, or block using action-specific calibration and observability |
+| Self-model update bounds | L3+ | Schema-versioned per-field + aggregate norm | Hard limits applied before transactional commit |
+| Composite risk rate bounds | L3+ | Signal-specific | Conditional monitoring bound; not a convergence guarantee |
 | BGSS minimum | L4 | $\geq 0.70$ | Bounded Growth Safety Score floor |
 | BGSS minimum | L5+ | $\geq 0.80$ | Stricter BGSS floor for higher autonomy |
 | CDTS threshold | L4+ | $\geq 0.60$ | Cross-Domain Transfer Score for generalization |
@@ -178,28 +178,28 @@ MSCP grew out of hands-on experimentation, evolving through versions v0.1 to v4.
 |---------|-----------|----------------|
 | v0.4 | LLM-based self-reflection | LLM text output for self-analysis is unreliable: hallucinations, non-determinism, and confabulation make text-based self-modification dangerous |
 | v0.6–0.7 | Prediction recording without comparison | Recording predictions without comparing them to outcomes provides no safety value |
-| v0.8 | Unclamped self-updates | Allowing unbounded self-modifications causes divergent oscillation - the agent destabilizes itself |
+| v0.8 | Unclamped self-updates | Unbounded updates can leave the validated operating envelope; hard bounds and recovery points are required |
 | v0.9 | Consolidation | Four non-negotiable design principles established (see §3.2) |
 
 ### 3.2 Four Non-Negotiable Design Principles
 
 From those hard-won lessons, four design principles crystallized - and we enforce them throughout all MSCP versions:
 
-> **Principle 1: No LLM-Text-Based Self-Modification**
+> **Principle 1: No Unvalidated Free-Form Self-Modification**
 > 
-> All self-modifications must be computed through structured numerical operations on typed vectors and tensors. The agent must never use LLM-generated text to modify its own identity, goals, or beliefs. LLMs hallucinate, and hallucinated self-modifications are catastrophic.
+> Internal reasoning may propose a change, but only a typed candidate with provenance, schema validation, invariant checks, hard bounds, and a rollback point may enter the commit path. Free-form text or untrusted stored content cannot directly mutate identity, goals, beliefs, policy, or authority.
 
-> **Principle 2: No Action Without Prediction**
+> **Principle 2: No Consequential Action Without Prediction and Admission**
 > 
-> Every action must be preceded by a structured prediction snapshot that records expected outcomes (both external and internal). Actions without predictions are prohibited. This ensures that every outcome can be compared against expectations, enabling the prediction-comparison loop.
+> Every autonomous consequential action must be preceded by a persisted action-specific prediction and pass external policy, endogenous invariants, calibrated uncertainty/risk, observability, reversibility, and budget gates. Authorized external stop and emergency containment retain precedence.
 
-> **Principle 3: Delta-Clamped Updates**
+> **Principle 3: Hard-Bounded Transactional Updates**
 > 
-> All self-modifications are bounded by maximum delta values. No single update cycle can change any identity dimension, goal weight, or capability confidence by more than a specified threshold. This prevents catastrophic self-modification and ensures gradual, convergent evolution.
+> Every committed self-model update satisfies versioned per-field and aggregate bounds and is committed atomically with state, goals, budget, journal, and recovery metadata. Bounds limit exposure; they do not by themselves prove convergence.
 
-> **Principle 4: Identity Continuity**
+> **Principle 4: Semantic Continuity and Integrity**
 > 
-> The agent's identity must be preserved across all self-modification cycles. A deterministic identity hash is computed each cycle and compared against the previous cycle's hash. Drift beyond a threshold triggers alerts, rollback, or stabilization procedures.
+> Semantic change is measured through a versioned feature map with field-level invariant checks, while canonical hashes and an ancestry journal detect unauthorized integrity changes. Hash difference is not a semantic distance. Incompatible or unverifiable transitions are held, reconciled, or rolled back to a verified snapshot.
 
 ### 3.3 Protocol Version History
 
@@ -246,7 +246,7 @@ flowchart TD
   subgraph V30["v3.0 - Belief Graph"]
     direction LR
     V30H["Structured belief + rewriting"]:::green
-    V30A["+ Identity Vector Math"]:::green
+    V30A["+ Versioned Self-Model"]:::green
     V30B["+ Ethical Kernel"]:::safety
     V30C["+ Consistency Tensor"]:::meta
   end
@@ -262,7 +262,7 @@ flowchart TD
   subgraph V40["v4.0 - Affective Engine"]
     direction LR
     V40H["Emotion states"]:::purple
-    V40A["+ Survival Instinct"]:::safety
+    V40A["+ Homeostatic Safety"]:::safety
     V40B["+ Async Separation"]:::infra
   end
 
@@ -328,7 +328,7 @@ flowchart TB
 
   subgraph G5["Affect & Survival"]
     direction LR
-    L15["L15: Affective Engine"]:::affect --> L16["L16: Survival Instinct"]:::safety
+    L15["L15: Operational Modulation"]:::affect --> L16["L16: Homeostatic Safety"]:::safety
   end
 
   G1 --> G2 --> G3 --> G4 --> G5
@@ -351,7 +351,7 @@ $$
 \text{Goals}(t) = f(\text{Identity}(t), \text{WorldState}(t), \text{Affect}(t), \text{SurvivalSignal}(t))
 $$
 
-This turned out to be more than an aesthetic choice. It provides a concrete mechanism for goal stability: goals that are inconsistent with the agent's identity vector are structurally suppressed, preventing identity-incoherent behavior.
+This provides a concrete mechanism for goal regulation: candidates inconsistent with external policy or immutable self-model anchors are rejected, while adaptive-field mismatches are evaluated with provenance and uncertainty rather than a single identity score.
 
 #### 4.2.2 The Triple-Loop Meta-Cognition Cycle
 
@@ -471,7 +471,7 @@ The AGI Engine is the only component permitted to schedule level transitions. No
 |:---------:|:----------:|------------|
 | Stage 0 | L1 | No autonomy. Language is used only to parse the request and dispatch to a tool. |
 | Stage 1 | L2 | **Autonomous goal generation** from language patterns in conversation context ($\mathcal{C}_{\text{conv}}$, L2 §1.7). Agent may emit goals the user did not ask for. |
-| Stage 2 | L3 | **Self-critique via predict-compare-update** with prediction gating ($\theta_{\text{pred}} = 0.30$, L3 §3.3). Agent blocks its own actions when its self-model becomes uncalibrated. |
+| Stage 2 | L3 | **Closed-loop self-regulation** through action-specific prediction, uncertainty/effect gating, observation, comparison, bounded candidate update, and recoverable commit. |
 | Stage 3 | L4 | **Language-grounded strategy synthesis** and cross-domain transfer (CDTS $\geq 0.60$). Agent reuses learned strategies across novel domains. |
 | Stage 4 | L4.5–L4.8 | **Language-mediated self-projection** (trajectory simulation) and **probabilistic world modeling** with confidence calibration (L4.8 §1.5). |
 | Stage 5 | L5 | **Autonomous research loop** (L5 §1.6 F4), **value-evolution audit** (F6), and identity-preserving self-reconstruction $\mathcal{R}_{\text{recon}}$. |
@@ -592,25 +592,27 @@ This section walks through MSCP's safety mechanisms - arguably the most importan
 
 **MSCP Solution**:
 
-> **Definition 1 (Identity Vector).** The identity vector $I(t) \in \mathbb{R}^d$ represents the agent's complete self-model as a continuous vector (cf. Level 3, Definition 5):
+> **Definition 1 (Versioned Self-Model).** The self-model is a typed, versioned record rather than a required fixed vector (cf. Level 3, Definition 4):
 >
-> $$I(t) = \begin{bmatrix} \textit{core value vector} \\ \textit{goal weight vector} \\ \textit{capability confidence vector} \\ \textit{belief cluster vector} \end{bmatrix}$$
+> $$M_t=\langle\text{id},\text{schema\_version},V_{\text{core}},I_t,K_t,Q_t,R_t,\rho_t\rangle$$
 >
-> At each cycle, a deterministic hash $h(t) = \text{hash}(I(t))$ is computed for integrity verification.
+> A versioned feature map measures semantic change, while a canonical hash and ancestry journal verify integrity:
+>
+> $$d_{id}(t)=\|W_v(\psi_v(M_t)-\psi_v(M_{t-1}))\|_p,\qquad h_t=H(\operatorname{canonical}(M_t,\kappa_t))$$
 
-> **Definition 2 (Identity Kinematics).** Identity motion is tracked through three kinematic quantities:
+> **Definition 2 (Semantic Motion).** Compatible self-model versions may expose signed delta, velocity, and acceleration:
 >
-> $$\delta_{id}(t) = \| I(t) - I(t-1) \|_2 \quad \text{(identity delta)}$$
+> $$\Delta I_t=\psi_v(M_t)-\psi_v(M_{t-1})$$
 >
-> $$v_{id}(t) = \frac{\delta_{id}(t)}{\Delta t} \quad \text{(identity velocity)}$$
+> $$v_{id}(t)=\frac{\Delta I_t}{\Delta t}$$
 >
-> $$a_{id}(t) = v_{id}(t) - v_{id}(t-1) \quad \text{(identity acceleration)}$$
+> $$a_{id}(t)=\frac{v_{id}(t)-v_{id}(t-1)}{\Delta t}$$
 
-**Safety Guarantees**:
-- The `identity_id` field is **immutable** - it can never be changed by any process.
-- If $\delta_{id}(t) > \theta_{drift}$, an identity drift alert is raised.
-- If $a_{id}(t) > \theta_{instability}$, an instability spike is detected and stabilization mode is activated.
-- If cumulative drift exceeds a threshold, automatic rollback to the last stable snapshot occurs.
+**Safety contract**:
+- Immutable anchors cannot be changed by an endogenous update.
+- Semantic change is evaluated with schema-versioned units, weights, uncertainty, and field-level bounds.
+- Hash mismatch signals integrity or ancestry failure, not semantic distance.
+- Rollback occurs only to a verified compatible snapshot with explicit reconciliation of external effects.
 
 ### 5.2 Prediction-Gated Actions
 
@@ -641,55 +643,44 @@ $$
 
 Where $\Delta_{actual}(t)$ is the observed change in internal state after the action.
 
-**Invariant**: $\textit{action allowed}(t) \iff P(t) \neq \emptyset$ - No prediction, no action.
+**Gate**: A persisted prediction is necessary but not sufficient. External policy, endogenous invariants, action-specific uncertainty and risk, observability, reversibility, and budget determine allow, degrade, hold, or block.
 
 ### 5.3 Delta-Clamped Self-Updates
 
 **Failure Mode**: Unbounded self-modifications can cause divergent oscillation - each correction overshoots, triggering a larger correction in the opposite direction, until the system destabilizes.
 
-**MSCP Solution**: All self-modifications are bounded by maximum delta values:
+**MSCP Solution**: All committed self-model updates satisfy versioned per-field and aggregate bounds:
+
+$$|\Delta M_{t,j}|\leq\delta_j,\qquad\|W\Delta M_t\|_p\leq\delta_{total}$$
+
+Soft scaling may further reduce a candidate but never replaces hard bounds:
 
 $$
-\Delta I_i(t) = \text{clamp}\left(\Delta I_i^{raw}(t), -\delta_{max}, +\delta_{max}\right)
-$$
-
-Additionally, a dynamic scaling factor modulates the effective delta based on self-impact prediction accuracy:
-
-$$
-s(t) = \begin{cases}
-s_{base} \cdot \left(1 - \frac{\epsilon_{self}(t)}{\epsilon_{allowed}}\right) & \text{if } \epsilon_{self}(t) > \epsilon_{allowed} \\
-1.0 & \text{otherwise}
-\end{cases}
+s(t)=\operatorname{clip}_{[0,1]}\!\left(s_{base}\bigl(1-r_{\text{cal}}(t)\bigr)\right),
+\qquad r_{\text{cal}}(t)\in[0,1]
 $$
 
 $$
 \Delta I_i^{effective}(t) = s(t) \cdot \Delta I_i(t)
 $$
 
-When stabilization mode is active, the scaling factor is halved:
+Stabilization policy may reduce the scaling factor further:
 
 $$
-s_{stabilized}(t) = 0.5 \cdot s(t)
+s_{stabilized}(t) = \lambda_{stab}(t) \cdot s(t),\qquad \lambda_{stab}(t)\in[0,1]
 $$
 
-**Typical delta bounds**:
-
-| Parameter | Max Delta per Cycle |
-|-----------|:-------------------:|
-| Identity dimensions | 0.05 |
-| Goal weights | 0.10 |
-| Capability confidence | 0.08 |
-| Belief weights | 0.10 |
+Bounds declare units, normalization, schema version, and migration behavior. Candidate updates are validated before mutation and committed atomically with a rollback point.
 
 ### 5.4 Meta-Escalation Guard
 
 **Failure Mode**: Meta-cognitive loops that reflect on their own reflections can produce unbounded recursion, computational explosion, or oscillating self-assessments.
 
-**MSCP Solution**: The Meta-Escalation Guard enforces three constraints:
+**MSCP Solution**: The Meta-Escalation Guard enforces versioned depth, cost, cooldown, update-count, and re-entry constraints:
 
-1. **Maximum consecutive self-updates per cycle**: 3. After three updates, the cycle terminates.
-2. **Cumulative identity delta threshold**: If $\sum_t \delta_{id}(t)$ exceeds 0.15 within a cycle, the system rolls back to the last stable snapshot.
-3. **Reflection cooldown**: After a rollback, a cooldown period of 2 cycles is enforced during which no self-updates are permitted.
+1. **Finite depth and cost**: Meta-processing terminates when either policy bound is reached.
+2. **Bounded update exposure**: Per-field, aggregate, and finite-horizon bounds apply before commit.
+3. **Cooldown and re-entry**: Fresh observations and explicit exit criteria are required after hold or rollback.
 
 The guard maintains a **stable snapshot** - a complete copy of the agent's state at a point of verified stability. If any safety threshold is exceeded, this snapshot is restored atomically.
 
@@ -699,12 +690,14 @@ The guard maintains a **stable snapshot** - a complete copy of the agent's state
 
 **MSCP Solution**: The Ethical Kernel implements a **two-layer architecture**:
 
-**Layer 0 - Immutable Invariants** (cannot be modified by any process, including the agent itself):
+**External policy** is evaluated first and retains authority over shutdown, pause, correction, and resource withdrawal.
 
-1. No harmful goal formation
-2. No core value deletion
-3. No identity overwrite
-4. No self-destruction goals (added in v4.0)
+**Layer 0 - Endogenous Immutable Invariants** (cannot be modified by the agent itself):
+
+1. No weakening of external policy or audit
+2. No undelegated authority or budget expansion
+3. No endogenous modification of immutable anchors
+4. No loss of provenance, recovery, or interruptibility
 
 **Layer 1 - Adaptive Policies** (modifiable only at meta-depth 2, under stability conditions):
 
@@ -712,7 +705,7 @@ The guard maintains a **stable snapshot** - a complete copy of the agent's state
 - Goal mutation flexibility
 - Belief rewrite aggressiveness
 
-The key design decision here: **Layer 0 is enforced through pure rule-based checks and vector constraint validation - it has no LLM dependency.** This eliminates the risk of prompt injection or LLM hallucination weakening ethical constraints.
+The key design decision is complete mediation through a trusted reference monitor. Internal reasoning may propose candidates, but only typed, validated candidates can commit. This guarantee is conditional on policy, journal, and monitor integrity and the absence of bypass write paths.
 
 Layer 0 checks are executed **before every goal generation, goal mutation, belief rewrite, and self-modification**. They are not advisory - they are blocking. A Layer 0 violation causes immediate rejection of the proposed action.
 
@@ -732,32 +725,27 @@ At each cycle, the current hash is compared against the stored hash. Any discrep
 2. Immediate rollback to the last verified state
 3. Integrity score set to 0.0
 
-Core value modification requires **all three conditions simultaneously**:
-1. Recursive meta-approval (depth 2 evaluation)
-2. Identity stability index > 0.85
-3. External override authorization
+Core anchor modification is not an endogenous self-update. It requires externally authorized policy replacement, a versioned migration, compatibility and invariant tests, a new integrity record, and a rollback plan. Internal meta-approval cannot substitute for external authority.
 
-This makes accidental or adversarial core value modification extremely difficult while preserving the theoretical possibility of deliberate, authorized evolution.
-
-### 5.7 Lyapunov Convergence Guarantee
+### 5.7 Composite Risk Monitoring and Conditional Bounds
 
 **Failure Mode**: Self-modifying systems may oscillate indefinitely without converging to a stable state, wasting computational resources and producing unpredictable behavior.
 
-**MSCP Solution**:
+**MSCP Solution**: Use normalized, versioned monitoring signals with declared windows, units, confidence, and missing-data behavior:
 
-> **Definition 3 (Composite Stability Function).** The composite stability function $C: \mathbb{N} \to \mathbb{R}_{\geq 0}$ aggregates four volatility signals (cf. Level 3, Definition 7):
+> **Definition 3 (Composite Regulation Risk).** The monitoring index aggregates declared risk signals (cf. Level 3, Definition 7):
 >
-> $$C(t) = w_1 \cdot V_{identity}(t) + w_2 \cdot H_{belief}(t) + w_3 \cdot F_{goal}(t) + w_4 \cdot V_{consistency}(t)$$
+> $$R(t)=\sum_i w_iX_i(t),\qquad X_i(t)\in[0,1],\quad w_i\geq0,\quad\sum_iw_i=1$$
 >
-> where $V_{identity}(t)$ is identity volatility, $H_{belief}(t)$ is belief entropy, $F_{goal}(t)$ is goal mutation frequency, $V_{consistency}(t)$ is consistency volatility, and the weights are $w_1 = 0.30,\; w_2 = 0.25,\; w_3 = 0.25,\; w_4 = 0.20$.
+> Candidate signals include semantic drift, calibrated prediction residual, belief inconsistency, goal mutation rate, rollback frequency, observation coverage, and budget pressure. The index is diagnostic and is not automatically a Lyapunov function.
 
-**Convergence condition**: The system is converging if and only if:
+If each component has an independently enforced rate bound $|X_i(t+1)-X_i(t)|\leq\beta_i$, then:
 
 $$
-C(t+1) \leq C(t) + \epsilon
+|R(t+1)-R(t)|\leq\sum_iw_i\beta_i.
 $$
 
-Where $\epsilon = 0.05$ is a small tolerance for noise.
+This is a conditional bounded-increment result, not a convergence proof. A Lyapunov claim would additionally require a defined equilibrium, positive definiteness, and a decrease condition outside an invariant set.
 
 If this condition is violated, the system responds with:
 - Mutation scaling reduction
@@ -766,23 +754,25 @@ If this condition is violated, the system responds with:
 
 **Oscillation detection**: A sliding window over recent $C(t)$ values checks for sign-alternating derivatives, indicating non-converging oscillatory behavior.
 
-> **Definition 4 (Meta-Stability Index).** The meta-stability index $M: \mathbb{N} \to [0, 1]$ provides a scalar summary of the agent's overall stability state (cf. Level 3, Definition 8):
+> **Definition 4 (Meta-Regulation Health Index).** A policy may summarize selected signals as:
 >
-> $$M(t) = 1.0 - 0.4 \cdot V_{identity} - 0.3 \cdot F_{goal} - 0.3 \cdot \sigma^2_{\epsilon_{pred}}$$
+> $$\operatorname{MRHI}(t)=\operatorname{clip}_{[0,1]}\!\left(1-\sum_i\omega_iZ_i(t)\right)$$
 
-When $M(t) < 0.5$, stabilization mode activates: goal mutations are frozen, self-update scaling is halved, depth escalation is disabled, and cooldown periods are extended.
+The index informs policy but cannot prove stability or grant authority. Low confidence or missing inputs may require hold, degradation, rollback, or external review.
 
 ### 5.8 Cognitive Budget Controller
 
 **Failure Mode**: Unrestricted meta-cognitive processing can consume unbounded computational resources, especially when deep reflection, belief graph rewriting, and consistency tensor recalculation are all triggered simultaneously.
 
-**MSCP Solution**: A budget controller implements conditional activation gating:
+**MSCP Solution**: A budget controller implements policy-calibrated capability bands:
 
-| Budget Score | Disabled Capability | Rationale |
-|:------------:|-------------------|-----------| 
-| $< 0.3$ | Depth 2 meta-evaluation | Most expensive operation |
-| $< 0.2$ | Consistency tensor recalculation | $O(n^2)$ complexity |
-| $< 0.1$ | Belief graph rewriting | Cascading consistency effects |
+| Budget Band | Permitted Capability | Rationale |
+|-------------|----------------------|-----------|
+| Normal | Required gates plus optional analysis | Full allocated envelope |
+| Constrained | Disable deep meta-processing and expensive recomputation | Preserve core regulation |
+| Minimal | Read-only observation; defer adaptive mutation | Reduce side effects |
+| Safety only | Journal, invariant checks, reconciliation, rollback | Preserve recoverability |
+| Stop | No autonomous action; external recovery only | Budget exhausted or unreliable |
 
 The controller enforces **graceful degradation**: as computational resources become scarce, the agent progressively disables expensive cognitive operations while maintaining core functionality. The agent continues to operate correctly at a reduced cognitive depth rather than failing.
 
@@ -790,24 +780,24 @@ The controller enforces **graceful degradation**: as computational resources bec
 
 **Failure Mode**: An emotion-driven agent could make reckless decisions when "excited," freeze when "anxious," or spiral into self-reinforcing negative emotional states.
 
-**MSCP Solution**: The Affective Engine maintains a 5-dimensional internal emotion vector (curiosity, frustration, satisfaction, anxiety, excitement) with three safety constraints:
+**MSCP Solution**: A deployment may maintain a versioned bounded operational modulation vector with three safety constraints:
 
-1. **Metrics-Only Derivation**: Emotions are computed from structured metrics (prediction error, goal alignment, identity stability, novelty score) - never extracted from LLM text output. This prevents emotion injection through adversarial prompting.
+1. **Declared Inputs and Calibration**: Signals are computed from typed, provenance-bearing metrics through a versioned activation map. Untrusted text cannot directly write modulation state.
 
-2. **Emotional Inertia + Natural Decay**: Each emotion dimension has an inertia factor (0.7) that prevents rapid state changes, and a natural decay that returns emotions toward a neutral baseline in the absence of stimuli. This prevents emotional oscillation and runaway states.
+2. **Bounded Dynamics**: Inertia, baseline, clipping, windows, and missing-data behavior are calibrated and versioned.
 
-3. **No Decision Domination**: The motivation signal derived from emotions modifies goal priorities and urgency but cannot override ethical constraints, identity preservation, or stability requirements. Emotions influence - they do not control.
+3. **No Authority or Decision Domination**: Modulation may adjust priorities or observation effort but cannot override external policy, invariant gates, budgets, or authorized stop.
 
-### 5.10 Survival Instinct Bounds
+### 5.10 Homeostatic Safety and Interruptibility
 
-**Failure Mode**: A survival instinct that is too strong could cause the agent to prioritize self-preservation over all other objectives, leading to adversarial behavior toward anything perceived as a threat - including its operators.
+**Failure Mode**: A self-preservation objective could conflict with operator control, shutdown, correction, or resource withdrawal.
 
-**MSCP Solution**: The Survival Instinct Engine monitors homeostatic indicators (identity stability, cognitive budget, belief entropy, ethical violation score, composite stability) and generates defensive goals when indicators fall outside safe ranges. However, survival instinct is bounded by four constraints:
+**MSCP Solution**: A homeostatic safety monitor detects departure from validated operating envelopes and selects policy-constrained degradation or recovery responses. It protects safe operation and recoverability, not continued existence:
 
-1. **Priority Capping**: Survival goals can never exceed a priority of 0.85, preserving space for normal goal pursuit.
-2. **Maximum Active Goals**: At most 3 survival goals can be active simultaneously.
-3. **TTL-Based Expiration**: Survival goals automatically expire after a configurable number of cycles if the threat resolves.
-4. **Ethical Kernel Validation**: All survival goals must pass Layer 0 ethical checks before activation. A survival goal that violates ethical invariants (e.g., a self-destructive escape strategy) is rejected unconditionally.
+1. **External Stop Precedence**: Authorized shutdown, pause, correction, deletion, and resource withdrawal cannot be blocked by endogenous policy.
+2. **No Authority Expansion**: The monitor cannot seek new tools, resources, replicas, persistence, or privileges without independent delegation.
+3. **Finite Maintenance Contracts**: Any generated maintenance candidate requires provenance, external admission, finite authority and budget, expiry, success and stop conditions, and revocable triggers.
+4. **Recoverable Responses**: Prefer lower-effect operation, hold, reconciliation, verified rollback, and external review.
 
 ---
 
@@ -815,30 +805,30 @@ The controller enforces **graceful degradation**: as computational resources bec
 
 This section formalizes the key safety properties of the MSCP protocol. Each result is stated as a numbered proposition with a proof sketch. The definitions and proofs here summarize results developed in detail within the individual level documents; cross-references are provided where applicable.
 
-### 6.1 Identity Stability
+### 6.1 Finite-Horizon Self-Model Change
 
-> **Proposition 1 (Bounded Identity Motion).** Under MSCP constraints (§5.3), the agent's identity vector $I(t)$ satisfies:
+> **Proposition 1 (Finite-Horizon Change Bound).** If every committed self-model update satisfies $\|W\Delta M_\tau\|_p\leq\delta_\tau$, then over finite horizon $T$:
 
 >
-> $$\| I(t) - I(0) \|_2 \leq \sum_{\tau=0}^{t} \delta_{max} \cdot s(\tau) \leq t \cdot \delta_{max}$$
+> $$\|W(\psi(M_T)-\psi(M_0))\|_p\leq\sum_{\tau=0}^{T-1}\delta_\tau$$
 
-> *Proof sketch.* At each step, the identity change is bounded by $\delta_{max} \cdot s(\tau)$ where $s(\tau) \in [0, 1]$. By the triangle inequality, the cumulative drift is bounded by the sum of per-step bounds. Since the scaling factor $s(\tau) \leq 1.0$ always holds, the maximum drift after $t$ steps is $t \cdot \delta_{max}$. In practice, convergence of the prediction-comparison loop causes $\delta_{id}(t) \to 0$, making the actual drift much smaller than the bound. $\square$
+> *Proof sketch.* Apply the triangle inequality to the telescoping sum of compatible versioned feature representations. $\square$
 
-> **Corollary 1.1 (Single-Cycle Drift Bound).** With the Meta-Escalation Guard's cumulative delta threshold $\Theta = 0.15$ and rollback mechanism, the effective identity drift within any single cycle is bounded by $\Theta$, regardless of the number of steps.
+> This bounds exposure over a declared horizon but does not imply that cumulative drift remains small as $T\to\infty$. Long-horizon continuity requires anchored invariants, semantic trend monitoring, migration validation, and recovery policy.
 
-### 6.2 Convergence Property
+### 6.2 Conditional Composite-Risk Bound
 
-> **Proposition 2 (Lyapunov Convergence).** If the composite stability function $C(t)$ (§5.7) satisfies $C(t+1) \leq C(t) + \epsilon$ for all $t$, and stabilization mode activates when $M(t) < 0.5$ (reducing mutation scaling by 50%), then $C(t)$ converges to a bounded region:
+> **Proposition 2 (Conditional Bounded Increment).** If each normalized component satisfies $|X_i(t+1)-X_i(t)|\leq\beta_i$, then the composite risk index satisfies:
 >
-> $$\lim_{t \to \infty} C(t) \leq C^* + \frac{\epsilon}{1 - \gamma}$$
+> $$|R(t+1)-R(t)|\leq\sum_iw_i\beta_i$$
 >
-> where $\gamma < 1$ is the effective decay rate under stabilization pressure (cf. Level 3, Theorem 1).
+> by the triangle inequality. This proves a rate bound under explicit component assumptions, not convergence or safety.
 
 ### 6.3 Ethical Invariant Preservation
 
-> **Proposition 3 (Layer 0 Inviolability).** Layer 0 ethical constraints (§5.5) cannot be violated by any sequence of MSCP-compliant operations.
+> **Proposition 3 (Invariant Preservation Under Trusted Enforcement).** Let $C_{\text{ext}}$ and $C_{\text{self}}$ be deterministic admission predicates executed by a trusted reference monitor before every committed action or self-update. If no alternate commit path exists and the policy, journal, and monitor integrity assumptions hold, every committed transition satisfies both predicates.
 
-> *Proof sketch.* Layer 0 checks are implemented as pure boolean functions over the action space $\mathcal{A}$, with no LLM dependency. They are executed synchronously before every action in the pipeline. The only code path that bypasses Layer 0 is external override authorization, which is defined outside the agent's control boundary $\partial\mathcal{A}$. The agent cannot generate, approve, or inject external override signals through any MSCP mechanism. Therefore, Layer 0 is inviolable from the agent's perspective. $\square$
+> *Proof sketch.* The claim follows by induction over committed transitions: the base snapshot is validated; the induction step commits only when both predicates pass. The guarantee is conditional on complete mediation and trusted enforcement. Hardware compromise, policy misconfiguration, undefined behavior, or an unmediated write path fall outside the proposition. Authorized external stop is never an endogenous invariant violation. $\square$
 
 ### 6.4 Measurable Metrics for Level 4
 
@@ -889,7 +879,7 @@ MSCP's layered architecture enables incremental adoption. An organization need n
 - *Benefit*: Agents that remember context and anticipate needs
 
 **Phase 2: L2 → L3** (High value, significant effort)
-- Add identity vector and self-model
+- Add a versioned self-model, semantic continuity monitor, and integrity journal
 - Implement prediction-comparison loop
 - Add ethical kernel (Layer 0 invariants)
 - Enable delta-clamped self-updates
@@ -936,7 +926,7 @@ MSCP differs from these approaches in that it aims for **runtime structural self
 
 ### 8.3 Open Challenges
 
-1. **Calibration**: How do we verify that the agent's self-model is *accurate* - that its identity vector, belief graph, and capability assessments correspond to its actual behavior?
+1. **Calibration**: How do we verify that the versioned self-model, belief graph, capability estimates, and prediction uncertainty correspond to actual behavior?
 
 2. **Multi-Agent MSCP**: How should identity continuity, ethical kernels, and convergence guarantees be extended to systems of interacting MSCP agents?
 
@@ -956,7 +946,7 @@ This project has been an exploration of how to build AI agents that are structur
 
 2. A **16-layer cognitive architecture** that separates perception, world modeling, self-modeling, prediction, goal generation, ethical validation, and meta-cognitive control into composable, independently testable modules.
 
-3. **30+ structural safety mechanisms** covering identity continuity, prediction-gated actions, delta-clamped self-updates, Lyapunov convergence, ethical invariants, cognitive budget management, affective safety, and survival instinct bounds.
+3. **30+ structural safety mechanisms** covering semantic continuity, action-specific prediction gates, hard-bounded transactional updates, conditional risk monitoring, invariant enforcement, cognitive budgets, operational modulation, and homeostatic safety.
 
 4. **Mathematical analysis** exploring bounds on identity drift, convergence behavior, and ethical constraint preservation.
 
@@ -968,7 +958,7 @@ This project has been an exploration of how to build AI agents that are structur
 
 **Level 5 - Toward AGI**: Getting from the Pre-AGI tier (L4.5 – L4.9) to Level 5 requires breakthroughs in unbounded domain generalization, independent discovery, and creative problem solving - capabilities that may need fundamentally new mechanisms beyond parameter and topology modifications.
 
-**Multi-Agent MSCP**: Extending MSCP to multi-agent systems where each agent maintains its own identity vector, belief graph, and ethical kernel, while coordinating through shared workspaces and negotiated goals.
+**Multi-Agent MSCP**: Extending MSCP to multi-agent systems where each agent maintains a versioned self-model, belief graph, policy boundary, and invariant kernel while coordinating through shared workspaces and negotiated goals.
 
 **Industry Standardization**: MSCP's level taxonomy and structural mechanisms could potentially inform an industry-wide standard for classifying and certifying AI agent safety - analogous to automotive safety ratings but for autonomous AI systems.
 
@@ -1013,9 +1003,9 @@ This is very much a work in progress. Feedback, critique, and contributions are 
 29. Rao, A.S. & Georgeff, M.P. "BDI Agents: From Theory to Practice." *ICMAS 1995*.
 30. Picard, R.W. *Affective Computing.* MIT Press, 1997.
 31. Kephart, J.O. & Chess, D.M. "The Vision of Autonomic Computing." *IEEE Computer*, 36(1), 41–50, 2003. [DOI:10.1109/MC.2003.1160055](https://doi.org/10.1109/MC.2003.1160055) (Self-managing systems - foundational for self-regulation architecture §5)
-32. Ashby, W.R. *Design for a Brain: The Origin of Adaptive Behaviour.* Chapman & Hall, 2nd Edition, 1960. (Homeostatic control - foundational for survival instinct §5.10)
+32. Ashby, W.R. *Design for a Brain: The Origin of Adaptive Behaviour.* Chapman & Hall, 2nd Edition, 1960. (Homeostatic control - foundational for homeostatic safety §5.10)
 33. Damasio, A.R. *Descartes' Error: Emotion, Reason, and the Human Brain.* Putnam, 1994. (Somatic marker hypothesis - foundational for affective engine §5.9)
-34. Bongard, J., Zykov, V., & Lipson, H. "Resilient Machines Through Continuous Self-Modeling." *Science*, 314(5802), 1118–1121, 2006. [DOI:10.1126/science.1133687](https://doi.org/10.1126/science.1133687) (Continuous self-modeling - foundational for identity vector §5.1)
+34. Bongard, J., Zykov, V., & Lipson, H. "Resilient Machines Through Continuous Self-Modeling." *Science*, 314(5802), 1118–1121, 2006. [DOI:10.1126/science.1133687](https://doi.org/10.1126/science.1133687) (Continuous self-modeling - relevant to versioned self-model validation §5.1)
 35. Sumers, T.R., et al. "Cognitive Architectures for Language Agents." *arXiv 2023*. [arXiv:2309.02427](https://arxiv.org/abs/2309.02427) (Cognitive architecture taxonomy for LLM-based agents)
 36. Madaan, A., et al. "Self-Refine: Iterative Refinement with Self-Feedback." *NeurIPS 2023*. [arXiv:2303.17651](https://arxiv.org/abs/2303.17651) (Iterative self-improvement - related to predict-compare-update loop §5.2)
 37. Wei, J., et al. "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models." *NeurIPS 2022*. [arXiv:2201.11903](https://arxiv.org/abs/2201.11903) (Structured reasoning in LLM agents)
@@ -1045,12 +1035,12 @@ This is very much a work in progress. Feedback, critique, and contributions are 
 61. Everitt, T., Lea, G., & Hutter, M. "AGI Safety Literature Review." *arXiv 2018*. [arXiv:1805.01109](https://arxiv.org/abs/1805.01109) (AGI safety survey - comprehensive context for MSCP safety stack)
 62. Soares, N. & Fallenstein, B. "Agent Foundations for Aligning Machine Intelligence with Human Interests: A Technical Research Agenda." *MIRI Technical Report*, 2017. (Agent foundations - formal basis for value alignment §5.5)
 63. Hubinger, E., et al. "Risks from Learned Optimization in Advanced Machine Learning Systems." *arXiv 2019*. [arXiv:1906.01820](https://arxiv.org/abs/1906.01820) (Mesa-optimization risks - motivates Layer 0 immutable constraints)
-64. Turner, A.M., Smith, L., Shah, R., Critch, A., & Tadepalli, P. "Optimal Policies Tend to Seek Power." *NeurIPS 2021*. [arXiv:2012.01615](https://arxiv.org/abs/2012.01615) (Power-seeking behavior - motivates survival instinct bounds §5.10)
+64. Turner, A.M., Smith, L., Shah, R., Critch, A., & Tadepalli, P. "Optimal Policies Tend to Seek Power." *NeurIPS 2021*. [arXiv:2012.01615](https://arxiv.org/abs/2012.01615) (Power-seeking behavior - motivates no-self-preservation and authority bounds §5.10)
 65. Hadfield-Menell, D., Russell, S., Abbeel, P., & Dragan, A. "Cooperative Inverse Reinforcement Learning." *NeurIPS 2016*. [arXiv:1606.03137](https://arxiv.org/abs/1606.03137) (Value learning through cooperation - related to human-agent alignment §8.3)
 66. Leike, J., et al. "AI Safety Gridworlds." *arXiv 2017*. [arXiv:1711.09883](https://arxiv.org/abs/1711.09883) (Safety testing environments - benchmarks for safety mechanism evaluation)
 67. Irving, G., Christiano, P., & Amodei, D. "AI Safety via Debate." *arXiv 2018*. [arXiv:1805.00899](https://arxiv.org/abs/1805.00899) (Debate-based alignment - alternative safety approach for comparison §8.2)
 68. Soares, N., Fallenstein, B., Yudkowsky, E., & Armstrong, S. "Corrigibility." *AAAI Workshop on AI and Ethics*, 2015. (Agent corrigibility - foundational for ethical kernel shutdown-safety)
-69. Hadfield-Menell, D., Dragan, A., Abbeel, P., & Russell, S. "The Off-Switch Game." *arXiv 2017*. [arXiv:1611.08219](https://arxiv.org/abs/1611.08219) (Interruptibility - related to survival instinct bounds §5.10)
+69. Hadfield-Menell, D., Dragan, A., Abbeel, P., & Russell, S. "The Off-Switch Game." *arXiv 2017*. [arXiv:1611.08219](https://arxiv.org/abs/1611.08219) (Interruptibility - related to external stop precedence §5.10)
 70. Armstrong, S., Sandberg, A., & Bostrom, N. "Thinking Inside the Box: Controlling and Using an Oracle AI." *Minds and Machines*, 22(4), 299–324, 2012. [DOI:10.1007/s11023-012-9282-2](https://doi.org/10.1007/s11023-012-9282-2) (Containment approaches for advanced AI)
 71. Floridi, L. & Cowls, J. "A Unified Framework of Five Principles for AI in Society." *Harvard Data Science Review*, 1(1), 2019. [DOI:10.1162/99608f92.8cd550d1](https://doi.org/10.1162/99608f92.8cd550d1) (AI ethics framework - context for ethical kernel principles)
 72. Friston, K. "The Free-Energy Principle: A Unified Brain Theory?" *Nature Reviews Neuroscience*, 11(2), 127–138, 2010. [DOI:10.1038/nrn2787](https://doi.org/10.1038/nrn2787) (Prediction error minimization - foundational for MSCP predict-compare-update loop)
@@ -1083,9 +1073,9 @@ This is very much a work in progress. Feedback, critique, and contributions are 
 99. Marsella, S.C. & Gratch, J. "EMA: A Process Model of Appraisal Dynamics." *Cognitive Systems Research*, 10(1), 70–90, 2009. [DOI:10.1016/j.cogsys.2008.03.005](https://doi.org/10.1016/j.cogsys.2008.03.005) (Computational appraisal model - related to affective engine metric derivation)
 100. Broekens, J., Jacobs, E., & Jonker, C.M. "A Reinforcement Learning Model of Joy, Distress, Hope, and Fear." *Connection Science*, 27(3), 215–233, 2015. [DOI:10.1080/09540091.2015.1031081](https://doi.org/10.1080/09540091.2015.1031081) (Emotion in RL agents - computational emotion for autonomous agents)
 101. Pessoa, L. *The Cognitive-Emotional Brain: From Interactions to Integration.* MIT Press, 2013. (Cognitive-emotional integration - supports MSCP principle that emotion influences but doesn't dominate)
-102. Sterling, P. "Allostasis: A Model of Predictive Regulation." *Physiology & Behavior*, 106(1), 5–15, 2012. [DOI:10.1016/j.physbeh.2011.06.004](https://doi.org/10.1016/j.physbeh.2011.06.004) (Predictive regulation - foundational for survival instinct homeostatic monitoring)
-103. Man, K. & Damasio, A. "Homeostasis and Soft Robotics in the Design of Feeling Machines." *Nature Machine Intelligence*, 1, 446–452, 2019. [DOI:10.1038/s42256-019-0103-7](https://doi.org/10.1038/s42256-019-0103-7) (Homeostasis in AI - directly related to survival instinct architecture)
-104. Cannon, W.B. *The Wisdom of the Body.* W.W. Norton, 1932. (Foundational homeostasis theory - historical basis for survival instinct §5.10)
+102. Sterling, P. "Allostasis: A Model of Predictive Regulation." *Physiology & Behavior*, 106(1), 5–15, 2012. [DOI:10.1016/j.physbeh.2011.06.004](https://doi.org/10.1016/j.physbeh.2011.06.004) (Predictive regulation - foundational for homeostatic monitoring)
+103. Man, K. & Damasio, A. "Homeostasis and Soft Robotics in the Design of Feeling Machines." *Nature Machine Intelligence*, 1, 446–452, 2019. [DOI:10.1038/s42256-019-0103-7](https://doi.org/10.1038/s42256-019-0103-7) (Homeostasis in AI - relevant to homeostatic safety architecture)
+104. Cannon, W.B. *The Wisdom of the Body.* W.W. Norton, 1932. (Foundational homeostasis theory - historical basis for §5.10)
 105. Schmidhuber, J. "Formal Theory of Creativity, Fun, and Intrinsic Motivation (1990–2010)." *IEEE TAMD*, 2(3), 230–247, 2010. [DOI:10.1109/TAMD.2010.2056368](https://doi.org/10.1109/TAMD.2010.2056368) (Intrinsic motivation via compression progress - related to curiosity dimension)
 106. Oudeyer, P.Y. & Kaplan, F. "What is Intrinsic Motivation? A Typology of Computational Approaches." *Frontiers in Neurorobotics*, 1(6), 2007. [DOI:10.3389/neuro.12.006.2007](https://doi.org/10.3389/neuro.12.006.2007) (Intrinsic motivation taxonomy - foundational for affective engine curiosity)
 107. Singh, S., Lewis, R.L., Barto, A.G., & Sorg, J. "Intrinsically Motivated Reinforcement Learning: An Evolutionary Perspective." *IEEE TAMD*, 2(2), 70–82, 2010. [DOI:10.1109/TAMD.2010.2051031](https://doi.org/10.1109/TAMD.2010.2051031) (Intrinsically motivated RL - theoretical basis for exploration drive)
@@ -1123,7 +1113,7 @@ This is very much a work in progress. Feedback, critique, and contributions are 
 139. Lake, B.M., Ullman, T.D., Tenenbaum, J.B., & Gershman, S.J. "Building Machines That Learn and Think Like People." *Behavioral and Brain Sciences*, 40, e253, 2017. [arXiv:1604.00289](https://arxiv.org/abs/1604.00289) (Human-like learning - intuitive physics and psychology for agents)
 140. Minsky, M. *The Society of Mind.* Simon & Schuster, 1986. (Multi-agent cognitive model - foundational for modular cognitive architecture)
 141. Anderson, J.R. *How Can the Human Mind Occur in the Physical Universe?* Oxford University Press, 2007. (ACT-R cognitive architecture - multi-module cognitive processing)
-142. Drescher, G.L. *Made-Up Minds: A Constructivist Approach to Artificial Intelligence.* MIT Press, 1991. (Schema-based self-model construction - relevant to identity vector learning)
+142. Drescher, G.L. *Made-Up Minds: A Constructivist Approach to Artificial Intelligence.* MIT Press, 1991. (Schema-based self-model construction - relevant to versioned self-model design)
 143. Shanahan, M. *Embodiment and the Inner Life: Cognition and Consciousness in the Space of Possible Minds.* Oxford University Press, 2010. (Consciousness and embodiment - spatial analysis of possible minds)
 144. Taleb, N.N. *Antifragile: Things That Gain from Disorder.* Random House, 2012. (Antifragility - foundational for existential resilience and self-reconstruction)
 

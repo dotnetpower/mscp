@@ -1,6 +1,6 @@
 ---
 title: "Level 1: Tool Agent"
-description: "MSCP Level 1 Tool Agent - deterministic request-response architecture with zero autonomy. Formal definitions, 3-layer processing pipeline, error handling, and transition criteria to Level 2."
+description: "MSCP Level 1 Tool Agent - externally triggered, episode-bounded tool use without persistent agent-owned state or autonomous goals."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -24,79 +24,93 @@ Removal of attribution constitutes a license violation.
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.3.0 | 2026-02-26 | Def 3: replaced $[0,1]^n$ with probability simplex $\Delta^n$; Def 2: added remark reconciling partial/total function |
 | 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (5.1 - 5.2) |
+| 0.5.0 | 2026-07-21 | Reframed L1 as a bounded reactive episode; corrected state, stochasticity, tool-effect, and transition semantics; added an L1 safety contract |
 
 ---
 
 ## 1. Overview
 
-Level 1 represents the **baseline cognitive architecture** for AI agents. A Tool Agent is a **stateless, reactive system** that receives user requests, invokes external tools, and returns results. It has no internal model of itself, no memory across sessions, and no capacity for autonomous goal setting.
+Level 1 represents the **pre-self-model baseline** in the MSCP taxonomy. A Tool Agent runs a bounded execution episode in response to an external request, may invoke permitted tools, and then terminates. It has no agent-owned persistent world, self, or goal state and cannot initiate a new episode on its own. A host may explicitly provide conversation history as input; that context is not autonomous long-term memory.
 
-> **Level Essence.** A Level 1 agent is a stateless pipeline - four sequential stages from input to output with no feedback, no state persistence, and no memory:
+> **Level Essence.** A Level 1 agent is an externally triggered, episode-bounded policy. It may perform a bounded sequence of actions, but it carries no hidden agent-owned cognitive state across episode boundaries:
 >
-> $$\mathcal{A}_1(r) = \rho\bigl(\tau\bigl(\sigma(\phi(r),\, r)\bigr),\, r\bigr)$$
+> $$
+> (o_t,\, \mathbf{a}_t,\, e_{t+1}) \sim \mathcal{A}_1(\,\cdot\mid r_t, c_t, e_t),
+> \qquad |\mathbf{a}_t| \leq B
+> $$
+>
+> where $r_t$ is the external request, $c_t$ is explicit host-provided context, $e_t$ is the tool environment, $\mathbf{a}_t$ is a bounded action sequence, and $B$ is the episode action budget.
 
 > ⚠️ **Note**: This document describes a cognitive level within the MSCP taxonomy. The architectures, pseudocode, and diagrams here are experimental designs exploring structural concepts - not production-ready implementations.
 
-**Most production AI agents today operate at Level 1**, including LangChain agents, Semantic Kernel plugin chains, OpenAI Assistants, and custom RAG pipelines.
+Many production assistants can be configured as Level 1 systems, but frameworks and product names do not determine an MSCP level. The deployed architecture does: the same SDK may host a request-bounded Tool Agent or a stateful autonomous system.
 
 ### 1.1 Defining Properties
 
 | Property | Value |
 |----------|-------|
-| Internal State | **None** (stateless between requests) |
-| Goal Setting | **None** (user-directed only) |
+| Internal State | Ephemeral execution state only; **no agent-owned persistent cognitive state** |
+| Goal Setting | **No self-generated or persistent goals**; user/system-derived only |
 | Self-Awareness | **None** |
-| Memory | Session-scoped at most |
-| Autonomy | **None** - purely reactive |
+| Memory | Explicit host-provided context permitted; no autonomous long-term memory |
+| Autonomy | **None** - cannot self-initiate or continue beyond the bounded episode |
 
 ### 1.2 Formal Definition
 
-> **Definition 1 (Level 1 Agent).** A Level 1 agent is a stateless function $\mathcal{A}_1$ that maps a user request to a response through tool invocation:
+> **Definition 1 (Level 1 Agent).** Let $\mathcal{R}$ be the request space, $\mathcal{C}$ the explicit context space, $\mathcal{E}$ the external environment state space, $\mathcal{O}$ the response space, and $\mathcal{A}^{\leq B}$ the set of action sequences of length at most $B$. A Level 1 agent is a stochastic policy:
 >
-> $$\mathcal{A}_1 : \mathcal{R} \to \mathcal{O}$$
+> $$
+> \mathcal{A}_1 : \mathcal{R} \times \mathcal{C} \times \mathcal{E}
+> \to \operatorname{Dist}\!\left(\mathcal{O} \times \mathcal{A}^{\leq B} \times \mathcal{E}\right)
+> $$
 >
-> where $\mathcal{R}$ denotes the space of all possible user requests and $\mathcal{O}$ the space of all possible output responses.
+> subject to three architectural constraints: an external request starts every episode, all goals used during the episode are derived from the current user/system mandate, and no hidden agent-owned cognitive state survives the episode boundary.
 
-Because the agent carries no internal state, the mapping is **memoryless** - i.e., the output depends solely on the current input and is independent of all prior interactions. Formally:
+The relevant property is **history non-interference**, not unconditional statistical independence. For any two hidden histories $h$ and $h'$ and any measurable output-action set $X$:
 
-$$\mathcal{A}_1(r_t) = o_t \quad \forall\, t, \quad o_t \perp \{r_1, \ldots, r_{t-1}\}$$
+$$
+P\!\left(\mathcal{A}_1 \in X \mid r, c, e, h\right)
+=
+P\!\left(\mathcal{A}_1 \in X \mid r, c, e, h'\right)
+$$
 
-where $r_t \in \mathcal{R}$ is the request at time step $t$ and $o_t \in \mathcal{O}$ is the corresponding output.
+Thus, when the current request, explicit context, and environment are identical, unexposed prior interaction history cannot change the output distribution. Correlated requests or a changing external environment may still produce correlated responses.
 
-> **Definition 2 (Tool Set).** Let $\mathcal{T} = \{T_1, T_2, \ldots, T_n\}$ be a finite set of $n$ available tools, where each tool is a partial function:
+> **Definition 2 (Tool Set).** Let $\mathcal{T} = \{T_1, T_2, \ldots, T_n\}$ be a finite set of available tools. Each tool returns an explicit success-or-error result and may change the external environment:
 >
-> $$T_k : \mathcal{P}_k \rightharpoonup \mathcal{D}_k$$
+> $$
+> T_k : \mathcal{P}_k \times \mathcal{E}
+> \to \operatorname{Dist}\!\left(\operatorname{Result}(\mathcal{D}_k \times \mathcal{E},\, \operatorname{Err}_k)\right)
+> $$
 >
-> with parameter space $\mathcal{P}_k$ and output domain $\mathcal{D}_k$. The function is partial because invalid parameters may produce no result (i.e., an error).
->
-> **Remark.** Although each tool $T_k$ is a partial function, the overall processing pipeline $\mathcal{A}_1$ (Section 1.3) is totalized: the response-generation stage $\rho$ always produces an output, even when a tool call fails. In the failure case, $\rho$ emits a structured error message, ensuring that $\mathcal{A}_1 : \mathcal{R} \to \mathcal{O}$ remains a total function consistent with Definition 1.
+> where $\mathcal{P}_k$ is the parameter space, $\mathcal{D}_k$ the success domain, and $\operatorname{Err}_k$ the typed error domain. Tool metadata MUST declare side-effect class, required authority, timeout behavior, and whether retry is safe. A timeout may represent an **unknown outcome**, not a confirmed failure.
 
-> **Definition 3 (Intent Classification).** The intent classifier is a function $\phi$ that maps a request to a probability distribution over tool selections:
+> **Definition 3 (Action Routing).** Define the action set:
 >
-> $$\phi : \mathcal{R} \to \Delta^{|\mathcal{T}|}$$
+> $$
+> \mathcal{U} = \{\textit{respond},\, \textit{clarify},\, \textit{refuse}\} \cup \mathcal{T}
+> $$
 >
-> where $\Delta^{|\mathcal{T}|}$ denotes the $|\mathcal{T}|$-dimensional probability simplex, i.e., $\phi(r)_k \geq 0$ and $\sum_{k=0}^{|\mathcal{T}|} \phi(r)_k = 1$. The index $k=0$ represents the "no tool needed" (direct response) category. The decision rule selects the tool with maximum confidence:
+> The router maps the request, explicit context, and prior results within the current episode to a distribution over actions:
 >
-> $$T^* = \arg\max_{k \geq 1} \; \phi(r)_k \quad \text{subject to} \quad \phi(r)_k \geq \theta_{min}$$
+> $$
+> \phi : \mathcal{R} \times \mathcal{C} \times \mathcal{Q}^{<B} \to \Delta(\mathcal{U})
+> $$
 >
-> where $\theta_{min}$ is the minimum confidence threshold (typically $\theta_{min} = 0.5$). If $\phi(r)_0 > \phi(r)_k$ for all $k \geq 1$, no tool is invoked and the agent responds directly.
+> where $\mathcal{Q}$ is the set of typed tool results. A deployment-specific policy converts this distribution into an action. Low confidence, ties, missing required parameters, or insufficient authority MUST resolve to clarification, refusal, or safe termination rather than an undefined tool selection.
 
 ### 1.3 Processing Pipeline
 
-The complete Level 1 processing pipeline can be decomposed into four sequential stages:
-
-$$\mathcal{A}_1(r) = \rho\bigl(\tau\bigl(\sigma(\phi(r), r)\bigr), r\bigr)$$
-
-where:
+The Level 1 execution episode uses four conceptual components. They may repeat within the action budget; they are not required to form a single-pass pipeline:
 
 | Symbol | Name | Type Signature |
 |--------|------|---------------|
-| $\phi$ | Intent Classifier | $\mathcal{R} \to \Delta^{\lvert\mathcal{T}\rvert}$ |
-| $\sigma$ | Parameter Extractor | $\Delta^{\lvert\mathcal{T}\rvert} \times \mathcal{R} \to \mathcal{P}_{T^{\ast}}$ |
-| $\tau$ | Tool Dispatcher | $\mathcal{P}_{T^{\ast}} \to \mathcal{D}_{T^{\ast}} \cup \lbrace\textit{err}\rbrace$ |
-| $\rho$ | Response Generator | $(\mathcal{D}_{T^{\ast}} \cup \lbrace\textit{err}\rbrace) \times \mathcal{R} \to \mathcal{O}$ |
+| $\phi$ | Action Router | $\mathcal{R} \times \mathcal{C} \times \mathcal{Q}^{<B} \to \Delta(\mathcal{U})$ |
+| $\sigma$ | Parameter Extractor | $\mathcal{T} \times \mathcal{R} \times \mathcal{C} \to \bigsqcup_k \mathcal{P}_k$ |
+| $\tau$ | Policy-Enforcing Dispatcher | $\bigsqcup_k (\{k\} \times \mathcal{P}_k \times \mathcal{E}) \to \operatorname{Dist}(\mathcal{Q})$ |
+| $\rho$ | Response / Continuation Controller | $\mathcal{R} \times \mathcal{C} \times \mathcal{Q}^{\leq B} \to \Delta(\mathcal{O} \cup \mathcal{U})$ |
 
-The pipeline is **strictly sequential** - there are no feedback loops, no state persistence, and no branching decisions after classification.
+An episode terminates when $\rho$ emits a response, clarification, refusal, or budget-exhaustion result. Intermediate tool results are ephemeral execution state. They do not constitute persistent memory, a world model, or an autonomous goal.
 
 ---
 
@@ -118,15 +132,17 @@ flowchart LR
   classDef output fill:#B4009E,stroke:#8A0076,color:#FFF
   classDef outputLight fill:#F9E0F7,stroke:#B4009E,color:#323130
 
-  subgraph Input["🟢 Input"]
+  subgraph Input["🟢 Explicit Inputs"]
     U["👤 User Request"]:::inputLight
+    C["Host-Provided<br/>Context"]:::inputLight
   end
 
-  subgraph Processing["⚙️ Processing Pipeline"]
-    IR["Intent<br/>Router"]:::processLight
-    TP["Tool<br/>Parser"]:::processLight
+  subgraph Processing["⚙️ Bounded Execution Episode"]
+    EC["Episode<br/>Controller"]:::processLight
+    AR["Action<br/>Router"]:::processLight
+    PG["Policy<br/>Guard"]:::processLight
     TD["Tool<br/>Dispatcher"]:::processLight
-    IR --> TP --> TD
+    EC --> AR --> PG --> TD
   end
 
   subgraph Tools["🔧 External Tools"]
@@ -136,15 +152,16 @@ flowchart LR
     T4["📁 File System"]:::toolLight
   end
 
-  subgraph Output["🔵 Output"]
-    LLM["LLM Response<br/>Generator"]:::outputLight
+  subgraph Output["🔵 Terminal Output"]
+    LLM["Response<br/>Generator"]:::outputLight
     R["📝 Response"]:::outputLight
     LLM --> R
   end
 
-  U --> IR
+  U & C --> EC
   TD --> T1 & T2 & T3 & T4
-  T1 & T2 & T3 & T4 -.-> LLM
+  T1 & T2 & T3 & T4 -. "typed result" .-> EC
+  AR -. "respond / clarify / refuse" .-> LLM
 ```
 
 ### 2.2 Detailed Component Architecture
@@ -169,21 +186,22 @@ flowchart TD
     RES["Outgoing Response"]:::inputLight
   end
 
-  subgraph IntentLayer["Intent Classification Layer"]
+  subgraph IntentLayer["Action Routing Layer"]
     direction LR
-    IC["Intent Classifier"]:::processLight
-    PT["Pattern Matcher"]:::processLight
-    CF["Confidence Scorer"]:::processLight
-    IC --> PT --> CF
+    EC["Episode Controller"]:::processLight
+    IC["Action Router"]:::processLight
+    CF["Confidence /<br/>Abstention"]:::processLight
+    EC --> IC --> CF
   end
 
   subgraph ToolLayer["Tool Execution Layer"]
     direction LR
     TR["Tool Registry"]:::toolLight
+    PG["Authority &<br/>Effect Guard"]:::toolLight
     TV["Param Validator"]:::toolLight
     TE["Tool Executor"]:::toolLight
-    EH["Error Handler"]:::toolLight
-    TR --> TV --> TE --> EH
+    RN["Result Normalizer"]:::toolLight
+    TR --> PG --> TV --> TE --> RN
   end
 
   subgraph ResponseLayer["Response Generation Layer"]
@@ -193,9 +211,10 @@ flowchart TD
     RC --> RF
   end
 
-  REQ --> IC
+  REQ --> EC
   CF --> TR
-  EH --> RC
+  RN --> EC
+  EC --> RC
   RF --> RES
 ```
 
@@ -244,10 +263,12 @@ sequenceDiagram
     IR->>TD: IntentResult{tool_call, ["calculator"]}
     TD->>TD: execute("xyz!@#")<br/>❌ InvalidExpression
     TD->>EH: Error{type="parse_error",<br/>msg="Invalid expression"}
-    EH->>EH: retry_count < max_retries?<br/>No → generate error response
-    EH->>RG: ErrorResult{message="Cannot parse expression"}
+    EH->>EH: classify outcome<br/>confirmed failure / unknown
+    EH->>RG: ErrorResult{code="invalid_expression",<br/>retry_safe=false}
     RG-->>U: "I couldn't calculate that.<br/>Please provide a valid<br/>expression like '2 + 3'."
 ```
+
+  Retries are permitted only when the tool contract declares them safe. For side-effecting tools, an idempotency key or an explicit reconciliation check is required before retrying an unknown outcome.
 
 ---
 
@@ -256,141 +277,167 @@ sequenceDiagram
 ### 4.1 Core Agent Loop
 
 ```python
-def level1_agent_loop(user_input: str) -> str:
+MAX_ACTIONS = 8
+
+
+def level1_agent_episode(user_input: str, explicit_context: list[dict]) -> str:
     """
-    Level 1 core agent loop.
-    Input:  user_input - user request string
-    Output: response string
+    Run one externally triggered, bounded L1 episode.
     """
-
-    # Step 1: Intent Classification
-    intent = IntentRouter.classify(user_input)
-
-    if intent.type == IntentType.UNSUPPORTED:
-        return "I'm unable to help with that request."
-
-    # Step 2: Direct response (no tool needed)
-    if intent.type == IntentType.DIRECT_RESPONSE:
-        return LLM.generate(user_input)
-
-    # Step 3: Tool Execution
+    episode_id = new_episode_id()
     results = []
-    for tool_name in intent.suggested_tools:
-        params = ParameterExtractor.extract(user_input, tool_name)
 
-        if not ToolRegistry.has(tool_name):
-            results.append(Error(f"Unknown tool: {tool_name}"))
-            continue
+    for step in range(MAX_ACTIONS):
+        action = ActionRouter.next_action(
+            user_input=user_input,
+            explicit_context=explicit_context,
+            prior_results=results,
+        )
 
-        tool = ToolRegistry.get(tool_name)
-        result = tool.execute(params)
+        if action.type == ActionType.RESPOND:
+            return ResponseGenerator.generate(user_input, explicit_context, results)
+
+        if action.type == ActionType.CLARIFY:
+            return action.question
+
+        if action.type == ActionType.REFUSE:
+            return action.reason
+
+        tool = ToolRegistry.get(action.tool_name)
+        params = ParameterExtractor.extract(user_input, explicit_context, tool.schema)
+        authorization = PolicyGuard.authorize(tool.metadata, params)
+
+        if not authorization.allowed:
+            return authorization.safe_response
+
+        result = ToolDispatcher.dispatch(
+            tool=tool,
+            params=params,
+            idempotency_key=f"{episode_id}:{step}",
+        )
         results.append(result)
 
-    # Step 4: Response Generation
-    response = ResponseGenerator.format(user_input, results)
-    return response
+    return "I stopped because the tool-action budget was exhausted."
 ```
 
 ### 4.2 Intent Router
 
 ```python
-def classify(self, user_input: str) -> IntentResult:
+def route(self, user_input: str, explicit_context: list[dict]) -> ActionDecision:
     """
-    Classify user input into an intent.
-    Input:  user_input - user request string
-    Output: IntentResult with type, confidence, suggested_tools, params
+    Select one next action, including safe abstention.
     """
+    scores = self.score_actions(user_input, explicit_context)
+    best, second = scores.top_two()
 
-    input_lower = user_input.lower()
+    if best.action == ActionType.RESPOND:
+        return ActionDecision.respond()
 
-    # Pattern matching against tool registry
-    matched_tools = []
-    for tool_name, patterns in TOOL_PATTERNS.items():
-        if any(pattern in input_lower for pattern in patterns):
-            matched_tools.append(tool_name)
+    if best.score < self.minimum_confidence:
+        return ActionDecision.clarify("Which operation should I perform?")
 
-    if matched_tools:
-        return IntentResult(
-            type=IntentType.TOOL_CALL,
-            confidence=0.8,
-            suggested_tools=matched_tools,
-            params=extract_parameters(user_input),
+    if best.score - second.score < self.minimum_margin:
+        return ActionDecision.clarify(
+            "I found multiple possible actions. Which one do you mean?"
         )
 
-    return IntentResult(
-        type=IntentType.DIRECT_RESPONSE,
-        confidence=0.6,
-        suggested_tools=[],
-        params={},
-    )
+    return ActionDecision.tool_call(best.action.tool_name)
 ```
 
 ### 4.3 Tool Dispatcher
 
 ```python
-def dispatch(self, tool_name: str, params: dict) -> ToolResult:
+def dispatch(self, tool: Tool, params: dict, idempotency_key: str) -> ToolResult:
     """
-    Dispatch a tool call with validation and error handling.
-    Input:  tool_name - registered tool name, params - parameter dict
-    Output: ToolResult with success, data, error, execution_time_ms
+    Execute an authorized tool and normalize all outcomes.
     """
-
-    if tool_name not in self.registry:
-        return ToolResult(success=False, error="Unknown tool")
-
-    tool = self.registry[tool_name]
     start_time = time.monotonic()
 
     try:
-        # Validate parameters against tool schema
         validated_params = tool.schema.validate(params)
-
-        # Execute with timeout
-        result = tool.execute(validated_params, timeout=30)
+        result = tool.execute(
+            validated_params,
+            timeout=tool.metadata.timeout_seconds,
+            idempotency_key=idempotency_key,
+        )
 
         return ToolResult(
-            success=True,
+            status=ResultStatus.SUCCEEDED,
             data=result,
-            execution_time=time.monotonic() - start_time,
+            execution_time_ms=(time.monotonic() - start_time) * 1000,
         )
 
     except TimeoutError:
-        return ToolResult(success=False, error="Tool execution timed out")
+        return ToolResult(
+            status=ResultStatus.UNKNOWN,
+            error_code="timeout_unknown_outcome",
+            retry_safe=tool.metadata.retry_safe,
+        )
 
-    except ValidationError as e:
-        return ToolResult(success=False, error=f"Invalid params: {e}")
+    except ValidationError:
+        return ToolResult(
+            status=ResultStatus.FAILED,
+            error_code="invalid_parameters",
+        )
 
-    except Exception as e:
-        return ToolResult(success=False, error=f"Execution failed: {e}")
+    except Exception:
+        log_internal_exception(tool.name)
+        return ToolResult(
+            status=ResultStatus.FAILED,
+            error_code="tool_execution_failed",
+        )
 ```
 
 ---
 
-## 5. Structural Limitations
+## 5. Minimum Safety Contract
+
+Level 1 has no self-model, but its tools can still affect the world. Every conforming L1 deployment MUST enforce the following boundary invariants:
+
+| Invariant | Requirement |
+|-----------|-------------|
+| External activation | Every episode is traceable to an authenticated user or system trigger; the agent cannot schedule its own continuation |
+| Least authority | Tools are allowlisted and run with the minimum permissions required for the current request |
+| Effect declaration | Each tool declares read-only, reversible-write, irreversible, or external-communication effects |
+| Consequence gate | Irreversible or high-impact actions require explicit authorization and, when policy requires, user confirmation |
+| Typed outcomes | Success, confirmed failure, and unknown outcome are distinct; retries require declared retry safety or idempotency |
+| Untrusted results | Tool output is treated as untrusted data and cannot silently override system policy or tool authority |
+| Bounded execution | Tool calls, elapsed time, retries, and resource cost are capped per episode; exhaustion terminates safely |
+| Provenance | Tool name, normalized parameters, authority decision, outcome code, and timestamps are auditable |
+| Truthful reporting | The response distinguishes observed results, inferred claims, failures, and actions not performed |
+
+These constraints define the minimum MSCP safety boundary at Level 1. They are retained and strengthened at every higher level.
+
+---
+
+## 6. Structural Limitations
 
 Level 1 has fundamental limitations that motivate the transition to Level 2. These can be characterized formally.
 
-### 5.1 Formal Characterization of Limitations
+### 6.1 Formal Characterization of Limitations
 
-> **Proposition 1 (Zero Mutual Information).** For a Level 1 agent, the mutual information between any two consecutive responses is zero:
+> **Proposition 1 (No Autonomous Accumulation).** Let $S^{\text{agent}}_{t,+}$ denote ephemeral agent state at the end of episode $t$, and let $s_0$ be the initial episode state. A conforming Level 1 agent does not carry that state into the next episode:
 >
-> $$I(o_t ; o_{t-1}) = 0$$
+> $$S^{\text{agent}}_{t+1,0} = s_0$$
 >
-> This follows directly from the memoryless property in Definition 1 - each request-response pair is conditionally independent of all others.
+> External systems may retain a transcript or changed environment, but the agent does not autonomously consolidate either into a persistent cognitive model.
 
-> **Proposition 2 (Absence of Goal State).** A Level 1 agent has no internal goal space $\mathcal{G}$. The agent produces output only as a deterministic function of its input, never as a consequence of pursuing an objective:
+> **Proposition 2 (Absence of Autonomous Goal State).** A Level 1 agent may use temporary request-derived subgoals, but it has no independently generated, persistent goal state:
 >
-> $$\nexists\; g \in \mathcal{G} : o_t = \pi(r_t, g)$$
+> $$
+> G_t^{\text{episode}} \subseteq \operatorname{derive}(r_t, c_t, G_{\text{system}}),
+> \qquad G_{t+1,0}^{\text{agent}} = \emptyset
+> $$
 >
-> where $\pi$ would be a policy function that selects actions to maximize goal satisfaction.
+> The agent may decompose the current request into temporary subgoals, but it cannot originate, persist, or resume goals outside the triggering mandate.
 
-> **Proposition 3 (No Self-Model).** A Level 1 agent has no representation $M$ of its own state, capabilities, or identity:
+> **Proposition 3 (No Reflexive Self-Model).** A tool registry or system prompt may describe available capabilities, but a Level 1 agent has no persistent, updateable self-model used to predict and regulate its own change:
 >
-> $$M_{\text{self}} = \emptyset$$
+> $$M_{\text{self}}^{\text{persistent}} = \emptyset$$
 >
-> Consequently, the agent cannot predict the effect of its actions on itself - a prerequisite for self-regulation (Level 3+).
+> Operational metadata is therefore not sufficient evidence of structural self-awareness.
 
-### 5.2 Limitation Taxonomy
+### 6.2 Limitation Taxonomy
 
 <!-- Level 1 Structural Limitations -->
 
@@ -403,18 +450,18 @@ flowchart TD
   classDef warningLight fill:#FFF4CE,stroke:#FFB900,color:#323130
 
   subgraph Limitations["⚠️ Level 1 Fundamental Limitations"]
-    L1["❌ No State<br/>Forgets everything<br/>between requests"]:::dangerLight
-    L2["❌ No Goals<br/>Cannot set its own<br/>objectives"]:::dangerLight
-    L3["❌ No Context<br/>No understanding of<br/>conversation history"]:::dangerLight
-    L4["❌ No Emotion Awareness<br/>Cannot detect or respond<br/>to user sentiment"]:::dangerLight
-    L5["❌ No Self-Awareness<br/>No model of its own<br/>capabilities or identity"]:::dangerLight
+    L1["❌ No Agent-Owned<br/>Persistent State"]:::dangerLight
+    L2["❌ No Enduring<br/>Autonomous Goals"]:::dangerLight
+    L3["❌ No Self-Initiated<br/>Episodes"]:::dangerLight
+    L4["❌ No Experience-Based<br/>Model Updating"]:::dangerLight
+    L5["❌ No Reflexive<br/>Self-Model"]:::dangerLight
   end
 
   subgraph Consequences["📉 Behavioral Consequences"]
-    C1["Identical repeated<br/>questions get<br/>identical answers"]:::warningLight
-    C2["Cannot proactively<br/>offer relevant<br/>information"]:::warningLight
-    C3["Cannot learn from<br/>previous interactions<br/>or mistakes"]:::warningLight
-    C4["Cannot adapt<br/>response style to<br/>user's emotional state"]:::warningLight
+    C1["Continuity requires<br/>explicit host context"]:::warningLight
+    C2["Cannot resume work<br/>after episode end"]:::warningLight
+    C3["Cannot consolidate<br/>experience into memory"]:::warningLight
+    C4["Cannot self-calibrate<br/>from longitudinal outcomes"]:::warningLight
   end
 
   L1 -.-> C1
@@ -423,7 +470,7 @@ flowchart TD
   L4 -.-> C4
 ```
 
-### 5.2 Behavioral Example: Repeated Question
+### 6.3 Behavioral Example: Repeated Question
 
 ```
 Interaction 1:
@@ -432,40 +479,50 @@ Interaction 1:
 
 Interaction 2 (5 minutes later):
     User:  "What are the specifications of Product X?"
-    Agent: [Tool Call] → "The specifications are A, B, and C."    ← IDENTICAL response
+  Agent: [Tool Call] → "The current specifications are A, B, C, and D."
 
 Interaction 3 (5 minutes later):
     User:  "What are the specifications of Product X?"
-    Agent: [Tool Call] → "The specifications are A, B, and C."    ← IDENTICAL response
+  Agent: [Tool Call] → "The specifications are A, B, C, and D."
 
-    ❌ Level 1 cannot detect repetition.
-    ❌ Level 1 cannot ask "Do you need clarification?"
-    ❌ Level 1 cannot remember it already answered this.
+  ✓ Responses may differ because tools and model sampling may change.
+  ✓ The agent may ask for clarification from the current request.
+  ❌ Without explicit host context, it cannot know that it answered before.
+  ❌ It cannot autonomously consolidate the repetition into long-term memory.
 ```
+
+If the host supplies the prior transcript as $c_t$, a Level 1 agent may recognize the repetition within that explicit context. The distinction is ownership and persistence of cognitive state, not whether previous text can ever appear in the input.
 
 ---
 
-## 6. Transition to Level 2
+## 7. Transition to Level 2
 
 The transition from Level 1 to Level 2 requires introducing internal state and autonomous capabilities that are structurally absent from the Level 1 architecture.
 
-> **Definition 4 (Level 1 → Level 2 Transition).** An agent $\mathcal{A}_1$ can be promoted to $\mathcal{A}_2$ when it acquires the following structural extensions:
+> **Definition 4 (Level 1 → Level 2 Transition).** An agent $\mathcal{A}_1$ can be promoted to $\mathcal{A}_2$ when it acquires persistent cognitive state, autonomous goal generation, and authorized cross-episode continuation:
 >
-> $$\mathcal{A}_1 \xrightarrow{\Delta_{1 \to 2}} \mathcal{A}_2 \iff \mathcal{A}_2 = \mathcal{A}_1 \oplus \{\mathcal{W}, \mathcal{E}, \mathcal{G}, \Gamma\}$$
+> $$
+> \mathcal{A}_1 \xrightarrow{\Delta_{1 \to 2}} \mathcal{A}_2
+> \iff
+> \mathcal{A}_2 = \mathcal{A}_1 \oplus \{\mathcal{S}_{\text{persistent}},\, \Phi_{\text{goal}},\, \mathcal{Q}_{\text{authorized}}\}
+> $$
 >
 > where:
-> - $\mathcal{W}$ : persistent world model (internal state that survives across requests)
-> - $\mathcal{E}$ : entity tracker (cross-session entity state management)
-> - $\mathcal{G}$ : goal system (autonomous objective generation)
-> - $\Gamma$ : temporal model (time-aware fact management)
+> - $\mathcal{S}_{\text{persistent}}$ is agent-owned cognitive state that is updated and retrieved across episodes
+> - $\Phi_{\text{goal}}$ can originate and maintain goals not reducible to the current external request
+> - $\mathcal{Q}_{\text{authorized}}$ contains revocable timer or observation triggers that may start a later bounded episode after execution-time policy checks
+>
+> A world model, entity tracker, and temporal model are standard realizations of $\mathcal{S}_{\text{persistent}}$, but they are implementation choices rather than separate logical prerequisites.
 
-The fundamental change is the transition from a pure function to a **stateful process**:
+The fundamental change is from an episode-bounded reactive policy to a **stateful, goal-maintaining process**:
 
 $$\mathcal{A}_1 : \mathcal{R} \to \mathcal{O} \quad \longrightarrow \quad \mathcal{A}_2 : \mathcal{R} \times \mathcal{S} \times \mathcal{G} \to \mathcal{O} \times \mathcal{S}' \times \mathcal{G}'$$
 
 where $\mathcal{S}$ represents the world state and $\mathcal{S}'$, $\mathcal{G}'$ denote the updated state and goals after processing.
 
-### 6.1 Required Capabilities
+Persistent memory alone produces a stateful assistant, not necessarily an MSCP Level 2 Autonomous Agent. All three conditions are required.
+
+### 7.1 Required Capabilities
 
 <!-- Level 1 to Level 2 Transition -->
 
@@ -480,17 +537,17 @@ flowchart TB
   classDef successLight fill:#DFF6DD,stroke:#107C10,color:#323130
 
   subgraph L1["⛔ L1 Tool Agent"]
-    A1["Stateless - no persistent state"]:::dangerLight
-    A2["Reactive - responds only when prompted"]:::dangerLight
-    A3["Tool-Dependent - cannot act without tools"]:::dangerLight
-    A4["No Memory - each request is independent"]:::dangerLight
+    A1["Episode-Bounded - finite action budget"]:::dangerLight
+    A2["Externally Triggered - no self-initiation"]:::dangerLight
+    A3["Context-Explicit - host supplies continuity"]:::dangerLight
+    A4["No Persistent Cognitive State"]:::dangerLight
   end
 
   subgraph Gap["🔑 Transition Requirements"]
-    G1["+ World Model - persistent state tracking"]:::warningLight
-    G2["+ Entity Tracker - who/what identification"]:::warningLight
-    G3["+ Goal System - autonomous objectives"]:::warningLight
-    G4["+ Temporal Model - time-aware fact management"]:::warningLight
+    G1["+ Agent-Owned Persistent<br/>Cognitive State"]:::warningLight
+    G2["+ Autonomous Goal<br/>Generation"]:::warningLight
+    G3["+ Authorized Cross-Episode<br/>Continuation"]:::warningLight
+    G4["+ State / Goal Update<br/>Policy"]:::warningLight
   end
 
   subgraph L2["✅ L2 Autonomous Agent"]
@@ -504,7 +561,7 @@ flowchart TB
   Gap -.->|"enables"| L2
 ```
 
-### 6.2 Architecture Delta
+### 7.2 Architecture Delta
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
@@ -513,27 +570,24 @@ flowchart TD
   classDef l2Light fill:#DEECF9,stroke:#0078D4,color:#323130
   classDef l2New fill:#0078D4,stroke:#003D6B,color:#FFF
 
-  subgraph L1["Level 1 - Stateless Pipeline"]
-    IR1["IntentRouter"]:::l1Light
+  subgraph L1["Level 1 - Bounded Reactive Episode"]
+    EC1["EpisodeController"]:::l1Light
+    PG1["PolicyGuard"]:::l1Light
     TD1["ToolDispatcher"]:::l1Light
     RG1["ResponseGenerator"]:::l1Light
-    IR1 -->|"sequential"| TD1 -->|"sequential"| RG1
+    EC1 --> PG1 --> TD1 --> EC1
+    EC1 --> RG1
   end
 
-  subgraph L2["Level 2 - Stateful Architecture"]
-    IR2["IntentRouter"]:::l2Light
-    WM["WorldModel ★"]:::l2New
-    GS["GoalSystem ★"]:::l2New
+  subgraph L2["Level 2 - Stateful Goal Process"]
+    AR2["ActionRouter"]:::l2Light
+    PS["PersistentCognitiveState ★"]:::l2New
+    GG["AutonomousGoalGenerator ★"]:::l2New
+    UP["StateGoalUpdatePolicy ★"]:::l2New
     TD2["ToolDispatcher"]:::l2Light
     RG2["ResponseGenerator"]:::l2Light
-    IR2 --> WM --> GS --> TD2 --> RG2
-
-    ED["EmotionDetector ★"]:::l2New
-    ET["EntityTracker ★"]:::l2New
-    AG["AutonomousGoals ★"]:::l2New
-    IR2 -.-> ED
-    WM -.-> ET
-    GS -.-> AG
+    AR2 --> PS --> GG --> TD2 --> UP --> PS
+    UP --> RG2
   end
 
   L1 -.->|"evolves into"| L2
@@ -551,6 +605,9 @@ flowchart TD
 6. Qin, Y., et al. "Tool Learning with Foundation Models." *arXiv 2023*. [arXiv:2304.08354](https://arxiv.org/abs/2304.08354)
 7. Wang, L., et al. "A Survey on Large Language Model based Autonomous Agents." *arXiv 2023*. [arXiv:2308.11432](https://arxiv.org/abs/2308.11432)
 8. Wei, J., et al. "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models." *NeurIPS 2022*. [arXiv:2201.11903](https://arxiv.org/abs/2201.11903)
+9. Ruan, Y., et al. "Identifying the Risks of LM Agents with an LM-Emulated Sandbox." *ICLR 2024*. [arXiv:2309.15817](https://arxiv.org/abs/2309.15817)
+10. Debenedetti, E., et al. "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents." *arXiv 2024*. [arXiv:2406.13352](https://arxiv.org/abs/2406.13352)
+11. National Institute of Standards and Technology. "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile." *NIST AI 600-1, 2024*. [DOI:10.6028/NIST.AI.600-1](https://doi.org/10.6028/NIST.AI.600-1)
 
 ---
 

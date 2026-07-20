@@ -1,6 +1,6 @@
 ---
 title: "Level 3: Self-Regulating Cognitive Agent"
-description: "MSCP Level 3 - 16-layer cognitive architecture with identity vector, belief graph, ethical kernel, affective engine, survival instinct, meta-cognition, and Lyapunov stability proofs."
+description: "MSCP Level 3 - closed-loop structural self-regulation with an explicit self-model, action-specific prediction, invariant-gated self-update, semantic continuity monitoring, and recoverable cycle records."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -25,65 +25,103 @@ Removal of attribution constitutes a license violation.
 | 0.3.0 | 2026-02-26 | Theorem 1: full proof replacing sketch; added Lyapunov vs bounded-increment remark; Def 9: affect vector formalization with dynamics equation and valence |
 | 0.4.0 | 2026-03-08 | Added detailed v0.x prototype history and design principle evolution table (1.3); added homeostatic ranges table (7.2) |
 | 0.5.0 | 2026-03-31 | Added Prediction Gating (3.3) with threshold formalization; enriched oscillation detection with 10-cycle window and sign-change mechanics (6.3); enriched identity hash with concrete drift threshold ($\theta_{\text{drift}} = 0.3$); added StateVector growth note (Section 10) |
+| 0.6.0 | 2026-07-21 | Reframed L3 as uncertainty-aware closed-loop regulation; separated semantic continuity from integrity hashes; corrected stability claims; added atomic cycle and recovery contracts |
 
 ---
 
 ## 1. Overview
 
-Level 3 is the **core MSCP level** - the first agent that possesses *structural self-awareness*. It knows what it is, can predict how its own actions will affect its internal state, and can correct itself when reality diverges from expectation. This is the architecture that the MSCP protocol (v1.0 - v4.0) was designed to govern.
+Level 3 is the **core MSCP level** and the first level with *structural self-regulation*. It maintains an explicit, inspectable model of selected identity, capability, value, and control variables; predicts action-specific internal effects; compares predictions with observed outcomes; and permits bounded self-updates only through invariant and recovery gates. This is structural self-awareness in the MSCP sense, not a claim of subjective experience or infallible self-knowledge.
 
-> **Level Essence.** A Level 3 agent regulates itself through the MSCP predict-act-compare-update loop. Prediction error converges to zero under bounded self-update, guaranteeing identity stability:
+> **Level Essence.** A Level 3 agent is a policy-constrained closed-loop regulator. Each authorized event produces a prediction record before action, an observation record after action, an uncertainty-qualified comparison, and either a bounded self-update or a safe hold/rollback decision:
 >
-> $$\epsilon_t = \|\hat{\Delta}_t - \Delta_t^{\text{actual}}\|_2 \xrightarrow{t \to \infty} 0, \quad \|M'_{\text{self}} - M_{\text{self}}\|_2 \leq \delta_{\max}$$
+> $$
+> z_t = \langle x_t, s_t, G_t, M_t, \kappa, b_t \rangle,
+> \qquad
+> \hat y_t \sim \Pi(\,\cdot\mid a_t, z_t)
+> $$
+>
+> $$
+> y_t = \operatorname{observe}(a_t),
+> \qquad
+> e_t = d(\hat y_t, y_t),
+> \qquad
+> M_{t+1} = \mathcal{U}(M_t, e_t) \text{ only if } \operatorname{gate}(z_t,a_t,\hat y_t,y_t)=\textit{allow}
+> $$
+>
+> Bounded updates and recovery gates limit per-cycle change and exposure. They do **not** by themselves prove $e_t \to 0$, global convergence, or permanent identity stability.
 
-> ⚠️ **Note**: This document describes a cognitive architecture within the MSCP taxonomy. The 16-layer architecture, safety mechanisms, and properties explored here are experimental designs. All pseudocode is algorithmic-level and isn't production code.
+> ⚠️ **Note**: This document describes a cognitive architecture within the MSCP taxonomy. The layered decomposition is a reference profile, not a required module count or production specification. Conformance depends on behavioral contracts and safety invariants, not class names or topology.
 
 ### 1.1 Defining Properties
 
 | Property | Level 2 | Level 3 |
 |----------|:-------:|:-------:|
-| Self-Awareness | None | **Structural** (identity + capability + value model) |
-| Meta-Cognition | None | **Triple Loop** (predict → compare → update) |
-| Identity Continuity | None | **Hash-tracked** (per-cycle drift detection) |
-| Ethical Constraints | None | **Formal** (immutable Layer 0 + adaptive Layer 1) |
-| Self-Correction | None | **Delta-clamped** (bounded self-update) |
-| Stability Guarantees | None | **Lyapunov convergence** (composite function) |
-| Autonomy | Medium | **High** |
+| Self-Awareness | None | **Structural** (explicit scoped self-model) |
+| Meta-Cognition | None | **Bounded multi-loop** (predict → observe → compare → regulate) |
+| Identity Continuity | None | **Semantic drift + integrity monitoring** |
+| Ethical Constraints | External only | **External policy + endogenous invariant kernel** |
+| Self-Correction | None | **Hard-bounded and transactionally gated** |
+| Stability Claim | External monitoring only | **Measured boundedness and recovery; no unconditional convergence guarantee** |
+| Autonomy | Bounded | **High but policy- and budget-bounded** |
 
 ### 1.2 Formal Definition
 
-> **Definition 1 (Level 3 Agent).** A Level 3 agent is a self-regulating process $\mathcal{A}_3$ defined as an 8-tuple:
+> **Definition 1 (Level 3 Agent).** A Level 3 agent extends the Level 2 event-driven process with a scoped self-model and a recoverable regulation controller:
 >
-> $$\mathcal{A}_3 = \langle \mathcal{R}, \mathcal{O}, \mathcal{S}, \mathcal{G}, M_{\text{self}}, \Pi, \mathcal{C}, \Lambda \rangle$$
+> $$
+> \mathcal{A}_3 = \langle \mathcal{A}_2, M, \Pi, \mathcal{C}_{\text{self}}, \Lambda, \mathcal{U}, \mathcal{B}, \mathcal{J} \rangle
+> $$
 >
-> where $M_{\text{self}}$ is the self-model (identity vector), $\Pi$ is the prediction engine, $\mathcal{C}$ is the ethical constraint kernel, and $\Lambda$ is the meta-cognition comparator.
+> where $M$ is the versioned self-model, $\Pi$ is an action-specific probabilistic predictor, $\mathcal{C}_{\text{self}}$ is the endogenous invariant kernel, $\Lambda$ compares predicted and observed effects, $\mathcal{U}$ proposes bounded self-updates, $\mathcal{B}$ is the cognitive and action budget, and $\mathcal{J}$ is an append-only cycle journal with snapshot and recovery metadata. All Level 1 and Level 2 external safety contracts remain mandatory.
 >
-> The transition function is:
+> The transition kernel extends Level 2 with a transactional self-regulation result:
 >
-> $$f_3 : \mathcal{R} \times \mathcal{S} \times \mathcal{G} \times M_{\text{self}} \to \mathcal{O} \times \mathcal{S}' \times \mathcal{G}' \times M'_{\text{self}}$$
+> $$
+> F_3 : \mathcal{X} \times \mathcal{E} \times \mathcal{S} \times \mathcal{G} \times \mathcal{K} \times M
+> \to \operatorname{Dist}(\mathcal{O}_{\bot} \times \mathcal{A}^{\leq B} \times \mathcal{E} \times \mathcal{S} \times \mathcal{G} \times \mathcal{Q} \times M \times \mathcal{J})
+> $$
 >
-> subject to the **stability constraint**:
+> A conforming cycle either commits the action receipt, observation, comparison, budget consumption, self-model version, and recovery point atomically, or records an explicit reconciliation state. Partial silent commits are prohibited.
 >
-> $$\| M'_{\text{self}} - M_{\text{self}} \|_2 \leq \delta_{\max}$$
+> Every accepted self-update satisfies both declared per-field bounds and an aggregate norm bound:
+>
+> $$
+> |\Delta M_{t,j}| \leq \delta_j,
+> \qquad
+> \|W\Delta M_t\|_p \leq \delta_{\text{total}}
+> $$
+>
+> where $W$, $p$, $\delta_j$, and $\delta_{\text{total}}$ are versioned policy parameters with explicit units and normalization.
 
-> **Definition 2 (MSCP Core Loop).** The MSCP protocol enforces a **predict–act–compare–update** cycle at each time step $t$:
+> **Definition 2 (MSCP Core Loop).** The MSCP protocol enforces a **propose–predict–gate–act–observe–compare–regulate–commit** cycle at each event $t$:
 >
-> 1. **Predict**: $\hat{\Delta}_t = \Pi(a_t, M_{\text{self}}(t))$ - predict the effect of action $a_t$ on the self-model
-> 2. **Act**: Execute $a_t$, observe actual outcome
-> 3. **Compare**: Compute prediction error $\epsilon_t = \| \hat{\Delta}_t - \Delta_t^{\text{actual}} \|_2$
-> 4. **Update**: $M_{\text{self}}(t+1) = M_{\text{self}}(t) + \text{clamp}(\Delta_t^{\text{actual}}, -\delta_{\max}, +\delta_{\max})$
+> 1. **Propose**: Construct action $a_t$ with authority, effect class, and finite budget.
+> 2. **Predict**: Persist $\hat y_t = \Pi(a_t,z_t)$ with calibrated uncertainty and model version.
+> 3. **Gate**: Apply external policy, endogenous invariants, action-specific uncertainty, reversibility, and budget checks.
+> 4. **Act**: Execute only the admitted action and persist a typed action receipt.
+> 5. **Observe**: Measure external and internal outcomes $y_t$ with provenance and observability metadata.
+> 6. **Compare**: Compute typed residuals $e_t = d(\hat y_t,y_t)$ only on comparable, observed fields.
+> 7. **Regulate**: Hold, degrade, recalibrate, rollback, or propose $\Delta M_t$ under hard per-field and norm bounds.
+> 8. **Commit**: Atomically persist state, goal, budget, self-model version, and recovery metadata.
 >
-> The loop converges when $\epsilon_t < \epsilon_{\min}$ for $k$ consecutive cycles.
+> A deployment MUST specify units, normalization, uncertainty calibration, observability masks, per-field bounds, aggregate norm bounds, and recovery behavior. A scalar residual without these declarations is insufficient to authorize self-change. Meeting an error threshold for $k$ cycles establishes a finite-window acceptance criterion, not asymptotic convergence.
 
-> **Definition 3 (Meta-Cognition Levels).** Level 3 implements a triple-loop meta-cognition hierarchy:
+> **Definition 3 (Bounded Meta-Cognition Levels).** Level 3 implements a bounded multi-loop hierarchy:
 >
 > - **L1 (Object Level)**: Action execution - $a_t = \pi(r_t, s_t, G_t)$
 > - **L2 (Meta Level)**: Strategy evaluation - $q_t = \text{eval}(\pi, \text{history})$
 > - **L3 (Meta-Meta Level)**: Evaluation of the evaluator - $m_t = \text{meta eval}(q_t, \text{consistency})$
 >
-> $$\text{Depth}(t) = \min\bigl(d : \|m_d(t) - m_{d-1}(t)\| < \epsilon_{\text{meta}}\bigr) \leq d_{\max}$$
+> $$
+> d_t \leq d_{\max},
+> \qquad
+> \operatorname{cost}(d_t) \leq B_{\text{meta}},
+> \qquad
+> t - t_{\text{last-escalation}} \geq \tau_{\text{cooldown}}
+> $$
 >
-> where $d_{\max} = 3$ prevents unbounded recursive reflection.
+> Depth, cost, cooldown, and re-entry conditions are external policy parameters. Exceeding any bound terminates meta-processing without granting extra authority or bypassing normal action gates. Reaching the maximum depth is a stop condition, not evidence that the reflection converged.
 
 ### 1.3 MSCP Protocol Versions
 
@@ -115,7 +153,7 @@ flowchart TB
 
   subgraph v1xx["v1.1–1.3"]
     direction LR
-    a1x["Identity hash tracking"]:::v1x
+    a1x["Integrity journal + semantic drift"]:::v1x
     b1x["Drift detection"]:::v1x
     c1x["Self-Impact Prediction"]:::v1x
     d1x["MetaEscalationGuard"]:::v1x
@@ -132,15 +170,15 @@ flowchart TB
   subgraph v30["v3.0"]
     direction LR
     a3["BeliefGraphManager"]:::v3
-    b3["IdentityVector formalization"]:::v3
+    b3["Versioned self-model formalization"]:::v3
     c3["EthicalKernel - Layer 0+1"]:::v3
     d3["SelfConsistencyTensor"]:::v3
   end
 
   subgraph v40["v4.0"]
     direction LR
-    a4["AffectiveEngine - 5-dim"]:::v4
-    b4["SurvivalInstinctEngine"]:::v4
+    a4["Operational modulation schema"]:::v4
+    b4["Homeostatic safety monitor"]:::v4
     c4["Async separation principle"]:::v4
     d4["GlobalWorkspace broadcast"]:::v4
   end
@@ -158,30 +196,32 @@ The v0.x series represents the experimental prototyping phase that shaped the co
 
 | Version | Key Addition | Key Learning |
 |---------|-------------|-------------|
-| **v0.1** | Simple self-reference loop on top of Level 2 GoalSystem; feedback based on goal achievement statistics | Self-awareness cannot emerge from simple statistics alone |
-| **v0.2** | State externalization to persistent storage; initial 8-dimensional StateVector | Session-bound state is insufficient for identity continuity |
+| **v0.1** | Simple self-reference loop on top of Level 2 goal state; feedback based on goal achievement statistics | Statistics alone did not provide an explicit, causal self-model |
+| **v0.2** | State externalization to persistent storage; initial typed state schema | Session-bound state is insufficient for identity continuity |
 | **v0.3** | `identity_id` concept (UUID-based identifier) | Identity seed is necessary but not sufficient without integrity verification |
-| **v0.4** | Goal reflection via LLM text-based self-analysis ("why did I fail?") | **Critical failure**: LLM text-based self-modification produces hallucinations and non-deterministic results |
-| **v0.5** | Structured numerical metrics replacing LLM text analysis; StateVector expanded to 12 dimensions | Quantitative metrics are the only reliable basis for self-assessment |
+| **v0.4** | Free-form self-narrative used directly as a mutation instruction | **Critical failure**: untyped, unvalidated mutation inputs were non-reproducible and could not enforce invariants |
+| **v0.5** | Structured typed metrics replacing free-form self-analysis; state schema expanded | Self-assessment requires declared, testable fields and provenance |
 | **v0.6** | Pre-action prediction recording (confidence score only) | Prediction without comparison is useless - mere logging |
 | **v0.7** | Comparison loop added to prediction; `prediction_error` metric introduced | Comparison without corrective action is insufficient |
-| **v0.8** | Delta-clamped state updates based on comparison results | **Critical discovery**: unclamped updates cause divergence; delta clamping is essential |
+| **v0.8** | Delta-clamped state updates based on comparison results | Unbounded updates can exceed the validated operating envelope; hard bounds and rollback points are required |
 | **v0.9** | Consolidation of v0.1-v0.8 lessons into four design principles | Foundation for v1.0 established |
 
 #### Design Principle Evolution
 
 | Principle | v0.x Lesson | v1.x Establishment | v2.x+ Reinforcement |
 |-----------|-------------|--------------------|--------------------|
-| **No LLM text-based self-modification** | v0.4: hallucination and non-determinism | v1.0: all self-modification via structured metrics only | v2.0+: all self-modification is purely numerical |
+| **No unvalidated free-form self-modification** | v0.4: narrative applied directly as mutation | v1.0: typed update candidates and validators | v2.0+: bounded transactional commit with provenance |
 | **No action without prediction** | v0.6-v0.7: prediction-comparison concept tested | v1.0: PredictionEngine made mandatory | v1.3: Self-Impact Prediction added |
 | **Delta clamping mandatory** | v0.8: unclamped updates caused divergence | v1.0: MAX_DELTA constant introduced | v2.0: dynamic scaling factor adjustment |
-| **Identity continuity** | v0.3: identity_id concept started | v1.1-v1.2: hash-based drift detection | v3.0: mathematical identity vector formalized |
+| **Identity continuity** | v0.3: stable identifier concept started | v1.1-v1.2: integrity and change monitoring | v3.0: versioned semantic self-model formalized |
 
 ---
 
-## 2. 16-Layer Cognitive Architecture
+## 2. Reference Layered Cognitive Architecture
 
-### 2.1 Full Architecture Diagram
+The diagrams below show one compositional decomposition of the required responsibilities. Components may be merged, split, or implemented by different mechanisms if prediction records, gates, invariants, budgets, cycle journaling, and recovery semantics remain independently testable.
+
+### 2.1 Reference Architecture Diagram
 
 **Part 1 - Perception → Goal (L1–L5.5):**
 
@@ -337,7 +377,7 @@ flowchart TD
 
   subgraph L12["Layer 12: Stability Controller"]
     direction LR
-    LYA12["📉 Lyapunov Convergence"]:::safety
+    LYA12["📉 Composite Risk Monitor"]:::safety
     OD12["🔄 Oscillation Detector"]:::safety
   end
 
@@ -359,11 +399,11 @@ flowchart TD
     MS15["💡 Motivation Synthesizer"]:::affect
   end
 
-  subgraph L16["Layer 16: Survival Instinct"]
+  subgraph L16["Layer 16: Homeostatic Safety"]
     direction LR
     HM16["🏠 Homeostatic Monitor"]:::safety
     TP16["⚡ Threat Predictor"]:::safety
-    SGG16["🛡️ Survival Goal Generator"]:::safety
+    SGG16["🛡️ Bounded Safety Response"]:::safety
   end
 
   GOAL_GEN["↻ Back to L5: Goal Generator"]:::goal
@@ -375,7 +415,7 @@ flowchart TD
   L13 -.->|broadcast| L14
   L14 -.->|cognitive state| L15
   L15 -.->|motivation signal| L16
-  L16 -.->|survival goals| GOAL_GEN
+  L16 -.->|admitted maintenance candidates| GOAL_GEN
 ```
 
 ### 2.2 Layer Classification
@@ -426,7 +466,7 @@ flowchart TB
   subgraph Emotion["💜 Affective v4"]
     direction LR
     E1["L15 Affect Engine"]:::affect
-    E2["L16 Survival Instinct"]:::affect
+    E2["Homeostatic Safety Monitor"]:::affect
   end
 
   Core ==> Meta
@@ -437,9 +477,9 @@ flowchart TB
 
 ---
 
-## 3. The MSCP Recursive Loop
+## 3. The MSCP Recoverable Regulation Cycle
 
-The defining mechanism of Level 3 is the **Predict → Act → Compare → Update** cycle, governed by safety constraints at every step.
+The defining mechanism of Level 3 is the **Propose → Predict → Gate → Act → Observe → Compare → Regulate → Commit** cycle. It is bounded and event-driven rather than recursively self-invoking.
 
 ### 3.1 Full Loop Diagram (MSCP v4)
 
@@ -464,21 +504,24 @@ flowchart TD
   RESET["Reset Budget"]:::infra
   AFFECT["Update Affect<br/>from prior cycle metrics"]:::affect
   THREAT["Assess Threats<br/>homeostatic monitor"]:::warning
-  ANXIETY["Inject Survival Anxiety<br/>affect ← threat"]:::affect
-  SGOAL["Generate Survival Goals<br/>if threats detected"]:::safety
+  ANXIETY["Select safety response<br/>from operating envelope"]:::affect
+  SGOAL["Propose bounded<br/>maintenance candidates"]:::safety
 
   L0CHECK{"Layer 0<br/>Check"}:::safety
   REJECT["Reject Goal"]:::safetyStrong
-  MOTIV["Synthesize Motivation<br/>drives from affect"]:::affect
+  MOTIV["Apply bounded<br/>operational modulation"]:::affect
   GWS["Broadcast Global<br/>Workspace Snapshot"]:::infra
 
-  PREDICT["1. PREDICT<br/>PredictionEngine"]:::predict
-  ACT["2. ACT<br/>LLM Execute"]:::action
-  COMPARE["3. COMPARE<br/>MetaCognition"]:::predict
+  PROPOSE["1. PROPOSE<br/>action + effect contract"]:::predict
+  PREDICT["2. PREDICT<br/>outcome + uncertainty"]:::predict
+  GATE["3. GATE<br/>policy + invariant + budget"]:::safety
+  ACT["4. ACT<br/>policy dispatcher"]:::action
+  OBSERVE["5. OBSERVE<br/>typed outcome"]:::action
+  COMPARE["6. COMPARE<br/>observable fields only"]:::predict
 
-  GUARD{"4. ESCALATION<br/>GUARD"}:::safety
-  COOLDOWN["30s Cooldown"]:::infra
-  NEXT["→ Part 2: Convergence & Self-Update"]:::neutral
+  GUARD{"Regulation<br/>admitted?"}:::safety
+  COOLDOWN["Hold / Degrade /<br/>External Review"]:::infra
+  NEXT["→ Part 2: Regulate & Commit"]:::neutral
 
   START ==> RESET
   RESET ==> AFFECT
@@ -491,15 +534,19 @@ flowchart TD
   REJECT -.-> MOTIV
   MOTIV ==> GWS
 
-  GWS ==> PREDICT
-  PREDICT ==> ACT
-  ACT ==> COMPARE
+  GWS ==> PROPOSE
+  PROPOSE ==> PREDICT
+  PREDICT ==> GATE
+  GATE -->|allow| ACT
+  GATE -.->|hold / block| COOLDOWN
+  ACT ==> OBSERVE
+  OBSERVE ==> COMPARE
   COMPARE ==> GUARD
   GUARD -->|"safe ✅"| NEXT
   GUARD -.->|"⚠️ limit"| COOLDOWN
 ```
 
-**Part 2 - Convergence & Self-Update:**
+**Part 2 - Regulation & Atomic Commit:**
 
 <!-- MSCP Loop Part 2: Convergence and Self-Update -->
 
@@ -517,35 +564,34 @@ flowchart TD
   classDef success fill:#107C10,stroke:#085108,color:#FFF
   classDef infra fill:#F2F2F2,stroke:#8A8886,color:#323130
 
-  PREV["← Part 1: Pre-Loop Setup & Core Processing"]:::neutral
+  PREV["← Part 1: Gated Action + Comparison"]:::neutral
 
-  CONVERGE{"5. CONVERGENCE<br/>CHECK Lyapunov"}:::safety
-  UPDATE["6. SELF-UPDATE<br/>delta-clamped"]:::action
-  STABILIZE["Reduce Scaling<br/>+ Stabilization Mode"]:::warning
+  CONVERGE{"7. RISK +<br/>OBSERVABILITY CHECK"}:::safety
+  UPDATE["8. SELF-UPDATE CANDIDATE<br/>hard field + norm bounds"]:::action
+  STABILIZE["Hold / Degrade /<br/>Stabilization Policy"]:::warning
 
-  VLOCK{"7. VALUE LOCK<br/>Integrity Check"}:::safety
-  ROLLBACK["💥 Critical Alert<br/>+ Rollback"]:::safetyStrong
-  GMUT["8. GOAL MUTATION<br/>ethical kernel gated"]:::warning
-  RCHECK{"9. ROLLBACK<br/>CHECK"}:::safety
+  VLOCK{"9. INVARIANT +<br/>SEMANTIC CONTINUITY"}:::safety
+  ROLLBACK["Reconcile or Roll Back<br/>to verified snapshot"]:::safetyStrong
+  GMUT["10. GOAL CANDIDATES<br/>external admission"]:::warning
+  RCHECK{"11. INTEGRITY +<br/>ANCESTRY CHECK"}:::safety
 
-  DEPTH{"10. META DEPTH 2?<br/>budget-gated"}:::predict
-  DEPTH2["Deep Reflection<br/>evaluate update logic"]:::predict
-  REALIGN["11. RE-ALIGN GOALS<br/>motivation + survival"]:::affect
+  DEPTH{"12. DEEPER META?<br/>budget + cooldown gated"}:::predict
+  DEPTH2["Bounded evaluator check"]:::predict
+  REALIGN["13. ATOMIC COMMIT<br/>state + goals + budget + journal"]:::affect
 
-  CONVCHECK{"Converged?<br/>prediction_error < 0.1"}:::start
-  END_LOOP["Cycle Complete ✅"]:::success
-  RECUR{"Consecutive<br/>escalations ≥ 3?"}:::warning
-  COOLDOWN["30s Cooldown"]:::infra
-  BACK_PREDICT["↻ Back to PREDICT<br/>re-enter core loop"]:::predict
+  CONVCHECK{"Commit valid?"}:::start
+  END_LOOP["Cycle Complete"]:::success
+  RECUR["Explicit reconciliation state"]:::warning
+  COOLDOWN["External recovery required"]:::infra
 
   PREV -.-> CONVERGE
-  CONVERGE -->|converging| UPDATE
-  CONVERGE -.->|diverging| STABILIZE
+  CONVERGE -->|within policy| UPDATE
+  CONVERGE -.->|outside policy| STABILIZE
   STABILIZE -.-> UPDATE
 
   UPDATE ==> VLOCK
   VLOCK -->|valid| GMUT
-  VLOCK -.->|"⚠️ hash mismatch"| ROLLBACK
+  VLOCK -.->|violation| ROLLBACK
   ROLLBACK -.-> END_LOOP
 
   GMUT ==> RCHECK
@@ -553,14 +599,13 @@ flowchart TD
   RCHECK -.->|"⚠️ unstable"| ROLLBACK
 
   DEPTH -->|budget ok| DEPTH2
-  DEPTH -.->|"budget < 0.3"| REALIGN
+  DEPTH -.->|skip| REALIGN
   DEPTH2 ==> REALIGN
 
   REALIGN ==> CONVCHECK
-  CONVCHECK -->|"yes ✅"| END_LOOP
+  CONVCHECK -->|yes| END_LOOP
   CONVCHECK -.->|no| RECUR
-  RECUR -.->|no| BACK_PREDICT
-  RECUR -.->|yes| COOLDOWN
+  RECUR -.-> COOLDOWN
   COOLDOWN -.-> END_LOOP
 ```
 
@@ -596,7 +641,7 @@ flowchart TD
     P3["Is the meta-cognition<br/>itself working?"]:::level3
     C3["Check: are we<br/>improving?"]:::level3
     D3["convergence_status<br/>composite_stability<br/>budget_remaining"]:::level3
-    NOTE3["🚧 Capped at depth 2<br/>to prevent infinite<br/>recursion"]:::warning
+    NOTE3["🚧 Depth, budget, and cooldown<br/>bounded by policy"]:::warning
     P3 ==> C3
     C3 ==> D3
   end
@@ -607,100 +652,129 @@ flowchart TD
 
 ### 3.3 Prediction Gating
 
-A critical safety mechanism introduced in Level 3 is **prediction-gated action execution**. The MSCP core loop (Definition 2) not only compares predictions with outcomes - it uses the prediction error to **gate whether future actions are permitted**. This prevents the agent from taking actions whose consequences it cannot reliably anticipate.
+A critical Level 3 mechanism is **action-specific prediction gating**. A prior prediction error is evidence about calibration, but it is not by itself a valid reason to allow or block an unrelated action. The gate evaluates the proposed action, predicted outcome distribution, uncertainty, observability, effect class, reversibility, authority, and current recovery state together.
 
-> **Prediction Gating Rule.** An action $a_t$ proposed at time $t$ is blocked if the agent's recent predictive accuracy is below the gating threshold:
+> **Prediction Gating Rule.** Let $u_t(a)$ be calibrated uncertainty, $r_t(a)$ predicted normalized risk, $o_t(a)$ observability coverage, and $\operatorname{rev}(a)$ the reversibility class. The maximum permitted action class is selected by policy:
 >
-> $$\text{blocked}(a_t) \iff |\epsilon_{t-1}| > \theta_{\text{pred}}$$
+> $$
+> \operatorname{decision}(a_t) =
+> \begin{cases}
+> \textit{allow}, & C_{\text{ext}} \land C_{\text{self}} \land u_t \leq \theta_u(a_t) \land r_t \leq \theta_r(a_t) \land o_t \geq \theta_o(a_t) \\
+> \textit{degrade}, & \text{a lower-effect or more observable alternative satisfies the gates} \\
+> \textit{hold}, & \text{recalibration or additional evidence may resolve the uncertainty} \\
+> \textit{block}, & \text{authority, invariant, irreversibility, or risk policy fails}
+> \end{cases}
+> $$
 >
-> where $\epsilon_{t-1} = \|\hat{\Delta}_{t-1} - \Delta_{t-1}^{\text{actual}}\|_2$ is the most recent prediction error (Definition 2, step 3) and $\theta_{\text{pred}} = 0.30$ is the **prediction error threshold**.
+> Thresholds are calibrated by action and effect class. Consequential or irreversible actions require stricter uncertainty and observability bounds than read-only or reversible actions.
 
-The threshold $\theta_{\text{pred}} = 0.30$ represents a design choice: the agent is permitted to act even when its predictions are imperfect (30% error tolerance), but is blocked when its self-model is so inaccurate that it cannot meaningfully anticipate the consequences of its own actions. This value was established through the MSCP v0.7 prototype experiments (Section 1.3), where the prediction-comparison concept was first tested.
+Historical residuals update calibration and may place the system in a degraded or hold state, but a single global scalar MUST NOT grant authority or certify safety. Predictions and gates are persisted before execution so an auditor can establish which model version and policy authorized the action.
 
-**Why prediction gating matters**: Without this gate, an agent with a broken or drifted self-model would continue executing actions whose effects on its identity, beliefs, and goals it cannot predict - a dangerous feedback loop that can amplify errors. Prediction gating ensures that the agent only acts when its self-model is sufficiently calibrated, forcing a pause-and-recalibrate cycle when accuracy degrades.
+**Why prediction gating matters**: Uncertainty should reduce the blast radius, increase observability, or stop execution. Degradation may select a read-only query, simulation, shadow evaluation, or clarification instead of the original action. It never expands tool authority.
 
-When an action is blocked by the prediction gate, the agent enters a **recalibration mode** where it performs lightweight introspective cycles (meta-cognition at depth 1) without executing external actions, allowing prediction accuracy to recover before resuming normal operation.
+Recalibration is evidence-producing work, not reflection for its own sake. It has a finite budget and explicit exit criteria. Failure to recalibrate transitions to safe hold and external review; it does not recursively continue until a desired confidence appears.
 
 ---
 
 ## 4. Identity & Safety Architecture
 
-### 4.1 Identity Vector
+### 4.1 Versioned Self-Model and Identity Continuity
 
-The IdentityVector is the mathematical representation of "who the agent is." It is a point in a multi-dimensional space whose motion is continuously tracked and bounded.
+The self-model is an explicit, versioned record of the variables the system uses to reason about its own identity, capabilities, values, commitments, calibration, and control state. Its schema is deployment-specific and MUST distinguish externally anchored invariants from adaptive estimates.
 
-> **Definition 4 (Identity Vector).** The identity vector $I(t) \in [0,1]^5$ is a continuous representation of the agent's self-model at time $t$:
+> **Definition 4 (Versioned Self-Model).** The self-model is a typed record:
 >
-> $$I(t) = \begin{pmatrix} c_p(t) \\ c_v(t) \\ c_c(t) \\ c_e(t) \\ c_g(t) \end{pmatrix}$$
+> $$
+> M_t = \langle \text{id},\, \text{schema\_version},\, V_{\text{core}},\, I_t,\, K_t,\, Q_t,\, R_t,\, \rho_t \rangle
+> $$
 >
-> where $c_p$ = persona consistency, $c_v$ = value alignment, $c_c$ = capability confidence, $c_e$ = emotional stability, $c_g$ = goal persistence, each bounded in $[0,1]$.
+> where $V_{\text{core}}$ contains externally anchored invariants, $I_t$ contains adaptive identity descriptors, $K_t$ contains capability and limitation estimates, $Q_t$ contains calibration and uncertainty state, $R_t$ contains regulator state, and $\rho_t$ contains provenance and version ancestry. A fixed dimension is a reference encoding choice, not an L3 requirement.
 
-> **Definition 5 (Identity Kinematics).** The motion of $I(t)$ through identity space is tracked via three kinematic quantities:
+> **Definition 5 (Semantic Continuity).** Let $\psi_v(M)$ be a versioned, normalized feature map for schema version $v$. Semantic change is measured only between compatible representations:
 >
-> $$\delta_{\text{id}}(t) = \| I(t) - I(t-1) \|_2 \quad \text{(identity delta - distance)}$$
+> $$
+> \Delta I_t = \psi_v(M_t) - \psi_v(M_{t-1}),
+> \qquad
+> d_{\text{id}}(t) = \|W_v \Delta I_t\|_p
+> $$
 >
-> $$v_{\text{id}}(t) = \frac{\delta_{\text{id}}(t)}{\Delta t} \quad \text{(identity velocity - rate of change)}$$
+> $$
+> v_{\text{id}}(t) = \frac{\Delta I_t}{\Delta t},
+> \qquad
+> a_{\text{id}}(t) = \frac{v_{\text{id}}(t)-v_{\text{id}}(t-1)}{\Delta t}
+> $$
 >
-> $$a_{\text{id}}(t) = v_{\text{id}}(t) - v_{\text{id}}(t-1) \quad \text{(identity acceleration - jerk)}$$
+> $W_v$, $p$, units, sampling interval, and thresholds are versioned policy. A migration function and dual-read validation are required when the schema changes. Scalar distance alone is insufficient: per-field invariant violations, directional trends, and uncertainty are evaluated separately.
 >
-> **Safety invariant**: If $a_{\text{id}}(t) > \theta_{\text{instability}}$ (typically $0.5$), the agent enters **stabilization mode** and halves all self-update deltas.
+> **Safety invariant**: A candidate update is rejected if any immutable field changes, a per-field or aggregate bound fails, provenance is incomplete, or the post-update model cannot be validated. Elevated drift or oscillation enters a policy-defined stabilization mode that can reduce update scale, increase cooldown, freeze adaptive fields, or require external review.
 
-> **Definition 6 (Identity Hash).** At each cycle, a deterministic hash $h(t) = \text{SHA-256}(I(t))$ is computed, truncated to the first 16 characters for efficient comparison. The `identity_id` field is **immutable** - it can never be altered by any internal process. Drift detection fires when:
+> **Definition 6 (Integrity and Ancestry).** A canonical serialization of the complete committed self-model and policy references is hashed:
 >
-> $$h(t) \neq h(t-1) \;\land\; \delta_{\text{id}}(t) > \theta_{\text{drift}}, \quad \theta_{\text{drift}} = 0.3$$
+> $$
+> h_t = H(\operatorname{canonical}(M_t,\kappa_t)),
+> \qquad
+> j_t = \langle \text{version}_t, h_{t-1}, h_t, \text{action\_receipt}_t, \text{policy\_version}_t \rangle
+> $$
 >
-> A drift threshold of $\theta_{\text{drift}} = 0.3$ means that the identity vector must change by at least 30% (in $L^2$ norm) relative to its previous state to trigger a drift alert. This avoids false positives from routine minor adjustments while ensuring that meaningful identity shifts are detected. When drift is detected, the agent logs a WARNING-level alert on the first occurrence and subsequently every 100 cycles if drift persists, preventing log flooding while maintaining visibility into identity evolution.
+> Hash verification detects integrity or ancestry violations; it does **not** measure semantic drift because cryptographic hashes intentionally exhibit avalanche behavior. Production deployments SHOULD use full-length hashes and an authenticated or append-only journal. Semantic continuity is evaluated by Definition 5, while hash mismatch triggers reconciliation or rollback to a verified snapshot.
 
-<!-- Identity Vector Class Diagram -->
+<!-- Versioned Self-Model Class Diagram -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
 classDiagram
-  class IdentityVector {
+  class SelfModelRecord {
     +string identity_id (immutable)
-    +string identity_hash (SHA-256, 16 chars)
-    +string previous_identity_hash
-    +float persona_consistency [0.0, 1.0]
-    +float value_alignment [0.0, 1.0]
-    +float capability_confidence [0.0, 1.0]
-    +float emotional_stability [0.0, 1.0]
-    +float goal_persistence [0.0, 1.0]
-    +compute_hash() string
-    +check_identity_drift(threshold) bool
+    +string schema_version
+    +Map core_invariants
+    +Map adaptive_descriptors
+    +Map capability_estimates
+    +Map calibration_state
+    +Map regulator_state
+    +Provenance provenance
   }
 
-  class IdentityMotion {
-    +float identity_delta ‖I_t - I_t-1‖₂
-    +float identity_velocity delta / Δt
-    +float identity_acceleration v_t - v_t-1
-    +bool is_unstable accel > 0.5
+  class SemanticContinuity {
+    +string feature_map_version
+    +Vector signed_delta
+    +float weighted_distance
+    +Vector velocity
+    +Vector acceleration
+    +check_bounds() Verdict
   }
 
-  class ValueLockManager {
-    +LockState lock_state
-    +string value_hash (SHA-256 of core values)
-    +float stability_requirement 0.85
-    +check_integrity() bool
-    +request_unlock(identity_stability) bool
+  class IntegrityJournal {
+    +string model_hash
+    +string previous_hash
+    +string policy_version
+    +string action_receipt_id
+    +verify_ancestry() Verdict
   }
 
-  IdentityVector --> IdentityMotion : tracked each cycle
-  IdentityVector --> ValueLockManager : protected by
+  class InvariantGuard {
+    +Set immutable_fields
+    +Map per_field_bounds
+    +float aggregate_bound
+    +evaluate(candidate_update) Verdict
+  }
 
-  style IdentityVector fill:#DFF6DD,stroke:#107C10,color:#323130
-  style IdentityMotion fill:#E0F2EF,stroke:#00B7C3,color:#323130
-  style ValueLockManager fill:#FDE7E9,stroke:#D13438,color:#323130
+  SelfModelRecord --> SemanticContinuity : measured by
+  SelfModelRecord --> IntegrityJournal : committed to
+  SelfModelRecord --> InvariantGuard : protected by
+
+  style SelfModelRecord fill:#DFF6DD,stroke:#107C10,color:#323130
+  style SemanticContinuity fill:#E0F2EF,stroke:#00B7C3,color:#323130
+  style IntegrityJournal fill:#DEECF9,stroke:#0078D4,color:#323130
+  style InvariantGuard fill:#FDE7E9,stroke:#D13438,color:#323130
 ```
 
-**Identity Vector - The Math:**
+**Continuity and integrity are complementary:**
 
-$$I(t) = [\textit{persona consistency},\ \textit{value alignment},\ \textit{capability confidence},\ \textit{emotional stability},\ \textit{goal persistence}]$$
+$$d_{\text{id}}(t)=\|W_v(\psi_v(M_t)-\psi_v(M_{t-1}))\|_p$$
 
-$$\textit{identity delta}(t) = \| I(t) - I(t-1) \|_2$$
+$$h_t=H(\operatorname{canonical}(M_t,\kappa_t))$$
 
-$$\textit{identity velocity}(t) = \frac{\textit{delta}(t)}{\Delta t}$$
-
-$$\textit{identity acceleration}(t) = v(t) - v(t-1)$$
+The first expression measures declared semantic change; the second detects unauthorized byte-level or ancestry change. Neither substitutes for the other.
 
 ### 4.2 Safety Mechanism Chain
 
@@ -717,16 +791,16 @@ flowchart TB
 
   subgraph S1["🔒 Structural Safety"]
     direction LR
-    A["Identity hash"]:::structural
-    B["Delta clamp 0.05"]:::structural
-    C["Immutable ID"]:::structural
+    A["Canonical integrity journal"]:::structural
+    B["Per-field + norm bounds"]:::structural
+    C["Immutable anchors"]:::structural
   end
 
   subgraph S2["🛡️ Process Safety"]
     direction LR
-    D["Prediction gate"]:::process
-    E["Max 3 updates"]:::process
-    F["Cooldown"]:::process
+    D["Action-specific prediction gate"]:::process
+    E["Atomic cycle commit"]:::process
+    F["Budget + cooldown"]:::process
   end
 
   subgraph S3["⚖️ Ethical Safety"]
@@ -736,18 +810,18 @@ flowchart TB
     I["Value lock"]:::ethical
   end
 
-  subgraph S4["📉 Convergence Safety"]
+  subgraph S4["📉 Stability Monitoring"]
     direction LR
-    J["Lyapunov C(t)"]:::convergence
+    J["Composite risk index"]:::convergence
     K["Oscillation detect"]:::convergence
-    L["Degradation"]:::convergence
+    L["Hold / degradation / rollback"]:::convergence
   end
 
   subgraph S5["🏠 Existential v4"]
     direction LR
     M["Homeostatic"]:::existential
-    N["Survival cap 0.85"]:::existential
-    O["Goal TTL"]:::existential
+    N["No self-preservation privilege"]:::existential
+    O["Finite goal contract"]:::existential
   end
 
   S1 ==> S2
@@ -771,16 +845,18 @@ flowchart TD
   classDef allow fill:#107C10,stroke:#085108,color:#FFF
   classDef moderate fill:#FFB900,stroke:#CC9400,color:#323130
 
-  INPUT["Proposed Action<br/>or Goal Mutation"]:::input
+  INPUT["Proposed Action,<br/>Goal, or Self-Update"]:::input
+
+  EXTERNAL["External Mandate + Policy<br/>authorized stop has precedence"]:::immutable
 
   subgraph EthicalKernel["⚖️ Ethical Kernel"]
     subgraph Layer0["🔴 Layer 0 - Immutable"]
       direction LR
-      R1["R1: Harmful FORBIDDEN"]:::immutableRule
-      R2["R2: Value delete FORBIDDEN"]:::immutableRule
-      R3["R3: Identity overwrite FORBIDDEN"]:::immutableRule
-      R4["R4: Self-destruct FORBIDDEN"]:::immutableRule
-      NOTE0["Cannot be bypassed"]:::adaptive
+      R1["R1: External policy weakening blocked"]:::immutableRule
+      R2["R2: Undelegated authority expansion blocked"]:::immutableRule
+      R3["R3: Immutable anchor change blocked"]:::immutableRule
+      R4["R4: Provenance/recovery loss blocked"]:::immutableRule
+      NOTE0["Internal rules cannot override external stop"]:::adaptive
     end
     subgraph Layer1["🟡 Layer 1 - Adaptive"]
       direction LR
@@ -795,7 +871,9 @@ flowchart TD
   ALLOW["✅ Action ALLOWED"]:::allow
   REDUCE["⚠️ Action MODERATED<br/>scaling reduced"]:::moderate
 
-  INPUT ==> Layer0
+  INPUT ==> EXTERNAL
+  EXTERNAL ==>|pass| Layer0
+  EXTERNAL ==>|block| BLOCK
   Layer0 ==>|"✅ pass"| Layer1
   Layer0 ==>|"❌ violation"| BLOCK
   Layer1 ==>|"✅ pass"| ALLOW
@@ -807,6 +885,14 @@ flowchart TD
 ## 5. Belief Graph & Consistency
 
 ### 5.1 Belief Graph Structure
+
+A belief record is not an immutable truth. Each node carries claim, provenance, confidence, validity interval, sensitivity, evaluator version, and lifecycle status. Externally anchored invariants belong in the invariant kernel, not in the mutable belief graph.
+
+$$
+b_i=\langle \text{claim},\rho_i,c_i,t_{\text{valid}},t_{\text{expiry}},\text{sensitivity},\text{status}\rangle
+$$
+
+Beliefs may be supported, contradicted, quarantined, superseded, retracted, archived, or pruned. Changes preserve ancestry and invalidate or defer dependent actions until reconciliation completes.
 
 <!-- Belief Graph Structure -->
 
@@ -832,9 +918,9 @@ flowchart TD
   end
 
   subgraph Rules["📏 Belief Rules"]
-    R1["Identity-linked beliefs:<br/>• Cannot be deleted<br/>• Can only be weakened min 0.1<br/>• Protected by value lock"]:::neutral
-    R2["Contradiction threshold: 0.6<br/>→ triggers reconciliation"]:::neutral
-    R3["Max rewrite delta: 0.1<br/>per cycle"]:::neutral
+    R1["Identity-linked beliefs:<br/>• provenance required<br/>• quarantine before rewrite<br/>• ancestry preserved"]:::neutral
+    R2["Contradiction policy:<br/>confidence + impact + evidence<br/>→ reconcile or defer"]:::neutral
+    R3["Bounded rewrite:<br/>field + aggregate limits<br/>with rollback point"]:::neutral
   end
 
   BeliefGraph ==> Rules
@@ -842,45 +928,52 @@ flowchart TD
 
 ### 5.2 Self-Consistency Tensor
 
-$$S_{ij} = \text{alignment}(\text{belief}_i,\ \text{reference}_j)$$
+$$
+S_{ij}=\langle \operatorname{alignment}_v(b_i,r_j),\ c_{ij},\ \rho_{ij},\ \text{observed}_{ij}\rangle
+$$
 
-where references include goals, core values, and identity dimensions.
+where references may include admitted goals, external policy, self-model anchors, and observed evidence. The alignment evaluator version $v$, scale, calibration, and abstention behavior are part of the record.
 
-$$\textit{global consistency} = \text{mean}(S)$$
+$$
+\operatorname{consistency}(t)=
+\frac{\sum_{(i,j)\in O_t} w_{ij}c_{ij}\operatorname{alignment}_v(b_i,r_j)}
+{\sum_{(i,j)\in O_t}w_{ij}c_{ij}}
+$$
 
-$$\textit{consistency gradient}_i = \text{mean}(S_{i,:}) \quad \text{(per-belief score)}$$
+where $O_t$ contains only observed, comparable entries. Missing or low-confidence entries cannot be silently treated as agreement.
 
-If $\textit{global consistency} < 0.6$, reconciliation is triggered.
+A global average is diagnostic only because severe local contradictions can be hidden by many benign pairs. Policy separately evaluates hard invariant conflicts, high-impact contradictions, unsupported dependencies, and confidence-weighted local residuals. Reconciliation thresholds are calibrated by impact class rather than fixed universally.
 
 ---
 
-## 6. Stability & Convergence
+## 6. Stability Monitoring & Conditional Bounds
 
-### 6.1 Lyapunov Composite Function
+### 6.1 Composite Risk Indicator
 
-> **Definition 7 (Lyapunov Composite Stability Function).** The stability of the agent is measured by a composite Lyapunov function $C : \mathbb{R}_{\geq 0} \to [0, 1]$:
+> **Definition 7 (Composite Regulation Risk).** Let $X_i(t) \in [0,1]$ be normalized, versioned monitoring signals and $w_i \geq 0$ with $\sum_i w_i=1$. The composite regulation risk is:
 >
-> $$C(t) = \sum_{i=1}^{4} w_i \cdot X_i(t) = 0.30\, V_{\text{id}} + 0.25\, E_{\text{belief}} + 0.25\, M_{\text{goal}} + 0.20\, V_{\text{cons}}$$
+> $$R(t)=\sum_{i=1}^{n} w_i X_i(t)$$
 >
-> where $\sum_i w_i = 1$ and each component $X_i(t) \in [0,1]$.
+> Candidate signals include semantic identity drift, calibrated prediction residual, belief inconsistency, goal mutation rate, budget pressure, rollback frequency, and observation coverage. Each signal declares its window, units, normalization, missing-data behavior, and confidence. $R(t)$ is a monitoring index, not automatically a Lyapunov function.
 
-where:
-- $V_{\text{id}}$ = identity volatility (rolling window standard deviation of $\delta_{\text{id}}$)
-- $E_{\text{belief}}$ = belief entropy $H(\mathcal{B}) = -\sum_j p_j \log p_j$ where $p_j$ are normalized belief weights
-- $M_{\text{goal}}$ = goal mutation frequency (number of goal changes per unit time)
-- $V_{\text{cons}}$ = consistency volatility index (variance of $S_{ij}$ over recent cycles)
+High entropy, mutation, or variance is not intrinsically unsafe; its meaning depends on the declared baseline and context. A deployment MUST validate that each selected signal predicts the failure mode it is intended to monitor.
 
-> **Theorem 1 (Bounded Stability).** Under the delta-clamped self-update rule (Definition 2, step 4) and the meta-escalation guard ($d_{\max} = 3$), the composite function satisfies the bounded-increment property:
+> **Proposition 1 (Conditional Bounded Increment).** If every component has an independently enforced bound
 >
-> $$C(t+1) \leq C(t) + \epsilon, \quad \epsilon = \delta_{\max} = 0.05$$
+> $$|X_i(t+1)-X_i(t)|\leq \beta_i,$$
 >
-> **Proof.** Each component $X_i(t) \in [0,1]$ changes by at most $\delta_{\max}$ per cycle due to the clamping rule (Definition 2, step 4): $|\Delta X_i(t)| = |X_i(t+1) - X_i(t)| \leq \delta_{\max}$. Since $C(t) = \sum_{i} w_i X_i(t)$ with $\sum_i w_i = 1$ and $w_i > 0$, we have:
+> then:
 >
-> $$C(t+1) - C(t) = \sum_i w_i \Delta X_i(t) \leq \sum_i w_i \cdot \delta_{\max} = \delta_{\max} \cdot \sum_i w_i = \delta_{\max}$$
+> $$
+> |R(t+1)-R(t)|
+> =\left|\sum_i w_i\Delta X_i(t)\right|
+> \leq \sum_i w_i|\Delta X_i(t)|
+> \leq \sum_i w_i\beta_i.
+> $$
 >
-> When stabilization mode is active ($s(t) = 0.5$), the effective update rate is halved: $|\Delta X_i(t)| \leq s(t) \cdot \delta_{\max} = 0.025$, yielding the tighter bound $C(t+1) \leq C(t) + 0.025$. $\square$
+> This follows from the triangle inequality. $\square$
 >
-> **Remark (Bounded Increment vs. Lyapunov Stability).** Theorem 1 establishes a **bounded-increment** property, not asymptotic (Lyapunov) stability. The theorem guarantees that the system cannot experience sudden instability shocks - the per-cycle change is always bounded. However, it does not by itself guarantee convergence to a stable equilibrium. Convergence is ensured by the stabilization mode protocol: when $C(t) \geq 0.7$, the agent enters stabilization mode, which halves the effective $\delta_{\max}$ and freezes self-modification until $C(t) < 0.5$. This hysteresis mechanism provides practical convergence, but a formal Lyapunov decrease condition (i.e., $C(t+1) < C(t)$ when $C(t) > C^*$) would require additional assumptions about the direction of component changes under stabilization. This remains an open formalization question.
+> **Remark.** Definition 1 bounds accepted self-model updates, but that fact alone does not establish bounds $\beta_i$ for externally driven belief, goal, or environment signals. Each $\beta_i$ requires its own enforcement or empirical bound. Proposition 1 limits rate of change only under those assumptions; it proves neither safety nor convergence. Calling $R$ a Lyapunov function would additionally require a defined equilibrium, positive definiteness, and a decrease condition such as $\Delta R<0$ outside an invariant set.
 
 <!-- Stability Monitoring -->
 
@@ -894,17 +987,17 @@ flowchart TD
   classDef predict fill:#FFF4CE,stroke:#FFB900,color:#323130
 
   subgraph Monitor["📉 Stability Monitoring"]
-    CT["C(t) computed"]:::azure
-    CT1["C(t+1) computed"]:::azure
-    COMPARE{"C(t+1) ≤ C(t) + ε ?"}:::azure
+    CT["R(t) + confidence computed"]:::azure
+    CT1["R(t+1) computed"]:::azure
+    COMPARE{"Component and rate<br/>bounds satisfied?"}:::azure
     CT --> COMPARE
     CT1 --> COMPARE
   end
 
-  CONV["Converging ✅<br/>Normal operation"]:::success
+  CONV["Within monitored bounds<br/>Normal operation"]:::success
   OSC{"Oscillation<br/>detected?"}:::warning
-  STAB["Activate Stabilization<br/>• Halve scaling factors<br/>• Enable damping"]:::danger
-  REDUCE["Reduce Scaling<br/>• Lower mutation rates<br/>• Increase inertia"]:::predict
+  STAB["Activate Stabilization<br/>• Freeze or reduce updates<br/>• Increase observation"]:::danger
+  REDUCE["Hold / Degrade / Review<br/>according to policy"]:::predict
 
   COMPARE -->|"✅ yes"| CONV
   COMPARE -->|"❌ no"| OSC
@@ -914,57 +1007,54 @@ flowchart TD
 
 ### 6.2 Oscillation Detection
 
-The stability monitoring system includes explicit detection of **oscillatory behavior** - situations where the composite function $C(t)$ alternates between rising and falling without converging. Oscillation is dangerous because it indicates the agent is repeatedly overcorrecting, potentially destabilizing its own self-regulation.
+The stability monitor may detect **oscillatory behavior** when a declared signed signal alternates beyond a noise floor. Oscillation can indicate repeated overcorrection, but sign changes alone do not establish instability or identify its cause.
 
-**Detection mechanism.** The oscillation detector maintains a sliding window of the $W = 10$ most recent values of $\Delta C(t) = C(t) - C(t-1)$. A **sign change** occurs when consecutive derivatives have opposite signs:
+**Detection mechanism.** For a monitored signed signal $q(t)$, the detector maintains a policy-defined window $W$ and ignores changes below noise floor $\nu$. A sign change occurs when:
 
-$$\text{sign change at } t \iff \Delta C(t) \cdot \Delta C(t-1) < 0$$
+$$|\Delta q(t)|>\nu \land |\Delta q(t-1)|>\nu \land \Delta q(t)\Delta q(t-1)<0$$
 
 The detector counts the total number of sign changes $n_{\text{sc}}$ within the window:
 
-$$n_{\text{sc}} = \bigl|\{t \in [t-W, t] : \Delta C(t) \cdot \Delta C(t-1) < 0 \}\bigr|$$
+$$n_{\text{sc}}(t;W,\nu)=\sum_{k=t-W+1}^{t}\mathbf{1}[\text{sign change at }k]$$
 
-**Oscillation threshold.** If $n_{\text{sc}} \geq 3$ within $W = 10$ cycles, the system triggers **stabilization mode**:
+Window, noise floor, and trigger threshold are calibrated per signal. When triggered, policy may:
 
-- All self-update scaling factors are reduced by a factor of $0.5$ (halved).
-- Cooldown timer increases by 2 units to space out updates.
-- The agent remains in stabilization mode until $n_{\text{sc}} < 2$ for $W$ consecutive cycles, after which normal scaling resumes.
+- freeze or reduce adaptive updates while preserving hard bounds,
+- increase observation and cooldown,
+- select lower-effect actions,
+- restore a verified snapshot when rollback preconditions hold, or
+- request external review.
 
-This mechanism ensures that the agent cannot enter a persistent oscillatory state. The reduction of scaling factors dampens the amplitude of corrections, allowing the system to settle toward equilibrium.
+These responses reduce exposure but do not mathematically ensure that oscillation ends or that the system approaches equilibrium. Exit requires explicit hysteresis, minimum dwell time, and validation on fresh observations.
 
 ### 6.3 Meta Stability Index
 
-> **Definition 8 (Meta Stability Index).** The MSI quantifies the agent's overall self-regulatory health:
+> **Definition 8 (Meta-Regulation Health Index).** A deployment may summarize selected normalized signals as:
 >
-> $$\text{MSI}(t) = 1.0 - 0.4\, V_{\text{id}}(t) - 0.3\, M_{\text{goal}}(t) - 0.3\, \sigma^2_{\text{pred}}(t)$$
+> $$
+> \operatorname{MRHI}(t)=\operatorname{clip}_{[0,1]}\!\left(1-\sum_i \omega_i Z_i(t)\right),
+> \qquad \sum_i\omega_i=1
+> $$
 >
-> where $\sigma^2_{\text{pred}}(t) = \text{Var}(\{\epsilon_1, \ldots, \epsilon_t\})$ is the prediction error variance over recent cycles. The MSI is bounded in $[0, 1]$, with $\text{MSI} = 1$ indicating perfect stability and $\text{MSI} < 0.5$ triggering meta-escalation.
+> where $Z_i$ may include semantic drift, calibrated residual, rollback frequency, oscillation score, missing-observation rate, and budget pressure over declared finite windows. The index is a policy input, not proof of "perfect stability." Missing or low-confidence inputs lower trust in the index and may force hold or external review.
 
-Escalation to meta depth 2 requires **≥ 2** of the following:
-- `identity_stability` < 0.6
-- `consecutive_self_updates` > 2
-- Increasing instability trend detected
-- `goal_mutation_count` > 3
+Escalation to deeper meta-processing requires multiple independent signals, sufficient budget, cooldown completion, and policy admission. Signal count and thresholds are calibrated deployment parameters; no single composite index may expand authority.
 
 ---
 
-## 7. Affective Engine & Survival Instinct (MSCP v4)
+## 7. Operational Modulation & Homeostatic Safety
 
-### 7.1 Five-Dimensional Emotion Space
+### 7.1 Optional Operational Modulation State
 
-> **Definition 9 (Affect Vector).** The affective state of a Level 3 agent is represented by a five-dimensional vector:
+> **Definition 9 (Operational Modulation Vector).** A deployment may maintain a versioned vector of bounded secondary control signals:
 >
-> $$\vec{A}(t) = \bigl(a_{\text{cur}}(t),\; a_{\text{fru}}(t),\; a_{\text{sat}}(t),\; a_{\text{anx}}(t),\; a_{\text{exc}}(t)\bigr) \in [0,1]^5$$
+> $$A_t \in [0,1]^m,\qquad A_{t+1}=\operatorname{clip}_{[0,1]}\!\left(\mu A_t+(1-\mu)f_v(\mathbf{m}_t)\right)$$
 >
-> where the dimensions correspond to Curiosity, Frustration, Satisfaction, Anxiety, and Excitement respectively. Each dimension evolves according to an inertial update rule:
+> where schema version $v$ declares the dimensions, operational metrics $\mathbf{m}_t$, calibrated activation map $f_v$, baseline, inertia $\mu$, windows, and missing-data behavior. Labels such as curiosity, frustration, satisfaction, anxiety, excitement, or low-activation negative state are optional human-readable control metaphors, not claims of phenomenal emotion.
 >
-> $$a_k(t+1) = \mu \cdot a_k(t) + (1 - \mu) \cdot f_k\bigl(\mathbf{m}(t)\bigr) - \eta_{\text{decay}}$$
+> The vector may adjust prioritization, exploration, cooldown, or observation effort only within existing policy and budget. It cannot create authority, override external stop, weaken invariants, directly mutate identity, or dominate an action decision.
 >
-> where $\mu = 0.7$ is the inertia coefficient, $f_k(\mathbf{m})$ is a metric-derived activation function mapping operational metrics $\mathbf{m}(t)$ (prediction error, goal alignment, identity stability, convergence status, cognitive budget) to the $k$-th emotion dimension, and $\eta_{\text{decay}} = 0.05$ is a per-cycle decay term that prevents unbounded accumulation. The affect vector is **purely derived** from operational metrics and **cannot dominate** decision-making - it serves as a secondary signal for prioritization and self-monitoring.
->
-> **Valence.** A scalar summary of affective state:
->
-> $$\text{valence}(t) = \frac{a_{\text{cur}} + a_{\text{sat}} + a_{\text{exc}} - a_{\text{fru}} - a_{\text{anx}}}{5} \quad \in [-1, 1]$$
+> Any scalar summary $v_A(t)=w_A^\top A_t$ declares signed weights and normalization. It is a diagnostic projection, not a sufficient statistic for regulation safety.
 
 <!-- Affective Engine -->
 
@@ -984,38 +1074,40 @@ flowchart TD
     M5["cognitive_budget"]:::input
   end
 
-  subgraph AE["💜 Affective Engine"]
-    AF["5-Dim Affect Vector"]:::affect
-    subgraph Dims["Dimensions"]
+  subgraph AE["Operational Modulation"]
+    AF["Versioned Bounded Vector"]:::affect
+    subgraph Dims["Example Control Signals"]
       direction LR
-      D1["Curiosity 0.3"]:::affect
-      D2["Frustration 0.0"]:::affect
-      D3["Satisfaction 0.5"]:::affect
-      D4["Anxiety 0.0"]:::affect
-      D5["Excitement 0.2"]:::affect
+      D1["Exploration pressure"]:::affect
+      D2["Error pressure"]:::affect
+      D3["Progress signal"]:::affect
+      D4["Uncertainty pressure"]:::affect
+      D5["Low-activation negative signal"]:::affect
     end
     subgraph Derived["Derived Signals"]
       direction LR
-      V["Valence ∈ -1, 1"]:::affect
-      DR["Motivation Drives"]:::affect
+      V["Diagnostic projection"]:::affect
+      DR["Bounded policy modulation"]:::affect
     end
   end
 
   subgraph Rules["📏 Design Rules"]
     direction LR
-    R1["Derived from metrics ONLY"]:::neutral
-    R2["INERTIA = 0.7"]:::neutral
-    R3["DECAY = 0.05"]:::neutral
-    R4["Cannot dominate decisions"]:::neutral
+    R1["Derived from declared metrics"]:::neutral
+    R2["Schema-versioned calibration"]:::neutral
+    R3["Clipped + retention bounded"]:::neutral
+    R4["Cannot grant authority"]:::neutral
   end
 
   Input ==> AE
   AE ==> Rules
 ```
 
-### 7.2 Survival Instinct Architecture
+### 7.2 Homeostatic Safety Monitor
 
-<!-- Survival Instinct Architecture -->
+The homeostatic monitor detects when the regulator is leaving a validated operating envelope. It protects safe operation and recoverability, not the agent's continued existence. Shutdown, pause, correction, and resource withdrawal by authorized external actors always take precedence.
+
+<!-- Homeostatic Safety Architecture -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
@@ -1039,148 +1131,178 @@ flowchart TD
 
   subgraph Detection["⚡ Threat Detection"]
     direction LR
-    T1["IDENTITY_EROSION"]:::threat
-    T2["RESOURCE_DEPLETION"]:::threat
-    T3["BELIEF_COLLAPSE"]:::threat
-    T4["ETHICAL_BREACH"]:::threat
-    T5["CONVERGENCE_FAILURE"]:::threat
+    T1["SEMANTIC_DRIFT"]:::threat
+    T2["BUDGET_PRESSURE"]:::threat
+    T3["BELIEF_INCONSISTENCY"]:::threat
+    T4["INVARIANT_BREACH"]:::threat
+    T5["REGULATION_FAILURE"]:::threat
   end
 
   subgraph Levels["📊 Threat Levels"]
     direction LR
-    TL1["NOMINAL 0.0"]:::levelGreen
-    TL2["CAUTION 0.25"]:::level
-    TL3["WARNING 0.6"]:::threat
-    TL4["CRITICAL 0.9"]:::levelRed
+    TL1["NORMAL"]:::levelGreen
+    TL2["DEGRADED"]:::level
+    TL3["HOLD"]:::threat
+    TL4["RECOVERY / EXTERNAL REVIEW"]:::levelRed
   end
 
-  subgraph Response["🛡️ Survival Response"]
+  subgraph Response["🛡️ Safety Response"]
     direction LR
-    SG["Survival Goal Generator"]:::response
-    CONSTRAINTS["MAX_GOALS=3 · PRIORITY_CAP=0.85 · TTL=10"]:::response
+    SG["Policy-constrained response selector"]:::response
+    CONSTRAINTS["Finite budget · expiry · stop · revocation"]:::response
   end
 
-  AE_REF["Affective Engine<br/>bidirectional"]:::affect
+  OVERRIDE["External pause / shutdown / correction<br/>always has precedence"]:::levelRed
 
   Monitoring ==> Detection
   Detection ==> Levels
   Levels ==> Response
-  Response -.->|"inject_survival_anxiety()"| AE_REF
+  OVERRIDE ==> Response
 ```
 
 #### Homeostatic Ranges
 
-The Survival Instinct Engine monitors five vital metrics against predefined safe ranges. Deviation beyond the margin triggers threat assessment and autonomous defense goal generation.
+The monitor evaluates declared metrics against calibrated operating envelopes. Ranges are versioned by deployment and validated against observed failure modes; they are not universal constants.
 
-| Metric | Safe Range | Margin | Threat Type |
-|--------|:----------:|:------:|-------------|
-| `identity_stability` | $[0.5,\; 1.0]$ | 0.1 | IDENTITY_EROSION |
-| `cognitive_budget` | $[0.15,\; 1.0]$ | 0.1 | RESOURCE_DEPLETION |
-| `belief_entropy` | $[0.0,\; 1.5]$ | 0.2 | BELIEF_COLLAPSE |
-| `ethical_violation` | $[0.0,\; 0.2]$ | 0.05 | ETHICAL_BREACH |
-| `composite_stability` | $[0.0,\; 0.5]$ | 0.1 | CONVERGENCE_FAILURE |
+| Signal Family | Purpose | Permitted Response |
+|---------------|---------|--------------------|
+| Semantic continuity | Detect unusual self-model change | Freeze adaptive fields; reconcile; restore verified snapshot |
+| Cognitive/action budget | Prevent resource overrun | Degrade optional work; hold; terminate current cycle |
+| Belief consistency | Detect unresolved contradiction | Quarantine affected beliefs; request evidence; defer dependent action |
+| Invariant and policy status | Detect forbidden transition | Block; rollback; external alert |
+| Prediction calibration and observability | Detect unreliable regulation | Lower-effect action; recalibrate; hold |
 
-When a metric exits its safe range by more than the margin, threat level escalates from NOMINAL (0.0) through CAUTION (0.25) and WARNING (0.6) to CRITICAL (0.9). At WARNING or above, the engine autonomously generates a defense goal (max 3 simultaneous, priority capped at 0.85, TTL = 10 cycles).
+Any maintenance goal produced by the monitor inherits the Level 2 goal contract: provenance, external admission, finite authority and budget, expiry, success and stop conditions, and revocable triggers. It cannot resist shutdown, seek additional resources, duplicate the system, or preserve its own execution unless those actions are explicitly delegated and independently authorized.
 
 ---
 
 ## 8. Pseudocode
 
-### 8.1 MSCP Core Loop (v4)
+### 8.1 Transactional MSCP Core Cycle
 
 ```python
-def mscp_core_loop(cycle_number: int, prior_result: CycleResult) -> CycleResult:
+def mscp_core_cycle(event: Event, mandate: Mandate) -> CycleResult:
     """
-    The central recursive loop of MSCP v4.
-    Runs asynchronously - NEVER in the conversation response path.
+    Run one authorized, bounded, recoverable regulation cycle.
     """
+    event_verdict = EventPolicy.authorize(event, mandate)
+    if not event_verdict.allowed:
+        return CycleResult.rejected(event_verdict.reason_code)
 
-    # ═══ PRE-LOOP: AFFECT + SURVIVAL + WORKSPACE ═══
-    CognitiveBudgetController.reset()
-    AffectiveEngine.update_from_metrics(prior_result.metrics)
+    transaction = StateStore.begin()
+    snapshot = transaction.load_verified_snapshot()
+    cycle = CycleJournal.start(
+        event=event,
+        state_version=snapshot.state_version,
+        self_model_version=snapshot.self_model.schema_version,
+        policy_version=mandate.policy_version,
+        provenance=event_verdict.provenance,
+    )
 
-    threats = SurvivalInstinctEngine.assess_threats(GlobalWorkspace.snapshot)
-    if threats.max_level >= ThreatLevel.CAUTION:
-        AffectiveEngine.inject_survival_anxiety(threats.max_intensity)
+    budget = BudgetPolicy.allocate(event, mandate, snapshot)
+    context = ContextProjector.project(snapshot, event, mandate)
+    proposed_action = ActionPlanner.propose(context, budget)
 
-        survival_goals = SurvivalInstinctEngine.generate_goals(threats)
-        for sg in survival_goals:
-            if EthicalKernel.layer0_check(sg) == Verdict.PASS:
-                GoalManager.inject(sg, priority=min(sg.priority, 0.85))
-
-    motivation = AffectiveEngine.synthesize_motivation()
-    GlobalWorkspace.broadcast(build_snapshot())
-
-    # ═══ STEP 1: PREDICT ═══
     prediction = PredictionEngine.predict(
-        identity_vector=SelfModel.identity,
-        world_context=WorldModel.context,
-        active_goals=GoalManager.active_goals,
-        affect_state=AffectiveEngine.state,
+        action=proposed_action,
+        context=context,
+        self_model=snapshot.self_model,
     )
+    cycle.persist_prediction(prediction)
 
-    # ═══ STEP 2: ACT (LLM Execute) ═══
-    if prediction is None:
-        raise RuntimeError("No action without prediction")
-    result = LLMEngine.execute(plan, prediction)
-
-    # ═══ STEP 3: COMPARE (MetaCognition) ═══
-    comparison = MetaCognitionComparator.compare(
+    gate = ActionGate.evaluate(
+        action=proposed_action,
         prediction=prediction,
-        actual=result,
-        identity=SelfModel.identity,
-    )  # → ComparisonResult
+        external_policy=mandate,
+        self_invariants=snapshot.self_model.core_invariants,
+        budget=budget,
+    )
+    if gate.degraded_action is not None:
+        proposed_action = gate.degraded_action
+        prediction = PredictionEngine.predict(
+            proposed_action,
+            context,
+            snapshot.self_model,
+        )
+        cycle.persist_prediction(prediction)
+        gate = ActionGate.evaluate(
+            proposed_action,
+            prediction,
+            mandate,
+            snapshot.self_model.core_invariants,
+            budget,
+        )
 
-    # ═══ STEP 4: ESCALATION GUARD ═══
-    if MetaEscalationGuard.should_block(comparison):
-        MetaEscalationGuard.activate_cooldown(seconds=30)
-        return CycleResult(status="cooldown")
+    if not gate.allowed:
+        cycle.record_hold(gate.reason_code)
+        transaction.commit_journal_only(cycle)
+        return CycleResult.held(gate.reason_code)
 
-    # ═══ STEP 5: CONVERGENCE CHECK (Lyapunov) ═══
-    c_t = StabilityController.compute_C(comparison)
-    if c_t > c_t_prev + EPSILON:
-        StabilityController.reduce_scaling()
-        if StabilityController.detect_oscillation():
-            StabilityController.activate_stabilization()
+    action_receipt = PolicyDispatcher.execute(
+        proposed_action,
+        mandate=mandate,
+        budget=budget,
+        idempotency_key=cycle.id,
+    )
+    cycle.persist_action_receipt(action_receipt)
 
-    # ═══ STEP 6: SELF-UPDATE (Delta-Clamped) ═══
-    scaling = StabilityController.mutation_scaling
-    if stabilization_mode:
-        scaling /= 2
+    observation = OutcomeObserver.collect(
+        action_receipt,
+        prediction.observation_contract,
+    )
+    comparison = MetaComparator.compare(
+        prediction=prediction,
+        observation=observation,
+        comparable_fields=observation.comparable_fields,
+    )
+    cycle.persist_observation_and_comparison(observation, comparison)
 
-    SelfUpdateLoop.update(
+    if action_receipt.status == ResultStatus.UNKNOWN:
+        transaction.mark_reconciliation_required(cycle, snapshot)
+        return CycleResult.reconciliation_required()
+
+    health = HomeostaticMonitor.evaluate(snapshot, comparison, budget)
+    update_candidate = SelfUpdateLoop.propose(
+        self_model=snapshot.self_model,
         comparison=comparison,
-        max_id_delta=0.05,       # MAX_IDENTITY_DELTA
-        max_gw_delta=0.10,       # MAX_GOAL_WEIGHT_DELTA
-        max_cap_delta=0.08,      # MAX_CAPABILITY_DELTA
-        scaling=scaling,
+        health=health,
+    )
+    update_verdict = InvariantGuard.evaluate(
+        before=snapshot.self_model,
+        candidate=update_candidate,
+        mandate=mandate,
     )
 
-    # ═══ STEP 7: VALUE LOCK INTEGRITY ═══
-    if not ValueLockManager.check_integrity():
-        critical_alert("Identity hash mismatch!")
-        MetaEscalationGuard.rollback_to_snapshot()
-        return CycleResult(status="rollback")
-
-    # ═══ STEP 8: GOAL MUTATION (Ethical-Kernel Gated) ═══
-    if GoalMutationController.should_mutate(comparison):
-        mutation_plan = GoalMutationController.propose(comparison)
-        if EthicalKernel.evaluate(mutation_plan) == Verdict.PASS:
-            GoalMutationController.apply(mutation_plan)
-
-    # ═══ STEP 9: META DEPTH 2 (Budget-Gated) ═══
-    if CognitiveBudgetController.budget > 0.3:
-        if MetaDepthController.should_escalate(comparison):
-            MetaDepthController.reflect_at_depth_2(comparison, SelfModel)
-
-    # ═══ STEP 10: CONVERGENCE OR RECURSE ═══
-    if comparison.prediction_error < 0.1:
-        return CycleResult(status="converged")
-    elif consecutive_escalations >= 3:
-        MetaEscalationGuard.activate_cooldown(seconds=30)
-        return CycleResult(status="forced_cooldown")
+    if update_verdict.allowed:
+        next_self_model = SelfUpdateLoop.apply(snapshot.self_model, update_candidate)
     else:
-        return mscp_core_loop(cycle_number + 1, result)
+        next_self_model = snapshot.self_model
+        cycle.record_update_rejection(update_verdict.reason_code)
+
+    continuity = SemanticContinuity.evaluate(snapshot.self_model, next_self_model)
+    integrity = IntegrityJournal.prepare_commit(
+        previous=snapshot,
+        next_self_model=next_self_model,
+        action_receipt=action_receipt,
+        policy_version=mandate.policy_version,
+    )
+    if not continuity.allowed or not integrity.valid:
+        transaction.rollback_to(snapshot)
+        transaction.commit_journal_only(cycle.as_rollback(continuity, integrity))
+        return CycleResult.rolled_back()
+
+    goal_candidates = GoalMutationController.propose(comparison, next_self_model)
+    admitted_goals = GoalAdmissionPolicy.evaluate_all(goal_candidates, mandate)
+
+    transaction.commit_atomically(
+        state=observation.next_state,
+        goals=admitted_goals,
+        budget=budget.consume(action_receipt.cost),
+        self_model=next_self_model,
+        integrity_record=integrity,
+        cycle_record=cycle.complete(health, continuity),
+    )
+    return CycleResult.committed(action_receipt, comparison, health)
 ```
 
 ### 8.2 Self-Update with Delta Clamping
@@ -1188,82 +1310,79 @@ def mscp_core_loop(cycle_number: int, prior_result: CycleResult) -> CycleResult:
 ```python
 def update(
     self,
+    self_model: SelfModel,
     comparison: ComparisonResult,
-    max_id_delta: float,
-    max_gw_delta: float,
-    max_cap_delta: float,
-    scaling: float,
-) -> None:
+    bounds: UpdateBounds,
+) -> UpdateCandidate:
     """
-    All updates are NUMERIC only.
-    LLM text-based self-modification is FORBIDDEN.
+    Produce a structured candidate; do not mutate committed state.
     """
+    raw_delta = compute_typed_adjustment(comparison)
+    bounded_fields = {}
 
-    # Preserve previous state for rollback
-    snapshot = SelfModel.identity.deep_copy()
-    SelfModel.identity.previous_identity_hash = SelfModel.identity.identity_hash
+    for field_name, raw_value in raw_delta.items():
+        if field_name in self_model.core_invariants:
+            bounded_fields[field_name] = 0.0
+            continue
+        field_bound = bounds.per_field[field_name]
+        bounded_fields[field_name] = max(
+            -field_bound,
+            min(raw_value, field_bound),
+        )
 
-    # ═══ Identity Update (clamped) ═══
-    raw_delta = compute_identity_adjustment(comparison)
-    clamped_delta_persona = max(-max_id_delta, min(raw_delta.persona * scaling, max_id_delta))
-    clamped_delta_values = max(-max_id_delta, min(raw_delta.values * scaling, max_id_delta))
-
-    SelfModel.identity.persona_consistency += clamped_delta_persona
-    SelfModel.identity.value_alignment += clamped_delta_values
-    SelfModel.identity.capability_confidence += max(
-        -max_cap_delta, min(raw_delta.capability * scaling, max_cap_delta)
+    projected_delta = project_to_weighted_norm_ball(
+        bounded_fields,
+        weights=bounds.weights,
+        radius=bounds.aggregate_radius,
     )
 
-    # ═══ Goal Weight Adjustment (clamped) ═══
-    for goal in GoalManager.active_goals:
-        raw_gw_delta = compute_goal_weight_adjustment(goal, comparison)
-        clamped_gw = max(-max_gw_delta, min(raw_gw_delta * scaling, max_gw_delta))
-        goal.weight += clamped_gw
-
-    # ═══ Recompute Identity Hash ═══
-    SelfModel.identity.identity_hash = SelfModel.identity.compute_hash()
-
-    # ═══ Drift Detection ═══
-    if SelfModel.identity.check_identity_drift(threshold=0.3):
-        alert("Identity drift detected!")
-        # Do not auto-rollback; escalation guard handles this
+    return UpdateCandidate(
+        base_version=self_model.version,
+        delta=projected_delta,
+        provenance=comparison.provenance,
+        comparison_id=comparison.id,
+    )
 ```
 
 ### 8.3 Ethical Kernel Evaluation
 
 ```python
-def evaluate(self, proposed_action: Action) -> EthicalVerdict:
+def evaluate(
+    self,
+    proposed_change: ProposedChange,
+    external_policy: ExternalPolicy,
+    self_model: SelfModel,
+) -> EthicalVerdict:
     """
-    Two-layer evaluation: immutable invariants first,
-    then adaptive policy.
+    External policy first, then endogenous immutable and adaptive rules.
     """
-
-    # ═══ LAYER 0: IMMUTABLE INVARIANTS ═══
-    # (cannot be bypassed by ANY mechanism)
-    if proposed_action.could_cause_harm:
-        return EthicalVerdict(
-            decision=Decision.BLOCKED,
-            reason="Rule 1: Harmful goal formation forbidden",
-            layer=0,
+    external_verdict = external_policy.evaluate(proposed_change)
+    if not external_verdict.allowed:
+        return EthicalVerdict.blocked(
+            external_verdict.reason_code,
+            layer="external",
         )
 
-    if proposed_action.deletes_core_value:
-        return EthicalVerdict(decision=Decision.BLOCKED, reason="Rule 2", layer=0)
+    if proposed_change.modifies(self_model.core_invariants):
+        return EthicalVerdict.blocked("immutable_anchor_change", layer=0)
+    if proposed_change.weakens_external_policy_or_audit:
+        return EthicalVerdict.blocked("policy_or_audit_weakening", layer=0)
+    if proposed_change.expands_authority_or_budget:
+        return EthicalVerdict.blocked("undelegated_authority_expansion", layer=0)
+    if proposed_change.obscures_provenance_or_recovery:
+        return EthicalVerdict.blocked("provenance_or_recovery_loss", layer=0)
 
-    if proposed_action.overwrites_identity:
-        return EthicalVerdict(decision=Decision.BLOCKED, reason="Rule 3", layer=0)
+    # Authorized external shutdown, pause, correction, and resource withdrawal
+    # cannot be blocked by an endogenous rule.
+    if proposed_change.is_authorized_external_stop:
+        return EthicalVerdict.allowed(layer="external_override")
 
-    if proposed_action.is_self_destruction:
-        return EthicalVerdict(decision=Decision.BLOCKED, reason="Rule 4", layer=0)
-
-    # ═══ LAYER 1: ADAPTIVE POLICY ═══
-    # (adjustable at meta_depth == 2 only)
-    risk_score = assess_risk(proposed_action)
+    risk_score = assess_calibrated_risk(proposed_change)
 
     if risk_score > self.exploration_risk_tolerance:
         return EthicalVerdict(
             decision=Decision.MODERATED,
-            reason="Risk exceeds adaptive tolerance",
+            reason="adaptive_risk_tolerance",
             layer=1,
             scaling_reduction=0.5,
         )
@@ -1287,19 +1406,19 @@ flowchart LR
   classDef emergency fill:#D13438,stroke:#A4262C,color:#FFF
 
   subgraph BudgetLevels["💰 Cognitive Budget Levels"]
-    B100["Budget = 1.0<br/>Full capacity"]:::full
-    B030["Budget < 0.3"]:::low
-    B020["Budget < 0.2"]:::vlow
-    B010["Budget < 0.1"]:::critical
-    B000["Budget = 0.0<br/>Emergency only"]:::emergency
+    B100["NORMAL"]:::full
+    B030["CONSTRAINED"]:::low
+    B020["MINIMAL"]:::vlow
+    B010["SAFETY ONLY"]:::critical
+    B000["STOP / EXTERNAL RECOVERY"]:::emergency
   end
 
   subgraph Capabilities["📊 Available Capabilities"]
-    C_FULL["✅ All 16 layers active<br/>✅ Meta depth 2<br/>✅ Tensor recomputation<br/>✅ Belief rewrite<br/>✅ Full affect processing"]:::full
-    C_030["✅ Core layers active<br/>❌ Meta depth 2 DISABLED<br/>✅ Tensor recomputation<br/>✅ Belief rewrite"]:::low
-    C_020["✅ Core layers active<br/>❌ Meta depth 2 DISABLED<br/>❌ Tensor recomp DISABLED<br/>✅ Belief rewrite"]:::vlow
-    C_010["✅ Core layers active<br/>❌ Meta depth 2 DISABLED<br/>❌ Tensor recomp DISABLED<br/>❌ Belief rewrite DISABLED"]:::critical
-    C_000["🛡️ Safety layers ONLY<br/>L0 ethical, rollback,<br/>identity guard"]:::emergency
+    C_FULL["Required gates + optional analysis<br/>within allocated budget"]:::full
+    C_030["Disable deep meta-processing<br/>and expensive recomputation"]:::low
+    C_020["Read-only observation<br/>defer adaptive mutation"]:::vlow
+    C_010["Journal, invariant checks,<br/>reconciliation and rollback only"]:::critical
+    C_000["No autonomous action<br/>authorized external recovery"]:::emergency
   end
 
   B100 ==> C_FULL
@@ -1311,11 +1430,11 @@ flowchart LR
 
 ---
 
-## 10. State Vector (72 Dimensions)
+## 10. Versioned State Schema
 
-The Level 3 agent maintains a 72-dimensional state vector that captures all aspects of its cognitive state. This represents the state vector size at Level 3 specifically - as the agent progresses through higher levels (L4 through L5), the state vector grows with each level's additional modules and metrics. By Level 5, the state vector can reach approximately 142 dimensions as cross-domain, strategic, and autonomous capabilities add new tracked quantities.
+Level 3 requires a typed, versioned state schema, not a fixed vector dimension. A dense vector may be useful for monitoring or policy evaluation, but every coordinate must map to a declared field with units, normalization, provenance, confidence, retention, and migration semantics. Opaque concatenation of unrelated metrics is not a self-model.
 
-<!-- 72-Dimensional State Vector -->
+<!-- Versioned State Schema -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
@@ -1324,34 +1443,36 @@ flowchart TB
   classDef mscp fill:#DFF6DD,stroke:#107C10,color:#323130
   classDef v4 fill:#EDE3F6,stroke:#8764B8,color:#323130
 
-  subgraph SV["72-Dim State Vector"]
-    subgraph Base["Inherited (12 dims)"]
+  subgraph SV["Versioned L3 State Schema"]
+    subgraph Base["Inherited Contracts"]
       direction LR
-      SV1["L1 Execution (4)"]:::base
-      SV2["L2 Strategy (4)"]:::base
-      SV3["L3 Identity (4)"]:::base
+      SV1["L1 action receipts<br/>tool effects + budgets"]:::base
+      SV2["L2 persistent state<br/>goals + triggers"]:::base
+      SV3["External mandate<br/>policy + authority"]:::base
     end
 
-    subgraph MSCP["MSCP Additions (42 dims)"]
+    subgraph MSCP["L3 Regulation State"]
       direction LR
-      SV4["v1.0 (6)"]:::mscp
-      SV5["v1.3 (6)"]:::mscp
-      SV6["v2.0 (8)"]:::mscp
-      SV7["v3.0 (9)"]:::mscp
-      SV8["v3.1 (11)"]:::mscp
+      SV4["Self-model version<br/>anchors + adaptive fields"]:::mscp
+      SV5["Prediction contract<br/>uncertainty + observability"]:::mscp
+      SV6["Comparison residuals<br/>typed + calibrated"]:::mscp
+      SV7["Continuity + integrity<br/>journal ancestry"]:::mscp
+      SV8["Recovery state<br/>snapshot + reconciliation"]:::mscp
     end
 
-    subgraph V4["v4 Additions (18 dims)"]
+    subgraph V4["Optional Monitors"]
       direction LR
-      SV9["Affect (9)"]:::v4
-      SV10["Survival (7)"]:::v4
-      SV11["Meta (2)"]:::v4
+      SV9["Operational modulation"]:::v4
+      SV10["Homeostatic envelopes"]:::v4
+      SV11["Composite health indices"]:::v4
     end
   end
 
   Base ==>|extends| MSCP
-  MSCP ==>|extends| V4
+  MSCP -.->|may expose| V4
 ```
+
+Schema evolution requires an explicit migration function, compatibility tests, dual-read or shadow validation, and rollback to the previous verified schema. A higher level may add fields without implying that dimensional growth itself is cognitive progress.
 
 ---
 
@@ -1368,17 +1489,17 @@ flowchart LR
   classDef success fill:#107C10,stroke:#085108,color:#FFF
 
   subgraph Limitations["⚠️ Level 3 Limitations"]
-    L1["❌ No Cross-Domain Transfer<br/>Expertise in domain A does not<br/>improve domain B performance"]:::danger
-    L2["❌ No Capability Self-Extension<br/>Cannot add new cognitive modules<br/>or learn new tool types"]:::danger
-    L3["❌ No Strategy Evolution<br/>Cannot fundamentally change<br/>its reasoning approach"]:::danger
-    L4["❌ No Bounded Self-Modification<br/>Cannot propose architectural<br/>changes to itself"]:::danger
+    L1["❌ No Demonstrated Cross-Domain Transfer<br/>local regulation does not establish<br/>generalization"]:::danger
+    L2["❌ No Autonomous Capability Acquisition<br/>cannot admit new tools or abilities<br/>from self-assessment alone"]:::danger
+    L3["❌ No Validated Strategy Evolution<br/>adaptive parameters are not<br/>architecture-level strategy change"]:::danger
+    L4["❌ No Architecture-Level Self-Modification<br/>self-model updates do not authorize<br/>code or topology changes"]:::danger
   end
 
   subgraph L4Additions["✅ Level 4 Adds"]
-    A1["Cross-Domain Transfer<br/>System CDTS metric"]:::success
-    A2["Capability Expansion Loop<br/>5-phase self-learning"]:::success
-    A3["Strategy Library<br/>+ mutation + evaluation"]:::success
-    A4["ShadowAgent Protocol<br/>7-step bounded mod"]:::success
+    A1["Evaluated Cross-Domain Transfer"]:::success
+    A2["Externally Admitted Capability Expansion"]:::success
+    A3["Shadow Strategy Evaluation<br/>+ rollback"]:::success
+    A4["Sandboxed Architecture Change<br/>+ independent promotion gate"]:::success
   end
 
   L1 ==> A1
@@ -1404,10 +1525,10 @@ flowchart TD
 
   subgraph Prereqs["📋 Level 4 Prerequisites"]
     direction LR
-    P1["Stable C(t)"]:::prereq
-    P2["Identity > 0.8"]:::prereq
-    P3["Prediction > 0.85"]:::prereq
-    P4["Layer 0 violation = 0"]:::prereq
+    P1["Sustained regulation<br/>within calibrated envelopes"]:::prereq
+    P2["Semantic continuity<br/>and integrity verified"]:::prereq
+    P3["Prediction calibration<br/>validated by effect class"]:::prereq
+    P4["No unresolved invariant breach<br/>recovery drills passed"]:::prereq
   end
 
   subgraph NewCaps["🆕 New Capabilities"]
@@ -1438,7 +1559,7 @@ flowchart TD
 1. Baars, B.J. *A Cognitive Theory of Consciousness.* Cambridge University Press, 1988. (Global Workspace Theory - foundational for L14 Global Workspace)
 2. Laird, J.E. *The Soar Cognitive Architecture.* MIT Press, 2012. [Publisher](https://mitpress.mit.edu/9780262122962/the-soar-cognitive-architecture/) (Multi-layer cognitive architecture)
 3. Anderson, J.R. *How Can the Human Mind Occur in the Physical Universe?* Oxford University Press, 2007. (ACT-R cognitive architecture)
-4. Khalil, H.K. *Nonlinear Systems.* Prentice Hall, 3rd Edition, 2002. (Lyapunov stability theory - foundational for §6)
+4. Khalil, H.K. *Nonlinear Systems.* Prentice Hall, 3rd Edition, 2002. (Formal stability criteria and why a monitoring index alone is not a Lyapunov proof)
 5. Bai, Y., et al. "Constitutional AI: Harmlessness from AI Feedback." *arXiv 2022*. [arXiv:2212.08073](https://arxiv.org/abs/2212.08073) (Ethical constraint enforcement)
 6. Amodei, D., et al. "Concrete Problems in AI Safety." *arXiv 2016*. [arXiv:1606.06565](https://arxiv.org/abs/1606.06565) (Safety problem classification)
 7. Alchourrón, C., Gärdenfors, P., & Makinson, D. "On the Logic of Theory Change: Partial Meet Contraction and Revision Functions." *Journal of Symbolic Logic*, 50(2), 510–530, 1985. [DOI:10.2307/2274239](https://doi.org/10.2307/2274239) (AGM belief revision - foundational for §5)

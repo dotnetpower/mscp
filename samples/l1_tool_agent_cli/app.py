@@ -1,13 +1,21 @@
 import json
 import os
 import fnmatch
+from pathlib import Path
 
-from openai import AzureOpenAI
+from openai import OpenAI
+
+
+MAX_TOOL_ROUNDS = 4
+MAX_CONTEXT_MESSAGES = 20
 
 
 def search_files(query: str, max_results: int = 20) -> list[str]:
     """Search for files in the current repo by name or simple glob."""
-    root = os.path.abspath(os.getenv("L1_SEARCH_ROOT", "."))
+    root = Path(os.getenv("L1_SEARCH_ROOT", ".")).expanduser().resolve()
+    if not root.is_dir():
+        raise ValueError("L1_SEARCH_ROOT must be an existing directory")
+
     results: list[str] = []
 
     # Treat query as a glob if it includes glob chars; otherwise use substring.
@@ -24,17 +32,22 @@ def search_files(query: str, max_results: int = 20) -> list[str]:
                 if query_lower not in name_lower:
                     continue
 
-            results.append(os.path.join(dirpath, filename))
+            candidate = Path(dirpath, filename)
+            try:
+                candidate.resolve().relative_to(root)
+            except ValueError:
+                continue
+
+            results.append(candidate.relative_to(root).as_posix())
             if len(results) >= max_results:
                 return results
 
     return results
 
 
-def build_client() -> AzureOpenAI:
+def build_client() -> OpenAI:
     endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT")
     api_key = os.environ.get("AZURE_OPENAI_API_KEY")
-    api_version = os.environ.get("AZURE_OPENAI_API_VERSION", "2024-02-15-preview")
 
     if not endpoint or not api_key:
         raise RuntimeError(
@@ -42,11 +55,94 @@ def build_client() -> AzureOpenAI:
             "Set them before running."
         )
 
-    return AzureOpenAI(
-        azure_endpoint=endpoint,
+    return OpenAI(
+        base_url=f"{endpoint.rstrip('/')}/openai/v1/",
         api_key=api_key,
-        api_version=api_version,
     )
+
+
+def execute_tool_call(tool_call: object) -> str:
+    """Execute one allowlisted tool call and return a typed JSON result."""
+    if tool_call.function.name != "search_files":
+        return json.dumps(
+            {"status": "failed", "error_code": "unknown_tool"},
+        )
+
+    try:
+        args = json.loads(tool_call.function.arguments or "{}")
+    except json.JSONDecodeError:
+        return json.dumps(
+            {"status": "failed", "error_code": "invalid_json_arguments"},
+        )
+
+    query = args.get("query")
+    if not isinstance(query, str) or not query.strip():
+        return json.dumps(
+            {"status": "failed", "error_code": "invalid_query"},
+        )
+
+    max_results = args.get("max_results", 20)
+    if not isinstance(max_results, int) or isinstance(max_results, bool):
+        return json.dumps(
+            {"status": "failed", "error_code": "invalid_max_results"},
+        )
+
+    try:
+        results = search_files(
+            query=query.strip(),
+            max_results=max(1, min(50, max_results)),
+        )
+    except (OSError, ValueError):
+        return json.dumps(
+            {"status": "failed", "error_code": "search_unavailable"},
+        )
+
+    return json.dumps({"status": "succeeded", "results": results})
+
+
+def run_episode(
+    client: OpenAI,
+    deployment: str,
+    user_input: str,
+    host_context: list[dict],
+    tools: list[dict],
+) -> str:
+    """Run one externally triggered episode with a bounded tool-call budget."""
+    system_message = (
+        "You are an L1 Tool Agent. "
+        "Use the allowlisted tool only when needed to answer the current request. "
+        "Do not modify files, initiate new work, or claim actions you did not take."
+    )
+    messages: list = [
+        {"role": "system", "content": system_message},
+        *host_context[-MAX_CONTEXT_MESSAGES:],
+        {"role": "user", "content": user_input},
+    ]
+
+    for _ in range(MAX_TOOL_ROUNDS):
+        response = client.chat.completions.create(
+            model=deployment,
+            messages=messages,
+            tools=tools,
+            tool_choice="auto",
+        )
+
+        assistant_message = response.choices[0].message
+        messages.append(assistant_message)
+
+        if not assistant_message.tool_calls:
+            return assistant_message.content or ""
+
+        for tool_call in assistant_message.tool_calls:
+            messages.append(
+                {
+                    "role": "tool",
+                    "tool_call_id": tool_call.id,
+                    "content": execute_tool_call(tool_call),
+                }
+            )
+
+    return "I stopped because the tool-call budget was exhausted."
 
 
 def main() -> None:
@@ -82,13 +178,7 @@ def main() -> None:
         }
     ]
 
-    system_message = (
-        "You are an L1 Tool Agent. "
-        "Use tools to answer questions. "
-        "Do not modify files or claim actions you did not take."
-    )
-
-    messages: list[dict] = [{"role": "system", "content": system_message}]
+    host_context: list[dict] = []
 
     print("L1 Tool Agent (Azure OpenAI). Type 'exit' to quit.")
     while True:
@@ -98,43 +188,16 @@ def main() -> None:
         if not user_input:
             continue
 
-        messages.append({"role": "user", "content": user_input})
+        answer = run_episode(client, deployment, user_input, host_context, tools)
+        print(answer)
 
-        response = client.chat.completions.create(
-            model=deployment,
-            messages=messages,
-            tools=tools,
-            tool_choice="auto",
+        host_context.extend(
+            [
+                {"role": "user", "content": user_input},
+                {"role": "assistant", "content": answer},
+            ]
         )
-
-        assistant_message = response.choices[0].message
-        messages.append(assistant_message)
-
-        if assistant_message.tool_calls:
-            for tool_call in assistant_message.tool_calls:
-                if tool_call.function.name == "search_files":
-                    args = json.loads(tool_call.function.arguments or "{}")
-                    query = args.get("query", "")
-                    max_results = int(args.get("max_results", 20))
-                    max_results = max(1, min(50, max_results))
-                    results = search_files(query=query, max_results=max_results)
-
-                    messages.append(
-                        {
-                            "role": "tool",
-                            "tool_call_id": tool_call.id,
-                            "content": json.dumps({"results": results}),
-                        }
-                    )
-
-            follow_up = client.chat.completions.create(
-                model=deployment,
-                messages=messages,
-            )
-            print(follow_up.choices[0].message.content or "")
-            messages.append(follow_up.choices[0].message)
-        else:
-            print(assistant_message.content or "")
+        host_context = host_context[-MAX_CONTEXT_MESSAGES:]
 
 
 if __name__ == "__main__":

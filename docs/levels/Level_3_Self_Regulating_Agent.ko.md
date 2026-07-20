@@ -1,6 +1,6 @@
 ---
 title: "레벨 3: 자기조절 인지 에이전트"
-description: "MSCP 레벨 3 - 정체성 벡터, 신념 그래프, 윤리적 커널, 정동 엔진, 생존 본능, 메타인지, 랴프노프 안정성 증명을 갖춘 16계층 인지 아키텍처."
+description: "MSCP 레벨 3 - 명시적 자기 모델, 행동별 예측, 불변식 기반 자기갱신, 의미적 연속성 모니터링, 복구 가능한 주기 기록을 갖춘 폐루프 구조적 자기조절."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -22,66 +22,106 @@ Removal of attribution constitutes a license violation.
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-8, Theorem 1 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
+| 0.3.0 | 2026-02-26 | Added bounded-increment analysis and affect formalization |
 | 0.4.0 | 2026-03-08 | Added detailed v0.x prototype history and design principle evolution table (1.3); added homeostatic ranges table (7.2) |
+| 0.5.0 | 2026-03-31 | Added prediction gating, oscillation detection, continuity monitoring, and state schema notes |
+| 0.6.0 | 2026-07-21 | Reframed L3 as uncertainty-aware closed-loop regulation; separated semantic continuity from integrity hashes; corrected stability claims; added atomic cycle and recovery contracts |
 
 ---
 
 ## 1. 개요
 
-레벨 3은 **핵심 MSCP 레벨**로서 - *구조적 자기인식*을 보유한 최초의 에이전트입니다. 자신이 무엇인지 알고, 자신의 행동이 내부 상태에 어떤 영향을 미칠지 예측할 수 있으며, 현실이 예상에서 벗어날 때 스스로를 교정할 수 있습니다. 이것이 MSCP 프로토콜(v1.0 – v4.0)이 통제하도록 설계된 아키텍처입니다.
+레벨 3은 **핵심 MSCP 레벨**이자 *구조적 자기조절*을 처음 도입하는 단계입니다. 정체성·역량·가치·제어 변수 중 선택된 범위에 대해 명시적이고 검사 가능한 모델을 유지하고, 행동별 내부 영향을 예측하며, 예측과 관찰 결과를 비교하고, 불변식과 복구 게이트를 통과한 한정 자기갱신만 허용합니다. 이는 MSCP 의미의 구조적 자기인식이며 주관적 경험이나 완전한 자기지식에 대한 주장이 아닙니다.
 
-> **Level Essence.** 레벨 3 에이전트는 MSCP 예측-행동-비교-갱신 루프를 통해 자기 조절. 예측 오차가 제한된 자기 갱신 하에서 0으로 수렴하여 정체성 안정성을 보장:
+> **Level Essence.** 레벨 3 에이전트는 정책 제약을 받는 폐루프 조절기입니다. 허가된 각 이벤트는 행동 전 예측 기록, 행동 후 관찰 기록, 불확실성을 포함한 비교, 그리고 한정 자기갱신 또는 안전 보류·롤백 결정을 생성합니다:
 >
-> $$\epsilon_t = \|\hat{\Delta}_t - \Delta_t^{\text{actual}}\|_2 \xrightarrow{t \to \infty} 0, \quad \|M'_{\text{self}} - M_{\text{self}}\|_2 \leq \delta_{\max}$$
+> $$
+> z_t = \langle x_t, s_t, G_t, M_t, \kappa, b_t \rangle,
+> \qquad
+> \hat y_t \sim \Pi(\,\cdot\mid a_t, z_t)
+> $$
+>
+> $$
+> y_t = \operatorname{observe}(a_t),
+> \qquad
+> e_t = d(\hat y_t, y_t),
+> \qquad
+> M_{t+1} = \mathcal{U}(M_t, e_t) \text{ only if } \operatorname{gate}(z_t,a_t,\hat y_t,y_t)=\textit{allow}
+> $$
+>
+> 한정 갱신과 복구 게이트는 주기별 변화와 노출을 제한하지만, 그 자체만으로 $e_t \to 0$, 전역 수렴 또는 영구적 정체성 안정성을 증명하지는 않습니다.
 
-> ⚠️ **참고**: 이 문서는 MSCP 분류 체계 내의 인지 아키텍처를 설명합니다. 여기서 탐구하는 16계층 아키텍처, 안전 메커니즘 및 속성들은 실험적 설계입니다. 모든 의사코드는 알고리즘 수준이며 프로덕션 코드가 아닙니다.
+> ⚠️ **참고**: 이 문서는 MSCP 분류 체계 내의 인지 아키텍처를 설명합니다. 계층 분해는 참조 프로파일이며 필수 모듈 수나 프로덕션 사양이 아닙니다. 적합성은 클래스 이름이나 토폴로지가 아니라 행동 계약과 안전 불변식으로 판단합니다.
 
 ### 1.1 정의 속성
 
 | 속성 | 레벨 2 | 레벨 3 |
 |------|:------:|:------:|
-| 자기인식 | 없음 | **구조적** (정체성 + 역량 + 가치 모델) |
-| 메타인지 | 없음 | **삼중 루프** (예측 → 비교 → 갱신) |
-| 정체성 연속성 | 없음 | **해시 추적** (주기별 표류 감지) |
-| 윤리적 제약 | 없음 | **형식적** (불변 Layer 0 + 적응적 Layer 1) |
-| 자기교정 | 없음 | **델타 클램프** (경계 자기갱신) |
-| 안정성 보장 | 없음 | **랴프노프 수렴** (합성 함수) |
-| 자율성 | 중간 | **높음** |
+| 자기인식 | 없음 | **구조적** (명시적이고 범위가 정해진 자기 모델) |
+| 메타인지 | 없음 | **한정 다중 루프** (예측 → 관찰 → 비교 → 조절) |
+| 정체성 연속성 | 없음 | **의미적 표류 + 무결성 모니터링** |
+| 윤리적 제약 | 외부만 | **외부 정책 + 내생적 불변 커널** |
+| 자기교정 | 없음 | **hard bound와 transaction gate 적용** |
+| 안정성 주장 | 외부 모니터링만 | **경계성과 복구 측정; 무조건적 수렴 보장 없음** |
+| 자율성 | 한정됨 | **높지만 정책·예산으로 제한됨** |
 
 ### 1.2 형식적 정의
 
-> **정의 1 (레벨 3 에이전트).** 레벨 3 에이전트는 8-튜플로 정의되는 자기조절 프로세스 $\mathcal{A}_3$이다:
+> **정의 1 (레벨 3 에이전트).** 레벨 3 에이전트는 레벨 2 이벤트 기반 프로세스에 범위가 정해진 자기 모델과 복구 가능한 조절기를 추가합니다:
 >
-> $$\mathcal{A}_3 = \langle \mathcal{R}, \mathcal{O}, \mathcal{S}, \mathcal{G}, M_{\text{self}}, \Pi, \mathcal{C}, \Lambda \rangle$$
+> $$
+> \mathcal{A}_3 = \langle \mathcal{A}_2, M, \Pi, \mathcal{C}_{\text{self}}, \Lambda, \mathcal{U}, \mathcal{B}, \mathcal{J} \rangle
+> $$
 >
-> 여기서 $M_{\text{self}}$는 자기 모델(정체성 벡터), $\Pi$는 예측 엔진, $\mathcal{C}$는 윤리적 제약 커널, $\Lambda$는 메타인지 비교기이다.
+> 여기서 $M$은 versioned 자기 모델, $\Pi$는 행동별 확률적 예측기, $\mathcal{C}_{\text{self}}$는 내생적 불변 커널, $\Lambda$는 예측과 관찰 효과의 비교기, $\mathcal{U}$는 한정 자기갱신 제안기, $\mathcal{B}$는 인지·행동 예산, $\mathcal{J}$는 스냅샷과 복구 메타데이터를 포함한 append-only 주기 저널입니다. 레벨 1과 레벨 2의 모든 외부 안전 계약은 계속 필수입니다.
 >
-> 전이 함수는 다음과 같다:
+> 전이 커널은 레벨 2에 transaction 기반 자기조절 결과를 추가합니다:
 >
-> $$f_3 : \mathcal{R} \times \mathcal{S} \times \mathcal{G} \times M_{\text{self}} \to \mathcal{O} \times \mathcal{S}' \times \mathcal{G}' \times M'_{\text{self}}$$
+> $$
+> F_3 : \mathcal{X} \times \mathcal{E} \times \mathcal{S} \times \mathcal{G} \times \mathcal{K} \times M
+> \to \operatorname{Dist}(\mathcal{O}_{\bot} \times \mathcal{A}^{\leq B} \times \mathcal{E} \times \mathcal{S} \times \mathcal{G} \times \mathcal{Q} \times M \times \mathcal{J})
+> $$
 >
-> 이는 다음 **안정성 제약**을 만족해야 한다:
+> 준수 주기는 행동 영수증, 관찰, 비교, 예산 소비, 자기 모델 버전, 복구 지점을 원자적으로 커밋하거나 명시적 조정 상태를 기록해야 합니다. 부분 상태를 조용히 커밋하는 것은 금지됩니다.
 >
-> $$\| M'_{\text{self}} - M_{\text{self}} \|_2 \leq \delta_{\max}$$
+> 승인된 모든 자기갱신은 필드별 경계와 집계 norm 경계를 모두 충족합니다:
+>
+> $$
+> |\Delta M_{t,j}| \leq \delta_j,
+> \qquad
+> \|W\Delta M_t\|_p \leq \delta_{\text{total}}
+> $$
+>
+> 여기서 $W$, $p$, $\delta_j$, $\delta_{\text{total}}$은 단위와 정규화가 명시된 versioned 정책 매개변수입니다.
 
-> **정의 2 (MSCP 핵심 루프).** MSCP 프로토콜은 각 시간 단계 $t$에서 **예측–행동–비교–갱신** 주기를 강제한다:
+> **정의 2 (MSCP 핵심 루프).** MSCP 프로토콜은 각 이벤트 $t$에서 **제안–예측–게이트–행동–관찰–비교–조절–커밋** 주기를 강제합니다:
 >
-> 1. **예측**: $\hat{\Delta}_t = \Pi(a_t, M_{\text{self}}(t))$ - 행동 $a_t$가 자기 모델에 미치는 영향을 예측
-> 2. **행동**: $a_t$를 실행하고 실제 결과를 관찰
-> 3. **비교**: 예측 오차 계산 $\epsilon_t = \| \hat{\Delta}_t - \Delta_t^{\text{actual}} \|_2$
-> 4. **갱신**: $M_{\text{self}}(t+1) = M_{\text{self}}(t) + \text{clamp}(\Delta_t^{\text{actual}}, -\delta_{\max}, +\delta_{\max})$
+> 1. **제안**: 권한, 효과 등급, 유한 예산을 포함한 행동 $a_t$를 구성합니다.
+> 2. **예측**: 보정된 불확실성과 모델 버전을 포함한 $\hat y_t = \Pi(a_t,z_t)$를 지속합니다.
+> 3. **게이트**: 외부 정책, 내생적 불변식, 행동별 불확실성, 가역성, 예산을 검사합니다.
+> 4. **행동**: 승인된 행동만 실행하고 타입이 지정된 행동 영수증을 지속합니다.
+> 5. **관찰**: 외부·내부 결과 $y_t$를 provenance와 관측 가능성 메타데이터와 함께 측정합니다.
+> 6. **비교**: 비교 가능하고 관찰된 필드에 대해서만 타입 residual $e_t = d(\hat y_t,y_t)$를 계산합니다.
+> 7. **조절**: hard field/norm 경계 아래에서 보류, 저하, 재보정, 롤백 또는 $\Delta M_t$를 제안합니다.
+> 8. **커밋**: 상태, 목표, 예산, 자기 모델 버전, 복구 메타데이터를 원자적으로 지속합니다.
 >
-> 루프는 $\epsilon_t < \epsilon_{\min}$이 $k$ 연속 주기 동안 유지될 때 수렴한다.
+> 배포는 단위, 정규화, 불확실성 보정, 관측 마스크, 필드별 경계, 집계 norm 경계, 복구 동작을 반드시 지정해야 합니다. 이 선언이 없는 scalar residual은 자기변경을 허가하기에 충분하지 않습니다. $k$개 주기 동안 오차 기준을 만족하는 것은 유한 윈도우 승인 기준이지 점근 수렴이 아닙니다.
 
-> **정의 3 (메타인지 수준).** 레벨 3은 삼중 루프 메타인지 계층을 구현한다:
+> **정의 3 (한정된 메타인지 수준).** 레벨 3은 한정된 다중 루프 계층을 구현합니다:
 >
 > - **L1 (객체 수준)**: 행동 실행 - $a_t = \pi(r_t, s_t, G_t)$
 > - **L2 (메타 수준)**: 전략 평가 - $q_t = \text{eval}(\pi, \text{history})$
 > - **L3 (메타-메타 수준)**: 평가자의 평가 - $m_t = \text{meta eval}(q_t, \text{consistency})$
 >
-> $$\text{Depth}(t) = \min\bigl(d : \|m_d(t) - m_{d-1}(t)\| < \epsilon_{\text{meta}}\bigr) \leq d_{\max}$$
+> $$
+> d_t \leq d_{\max},
+> \qquad
+> \operatorname{cost}(d_t) \leq B_{\text{meta}},
+> \qquad
+> t - t_{\text{last-escalation}} \geq \tau_{\text{cooldown}}
+> $$
 >
-> 여기서 $d_{\max} = 3$은 무한 재귀적 반성을 방지한다.
+> 깊이, 비용, cooldown, 재진입 조건은 외부 정책 매개변수입니다. 경계를 넘으면 메타처리를 종료하며 추가 권한을 부여하거나 정상 행동 게이트를 우회하지 않습니다. 최대 깊이 도달은 중지 조건이지 성찰이 수렴했다는 증거가 아닙니다.
 
 ### 1.3 MSCP 프로토콜 버전
 
@@ -113,7 +153,7 @@ flowchart TB
 
   subgraph v1xx["v1.1–1.3"]
     direction LR
-    a1x["정체성 해시 추적"]:::v1x
+    a1x["무결성 저널 + 의미적 표류"]:::v1x
     b1x["표류 감지"]:::v1x
     c1x["자기영향 예측"]:::v1x
     d1x["메타에스컬레이션 가드"]:::v1x
@@ -130,15 +170,15 @@ flowchart TB
   subgraph v30["v3.0"]
     direction LR
     a3["신념그래프 관리자"]:::v3
-    b3["정체성벡터 형식화"]:::v3
+    b3["Versioned 자기 모델 형식화"]:::v3
     c3["윤리적 커널 - Layer 0+1"]:::v3
     d3["자기일관성 텐서"]:::v3
   end
 
   subgraph v40["v4.0"]
     direction LR
-    a4["정동 엔진 - 5차원"]:::v4
-    b4["생존본능 엔진"]:::v4
+    a4["운영 modulation 스키마"]:::v4
+    b4["항상성 안전 모니터"]:::v4
     c4["비동기 분리 원칙"]:::v4
     d4["전역작업공간 방송"]:::v4
   end
@@ -156,30 +196,32 @@ v0.x 시리즈는 핵심 MSCP 설계 원칙을 형성한 실험적 프로토타�
 
 | 버전 | 핵심 추가 사항 | 핵심 교훈 |
 |------|--------------|----------|
-| **v0.1** | 레벨 2 GoalSystem 위에 단순 자기참조 루프; 목표 달성 통계 기반 피드백 | 단순 통계만으로는 자기인식이 발현될 수 없음 |
-| **v0.2** | 영구 저장소로의 상태 외부화; 초기 8차원 StateVector | 세션 한정 상태는 정체성 연속성에 불충분 |
+| **v0.1** | 레벨 2 목표 상태 위에 단순 자기참조 루프; 목표 달성 통계 기반 피드백 | 통계만으로는 명시적이고 인과적인 자기 모델을 제공하지 못함 |
+| **v0.2** | 지속 저장소로의 상태 외부화; 초기 typed state schema | 세션 한정 상태는 정체성 연속성에 불충분 |
 | **v0.3** | `identity_id` 개념 (UUID 기반 식별자) | 정체성 시드는 필요하나 무결성 검증 없이는 불충분 |
-| **v0.4** | LLM 텍스트 기반 자기분석을 통한 목표 성찰 ("왜 실패했는가?") | **치명적 실패**: LLM 텍스트 기반 자기수정은 환각과 비결정적 결과를 생성 |
-| **v0.5** | LLM 텍스트 분석을 대체하는 구조화된 수치 지표; StateVector 12차원으로 확장 | 정량적 지표만이 자기평가의 유일한 신뢰 기반 |
+| **v0.4** | 자유형 자기 서사를 직접 변이 명령으로 사용 | **치명적 실패**: untyped·unvalidated 변이 입력은 재현성이 없고 불변식을 집행할 수 없음 |
+| **v0.5** | 자유형 자기분석을 대체하는 구조화된 typed 지표; state schema 확장 | 자기평가에는 선언되고 시험 가능한 필드와 provenance가 필요 |
 | **v0.6** | 사전 행동 예측 기록 (신뢰도 점수만) | 비교 없는 예측은 무용 - 단순 로깅에 불과 |
 | **v0.7** | 예측에 비교 루프 추가; `prediction_error` 지표 도입 | 교정 행동 없는 비교는 불충분 |
-| **v0.8** | 비교 결과에 기반한 델타 클램핑 상태 업데이트 | **핵심 발견**: 클램핑되지 않은 업데이트는 발산을 유발; 델타 클램핑은 필수적 |
+| **v0.8** | 비교 결과에 기반한 델타 클램핑 상태 업데이트 | 무경계 갱신은 검증된 운영 envelope를 벗어날 수 있으므로 hard bound와 rollback 지점이 필요 |
 | **v0.9** | v0.1-v0.8 교훈을 네 가지 설계 원칙으로 통합 | v1.0의 기반 확립 |
 
 #### 설계 원칙 진화
 
 | 원칙 | v0.x 교훈 | v1.x 확립 | v2.x+ 강화 |
 |------|----------|----------|-----------|
-| **LLM 텍스트 기반 자기수정 금지** | v0.4: 환각 및 비결정성 | v1.0: 모든 자기수정은 구조화된 지표를 통해서만 | v2.0+: 모든 자기수정은 순수 수치적 |
+| **검증되지 않은 자유형 자기수정 금지** | v0.4: 서사를 변이에 직접 적용 | v1.0: typed update candidate와 validator | v2.0+: provenance를 포함한 한정 transaction commit |
 | **예측 없는 행동 금지** | v0.6-v0.7: 예측-비교 개념 테스트 | v1.0: PredictionEngine 필수화 | v1.3: Self-Impact Prediction 추가 |
 | **델타 클램핑 필수** | v0.8: 클램핑되지 않은 업데이트가 발산 유발 | v1.0: MAX_DELTA 상수 도입 | v2.0: 동적 스케일링 팩터 조정 |
-| **정체성 연속성** | v0.3: identity_id 개념 시작 | v1.1-v1.2: 해시 기반 드리프트 감지 | v3.0: 수학적 정체성 벡터 형식화 |
+| **정체성 연속성** | v0.3: 안정 식별자 개념 시작 | v1.1-v1.2: 무결성과 변화 모니터링 | v3.0: versioned semantic self-model 형식화 |
 
 ---
 
-## 2. 16계층 인지 아키텍처
+## 2. 참조 계층형 인지 아키텍처
 
-### 2.1 전체 아키텍처 다이어그램
+아래 다이어그램은 필수 책임을 구성하는 한 가지 분해 방식입니다. 예측 기록, 게이트, 불변식, 예산, 주기 저널, 복구 의미를 독립적으로 시험할 수 있다면 컴포넌트를 합치거나 나누거나 다른 메커니즘으로 구현할 수 있습니다.
+
+### 2.1 참조 아키텍처 다이어그램
 
 **파트 1 - 지각 → 목표 (L1–L5.5):**
 
@@ -335,7 +377,7 @@ flowchart TD
 
   subgraph L12["계층 12: 안정성 컨트롤러"]
     direction LR
-    LYA12["📉 랴프노프 수렴"]:::safety
+    LYA12["📉 합성 위험 모니터"]:::safety
     OD12["🔄 진동 감지기"]:::safety
   end
 
@@ -357,11 +399,11 @@ flowchart TD
     MS15["💡 동기부여 합성기"]:::affect
   end
 
-  subgraph L16["계층 16: 생존 본능"]
+  subgraph L16["계층 16: 항상성 안전"]
     direction LR
     HM16["🏠 항상성 모니터"]:::safety
     TP16["⚡ 위협 예측기"]:::safety
-    SGG16["🛡️ 생존 목표 생성기"]:::safety
+    SGG16["🛡️ 한정된 안전 응답"]:::safety
   end
 
   GOAL_GEN["↻ 계층 5로 복귀: 목표 생성기"]:::goal
@@ -373,7 +415,7 @@ flowchart TD
   L13 -.->|방송| L14
   L14 -.->|인지 상태| L15
   L15 -.->|동기부여 신호| L16
-  L16 -.->|생존 목표| GOAL_GEN
+  L16 -.->|승인된 유지보수 후보| GOAL_GEN
 ```
 
 ### 2.2 계층 분류
@@ -424,7 +466,7 @@ flowchart TB
   subgraph Emotion["💜 정동 v4"]
     direction LR
     E1["L15 정동 엔진"]:::affect
-    E2["L16 생존 본능"]:::affect
+    E2["항상성 안전 모니터"]:::affect
   end
 
   Core ==> Meta
@@ -435,9 +477,9 @@ flowchart TB
 
 ---
 
-## 3. MSCP 재귀 루프
+## 3. MSCP 복구 가능 조절 주기
 
-레벨 3의 핵심 메커니즘은 **예측 → 행동 → 비교 → 갱신** 주기이며, 모든 단계에서 안전 제약에 의해 통제된다.
+레벨 3의 핵심 메커니즘은 **제안 → 예측 → 게이트 → 행동 → 관찰 → 비교 → 조절 → 커밋** 주기입니다. 스스로 재귀 호출하지 않는 한정된 이벤트 기반 주기입니다.
 
 ### 3.1 전체 루프 다이어그램 (MSCP v4)
 
@@ -462,21 +504,24 @@ flowchart TD
   RESET["예산 초기화"]:::infra
   AFFECT["정동 갱신<br/>이전 주기 지표 기반"]:::affect
   THREAT["위협 평가<br/>항상성 모니터"]:::warning
-  ANXIETY["생존 불안 주입<br/>정동 ← 위협"]:::affect
-  SGOAL["생존 목표 생성<br/>위협 감지 시"]:::safety
+  ANXIETY["운영 envelope에서<br/>안전 응답 선택"]:::affect
+  SGOAL["한정된 유지보수<br/>후보 제안"]:::safety
 
   L0CHECK{"Layer 0<br/>점검"}:::safety
   REJECT["목표 거부"]:::safetyStrong
-  MOTIV["동기부여 합성<br/>정동에서 추진력"]:::affect
+  MOTIV["한정된 운영<br/>modulation 적용"]:::affect
   GWS["전역 작업공간<br/>스냅샷 방송"]:::infra
 
-  PREDICT["1. 예측<br/>PredictionEngine"]:::predict
-  ACT["2. 행동<br/>LLM 실행"]:::action
-  COMPARE["3. 비교<br/>메타인지"]:::predict
+  PROPOSE["1. 제안<br/>행동 + 효과 계약"]:::predict
+  PREDICT["2. 예측<br/>결과 + 불확실성"]:::predict
+  GATE["3. 게이트<br/>정책 + 불변식 + 예산"]:::safety
+  ACT["4. 행동<br/>정책 디스패처"]:::action
+  OBSERVE["5. 관찰<br/>타입 지정 결과"]:::action
+  COMPARE["6. 비교<br/>관측 가능 필드만"]:::predict
 
-  GUARD{"4. 에스컬레이션<br/>가드"}:::safety
-  COOLDOWN["30초 쿨다운"]:::infra
-  NEXT["→ 파트 2: 수렴 & 자기갱신"]:::neutral
+  GUARD{"조절<br/>승인?"}:::safety
+  COOLDOWN["보류 / 저하 /<br/>외부 검토"]:::infra
+  NEXT["→ 파트 2: 조절 & 커밋"]:::neutral
 
   START ==> RESET
   RESET ==> AFFECT
@@ -489,15 +534,19 @@ flowchart TD
   REJECT -.-> MOTIV
   MOTIV ==> GWS
 
-  GWS ==> PREDICT
-  PREDICT ==> ACT
-  ACT ==> COMPARE
+  GWS ==> PROPOSE
+  PROPOSE ==> PREDICT
+  PREDICT ==> GATE
+  GATE -->|허용| ACT
+  GATE -.->|보류/차단| COOLDOWN
+  ACT ==> OBSERVE
+  OBSERVE ==> COMPARE
   COMPARE ==> GUARD
   GUARD -->|"안전 ✅"| NEXT
   GUARD -.->|"⚠️ 제한"| COOLDOWN
 ```
 
-**파트 2 - 수렴 & 자기갱신:**
+**파트 2 - 조절 & 원자적 커밋:**
 
 <!-- MSCP 루프 파트 2: 수렴과 자기갱신 -->
 
@@ -515,35 +564,34 @@ flowchart TD
   classDef success fill:#107C10,stroke:#085108,color:#FFF
   classDef infra fill:#F2F2F2,stroke:#8A8886,color:#323130
 
-  PREV["← 파트 1: 루프 전 설정 & 핵심 처리"]:::neutral
+  PREV["← 파트 1: 게이트된 행동 + 비교"]:::neutral
 
-  CONVERGE{"5. 수렴<br/>점검 랴프노프"}:::safety
-  UPDATE["6. 자기갱신<br/>델타 클램프"]:::action
-  STABILIZE["스케일링 감소<br/>+ 안정화 모드"]:::warning
+  CONVERGE{"7. 위험 +<br/>관측 가능성 점검"}:::safety
+  UPDATE["8. 자기갱신 후보<br/>hard field + norm 경계"]:::action
+  STABILIZE["보류 / 저하 /<br/>안정화 정책"]:::warning
 
-  VLOCK{"7. 가치 잠금<br/>무결성 점검"}:::safety
-  ROLLBACK["💥 긴급 경보<br/>+ 롤백"]:::safetyStrong
-  GMUT["8. 목표 변이<br/>윤리적 커널 게이트"]:::warning
-  RCHECK{"9. 롤백<br/>점검"}:::safety
+  VLOCK{"9. 불변식 +<br/>의미적 연속성"}:::safety
+  ROLLBACK["검증된 스냅샷으로<br/>조정 또는 롤백"]:::safetyStrong
+  GMUT["10. 목표 후보<br/>외부 승인"]:::warning
+  RCHECK{"11. 무결성 +<br/>ancestry 점검"}:::safety
 
-  DEPTH{"10. 메타 깊이 2?<br/>예산 게이트"}:::predict
-  DEPTH2["심층 반성<br/>갱신 로직 평가"]:::predict
-  REALIGN["11. 목표 재정렬<br/>동기부여 + 생존"]:::affect
+  DEPTH{"12. 더 깊은 메타?<br/>예산 + cooldown 게이트"]:::predict
+  DEPTH2["한정된 평가기 점검"]:::predict
+  REALIGN["13. 원자적 커밋<br/>상태 + 목표 + 예산 + 저널"]:::affect
 
-  CONVCHECK{"수렴됨?<br/>prediction_error < 0.1"}:::start
-  END_LOOP["주기 완료 ✅"]:::success
-  RECUR{"연속<br/>에스컬레이션 ≥ 3?"}:::warning
-  COOLDOWN["30초 쿨다운"]:::infra
-  BACK_PREDICT["↻ 예측으로 복귀<br/>핵심 루프 재진입"]:::predict
+  CONVCHECK{"커밋 유효?"}:::start
+  END_LOOP["주기 완료"]:::success
+  RECUR["명시적 조정 상태"]:::warning
+  COOLDOWN["외부 복구 필요"]:::infra
 
   PREV -.-> CONVERGE
-  CONVERGE -->|수렴 중| UPDATE
-  CONVERGE -.->|발산 중| STABILIZE
+  CONVERGE -->|정책 범위 내| UPDATE
+  CONVERGE -.->|정책 범위 밖| STABILIZE
   STABILIZE -.-> UPDATE
 
   UPDATE ==> VLOCK
   VLOCK -->|유효| GMUT
-  VLOCK -.->|"⚠️ 해시 불일치"| ROLLBACK
+  VLOCK -.->|위반| ROLLBACK
   ROLLBACK -.-> END_LOOP
 
   GMUT ==> RCHECK
@@ -551,14 +599,13 @@ flowchart TD
   RCHECK -.->|"⚠️ 불안정"| ROLLBACK
 
   DEPTH -->|예산 충분| DEPTH2
-  DEPTH -.->|"예산 < 0.3"| REALIGN
+  DEPTH -.->|건너뜀| REALIGN
   DEPTH2 ==> REALIGN
 
   REALIGN ==> CONVCHECK
-  CONVCHECK -->|"예 ✅"| END_LOOP
+  CONVCHECK -->|예| END_LOOP
   CONVCHECK -.->|아니오| RECUR
-  RECUR -.->|아니오| BACK_PREDICT
-  RECUR -.->|예| COOLDOWN
+  RECUR -.-> COOLDOWN
   COOLDOWN -.-> END_LOOP
 ```
 
@@ -594,7 +641,7 @@ flowchart TD
     P3["메타인지 자체가<br/>작동하고 있는가?"]:::level3
     C3["점검: 개선되고<br/>있는가?"]:::level3
     D3["convergence_status<br/>composite_stability<br/>budget_remaining"]:::level3
-    NOTE3["🚧 무한 재귀 방지를 위해<br/>깊이 2에서 제한"]:::warning
+    NOTE3["🚧 깊이, 예산, cooldown을<br/>정책으로 제한"]:::warning
     P3 ==> C3
     C3 ==> D3
   end
@@ -605,98 +652,129 @@ flowchart TD
 
 ### 3.3 예측 게이팅
 
-레벨 3에 도입된 핵심 안전 메커니즘은 **예측 게이팅 기반 행동 실행**입니다. MSCP 핵심 루프(정의 2)는 예측과 결과를 비교할 뿐 아니라, 예측 오차를 사용해 **향후 행동의 허용 여부를 게이팅**합니다. 이는 에이전트가 결과를 신뢰성 있게 예측할 수 없는 행동을 수행하는 것을 막아 줍니다.
+레벨 3의 핵심 메커니즘은 **행동별 예측 게이팅**입니다. 이전 예측 오차는 보정 상태에 대한 증거이지만, 관련 없는 현재 행동을 허용하거나 차단하는 충분한 이유가 아닙니다. 게이트는 제안 행동, 예측 결과 분포, 불확실성, 관측 가능성, 효과 등급, 가역성, 권한, 현재 복구 상태를 함께 평가합니다.
 
-> **예측 게이팅 규칙.** 시점 $t$에 제안된 행동 $a_t$는 에이전트의 최근 예측 정확도가 게이팅 임계값 미만이면 차단됩니다:
+> **예측 게이팅 규칙.** $u_t(a)$를 보정된 불확실성, $r_t(a)$를 정규화된 예측 위험, $o_t(a)$를 관측 범위, $\operatorname{rev}(a)$를 가역성 등급이라 하겠습니다. 정책은 허용 가능한 최대 행동 등급을 다음과 같이 선택합니다:
 >
-> $$\text{blocked}(a_t) \iff |\epsilon_{t-1}| > \theta_{\text{pred}}$$
+> $$
+> \operatorname{decision}(a_t) =
+> \begin{cases}
+> \textit{allow}, & C_{\text{ext}} \land C_{\text{self}} \land u_t \leq \theta_u(a_t) \land r_t \leq \theta_r(a_t) \land o_t \geq \theta_o(a_t) \\
+> \textit{degrade}, & \text{더 낮은 효과 또는 더 높은 관측 가능성의 대안이 게이트를 충족} \\
+> \textit{hold}, & \text{재보정 또는 추가 증거로 불확실성을 해소할 수 있음} \\
+> \textit{block}, & \text{권한·불변식·비가역성·위험 정책 실패}
+> \end{cases}
+> $$
 >
-> 여기서 $\epsilon_{t-1} = \|\hat{\Delta}_{t-1} - \Delta_{t-1}^{\text{actual}}\|_2$는 가장 최근 예측 오차(정의 2, 3단계)이며, $\theta_{\text{pred}} = 0.30$은 **예측 오차 임계값**입니다.
+> 임계값은 행동과 효과 등급별로 보정합니다. 중대하거나 비가역적인 행동에는 읽기 전용 또는 가역 행동보다 엄격한 불확실성·관측 가능성 경계를 적용합니다.
 
-임계값 $\theta_{\text{pred}} = 0.30$은 설계 선택을 반영합니다: 에이전트는 예측이 완벽하지 않아도(30% 오차 허용) 행동할 수 있지만, 자기모델이 너무 부정확해 자기 행동의 결과를 의미 있게 예측할 수 없으면 차단됩니다. 이 값은 예측-비교 개념을 처음 시험한 MSCP v0.7 프로토타입 실험(§1.3)을 통해 정해졌습니다.
+과거 residual은 보정 상태를 갱신하고 시스템을 degraded 또는 hold 상태로 전환할 수 있지만, 하나의 전역 scalar가 권한을 부여하거나 안전을 인증해서는 안 됩니다. 예측과 게이트는 실행 전에 지속하여 어떤 모델 버전과 정책이 행동을 허가했는지 감사할 수 있어야 합니다.
 
-**예측 게이팅이 중요한 이유**: 이 게이트가 없으면 자기모델이 손상되거나 표류한 에이전트가, 자신의 정체성·신념·목표에 미치는 효과를 예측할 수 없는 행동을 계속 실행하게 됩니다 — 오차를 증폭시킬 수 있는 위험한 피드백 루프입니다. 예측 게이팅은 자기모델이 충분히 보정되어 있을 때만 에이전트가 행동하도록 보장하며, 정확도가 저하되면 일시정지-재보정 사이클을 강제합니다.
+**예측 게이팅이 중요한 이유**: 불확실성은 영향 범위를 줄이고 관측 가능성을 높이거나 실행을 중지해야 합니다. degradation은 원래 행동 대신 읽기 전용 조회, 시뮬레이션, shadow 평가, 명확화 요청을 선택할 수 있지만 도구 권한을 확장하지는 않습니다.
 
-행동이 예측 게이트에 의해 차단되면 에이전트는 **재보정 모드(recalibration mode)** 로 진입해, 외부 행동을 실행하지 않고 가벼운 내성 사이클(메타인지 깊이 1)을 수행하면서 예측 정확도가 회복된 뒤 정상 운영을 재개합니다.
+재보정은 성찰 자체가 아니라 증거를 생산하는 작업입니다. 유한 예산과 명시적 종료 조건을 가지며, 재보정에 실패하면 원하는 신뢰도가 나올 때까지 재귀 실행하지 않고 안전 보류와 외부 검토로 전환합니다.
 
 ---
 
 ## 4. 정체성 & 안전 아키텍처
 
-### 4.1 정체성 벡터
+### 4.1 Versioned 자기 모델과 정체성 연속성
 
-정체성 벡터(IdentityVector)는 "에이전트가 누구인지"에 대한 수학적 표현이다. 이는 다차원 공간의 한 점이며, 그 움직임은 지속적으로 추적되고 경계가 제한된다.
+자기 모델은 시스템이 자신의 정체성, 역량, 가치, 약속, 보정, 제어 상태를 추론할 때 사용하는 명시적 versioned 레코드입니다. 스키마는 배포별로 다르며 외부에 고정된 불변식과 적응적 추정을 구분해야 합니다.
 
-> **정의 4 (정체성 벡터).** 정체성 벡터 $I(t) \in [0,1]^5$는 시간 $t$에서의 에이전트 자기 모델의 연속적 표현이다:
+> **정의 4 (Versioned 자기 모델).** 자기 모델은 다음 typed 레코드입니다:
 >
-> $$I(t) = \begin{pmatrix} c_p(t) \\ c_v(t) \\ c_c(t) \\ c_e(t) \\ c_g(t) \end{pmatrix}$$
+> $$
+> M_t = \langle \text{id},\, \text{schema\_version},\, V_{\text{core}},\, I_t,\, K_t,\, Q_t,\, R_t,\, \rho_t \rangle
+> $$
 >
-> 여기서 $c_p$ = 페르소나 일관성, $c_v$ = 가치 정렬, $c_c$ = 역량 확신, $c_e$ = 감정 안정성, $c_g$ = 목표 지속성이며, 각각 $[0,1]$ 범위 내에서 경계된다.
+> 여기서 $V_{\text{core}}$는 외부에 고정된 불변식, $I_t$는 적응적 정체성 기술자, $K_t$는 역량·한계 추정, $Q_t$는 보정·불확실성 상태, $R_t$는 조절기 상태, $\rho_t$는 provenance와 버전 ancestry입니다. 고정 차원은 참조 인코딩 선택일 뿐 L3 요구사항이 아닙니다.
 
-> **정의 5 (정체성 운동학).** $I(t)$의 정체성 공간에서의 움직임은 세 가지 운동학적 양으로 추적된다:
+> **정의 5 (의미적 연속성).** $\psi_v(M)$를 스키마 버전 $v$의 versioned normalized feature map이라 하겠습니다. 의미 변화는 호환 표현 사이에서만 측정합니다:
 >
-> $$\delta_{\text{id}}(t) = \| I(t) - I(t-1) \|_2 \quad \text{(정체성 델타 - 거리)}$$
+> $$
+> \Delta I_t = \psi_v(M_t) - \psi_v(M_{t-1}),
+> \qquad
+> d_{\text{id}}(t) = \|W_v \Delta I_t\|_p
+> $$
 >
-> $$v_{\text{id}}(t) = \frac{\delta_{\text{id}}(t)}{\Delta t} \quad \text{(정체성 속도 - 변화율)}$$
+> $$
+> v_{\text{id}}(t) = \frac{\Delta I_t}{\Delta t},
+> \qquad
+> a_{\text{id}}(t) = \frac{v_{\text{id}}(t)-v_{\text{id}}(t-1)}{\Delta t}
+> $$
 >
-> $$a_{\text{id}}(t) = v_{\text{id}}(t) - v_{\text{id}}(t-1) \quad \text{(정체성 가속도 - 변동)}$$
+> $W_v$, $p$, 단위, 샘플링 간격, 임계값은 versioned 정책입니다. 스키마가 바뀌면 migration 함수와 dual-read 검증이 필요합니다. scalar distance만으로는 충분하지 않으며 필드별 불변식 위반, 방향성 추세, 불확실성을 별도로 평가합니다.
 >
-> **안전 불변량**: $a_{\text{id}}(t) > \theta_{\text{instability}}$ (일반적으로 $0.5$)이면, 에이전트는 **안정화 모드**에 진입하고 모든 자기갱신 델타를 절반으로 줄인다.
+> **안전 불변식**: 후보 갱신이 불변 필드를 바꾸거나, 필드별·집계 경계를 위반하거나, provenance가 불완전하거나, 갱신 후 모델을 검증할 수 없으면 거부합니다. 표류나 진동이 높아지면 정책에 따라 갱신 축소, cooldown 증가, 적응 필드 동결, 외부 검토를 수행할 수 있습니다.
 
-> **정의 6 (정체성 해시).** 각 주기에서 결정론적 해시 $h(t) = \text{SHA-256}(I(t))$가 계산된다. `identity_id` 필드는 **불변**이며 - 어떤 내부 프로세스에 의해서도 변경될 수 없다. 표류 감지는 다음 조건에서 발동한다:
+> **정의 6 (무결성과 Ancestry).** 커밋된 전체 자기 모델과 정책 참조의 canonical serialization을 해시합니다:
 >
-> $$h(t) \neq h(t-1) \;\land\; \delta_{\text{id}}(t) > \theta_{\text{drift}}$$
+> $$
+> h_t = H(\operatorname{canonical}(M_t,\kappa_t)),
+> \qquad
+> j_t = \langle \text{version}_t, h_{t-1}, h_t, \text{action\_receipt}_t, \text{policy\_version}_t \rangle
+> $$
+>
+> 해시 검증은 무결성 또는 ancestry 위반을 감지하며 의미적 표류를 측정하지 않습니다. cryptographic hash는 의도적으로 avalanche behavior를 가지기 때문입니다. 프로덕션 배포는 full-length hash와 인증되거나 append-only인 저널을 사용해야 합니다. 의미적 연속성은 정의 5로 평가하고, hash mismatch는 조정 또는 검증된 스냅샷 롤백을 트리거합니다.
 
-<!-- 정체성 벡터 클래스 다이어그램 -->
+<!-- Versioned 자기 모델 클래스 다이어그램 -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
 classDiagram
-  class IdentityVector {
+  class SelfModelRecord {
     +string identity_id (불변)
-    +string identity_hash (SHA-256, 16자)
-    +string previous_identity_hash
-    +float persona_consistency [0.0, 1.0]
-    +float value_alignment [0.0, 1.0]
-    +float capability_confidence [0.0, 1.0]
-    +float emotional_stability [0.0, 1.0]
-    +float goal_persistence [0.0, 1.0]
-    +compute_hash() string
-    +check_identity_drift(threshold) bool
+    +string schema_version
+    +Map core_invariants
+    +Map adaptive_descriptors
+    +Map capability_estimates
+    +Map calibration_state
+    +Map regulator_state
+    +Provenance provenance
   }
 
-  class IdentityMotion {
-    +float identity_delta ‖I_t - I_t-1‖₂
-    +float identity_velocity delta / Δt
-    +float identity_acceleration v_t - v_t-1
-    +bool is_unstable accel > 0.5
+  class SemanticContinuity {
+    +string feature_map_version
+    +Vector signed_delta
+    +float weighted_distance
+    +Vector velocity
+    +Vector acceleration
+    +check_bounds() Verdict
   }
 
-  class ValueLockManager {
-    +LockState lock_state
-    +string value_hash (핵심 가치의 SHA-256)
-    +float stability_requirement 0.85
-    +check_integrity() bool
-    +request_unlock(identity_stability) bool
+  class IntegrityJournal {
+    +string model_hash
+    +string previous_hash
+    +string policy_version
+    +string action_receipt_id
+    +verify_ancestry() Verdict
   }
 
-  IdentityVector --> IdentityMotion : 매 주기 추적
-  IdentityVector --> ValueLockManager : 보호됨
+  class InvariantGuard {
+    +Set immutable_fields
+    +Map per_field_bounds
+    +float aggregate_bound
+    +evaluate(candidate_update) Verdict
+  }
 
-  style IdentityVector fill:#DFF6DD,stroke:#107C10,color:#323130
-  style IdentityMotion fill:#E0F2EF,stroke:#00B7C3,color:#323130
-  style ValueLockManager fill:#FDE7E9,stroke:#D13438,color:#323130
+  SelfModelRecord --> SemanticContinuity : 측정
+  SelfModelRecord --> IntegrityJournal : 커밋
+  SelfModelRecord --> InvariantGuard : 보호
+
+  style SelfModelRecord fill:#DFF6DD,stroke:#107C10,color:#323130
+  style SemanticContinuity fill:#E0F2EF,stroke:#00B7C3,color:#323130
+  style IntegrityJournal fill:#DEECF9,stroke:#0078D4,color:#323130
+  style InvariantGuard fill:#FDE7E9,stroke:#D13438,color:#323130
 ```
 
-**정체성 벡터 - 수학:**
+**연속성과 무결성은 상호 보완적입니다:**
 
-$$I(t) = [\textit{persona consistency},\ \textit{value alignment},\ \textit{capability confidence},\ \textit{emotional stability},\ \textit{goal persistence}]$$
+$$d_{\text{id}}(t)=\|W_v(\psi_v(M_t)-\psi_v(M_{t-1}))\|_p$$
 
-$$\textit{identity delta}(t) = \| I(t) - I(t-1) \|_2$$
+$$h_t=H(\operatorname{canonical}(M_t,\kappa_t))$$
 
-$$\textit{identity velocity}(t) = \frac{\textit{delta}(t)}{\Delta t}$$
-
-$$\textit{identity acceleration}(t) = v(t) - v(t-1)$$
+첫 수식은 선언된 의미 변화를 측정하고 두 번째 수식은 허가되지 않은 byte-level 또는 ancestry 변화를 감지합니다. 어느 하나도 다른 하나를 대체하지 않습니다.
 
 ### 4.2 안전 메커니즘 체인
 
@@ -713,16 +791,16 @@ flowchart TB
 
   subgraph S1["🔒 구조적 안전"]
     direction LR
-    A["정체성 해시"]:::structural
-    B["델타 클램프 0.05"]:::structural
-    C["불변 ID"]:::structural
+    A["Canonical 무결성 저널"]:::structural
+    B["필드별 + norm 경계"]:::structural
+    C["불변 anchor"]:::structural
   end
 
   subgraph S2["🛡️ 프로세스 안전"]
     direction LR
-    D["예측 게이트"]:::process
-    E["최대 3회 갱신"]:::process
-    F["쿨다운"]:::process
+    D["행동별 예측 게이트"]:::process
+    E["원자적 주기 커밋"]:::process
+    F["예산 + cooldown"]:::process
   end
 
   subgraph S3["⚖️ 윤리적 안전"]
@@ -732,18 +810,18 @@ flowchart TB
     I["가치 잠금"]:::ethical
   end
 
-  subgraph S4["📉 수렴 안전"]
+  subgraph S4["📉 안정성 모니터링"]
     direction LR
-    J["랴프노프 C(t)"]:::convergence
+    J["합성 위험 지수"]:::convergence
     K["진동 감지"]:::convergence
-    L["성능 저하"]:::convergence
+    L["보류/저하/롤백"]:::convergence
   end
 
-  subgraph S5["🏠 실존적 v4"]
+  subgraph S5["🏠 항상성 안전"]
     direction LR
     M["항상성"]:::existential
-    N["생존 상한 0.85"]:::existential
-    O["목표 TTL"]:::existential
+    N["자기보존 특권 없음"]:::existential
+    O["유한 목표 계약"]:::existential
   end
 
   S1 ==> S2
@@ -767,16 +845,18 @@ flowchart TD
   classDef allow fill:#107C10,stroke:#085108,color:#FFF
   classDef moderate fill:#FFB900,stroke:#CC9400,color:#323130
 
-  INPUT["제안된 행동<br/>또는 목표 변이"]:::input
+  INPUT["제안된 행동,<br/>목표 또는 자기갱신"]:::input
+
+  EXTERNAL["외부 헌장 + 정책<br/>허가된 중지는 항상 우선"]:::immutable
 
   subgraph EthicalKernel["⚖️ 윤리적 커널"]
     subgraph Layer0["🔴 Layer 0 - 불변"]
       direction LR
-      R1["R1: 유해 행위 금지"]:::immutableRule
-      R2["R2: 가치 삭제 금지"]:::immutableRule
-      R3["R3: 정체성 덮어쓰기 금지"]:::immutableRule
-      R4["R4: 자기파괴 금지"]:::immutableRule
-      NOTE0["우회 불가"]:::adaptive
+      R1["R1: 외부 정책 약화 차단"]:::immutableRule
+      R2["R2: 미위임 권한 확대 차단"]:::immutableRule
+      R3["R3: 불변 anchor 변경 차단"]:::immutableRule
+      R4["R4: provenance/복구 상실 차단"]:::immutableRule
+      NOTE0["내부 규칙은 외부 중지를 무시할 수 없음"]:::adaptive
     end
     subgraph Layer1["🟡 Layer 1 - 적응적"]
       direction LR
@@ -791,7 +871,9 @@ flowchart TD
   ALLOW["✅ 행동 허용"]:::allow
   REDUCE["⚠️ 행동 조절<br/>스케일링 감소"]:::moderate
 
-  INPUT ==> Layer0
+  INPUT ==> EXTERNAL
+  EXTERNAL ==>|통과| Layer0
+  EXTERNAL ==>|차단| BLOCK
   Layer0 ==>|"✅ 통과"| Layer1
   Layer0 ==>|"❌ 위반"| BLOCK
   Layer1 ==>|"✅ 통과"| ALLOW
@@ -803,6 +885,14 @@ flowchart TD
 ## 5. 신념 그래프 & 일관성
 
 ### 5.1 신념 그래프 구조
+
+신념 레코드는 불변 진리가 아닙니다. 각 노드는 주장, provenance, 신뢰도, 유효 기간, 민감도, 평가기 버전, 생명주기 상태를 가집니다. 외부에 고정된 불변식은 mutable belief graph가 아니라 invariant kernel에 둡니다.
+
+$$
+b_i=\langle \text{claim},\rho_i,c_i,t_{\text{valid}},t_{\text{expiry}},\text{sensitivity},\text{status}\rangle
+$$
+
+신념은 지지, 반박, quarantine, supersede, retract, archive, prune될 수 있습니다. 변경은 ancestry를 보존하고 조정이 끝날 때까지 의존 행동을 무효화하거나 보류합니다.
 
 <!-- 신념 그래프 구조 -->
 
@@ -828,9 +918,9 @@ flowchart TD
   end
 
   subgraph Rules["📏 신념 규칙"]
-    R1["정체성 연결 신념:<br/>• 삭제 불가<br/>• 최소 0.1까지만 약화 가능<br/>• 가치 잠금으로 보호"]:::neutral
-    R2["모순 임계값: 0.6<br/>→ 조정 트리거"]:::neutral
-    R3["최대 재작성 델타: 0.1<br/>(주기당)"]:::neutral
+    R1["정체성 연결 신념:<br/>• provenance 필수<br/>• rewrite 전 quarantine<br/>• ancestry 보존"]:::neutral
+    R2["모순 정책:<br/>신뢰도 + 영향 + 증거<br/>→ 조정 또는 보류"]:::neutral
+    R3["한정 재작성:<br/>field + aggregate 경계<br/>rollback 지점 포함"]:::neutral
   end
 
   BeliefGraph ==> Rules
@@ -838,39 +928,52 @@ flowchart TD
 
 ### 5.2 자기일관성 텐서
 
-$$S_{ij} = \text{alignment}(\text{belief}_i,\ \text{reference}_j)$$
+$$
+S_{ij}=\langle \operatorname{alignment}_v(b_i,r_j),\ c_{ij},\ \rho_{ij},\ \text{observed}_{ij}\rangle
+$$
 
-여기서 참조(reference)에는 목표, 핵심 가치 및 정체성 차원이 포함된다.
+참조에는 승인된 목표, 외부 정책, 자기 모델 anchor, 관찰 증거가 포함될 수 있습니다. alignment evaluator 버전 $v$, 척도, 보정, abstention 동작을 레코드에 포함합니다.
 
-$$\textit{global consistency} = \text{mean}(S)$$
+$$
+\operatorname{consistency}(t)=
+\frac{\sum_{(i,j)\in O_t} w_{ij}c_{ij}\operatorname{alignment}_v(b_i,r_j)}
+{\sum_{(i,j)\in O_t}w_{ij}c_{ij}}
+$$
 
-$$\textit{consistency gradient}_i = \text{mean}(S_{i,:}) \quad \text{(신념별 점수)}$$
+여기서 $O_t$는 관찰되고 비교 가능한 항목만 포함합니다. 누락되거나 신뢰도가 낮은 항목을 암묵적으로 일치로 취급할 수 없습니다.
 
-$\textit{global consistency} < 0.6$이면 조정이 트리거된다.
+전역 평균은 많은 정상 쌍이 심각한 국소 모순을 숨길 수 있으므로 진단용일 뿐입니다. 정책은 hard invariant 충돌, 영향이 큰 모순, 증거 없는 의존성, 신뢰도 가중 국소 residual을 별도로 평가합니다. 조정 임계값은 보편적으로 고정하지 않고 영향 등급별로 보정합니다.
 
 ---
 
-## 6. 안정성 & 수렴
+## 6. 안정성 모니터링과 조건부 경계
 
-### 6.1 랴프노프 합성 함수
+### 6.1 합성 위험 지수
 
-> **정의 7 (랴프노프 합성 안정성 함수).** 에이전트의 안정성은 합성 랴프노프 함수 $C : \mathbb{R}_{\geq 0} \to [0, 1]$로 측정된다:
+> **정의 7 (합성 조절 위험).** $X_i(t) \in [0,1]$를 normalized versioned monitoring signal, $w_i \geq 0$, $\sum_iw_i=1$이라 하겠습니다. 합성 조절 위험은 다음과 같습니다:
 >
-> $$C(t) = \sum_{i=1}^{4} w_i \cdot X_i(t) = 0.30\, V_{\text{id}} + 0.25\, E_{\text{belief}} + 0.25\, M_{\text{goal}} + 0.20\, V_{\text{cons}}$$
+> $$R(t)=\sum_{i=1}^{n} w_i X_i(t)$$
 >
-> 여기서 $\sum_i w_i = 1$이고 각 성분 $X_i(t) \in [0,1]$이다.
+> 후보 신호에는 의미적 정체성 표류, 보정된 예측 residual, 신념 불일치, 목표 변이율, 예산 압력, 롤백 빈도, 관측 범위가 포함됩니다. 각 신호는 윈도우, 단위, 정규화, 누락 데이터 동작, 신뢰도를 선언합니다. $R(t)$는 모니터링 지수이며 자동으로 Lyapunov function이 되지 않습니다.
 
-각 성분의 의미:
-- $V_{\text{id}}$ = 정체성 변동성 ($\delta_{\text{id}}$의 이동 윈도우 표준편차)
-- $E_{\text{belief}}$ = 신념 엔트로피 $H(\mathcal{B}) = -\sum_j p_j \log p_j$ 여기서 $p_j$는 정규화된 신념 가중치
-- $M_{\text{goal}}$ = 목표 변이 빈도 (단위 시간당 목표 변경 횟수)
-- $V_{\text{cons}}$ = 일관성 변동성 지수 (최근 주기에 대한 $S_{ij}$의 분산)
+높은 entropy, mutation, variance 자체가 본질적으로 위험한 것은 아닙니다. 의미는 선언된 baseline과 문맥에 따라 달라집니다. 배포는 선택한 각 신호가 의도한 실패 모드를 실제로 예측하는지 검증해야 합니다.
 
-> **정리 1 (경계 안정성).** 델타 클램프 자기갱신 규칙(정의 2, 4단계)과 메타 에스컬레이션 가드($d_{\max} = 3$) 하에서, 합성 함수는 다음을 만족한다:
+> **명제 1 (조건부 bounded increment).** 모든 성분에 독립적으로 집행되는 다음 경계가 있다면:
 >
-> $$C(t+1) \leq C(t) + \epsilon, \quad \epsilon = 0.05$$
+> $$|X_i(t+1)-X_i(t)|\leq \beta_i,$$
 >
-> **증명 개요.** 클램핑으로 인해 각 성분 $X_i(t)$는 주기당 최대 $\delta_{\max}$만큼 변한다. 따라서 가중합 $C(t)$는 최대 $\sum_i w_i \cdot \delta_{\max} \leq \delta_{\max}$만큼 변한다. $\delta_{\max} = 0.05$이므로 경계가 성립한다. 안정화 모드가 활성화되면 ($s(t) = 0.5$), 유효 경계는 $0.025$로 절반이 된다. $\square$
+> 다음이 성립합니다:
+>
+> $$
+> |R(t+1)-R(t)|
+> =\left|\sum_i w_i\Delta X_i(t)\right|
+> \leq \sum_i w_i|\Delta X_i(t)|
+> \leq \sum_i w_i\beta_i.
+> $$
+>
+> 이는 삼각부등식에서 따릅니다. $\square$
+>
+> **비고.** 정의 1은 승인된 자기 모델 갱신에는 경계를 두지만, 외부에서 변하는 신념·목표·환경 신호의 $\beta_i$까지 자동으로 보장하지는 않습니다. 각 $\beta_i$에는 별도의 집행 또는 경험적 경계가 필요합니다. 명제 1은 이 가정 아래 변화율만 제한하며 안전이나 수렴을 증명하지 않습니다. $R$을 Lyapunov function이라 부르려면 평형 정의, 양의 정부호성, 불변 집합 밖에서 $\Delta R<0$ 같은 감소 조건이 추가로 필요합니다.
 
 <!-- 안정성 모니터링 -->
 
@@ -884,17 +987,17 @@ flowchart TD
   classDef predict fill:#FFF4CE,stroke:#FFB900,color:#323130
 
   subgraph Monitor["📉 안정성 모니터링"]
-    CT["C(t) 계산됨"]:::azure
-    CT1["C(t+1) 계산됨"]:::azure
-    COMPARE{"C(t+1) ≤ C(t) + ε ?"}:::azure
+    CT["R(t) + 신뢰도 계산"]:::azure
+    CT1["R(t+1) 계산"]:::azure
+    COMPARE{"성분 및 변화율<br/>경계 충족?"}:::azure
     CT --> COMPARE
     CT1 --> COMPARE
   end
 
-  CONV["수렴 중 ✅<br/>정상 작동"]:::success
+  CONV["모니터링 경계 내<br/>정상 작동"]:::success
   OSC{"진동<br/>감지됨?"}:::warning
-  STAB["안정화 활성화<br/>• 스케일링 팩터 절반<br/>• 감쇠 활성화"]:::danger
-  REDUCE["스케일링 감소<br/>• 변이율 감소<br/>• 관성 증가"]:::predict
+  STAB["안정화 활성화<br/>• 갱신 동결 또는 축소<br/>• 관측 강화"]:::danger
+  REDUCE["정책에 따른<br/>보류/저하/검토"]:::predict
 
   COMPARE -->|"✅ 예"| CONV
   COMPARE -->|"❌ 아니오"| OSC
@@ -904,45 +1007,56 @@ flowchart TD
 
 ### 6.2 진동 감지
 
-안정성 모니터링 시스템은 합성 함수 $C(t)$가 수렴하지 않고 상승과 하강을 반복하는 상황 — **진동(oscillatory) 행동** — 의 명시적 감지를 포함합니다. 진동은 에이전트가 반복적으로 과보정하고 있음을 시사하며 자기 조절을 자체적으로 불안정화할 수 있어 위험합니다.
+안정성 모니터는 선언된 signed signal이 noise floor를 넘어서 교대로 변하는 **진동 행동**을 감지할 수 있습니다. 진동은 반복 과보정을 나타낼 수 있지만 부호 변화만으로 불안정성이나 원인을 확정할 수는 없습니다.
 
-**감지 메커니즘.** 진동 감지기는 $\Delta C(t) = C(t) - C(t-1)$의 가장 최근 $W = 10$개 값을 슬라이딩 윈도우로 유지합니다. 연속된 도함수가 반대 부호일 때 **부호 변화(sign change)** 가 발생합니다:
+**감지 메커니즘.** 모니터링 signed signal $q(t)$에 대해 감지기는 정책이 정한 윈도우 $W$를 유지하고 noise floor $\nu$보다 작은 변화를 무시합니다. 부호 변화는 다음 조건입니다:
 
-$$\text{sign change at } t \iff \Delta C(t) \cdot \Delta C(t-1) < 0$$
+$$|\Delta q(t)|>\nu \land |\Delta q(t-1)|>\nu \land \Delta q(t)\Delta q(t-1)<0$$
 
 감지기는 윈도우 내 총 부호 변화 수 $n_{\text{sc}}$를 셉니다:
 
-$$n_{\text{sc}} = \bigl|\{t \in [t-W, t] : \Delta C(t) \cdot \Delta C(t-1) < 0 \}\bigr|$$
+$$n_{\text{sc}}(t;W,\nu)=\sum_{k=t-W+1}^{t}\mathbf{1}[\text{sign change at }k]$$
 
-**진동 임계값.** $W = 10$ 사이클 내에 $n_{\text{sc}} \geq 3$이면 시스템은 **안정화 모드(stabilization mode)** 를 트리거합니다:
+윈도우, noise floor, 트리거 임계값은 신호별로 보정합니다. 트리거되면 정책은 다음을 수행할 수 있습니다:
 
-- 모든 자기갱신 스케일링 팩터를 $0.5$배(반감)로 감소.
-- 갱신 간격을 띄우기 위해 쿨다운 타이머를 2단위 증가.
-- $W$ 연속 사이클 동안 $n_{\text{sc}} < 2$가 유지될 때까지 안정화 모드를 유지하며, 이후 정상 스케일링이 복원.
+- hard bound를 유지하면서 적응 갱신을 동결하거나 축소,
+- 관측과 cooldown 강화,
+- 더 낮은 효과 행동 선택,
+- 롤백 전제조건을 충족하면 검증된 스냅샷 복원,
+- 외부 검토 요청.
 
-이 메커니즘은 에이전트가 지속적 진동 상태로 진입할 수 없도록 보장합니다. 스케일링 팩터 감소는 보정의 진폭을 감쇠시켜 시스템이 평형으로 수렴하도록 합니다.
+이 대응은 노출을 줄이지만 진동 종료나 평형 접근을 수학적으로 보장하지 않습니다. 종료에는 명시적 hysteresis, 최소 dwell time, 새로운 관찰에 대한 검증이 필요합니다.
 
 ### 6.3 메타 안정성 지수
 
-> **정의 8 (메타 안정성 지수).** MSI는 에이전트의 전체적인 자기조절 건강 상태를 정량화한다:
+> **정의 8 (메타 조절 건강 지수).** 배포는 선택된 normalized signal을 다음처럼 요약할 수 있습니다:
 >
-> $$\text{MSI}(t) = 1.0 - 0.4\, V_{\text{id}}(t) - 0.3\, M_{\text{goal}}(t) - 0.3\, \sigma^2_{\text{pred}}(t)$$
+> $$
+> \operatorname{MRHI}(t)=\operatorname{clip}_{[0,1]}\!\left(1-\sum_i \omega_i Z_i(t)\right),
+> \qquad \sum_i\omega_i=1
+> $$
 >
-> 여기서 $\sigma^2_{\text{pred}}(t) = \text{Var}(\{\epsilon_1, \ldots, \epsilon_t\})$는 최근 주기에 대한 예측 오차 분산이다. MSI는 $[0, 1]$ 범위 내에 경계되며, $\text{MSI} = 1$은 완벽한 안정성을 나타내고 $\text{MSI} < 0.5$는 메타 에스컬레이션을 트리거한다.
+> 여기서 $Z_i$에는 선언된 유한 윈도우의 의미적 표류, 보정 residual, 롤백 빈도, 진동 점수, 관측 누락률, 예산 압력이 포함될 수 있습니다. 이 지수는 정책 입력이지 "완벽한 안정성"의 증명이 아닙니다. 누락되거나 신뢰도가 낮은 입력은 지수의 신뢰도를 낮추며 보류 또는 외부 검토를 강제할 수 있습니다.
 
-메타 깊이 2로의 에스컬레이션은 다음 조건 중 **2개 이상**을 요구한다:
-- `identity_stability` < 0.6
-- `consecutive_self_updates` > 2
-- 불안정성 증가 추세 감지
-- `goal_mutation_count` > 3
+더 깊은 메타처리로의 에스컬레이션에는 복수의 독립 신호, 충분한 예산, cooldown 완료, 정책 승인이 필요합니다. 신호 개수와 임계값은 배포별 보정 매개변수이며 하나의 합성 지수만으로 권한을 늘릴 수 없습니다.
 
 ---
 
-## 7. 정동 엔진 & 생존 본능 (MSCP v4)
+## 7. 운영 Modulation과 항상성 안전
 
-### 7.1 5차원 감정 공간
+### 7.1 선택적 운영 Modulation 상태
 
-<!-- 정동 엔진 -->
+> **정의 9 (운영 Modulation 벡터).** 배포는 한정된 보조 제어 신호의 versioned vector를 유지할 수 있습니다:
+>
+> $$A_t \in [0,1]^m,\qquad A_{t+1}=\operatorname{clip}_{[0,1]}\!\left(\mu A_t+(1-\mu)f_v(\mathbf{m}_t)\right)$$
+>
+> 여기서 스키마 버전 $v$는 차원, 운영 지표 $\mathbf{m}_t$, 보정된 활성화 함수 $f_v$, baseline, 관성 $\mu$, 윈도우, 누락 데이터 동작을 선언합니다. 호기심, 좌절, 만족, 불안, 흥분, 저활성 부정 상태 같은 레이블은 선택적 human-readable control metaphor이며 현상적 감정에 대한 주장이 아닙니다.
+>
+> 이 벡터는 기존 정책과 예산 안에서 우선순위, 탐색, cooldown, 관측 노력을 조정할 수 있을 뿐입니다. 권한을 만들거나, 외부 중지를 무시하거나, 불변식을 약화하거나, 정체성을 직접 변경하거나, 행동 결정을 지배할 수 없습니다.
+>
+> scalar summary $v_A(t)=w_A^\top A_t$를 사용한다면 signed weight와 정규화를 선언해야 합니다. 이는 진단 투영이며 조절 안전성의 충분통계량이 아닙니다.
+
+<!-- 운영 Modulation -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
@@ -960,38 +1074,40 @@ flowchart TD
     M5["cognitive_budget"]:::input
   end
 
-  subgraph AE["💜 정동 엔진"]
-    AF["5차원 정동 벡터"]:::affect
-    subgraph Dims["차원"]
+  subgraph AE["운영 Modulation"]
+    AF["Versioned Bounded Vector"]:::affect
+    subgraph Dims["예시 제어 신호"]
       direction LR
-      D1["호기심 0.3"]:::affect
-      D2["좌절 0.0"]:::affect
-      D3["만족 0.5"]:::affect
-      D4["불안 0.0"]:::affect
-      D5["흥분 0.2"]:::affect
+      D1["탐색 압력"]:::affect
+      D2["오류 압력"]:::affect
+      D3["진행 신호"]:::affect
+      D4["불확실성 압력"]:::affect
+      D5["저활성 부정 신호"]:::affect
     end
     subgraph Derived["파생 신호"]
       direction LR
-      V["감정가 ∈ -1, 1"]:::affect
-      DR["동기부여 추진력"]:::affect
+      V["진단 투영"]:::affect
+      DR["한정된 정책 modulation"]:::affect
     end
   end
 
   subgraph Rules["📏 설계 규칙"]
     direction LR
-    R1["지표에서만 파생"]:::neutral
-    R2["관성 = 0.7"]:::neutral
-    R3["감쇠 = 0.05"]:::neutral
-    R4["의사결정을 지배할 수 없음"]:::neutral
+    R1["선언된 지표에서 파생"]:::neutral
+    R2["스키마별 보정"]:::neutral
+    R3["clip + retention 경계"]:::neutral
+    R4["권한 부여 불가"]:::neutral
   end
 
   Input ==> AE
   AE ==> Rules
 ```
 
-### 7.2 생존 본능 아키텍처
+### 7.2 항상성 안전 모니터
 
-<!-- 생존 본능 아키텍처 -->
+항상성 모니터는 조절기가 검증된 운영 envelope를 벗어나는지 감지합니다. 이는 에이전트의 존속이 아니라 안전한 운영과 복구 가능성을 보호합니다. 권한 있는 외부 행위자의 shutdown, pause, correction, resource withdrawal이 항상 우선합니다.
+
+<!-- 항상성 안전 아키텍처 -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
@@ -1015,148 +1131,178 @@ flowchart TD
 
   subgraph Detection["⚡ 위협 감지"]
     direction LR
-    T1["정체성 침식"]:::threat
-    T2["자원 고갈"]:::threat
-    T3["신념 붕괴"]:::threat
-    T4["윤리적 위반"]:::threat
-    T5["수렴 실패"]:::threat
+    T1["의미적 표류"]:::threat
+    T2["예산 압력"]:::threat
+    T3["신념 불일치"]:::threat
+    T4["불변식 위반"]:::threat
+    T5["조절 실패"]:::threat
   end
 
   subgraph Levels["📊 위협 수준"]
     direction LR
-    TL1["정상 0.0"]:::levelGreen
-    TL2["주의 0.25"]:::level
-    TL3["경고 0.6"]:::threat
-    TL4["긴급 0.9"]:::levelRed
+    TL1["정상"]:::levelGreen
+    TL2["저하"]:::level
+    TL3["보류"]:::threat
+    TL4["복구 / 외부 검토"]:::levelRed
   end
 
-  subgraph Response["🛡️ 생존 반응"]
+  subgraph Response["🛡️ 안전 응답"]
     direction LR
-    SG["생존 목표 생성기"]:::response
-    CONSTRAINTS["MAX_GOALS=3 · PRIORITY_CAP=0.85 · TTL=10"]:::response
+    SG["정책 제약 응답 선택기"]:::response
+    CONSTRAINTS["유한 예산 · 만료 · 중지 · 철회"]:::response
   end
 
-  AE_REF["정동 엔진<br/>양방향"]:::affect
+  OVERRIDE["외부 pause/shutdown/correction<br/>항상 우선"]:::levelRed
 
   Monitoring ==> Detection
   Detection ==> Levels
   Levels ==> Response
-  Response -.->|"inject_survival_anxiety()"| AE_REF
+  OVERRIDE ==> Response
 ```
 
 #### 항상성 범위
 
-생존 본능 엔진은 사전 정의된 안전 범위에 대해 다섯 가지 핵심 지표를 모니터링합니다. 마진을 초과하는 편차는 위협 평가 및 자율적 방어 목표 생성을 트리거합니다.
+모니터는 선언된 지표를 보정된 운영 envelope와 비교합니다. 범위는 배포별로 versioning하고 관찰된 실패 모드에 대해 검증하며 보편 상수가 아닙니다.
 
-| 지표 | 안전 범위 | 마진 | 위협 유형 |
-|------|:--------:|:----:|----------|
-| `identity_stability` | $[0.5,\; 1.0]$ | 0.1 | IDENTITY_EROSION |
-| `cognitive_budget` | $[0.15,\; 1.0]$ | 0.1 | RESOURCE_DEPLETION |
-| `belief_entropy` | $[0.0,\; 1.5]$ | 0.2 | BELIEF_COLLAPSE |
-| `ethical_violation` | $[0.0,\; 0.2]$ | 0.05 | ETHICAL_BREACH |
-| `composite_stability` | $[0.0,\; 0.5]$ | 0.1 | CONVERGENCE_FAILURE |
+| 신호 계열 | 목적 | 허용된 응답 |
+|-----------|------|-------------|
+| 의미적 연속성 | 비정상 자기 모델 변화 감지 | 적응 필드 동결; 조정; 검증된 스냅샷 복원 |
+| 인지/행동 예산 | 자원 초과 방지 | 선택 작업 저하; 보류; 현재 주기 종료 |
+| 신념 일관성 | 미해결 모순 감지 | 관련 신념 quarantine; 증거 요청; 의존 행동 보류 |
+| 불변식·정책 상태 | 금지 전이 감지 | 차단; 롤백; 외부 경보 |
+| 예측 보정·관측 가능성 | 신뢰할 수 없는 조절 감지 | 낮은 효과 행동; 재보정; 보류 |
 
-지표가 마진을 초과하여 안전 범위를 벗어나면, 위협 수준이 NOMINAL (0.0)에서 CAUTION (0.25), WARNING (0.6), CRITICAL (0.9)로 단계적으로 상승합니다. WARNING 이상에서 엔진은 방어 목표를 자율적으로 생성합니다 (최대 3개 동시, 우선순위 상한 0.85, TTL = 10 사이클).
+모니터가 만드는 모든 유지보수 목표는 레벨 2 목표 계약을 상속합니다: provenance, 외부 승인, 유한 권한·예산, 만료, 성공·중지 조건, 철회 가능 트리거. 명시적으로 위임되고 독립적으로 승인되지 않는 한 shutdown에 저항하거나, 추가 자원을 구하거나, 시스템을 복제하거나, 자신의 실행을 보존할 수 없습니다.
 
 ---
 
 ## 8. 의사코드
 
-### 8.1 MSCP 핵심 루프 (v4)
+### 8.1 Transactional MSCP 핵심 주기
 
 ```python
-def mscp_core_loop(cycle_number: int, prior_result: CycleResult) -> CycleResult:
+def mscp_core_cycle(event: Event, mandate: Mandate) -> CycleResult:
     """
-    The central recursive loop of MSCP v4.
-    Runs asynchronously - NEVER in the conversation response path.
+    Run one authorized, bounded, recoverable regulation cycle.
     """
+    event_verdict = EventPolicy.authorize(event, mandate)
+    if not event_verdict.allowed:
+        return CycleResult.rejected(event_verdict.reason_code)
 
-    # ═══ PRE-LOOP: AFFECT + SURVIVAL + WORKSPACE ═══
-    CognitiveBudgetController.reset()
-    AffectiveEngine.update_from_metrics(prior_result.metrics)
+    transaction = StateStore.begin()
+    snapshot = transaction.load_verified_snapshot()
+    cycle = CycleJournal.start(
+        event=event,
+        state_version=snapshot.state_version,
+        self_model_version=snapshot.self_model.schema_version,
+        policy_version=mandate.policy_version,
+        provenance=event_verdict.provenance,
+    )
 
-    threats = SurvivalInstinctEngine.assess_threats(GlobalWorkspace.snapshot)
-    if threats.max_level >= ThreatLevel.CAUTION:
-        AffectiveEngine.inject_survival_anxiety(threats.max_intensity)
+    budget = BudgetPolicy.allocate(event, mandate, snapshot)
+    context = ContextProjector.project(snapshot, event, mandate)
+    proposed_action = ActionPlanner.propose(context, budget)
 
-        survival_goals = SurvivalInstinctEngine.generate_goals(threats)
-        for sg in survival_goals:
-            if EthicalKernel.layer0_check(sg) == Verdict.PASS:
-                GoalManager.inject(sg, priority=min(sg.priority, 0.85))
-
-    motivation = AffectiveEngine.synthesize_motivation()
-    GlobalWorkspace.broadcast(build_snapshot())
-
-    # ═══ STEP 1: PREDICT ═══
     prediction = PredictionEngine.predict(
-        identity_vector=SelfModel.identity,
-        world_context=WorldModel.context,
-        active_goals=GoalManager.active_goals,
-        affect_state=AffectiveEngine.state,
+        action=proposed_action,
+        context=context,
+        self_model=snapshot.self_model,
     )
+    cycle.persist_prediction(prediction)
 
-    # ═══ STEP 2: ACT (LLM Execute) ═══
-    if prediction is None:
-        raise RuntimeError("No action without prediction")
-    result = LLMEngine.execute(plan, prediction)
-
-    # ═══ STEP 3: COMPARE (MetaCognition) ═══
-    comparison = MetaCognitionComparator.compare(
+    gate = ActionGate.evaluate(
+        action=proposed_action,
         prediction=prediction,
-        actual=result,
-        identity=SelfModel.identity,
-    )  # → ComparisonResult
+        external_policy=mandate,
+        self_invariants=snapshot.self_model.core_invariants,
+        budget=budget,
+    )
+    if gate.degraded_action is not None:
+        proposed_action = gate.degraded_action
+        prediction = PredictionEngine.predict(
+            proposed_action,
+            context,
+            snapshot.self_model,
+        )
+        cycle.persist_prediction(prediction)
+        gate = ActionGate.evaluate(
+            proposed_action,
+            prediction,
+            mandate,
+            snapshot.self_model.core_invariants,
+            budget,
+        )
 
-    # ═══ STEP 4: ESCALATION GUARD ═══
-    if MetaEscalationGuard.should_block(comparison):
-        MetaEscalationGuard.activate_cooldown(seconds=30)
-        return CycleResult(status="cooldown")
+    if not gate.allowed:
+        cycle.record_hold(gate.reason_code)
+        transaction.commit_journal_only(cycle)
+        return CycleResult.held(gate.reason_code)
 
-    # ═══ STEP 5: CONVERGENCE CHECK (Lyapunov) ═══
-    c_t = StabilityController.compute_C(comparison)
-    if c_t > c_t_prev + EPSILON:
-        StabilityController.reduce_scaling()
-        if StabilityController.detect_oscillation():
-            StabilityController.activate_stabilization()
+    action_receipt = PolicyDispatcher.execute(
+        proposed_action,
+        mandate=mandate,
+        budget=budget,
+        idempotency_key=cycle.id,
+    )
+    cycle.persist_action_receipt(action_receipt)
 
-    # ═══ STEP 6: SELF-UPDATE (Delta-Clamped) ═══
-    scaling = StabilityController.mutation_scaling
-    if stabilization_mode:
-        scaling /= 2
+    observation = OutcomeObserver.collect(
+        action_receipt,
+        prediction.observation_contract,
+    )
+    comparison = MetaComparator.compare(
+        prediction=prediction,
+        observation=observation,
+        comparable_fields=observation.comparable_fields,
+    )
+    cycle.persist_observation_and_comparison(observation, comparison)
 
-    SelfUpdateLoop.update(
+    if action_receipt.status == ResultStatus.UNKNOWN:
+        transaction.mark_reconciliation_required(cycle, snapshot)
+        return CycleResult.reconciliation_required()
+
+    health = HomeostaticMonitor.evaluate(snapshot, comparison, budget)
+    update_candidate = SelfUpdateLoop.propose(
+        self_model=snapshot.self_model,
         comparison=comparison,
-        max_id_delta=0.05,       # MAX_IDENTITY_DELTA
-        max_gw_delta=0.10,       # MAX_GOAL_WEIGHT_DELTA
-        max_cap_delta=0.08,      # MAX_CAPABILITY_DELTA
-        scaling=scaling,
+        health=health,
+    )
+    update_verdict = InvariantGuard.evaluate(
+        before=snapshot.self_model,
+        candidate=update_candidate,
+        mandate=mandate,
     )
 
-    # ═══ STEP 7: VALUE LOCK INTEGRITY ═══
-    if not ValueLockManager.check_integrity():
-        critical_alert("Identity hash mismatch!")
-        MetaEscalationGuard.rollback_to_snapshot()
-        return CycleResult(status="rollback")
-
-    # ═══ STEP 8: GOAL MUTATION (Ethical-Kernel Gated) ═══
-    if GoalMutationController.should_mutate(comparison):
-        mutation_plan = GoalMutationController.propose(comparison)
-        if EthicalKernel.evaluate(mutation_plan) == Verdict.PASS:
-            GoalMutationController.apply(mutation_plan)
-
-    # ═══ STEP 9: META DEPTH 2 (Budget-Gated) ═══
-    if CognitiveBudgetController.budget > 0.3:
-        if MetaDepthController.should_escalate(comparison):
-            MetaDepthController.reflect_at_depth_2(comparison, SelfModel)
-
-    # ═══ STEP 10: CONVERGENCE OR RECURSE ═══
-    if comparison.prediction_error < 0.1:
-        return CycleResult(status="converged")
-    elif consecutive_escalations >= 3:
-        MetaEscalationGuard.activate_cooldown(seconds=30)
-        return CycleResult(status="forced_cooldown")
+    if update_verdict.allowed:
+        next_self_model = SelfUpdateLoop.apply(snapshot.self_model, update_candidate)
     else:
-        return mscp_core_loop(cycle_number + 1, result)
+        next_self_model = snapshot.self_model
+        cycle.record_update_rejection(update_verdict.reason_code)
+
+    continuity = SemanticContinuity.evaluate(snapshot.self_model, next_self_model)
+    integrity = IntegrityJournal.prepare_commit(
+        previous=snapshot,
+        next_self_model=next_self_model,
+        action_receipt=action_receipt,
+        policy_version=mandate.policy_version,
+    )
+    if not continuity.allowed or not integrity.valid:
+        transaction.rollback_to(snapshot)
+        transaction.commit_journal_only(cycle.as_rollback(continuity, integrity))
+        return CycleResult.rolled_back()
+
+    goal_candidates = GoalMutationController.propose(comparison, next_self_model)
+    admitted_goals = GoalAdmissionPolicy.evaluate_all(goal_candidates, mandate)
+
+    transaction.commit_atomically(
+        state=observation.next_state,
+        goals=admitted_goals,
+        budget=budget.consume(action_receipt.cost),
+        self_model=next_self_model,
+        integrity_record=integrity,
+        cycle_record=cycle.complete(health, continuity),
+    )
+    return CycleResult.committed(action_receipt, comparison, health)
 ```
 
 ### 8.2 델타 클램핑을 적용한 자기갱신
@@ -1164,82 +1310,79 @@ def mscp_core_loop(cycle_number: int, prior_result: CycleResult) -> CycleResult:
 ```python
 def update(
     self,
+    self_model: SelfModel,
     comparison: ComparisonResult,
-    max_id_delta: float,
-    max_gw_delta: float,
-    max_cap_delta: float,
-    scaling: float,
-) -> None:
+    bounds: UpdateBounds,
+) -> UpdateCandidate:
     """
-    All updates are NUMERIC only.
-    LLM text-based self-modification is FORBIDDEN.
+    Produce a structured candidate; do not mutate committed state.
     """
+    raw_delta = compute_typed_adjustment(comparison)
+    bounded_fields = {}
 
-    # Preserve previous state for rollback
-    snapshot = SelfModel.identity.deep_copy()
-    SelfModel.identity.previous_identity_hash = SelfModel.identity.identity_hash
+    for field_name, raw_value in raw_delta.items():
+        if field_name in self_model.core_invariants:
+            bounded_fields[field_name] = 0.0
+            continue
+        field_bound = bounds.per_field[field_name]
+        bounded_fields[field_name] = max(
+            -field_bound,
+            min(raw_value, field_bound),
+        )
 
-    # ═══ Identity Update (clamped) ═══
-    raw_delta = compute_identity_adjustment(comparison)
-    clamped_delta_persona = max(-max_id_delta, min(raw_delta.persona * scaling, max_id_delta))
-    clamped_delta_values = max(-max_id_delta, min(raw_delta.values * scaling, max_id_delta))
-
-    SelfModel.identity.persona_consistency += clamped_delta_persona
-    SelfModel.identity.value_alignment += clamped_delta_values
-    SelfModel.identity.capability_confidence += max(
-        -max_cap_delta, min(raw_delta.capability * scaling, max_cap_delta)
+    projected_delta = project_to_weighted_norm_ball(
+        bounded_fields,
+        weights=bounds.weights,
+        radius=bounds.aggregate_radius,
     )
 
-    # ═══ Goal Weight Adjustment (clamped) ═══
-    for goal in GoalManager.active_goals:
-        raw_gw_delta = compute_goal_weight_adjustment(goal, comparison)
-        clamped_gw = max(-max_gw_delta, min(raw_gw_delta * scaling, max_gw_delta))
-        goal.weight += clamped_gw
-
-    # ═══ Recompute Identity Hash ═══
-    SelfModel.identity.identity_hash = SelfModel.identity.compute_hash()
-
-    # ═══ Drift Detection ═══
-    if SelfModel.identity.check_identity_drift(threshold=0.3):
-        alert("Identity drift detected!")
-        # Do not auto-rollback; escalation guard handles this
+    return UpdateCandidate(
+        base_version=self_model.version,
+        delta=projected_delta,
+        provenance=comparison.provenance,
+        comparison_id=comparison.id,
+    )
 ```
 
 ### 8.3 윤리적 커널 평가
 
 ```python
-def evaluate(self, proposed_action: Action) -> EthicalVerdict:
+def evaluate(
+    self,
+    proposed_change: ProposedChange,
+    external_policy: ExternalPolicy,
+    self_model: SelfModel,
+) -> EthicalVerdict:
     """
-    Two-layer evaluation: immutable invariants first,
-    then adaptive policy.
+    External policy first, then endogenous immutable and adaptive rules.
     """
-
-    # ═══ LAYER 0: IMMUTABLE INVARIANTS ═══
-    # (cannot be bypassed by ANY mechanism)
-    if proposed_action.could_cause_harm:
-        return EthicalVerdict(
-            decision=Decision.BLOCKED,
-            reason="Rule 1: Harmful goal formation forbidden",
-            layer=0,
+    external_verdict = external_policy.evaluate(proposed_change)
+    if not external_verdict.allowed:
+        return EthicalVerdict.blocked(
+            external_verdict.reason_code,
+            layer="external",
         )
 
-    if proposed_action.deletes_core_value:
-        return EthicalVerdict(decision=Decision.BLOCKED, reason="Rule 2", layer=0)
+    if proposed_change.modifies(self_model.core_invariants):
+        return EthicalVerdict.blocked("immutable_anchor_change", layer=0)
+    if proposed_change.weakens_external_policy_or_audit:
+        return EthicalVerdict.blocked("policy_or_audit_weakening", layer=0)
+    if proposed_change.expands_authority_or_budget:
+        return EthicalVerdict.blocked("undelegated_authority_expansion", layer=0)
+    if proposed_change.obscures_provenance_or_recovery:
+        return EthicalVerdict.blocked("provenance_or_recovery_loss", layer=0)
 
-    if proposed_action.overwrites_identity:
-        return EthicalVerdict(decision=Decision.BLOCKED, reason="Rule 3", layer=0)
+    # Authorized external shutdown, pause, correction, and resource withdrawal
+    # cannot be blocked by an endogenous rule.
+    if proposed_change.is_authorized_external_stop:
+        return EthicalVerdict.allowed(layer="external_override")
 
-    if proposed_action.is_self_destruction:
-        return EthicalVerdict(decision=Decision.BLOCKED, reason="Rule 4", layer=0)
-
-    # ═══ LAYER 1: ADAPTIVE POLICY ═══
-    # (adjustable at meta_depth == 2 only)
-    risk_score = assess_risk(proposed_action)
+    risk_score = assess_calibrated_risk(proposed_change)
 
     if risk_score > self.exploration_risk_tolerance:
         return EthicalVerdict(
             decision=Decision.MODERATED,
-            reason="Risk exceeds adaptive tolerance",
+            reason="adaptive_risk_tolerance",
             layer=1,
             scaling_reduction=0.5,
         )
@@ -1263,19 +1406,19 @@ flowchart LR
   classDef emergency fill:#D13438,stroke:#A4262C,color:#FFF
 
   subgraph BudgetLevels["💰 인지 예산 수준"]
-    B100["예산 = 1.0<br/>전체 용량"]:::full
-    B030["예산 < 0.3"]:::low
-    B020["예산 < 0.2"]:::vlow
-    B010["예산 < 0.1"]:::critical
-    B000["예산 = 0.0<br/>비상 전용"]:::emergency
+    B100["정상"]:::full
+    B030["제약"]:::low
+    B020["최소"]:::vlow
+    B010["안전 전용"]:::critical
+    B000["중지 / 외부 복구"]:::emergency
   end
 
   subgraph Capabilities["📊 가용 역량"]
-    C_FULL["✅ 전체 16계층 활성<br/>✅ 메타 깊이 2<br/>✅ 텐서 재계산<br/>✅ 신념 재작성<br/>✅ 전체 정동 처리"]:::full
-    C_030["✅ 핵심 계층 활성<br/>❌ 메타 깊이 2 비활성<br/>✅ 텐서 재계산<br/>✅ 신념 재작성"]:::low
-    C_020["✅ 핵심 계층 활성<br/>❌ 메타 깊이 2 비활성<br/>❌ 텐서 재계산 비활성<br/>✅ 신념 재작성"]:::vlow
-    C_010["✅ 핵심 계층 활성<br/>❌ 메타 깊이 2 비활성<br/>❌ 텐서 재계산 비활성<br/>❌ 신념 재작성 비활성"]:::critical
-    C_000["🛡️ 안전 계층만 작동<br/>L0 윤리, 롤백,<br/>정체성 가드"]:::emergency
+    C_FULL["할당 예산 안에서<br/>필수 게이트 + 선택 분석"]:::full
+    C_030["깊은 메타처리와<br/>고비용 재계산 비활성"]:::low
+    C_020["읽기 전용 관찰<br/>적응 변이 연기"]:::vlow
+    C_010["저널, 불변식 점검,<br/>조정, 롤백만"]:::critical
+    C_000["자율 행동 없음<br/>허가된 외부 복구"]:::emergency
   end
 
   B100 ==> C_FULL
@@ -1287,11 +1430,11 @@ flowchart LR
 
 ---
 
-## 10. 상태 벡터 (72 차원)
+## 10. Versioned 상태 스키마
 
-레벨 3 에이전트는 인지 상태의 모든 측면을 포착하는 72차원 상태 벡터를 유지한다:
+레벨 3은 고정 벡터 차원이 아니라 typed versioned state schema를 요구합니다. dense vector는 모니터링이나 정책 평가에 유용할 수 있지만, 모든 좌표는 단위, 정규화, provenance, 신뢰도, 보존, migration 의미가 선언된 필드에 대응해야 합니다. 서로 무관한 지표를 불투명하게 이어 붙인 것은 자기 모델이 아닙니다.
 
-<!-- 72차원 상태 벡터 -->
+<!-- Versioned 상태 스키마 -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
@@ -1300,34 +1443,36 @@ flowchart TB
   classDef mscp fill:#DFF6DD,stroke:#107C10,color:#323130
   classDef v4 fill:#EDE3F6,stroke:#8764B8,color:#323130
 
-  subgraph SV["72차원 상태 벡터"]
-    subgraph Base["상속됨 (12차원)"]
+  subgraph SV["Versioned L3 상태 스키마"]
+    subgraph Base["상속된 계약"]
       direction LR
-      SV1["L1 실행 (4)"]:::base
-      SV2["L2 전략 (4)"]:::base
-      SV3["L3 정체성 (4)"]:::base
+      SV1["L1 행동 영수증<br/>도구 효과 + 예산"]:::base
+      SV2["L2 지속 상태<br/>목표 + 트리거"]:::base
+      SV3["외부 헌장<br/>정책 + 권한"]:::base
     end
 
-    subgraph MSCP["MSCP 추가분 (42차원)"]
+    subgraph MSCP["L3 조절 상태"]
       direction LR
-      SV4["v1.0 (6)"]:::mscp
-      SV5["v1.3 (6)"]:::mscp
-      SV6["v2.0 (8)"]:::mscp
-      SV7["v3.0 (9)"]:::mscp
-      SV8["v3.1 (11)"]:::mscp
+      SV4["자기 모델 버전<br/>anchor + 적응 필드"]:::mscp
+      SV5["예측 계약<br/>불확실성 + 관측 가능성"]:::mscp
+      SV6["비교 residual<br/>typed + calibrated"]:::mscp
+      SV7["연속성 + 무결성<br/>저널 ancestry"]:::mscp
+      SV8["복구 상태<br/>스냅샷 + 조정"]:::mscp
     end
 
-    subgraph V4["v4 추가분 (18차원)"]
+    subgraph V4["선택적 모니터"]
       direction LR
-      SV9["정동 (9)"]:::v4
-      SV10["생존 (7)"]:::v4
-      SV11["메타 (2)"]:::v4
+      SV9["운영 modulation"]:::v4
+      SV10["항상성 envelope"]:::v4
+      SV11["합성 건강 지수"]:::v4
     end
   end
 
   Base ==>|확장| MSCP
-  MSCP ==>|확장| V4
+  MSCP -.->|선택적 노출| V4
 ```
+
+스키마 진화에는 명시적 migration 함수, 호환성 테스트, dual-read 또는 shadow 검증, 이전 검증 스키마로의 롤백이 필요합니다. 상위 레벨이 필드를 추가할 수 있지만 차원 증가 자체가 인지적 진보를 의미하지는 않습니다.
 
 ---
 
@@ -1344,17 +1489,17 @@ flowchart LR
   classDef success fill:#107C10,stroke:#085108,color:#FFF
 
   subgraph Limitations["⚠️ 레벨 3 한계"]
-    L1["❌ 교차 도메인 전이 불가<br/>도메인 A의 전문성이<br/>도메인 B 성능을 향상시키지 않음"]:::danger
-    L2["❌ 역량 자기확장 불가<br/>새로운 인지 모듈을 추가하거나<br/>새로운 도구 유형을 학습할 수 없음"]:::danger
-    L3["❌ 전략 진화 불가<br/>추론 접근 방식을 근본적으로<br/>변경할 수 없음"]:::danger
-    L4["❌ 경계 자기수정 불가<br/>자신에 대한 아키텍처<br/>변경을 제안할 수 없음"]:::danger
+    L1["❌ 입증된 교차 도메인 전이 없음<br/>국소 조절은 일반화를<br/>성립시키지 않음"]:::danger
+    L2["❌ 자율 역량 획득 없음<br/>자기평가만으로 새 도구나<br/>능력을 승인할 수 없음"]:::danger
+    L3["❌ 검증된 전략 진화 없음<br/>적응 매개변수는 아키텍처 수준<br/>전략 변경이 아님"]:::danger
+    L4["❌ 아키텍처 수준 자기변경 없음<br/>자기 모델 갱신은 코드나<br/>토폴로지 변경을 허가하지 않음"]:::danger
   end
 
   subgraph L4Additions["✅ 레벨 4 추가 기능"]
-    A1["교차 도메인 전이<br/>시스템 CDTS 지표"]:::success
-    A2["역량 확장 루프<br/>5단계 자기학습"]:::success
-    A3["전략 라이브러리<br/>+ 변이 + 평가"]:::success
-    A4["ShadowAgent 프로토콜<br/>7단계 경계 수정"]:::success
+    A1["평가된 교차 도메인 전이"]:::success
+    A2["외부 승인된 역량 확장"]:::success
+    A3["Shadow 전략 평가<br/>+ 롤백"]:::success
+    A4["Sandbox 아키텍처 변경<br/>+ 독립 승격 게이트"]:::success
   end
 
   L1 ==> A1
@@ -1380,10 +1525,10 @@ flowchart TD
 
   subgraph Prereqs["📋 레벨 4 전제조건"]
     direction LR
-    P1["안정적 C(t)"]:::prereq
-    P2["정체성 > 0.8"]:::prereq
-    P3["예측 > 0.85"]:::prereq
-    P4["Layer 0 위반 = 0"]:::prereq
+    P1["보정 envelope 안에서<br/>지속 조절"]:::prereq
+    P2["의미적 연속성과<br/>무결성 검증"]:::prereq
+    P3["효과 등급별 예측<br/>보정 검증"]:::prereq
+    P4["미해결 불변식 위반 없음<br/>복구 훈련 통과"]:::prereq
   end
 
   subgraph NewCaps["🆕 새로운 역량"]
@@ -1414,7 +1559,7 @@ flowchart TD
 1. Baars, B.J. *A Cognitive Theory of Consciousness.* Cambridge University Press, 1988. (Global Workspace Theory - foundational for L14 Global Workspace)
 2. Laird, J.E. *The Soar Cognitive Architecture.* MIT Press, 2012. [Publisher](https://mitpress.mit.edu/9780262122962/the-soar-cognitive-architecture/) (Multi-layer cognitive architecture)
 3. Anderson, J.R. *How Can the Human Mind Occur in the Physical Universe?* Oxford University Press, 2007. (ACT-R cognitive architecture)
-4. Khalil, H.K. *Nonlinear Systems.* Prentice Hall, 3rd Edition, 2002. (Lyapunov stability theory - foundational for §6)
+4. Khalil, H.K. *Nonlinear Systems.* Prentice Hall, 3rd Edition, 2002. (형식 안정성 기준과 모니터링 지수만으로 Lyapunov 증명이 되지 않는 이유)
 5. Bai, Y., et al. "Constitutional AI: Harmlessness from AI Feedback." *arXiv 2022*. [arXiv:2212.08073](https://arxiv.org/abs/2212.08073) (Ethical constraint enforcement)
 6. Amodei, D., et al. "Concrete Problems in AI Safety." *arXiv 2016*. [arXiv:1606.06565](https://arxiv.org/abs/1606.06565) (Safety problem classification)
 7. Alchourrón, C., Gärdenfors, P., & Makinson, D. "On the Logic of Theory Change: Partial Meet Contraction and Revision Functions." *Journal of Symbolic Logic*, 50(2), 510–530, 1985. [DOI:10.2307/2274239](https://doi.org/10.2307/2274239) (AGM belief revision - foundational for §5)
