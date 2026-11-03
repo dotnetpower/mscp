@@ -850,7 +850,7 @@ def evaluate_and_prune(self, goals: list[Goal], t: float) -> None:
 >
 > where $\sum_i w_i = 1$ and each $X_i(t) \in [0,1]$. The first four terms are inherited from Level 3; the latter three capture expansion dynamics.
 >
-> **Remark (Weight Selection Rationale).** The weights $(0.15, 0.15, 0.10, 0.10, 0.20, 0.15, 0.15)$ were chosen to satisfy three design constraints: (i) inherited L3 terms retain 50% of total weight to ensure backward-compatible stability, (ii) expansion velocity $E_v$ receives the highest individual weight (0.20) because unchecked growth is the primary risk at Level 4, and (iii) all weights are multiples of 0.05 for interpretability. A formal sensitivity analysis remains an open research question - specifically, determining the Pareto front of weight vectors that satisfy the bounded growth-stability trade-off (Theorem 2) under varying operational profiles would strengthen confidence in these choices.
+> **Remark (Weight Selection Rationale).** The illustrative weights $(0.15,0.15,0.10,0.10,0.20,0.15,0.15)$ reserve half the total for inherited signals and emphasize expansion velocity. These preferences do not ensure backward-compatible stability. Deployment-specific normalization and sensitivity analysis are required; Proposition 2 establishes mediated admission behavior, not a theorem that these weights make the dynamics converge.
 
 The three **new** terms (50% of total weight) capture expansion dynamics:
 

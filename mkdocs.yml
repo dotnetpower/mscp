@@ -7,9 +7,8 @@ site_url: "https://dotnetpower.github.io/mscp/"
 site_author: "Moon Hyuk Choi"
 site_description: >-
   A safety-oriented framework for structurally self-aware AI agents.
-  Six-level cognition taxonomy from Tool Agents to Proto-AGI,
-  16-layer cognitive architecture, 30+ safety mechanisms,
-  71 formal definitions, and 144 academic references.
+  Experimental cognition taxonomy, layered cognitive architecture,
+  conditional mathematical contracts, and explicit validation limits.
 
 repo_name: dotnetpower/mscp
 repo_url: https://github.com/dotnetpower/mscp
@@ -83,6 +82,7 @@ nav:
   - MSCP Overview: MSCP_Overview.md
   - PLA Foundations: specs/Why_LLM_Free_PLA.md
   - Glossary: specs/MSCP_Glossary.md
+  - Status and Validation: specs/Documentation_Status.md
   - Agent Levels:
     - Level Series: levels/README.md
     - "L1: Tool Agent": levels/Level_1_Tool_Agent.md
@@ -122,6 +122,7 @@ plugins:
             MSCP Overview: MSCP 개요
             PLA Foundations: PLA 기반론
             Glossary: 용어집
+            Status and Validation: 문서 상태와 검증
             Agent Levels: 에이전트 레벨
             Level Series: 레벨 시리즈
             "L1: Tool Agent": "L1: 도구 에이전트"

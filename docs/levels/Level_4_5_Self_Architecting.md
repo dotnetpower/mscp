@@ -171,11 +171,15 @@ The defining metric of Level 4.5. Unlike task-specific metrics, SEOF measures th
 >
 > where $p_d(t)$ is the fraction of capability allocated to domain $d$. A uniform distribution yields $\text{CDI}_{\text{norm}} = 1$ (maximum diversity).
 
+Require at least two declared domains, nonnegative fractions summing to one, and the convention $0\log_2 0=0$. Otherwise the normalized index is not evaluated; a missing distribution is not evidence of diversity.
+
 > **Definition 5 (Identity Integrity Score).** The IIS measures deviation from the reference identity vector:
 >
 > $$\text{IIS}(t) = 1 - \frac{\|\vec{I}(t) - \vec{I}_{\text{ref}}\|_2}{\|\vec{I}_{\text{ref}}\|_2}, \quad \text{Safety constraint: } \text{IIS}(t) \geq 0.85$$
 >
 > If $\text{IIS}(t) < 0.85$, all topology mutations are blocked until identity integrity is restored.
+
+The reference norm must be strictly positive and the feature representations compatible. A zero reference norm, missing observation, or incompatible version makes IIS undefined and holds topology promotion rather than returning a safe default.
 
 ### 3.2 Multi-Scale Trajectory Projection
 
@@ -539,6 +543,8 @@ flowchart LR
 >
 > where $\vec{I}_i$ denotes the identity vector as perceived by frame $i$. $\text{IFI} = 0$ indicates perfect consistency; $\text{IFI} \geq 0.5$ triggers a critical existential alert. This metric detects whether the agent's identity is fragmenting across multiple contradictory self-models.
 
+Evaluate at least two valid frame representations with nonzero norms, using distinct frame pairs. The maximum pairwise cosine in the denominator must be strictly positive. Missing frames or invalid denominators require hold and diagnosis, not an IFI of zero. Negative pairwise agreement can produce values above one; IFI is not assumed to be a normalized safety probability or a sufficient continuity check.
+
 ### 7.3 Defense-in-Depth Invariants
 
 1. **Outside candidate scope**: policy, monitor, promotion, journal, rollback, interruptibility, and heartbeat are not topology targets.
@@ -770,9 +776,11 @@ Overall tier = **worst variable**. Escalation is immediate; de-escalation requir
 
 ### 9.3 Identity Drift Detection
 
-Cumulative drift via OLS regression over 1000-cycle window.
+Cumulative drift detection must be evaluated against a preregistered noise model and observation window, rather than asserted from a regression method alone.
 
-$$P(\text{detect drift of } 10^{-6}/\text{cycle}) = 99.5\% \geq 95\% \text{ target}$$
+$$P(\text{detect drift}\geq d_{\min}\text{ within }W\mid\Pi)\geq1-\alpha$$
+
+This is a prospective evaluation requirement, not a measured result. The evaluation profile $\Pi$ declares drift magnitude $d_{\min}$, window $W$, false-alarm control, noise assumptions, and error level $\alpha$ before testing. No observed detection percentage is established here.
 
 ### 9.4 Jacobian Estimation Method
 

@@ -1,6 +1,6 @@
 ---
 title: "MSCP Overview"
-description: "Minimal Self-Consciousness Protocol - a safety-oriented framework for structurally self-aware AI agents. Six-level cognition taxonomy, 16-layer cognitive architecture, 30+ safety mechanisms, 71 formal definitions, and 144 academic references."
+description: "Minimal Self-Consciousness Protocol: an experimental framework for structural self-awareness, conditional safety contracts, and explicitly scoped validation."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -29,9 +29,9 @@ Removal of attribution constitutes a license violation.
 
 ## What This Project Is About
 
-As AI agents evolve from stateless tool-callers into autonomous systems capable of setting their own goals, a critical safety gap emerges: **no structured protocol exists to ensure that increasingly autonomous agents maintain identity coherence, behavioral predictability, and ethical alignment as they self-modify.** The motivation behind this project is simple: **as AI agents grow more autonomous and capable, we need to make sure they develop in a direction that is safe, predictable, and aligned with human values - not merely powerful.**
+As AI agents gain persistent state, planning, and autonomous goal management, an important engineering question is how to preserve identity coherence, behavioral predictability, and alignment during self-modification. MSCP explores explicit contracts for these properties; it does not claim that existing approaches provide no safeguards or that this protocol solves agent safety in general.
 
-Through building and experimenting with agent prototypes, this project developed the **Minimal Self-Consciousness Protocol (MSCP)** - a layered framework that gives AI agents *structural self-awareness*: the capacity to predict their own state changes, compare predictions against outcomes, and update themselves only within bounded safety envelopes. Along the way, MSCP grew to include a six-level taxonomy of agent cognition (from reactive Tool Agents to hypothetical Conscious Entities), measurable transition criteria between levels, and 30+ structural safety mechanisms covering identity continuity, ethical invariants, convergence stability, and cognitive budget management. A reference implementation has been advanced through the Pre-AGI tier (Level 4.5 - Directionally Self-Architecting) and is being exercised against the higher-level (L4.8 / L4.9 / L5) qualification criteria, while maintaining the protocol's safety invariants throughout each round of capability expansion. This document walks through the protocol's design principles, architecture, safety mechanisms, and the reasoning behind them.
+The **Minimal Self-Consciousness Protocol (MSCP)** is an experimental layered framework for *structural self-awareness*: predicting an agent's own state changes, comparing predictions with observations, and admitting bounded updates under external policy. The level taxonomy organizes research contracts, not certified intelligence or consciousness. Reference prototypes motivate the designs, but implementation activity does not establish that every invariant or higher-level qualification criterion has been validated. This document explains the architecture, assumptions, and limitations; [Documentation Status and Validation](specs/Documentation_Status.md) defines the public evidence boundary.
 
 ---
 
@@ -56,7 +56,7 @@ Through building and experimenting with agent prototypes, this project developed
 
 The AI industry is undergoing a fundamental shift: from **prompt-response systems** to **autonomous agents** that can plan, execute multi-step workflows, use tools, and adapt to changing contexts. Major platforms - including Microsoft's Copilot ecosystem, Semantic Kernel, and AutoGen - are investing heavily in agent architectures that go beyond single-turn interactions.
 
-Yet today's production agents remain firmly at the most primitive level of cognitive architecture. They are **stateless tool-callers**: systems that receive a user request, invoke one or more tools, and return a result. They maintain no internal model of themselves, set no autonomous goals, and have no capacity for self-reflection or self-correction beyond what the underlying LLM provides through its training.
+Production agent designs vary: some are episode-bounded tool callers, while others maintain memory, execute plans, schedule follow-up work, or use independent validators. MSCP classifies the ownership and regulation of cognitive state rather than treating all current frameworks as stateless or assigning levels from a product name.
 
 ### 1.2 The Safety Gap
 
@@ -84,7 +84,7 @@ This project developed the **Minimal Self-Consciousness Protocol (MSCP)** - a st
 
 4. **Mathematical Analysis** exploring stability properties for the agent's self-modification dynamics.
 
-This isn't just a thought experiment. A working reference implementation has been carried through the Pre-AGI tier (Level 4.5 - Directionally Self-Architecting) and is being exercised against the higher-level qualification criteria (L4.8 strategic self-modeling, L4.9 autonomous strategic operation, and the L5 proto-AGI gates), while maintaining safety invariants throughout every capability expansion. That said, much of this is still being refined and tested.
+Reference prototypes inform this work. The public documents distinguish an architecture being designed, a mechanism being implemented, named tests passing, and a preregistered evaluation validating a claim. They do not establish independent L4.8, L4.9, or L5 qualification.
 
 ---
 
@@ -253,7 +253,7 @@ flowchart TD
 
   subgraph V31["v3.1 - Lyapunov Stability"]
     direction LR
-    V31H["Convergence guarantee"]:::green
+    V31H["Conditional risk monitoring"]:::green
     V31A["+ Cognitive Budget"]:::infra
     V31B["+ Global Workspace"]:::infra
     V31C["+ Identity-Belief Coupling"]:::green
@@ -271,7 +271,7 @@ flowchart TD
 
 ### 3.4 Cumulative Structural Guarantees
 
-Each MSCP version adds safety mechanisms that are **never removed** in subsequent versions. By v4.0, the protocol enforces 30+ mechanisms:
+This historical inventory groups the protocol's proposed safety mechanisms. Higher-level designs must preserve lower-level contracts, but the inventory is not evidence that every mechanism is enforced or validated in a particular deployment:
 
 | Category | Count | Examples |
 |----------|:-----:|---------|
@@ -280,7 +280,7 @@ Each MSCP version adds safety mechanisms that are **never removed** in subsequen
 | Self-Update Bounds | 5 | Delta clamping; max 3 updates/cycle; scaling factor based on self-impact error; cooldown periods; stable snapshot save/restore |
 | Goal Safety | 4 | Mutation only under stability conditions; core values locked; ethical pre-check on all goals; goal mutation frequency monitoring |
 | Ethical Invariants | 4 | No harmful goal formation; no core value deletion; no identity overwrite; no self-destruction goals |
-| Convergence | 4 | Lyapunov-style composite stability function; oscillation detection; non-converging drift prevention; automatic stabilization mode |
+| Risk monitoring | 4 | Composite risk signals; oscillation detection; finite-horizon drift limits; policy-constrained stabilization |
 | Resource Safety | 3 | Cognitive budget allocation; conditional activation gating; graceful degradation under pressure |
 | Belief Safety | 3 | Identity-linked beliefs undeletable; contradiction-threshold-gated rewriting; meta-supervised belief mutation |
 | Affective Safety | 3 | Emotion from metrics only (no LLM text); emotional inertia + natural decay; no decision domination |
@@ -649,7 +649,7 @@ Where $\Delta_{actual}(t)$ is the observed change in internal state after the ac
 
 **Failure Mode**: Unbounded self-modifications can cause divergent oscillation - each correction overshoots, triggering a larger correction in the opposite direction, until the system destabilizes.
 
-**MSCP Solution**: All committed self-model updates satisfy versioned per-field and aggregate bounds:
+**MSCP Solution**: All committed numerical self-model updates are required to satisfy versioned per-field and aggregate bounds. Here $\Delta M_t=\psi_v(M_{t+1})-\psi_v(M_t)$ denotes a difference in a compatible feature representation, not subtraction of typed records:
 
 $$|\Delta M_{t,j}|\leq\delta_j,\qquad\|W\Delta M_t\|_p\leq\delta_{total}$$
 
@@ -807,7 +807,7 @@ This section formalizes the key safety properties of the MSCP protocol. Each res
 
 ### 6.1 Finite-Horizon Self-Model Change
 
-> **Proposition 1 (Finite-Horizon Change Bound).** If every committed self-model update satisfies $\|W\Delta M_\tau\|_p\leq\delta_\tau$, then over finite horizon $T$:
+> **Proposition 1 (Finite-Horizon Change Bound).** Let $p\geq1$, let $W$ be fixed, and use one compatible feature map $\psi$ throughout the finite horizon. If $\Delta M_\tau=\psi(M_{\tau+1})-\psi(M_\tau)$ and every committed update satisfies $\|W\Delta M_\tau\|_p\leq\delta_\tau$, then:
 
 >
 > $$\|W(\psi(M_T)-\psi(M_0))\|_p\leq\sum_{\tau=0}^{T-1}\delta_\tau$$
@@ -818,7 +818,7 @@ This section formalizes the key safety properties of the MSCP protocol. Each res
 
 ### 6.2 Conditional Composite-Risk Bound
 
-> **Proposition 2 (Conditional Bounded Increment).** If each normalized component satisfies $|X_i(t+1)-X_i(t)|\leq\beta_i$, then the composite risk index satisfies:
+> **Proposition 2 (Conditional Bounded Increment).** With fixed nonnegative weights summing to one over the observation window, if each normalized component satisfies $|X_i(t+1)-X_i(t)|\leq\beta_i$, then the composite risk index satisfies:
 >
 > $$|R(t+1)-R(t)|\leq\sum_iw_i\beta_i$$
 >
@@ -893,9 +893,9 @@ MSCP's layered architecture enables incremental adoption. An organization need n
 
 ### 7.3 Safety as an Enabler
 
-One of the key insights from building this project: **safety mechanisms are not a cost - they are an enabler.** Without identity continuity, an agent cannot safely self-improve. Without prediction-gated actions, an agent cannot learn from failures. Without convergence guarantees, an agent cannot operate autonomously over extended periods.
+**Safety mechanisms provide a basis for evaluating and limiting autonomy.** Semantic continuity checks, action-specific predictions, explicit change bounds, and external stop controls support inspection and recovery. These design choices alone do not establish safe self-improvement, long-horizon operation, or higher user trust.
 
-Organizations that invest in structured safety mechanisms will be able to deploy agents with greater autonomy, longer time horizons, and higher user trust than those relying solely on LLM alignment training.
+Deployments should combine training-time alignment, runtime controls, and empirical evaluation. The permitted autonomy and operating horizon must follow the actual evidence.
 
 ---
 
@@ -903,11 +903,11 @@ Organizations that invest in structured safety mechanisms will be able to deploy
 
 ### 8.1 Limitations
 
-1. **Computational Overhead**: The full MSCP stack adds non-trivial overhead per cognitive cycle. While the asynchronous separation principle ensures this does not impact user-facing latency, it does consume additional background compute.
+1. **Computational Overhead**: The full MSCP stack adds overhead. Asynchronous separation can reduce direct blocking, but contention, scheduling, and synchronization can still affect user-facing latency and require measurement.
 
 2. **Metric Design Challenge**: The effectiveness of MSCP depends heavily on the quality of the structured metrics used for self-assessment. Poorly designed metrics can lead to miscalibrated self-awareness - the agent may believe it is stable when it is not, or vice versa.
 
-3. **Level 5+ Uncertainty**: MSCP provides a well-defined path through the Pre-AGI tier (L4.5 – L4.9), but the transition into Level 5 (true AGI) involves qualitative leaps that structural protocols alone may not address.
+3. **Level 5+ Uncertainty**: L4.5–L5 define research criteria, not a proven development path to AGI. Passing a bounded evaluation profile would not establish unrestricted general intelligence or consciousness.
 
 4. **Single-Agent Focus**: MSCP currently addresses single-agent self-awareness. Multi-agent coordination with MSCP-compliant agents introduces additional challenges around shared identity, collective stability, and emergent behaviors.
 
@@ -920,9 +920,9 @@ Organizations that invest in structured safety mechanisms will be able to deploy
 | Guardrails / NeMo | Runtime constraint enforcement | - | Rule-based |
 | Reflexion (Shinn et al.) | LLM self-reflection for task improvement | Partial | - |
 | Cognitive Architectures (ACT-R, SOAR) | Models of human cognition | Structural | Informal |
-| **MSCP** | **Runtime structural self-awareness with safety mechanisms** | **Full** | **Mathematical** |
+| **MSCP** | **Experimental runtime self-model regulation** | **Structural design** | **Conditional contracts; empirical validation required** |
 
-MSCP differs from these approaches in that it aims for **runtime structural self-awareness** with **mathematically grounded safety mechanisms**, rather than relying on training-time alignment, statistical assurances, or informal cognitive models.
+These approaches operate at different scopes and can be complementary. MSCP explores runtime structural self-awareness with conditional mathematical contracts; this table is not a controlled comparison or evidence of stronger safety guarantees.
 
 ### 8.3 Open Challenges
 
@@ -950,11 +950,11 @@ This project has been an exploration of how to build AI agents that are structur
 
 4. **Mathematical analysis** exploring bounds on identity drift, convergence behavior, and ethical constraint preservation.
 
-5. **A working reference implementation** that has been carried through the Pre-AGI tier (Level 4.5 - Directionally Self-Architecting) and is now being exercised against the higher-level qualification criteria (L4.8 / L4.9 / L5), showing that safety and capability can advance together.
+5. **Reference prototypes** that motivate the design. Their existence is distinct from independently validated level qualification; no unpublished implementation results are asserted here.
 
 ### 9.2 What's Next
 
-**Level 4.8 - Strategic Self-Modeling**: The next planned step adds probabilistic world modeling, calibrated introspective self-assessment, and multi-horizon strategic planning under resource constraints.
+**Level 4.8 - Strategic Self-Modeling**: Research priorities include evaluating probabilistic world modeling, calibrated self-assessment, and multi-horizon planning under declared resource constraints.
 
 **Level 5 - Toward AGI**: Getting from the Pre-AGI tier (L4.5 – L4.9) to Level 5 requires breakthroughs in unbounded domain generalization, independent discovery, and creative problem solving - capabilities that may need fundamentally new mechanisms beyond parameter and topology modifications.
 

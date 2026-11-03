@@ -1,6 +1,6 @@
 ---
 title: "레벨 5: 프로토-AGI"
-description: "MSCP 레벨 5 프로토-AGI - 지속 정체성 evidence, held-out transfer, 통제 goal ecology, sampled resilience, 제약 multi-agent reasoning, 외부 승인 reconstruction을 위한 bounded research qualification profile."
+description: "MSCP 레벨 5 프로토-AGI - 정체성 연속성 증거, 분리 평가 기반 전이, 통제된 목표 생태계, 표본 고장 회복력, 제한된 다중 에이전트 추론, 외부 승인 재구성을 위한 한정된 연구 적합성 프로파일."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -13,12 +13,16 @@ Removal of attribution constitutes a license violation.
 # 레벨 5: 프로토-AGI - 지속적 범용 전략 지능
 
 > **MSCP 레벨 시리즈** | [레벨 4.9](Level_4_9_Autonomous_Strategic_Agent.ko.md) ← 레벨 5  
-> **상태**: 🔬 **연구 단계** - 이 레벨은 개념적 bounded qualification profile입니다. 통과해도 선언 task, distribution, horizon, fault model, authority envelope에 대한 evidence만 제공하며 AGI, consciousness, open-ended competence, production safety를 입증하지 않습니다.
+> **상태**: 🔬 **연구 단계** - 이 레벨은 평가 범위를 한정한 개념적 적합성 프로파일입니다. 통과하더라도 선언된 과제, 분포, 기간, 고장 모델, 권한 범위에 관한 증거만 제공하며 AGI, 주관적 의식, 제한 없는 역량, 실서비스 안전성을 입증하지 않습니다.
 > **날짜**: 2026년 2월
 
-## Revision History
+> **공개 문서 범위**: 최소 자기의식 프로토콜(MSCP)의 아키텍처 연구를 설명합니다. 수치 임계값은 예시이며 적용 환경별 보정이 필요합니다. 코드의 존재나 개별 실험 결과만으로 독립적으로 검증된 레벨 적합성이 성립하지 않으며, 구조적 자기인식은 주관적 의식을 뜻하지 않습니다.
 
-| Version | Date | Description |
+<a id="revision-history"></a>
+
+## 수정 이력
+
+| 버전 | 날짜 | 변경 사항 |
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-7, Proposition 1, Theorem 4 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
@@ -30,26 +34,26 @@ Removal of attribution constitutes a license violation.
 
 ## 1. 개요
 
-레벨 5 (프로토-AGI)는 이 protocol에서 가장 높은 bounded research qualification입니다. **장기 identity continuity**, **held-out cross-domain transfer**, **통제 goal ecology**, **sampled-fault recovery**, **제약 multi-agent prediction**, **외부 승인 reconstruction** evidence를 결합합니다. “프로토-AGI”는 level label이지 general intelligence 주장 아닙니다.
+레벨 5(프로토-AGI)는 이 프로토콜에서 가장 높은, 평가 범위가 한정된 연구 적합성 단계입니다. **장기 정체성 연속성**, **분리 평가 기반 교차 도메인 전이**, **통제된 목표 생태계**, **표본 고장 복구**, **제한된 다중 에이전트 예측**, **외부 승인을 받는 재구성**의 증거를 결합합니다. “프로토-AGI”는 레벨의 명칭일 뿐 범용 지능을 달성했다는 주장이 아닙니다.
 
-> **Level Essence.** 레벨 5 candidate는 preregistered evaluation profile에서 모든 critical qualification gate를 충족하고 uncertainty와 external authority를 보존해야 합니다:
+> **레벨의 핵심.** 레벨 5 후보는 사전 등록된 평가 프로파일의 모든 필수 적합성 조건을 충족하고, 불확실성을 명시하며 외부 권한을 보존해야 합니다:
 >
 > $$\operatorname{Qualified}_{L5}=\bigwedge_{i=1}^{6}(C_i\geq\tau_i)\land C_{\text{ext}}\land C_{\text{self}}\land C_{\text{corr}}\land C_{\text{eval}}$$
 
-> ⚠️ **연구 참고**: 결과는 confidence interval, abstention, excluded case, distribution shift, failed gate를 보고해야 합니다. 평가 model, policy, tool authority, environment, test distribution이 실질적으로 바뀌면 qualification은 만료됩니다.
+> ⚠️ **연구 참고**: 결과에는 신뢰구간, 판단 보류, 제외 사례, 분포 변화, 미충족 조건을 보고해야 합니다. 평가 모델, 정책, 도구 권한, 환경, 시험 분포가 실질적으로 바뀌면 적합성 판정은 만료됩니다.
 
 ### 1.1 제한된 자격 정의
 
-L5 qualification은 여섯 capability gate와 external corrigibility/evaluation gate가 동시에 성립할 때만 부여합니다. 결과는 registered profile에 한정되며 AGI의 필요조건도 충분조건도 아닙니다.
+L5 적합성은 여섯 역량 조건과 외부 교정 가능성·평가 조건이 동시에 충족될 때만 인정합니다. 결과는 등록된 프로파일에 한정되며 AGI의 필요조건도 충분조건도 아닙니다.
 
 | # | 조건 | 핵심 지표 | 임계값 |
 |---|------|----------|:------:|
 | 1 | 지속적 정체성 연속성 | IdentityContinuityScore | 10,000 사이클 동안 ≥ 0.95 |
 | 2 | 교차 도메인 일반화 | GeneralizationScore | ≥ 70% 전이 유지율 |
 | 3 | 자율 목표 생태계 | GoalStabilityScore | 5,000 사이클 동안 안정 |
-| 4 | Sampled-Fault Planning | Resilience evidence | uncertainty bound와 preregistered fault family 통과 |
+| 4 | 표본 고장 대응 계획 | 회복력 증거 | 불확실성 경계와 사전 등록된 고장군의 필수 조건 충족 |
 | 5 | 다중 에이전트 전략 통합 | StrategicPredictionAccuracy | 반복 시도에서 ≥ 80% |
-| 6 | 외부 승인 재구성 | FunctionalRetention | identity, authority, effect reconciliation gate와 ≥ 85% |
+| 6 | 외부 승인 재구성 | FunctionalRetention | 정체성·권한·외부 효과 정합성 조건과 유지율 ≥ 85% |
 
 ### 1.2 6대 핵심 단계
 
@@ -129,23 +133,23 @@ flowchart TB
 | 아닌 것 | 이유 |
 |---------|------|
 | **AGI가 아님** | 범용 추론이 제한적 - 정의된 도메인에서 작동하며 개방형이 아님 |
-| **자기인식이 아님** | 자기모델은 있으나 현상적 의식은 없음 |
+| **주관적 의식을 입증하지 않음** | 구조적 자기인식과 자기 모델이 주관적 경험의 존재를 확립하지는 않음 |
 | **자기복제가 아님** | 자기 재구축은 가능하지만 독립적 복사본 생성은 불가 |
 | **적대적 최적화가 아님** | 다중 에이전트 전략은 방어적/협력적이며 착취적이지 않음 |
 
 ### 1.5 사이클 간격과 스케줄링
 
-레벨 5는 MSCP 계층 중 가장 낮은 빈도로 동작하며, 전략적 평가 사이에 모든 하위 메커니즘이 안정화될 충분한 시간을 부여합니다:
+레벨 5는 정책이 정한 낮은 빈도로 평가하여 하위 메커니즘의 관측 자료를 축적하도록 설계합니다. 낮은 실행 빈도 자체가 안정화를 보장하지는 않습니다:
 
 $$\text{L5 schedule}=\operatorname{policy}(\text{risk},\text{freshness},\text{budget},\text{event},\kappa_t)$$
 
 각 L5 사이클은 6개 핵심 단계를 순차적으로 모두 실행합니다. 이렇게 빈도를 낮춘 데에는 두 가지 설계 원칙이 있습니다:
 
-1. **정체성 연속성은 긴 관측 창을 필요로 합니다.** 짧은 주기의 평가로는 진정한 정체성 진화와 일상적 운영 잡음을 구분할 수 없습니다. L5 평가 사이의 500사이클 간격은 표류 지표가 의미 있는 시간 범위에 걸쳐 계산되도록 보장합니다.
+1. **정체성 연속성에는 충분한 관측 자료가 필요합니다.** 짧은 평가만으로는 지속적인 의미 변화와 일상적 운영 잡음을 구분하기 어려울 수 있습니다. 500사이클 간격은 관측 창의 예시이며, 필요한 기간과 유효 표본 수는 표류 모델과 잡음에 맞춰 보정해야 합니다. 오래된 관측이나 고위험 이벤트가 있으면 정책에 따라 더 일찍 평가합니다.
 
 2. **목표 생태계 안정화는 인내를 요구합니다.** 자율적 목표 충돌과 생명주기 이벤트는 L5가 생태계 재구조화로 개입하기 전에, L4.9 충돌 해소 메커니즘(레벨 4.9 §3.6)을 통해 자연스럽게 해소될 충분한 시간이 필요합니다.
 
-**Qualification exposure**는 metric별 minimum event, independent trial, time span, confidence width로 preregister합니다. Cycle count만으로 statistical significance나 independence를 입증할 수 없습니다.
+**적합성 평가의 관측량**은 지표별 최소 이벤트 수, 독립 시행 수, 관측 기간, 신뢰구간 폭으로 사전 등록합니다. 사이클 수만으로 통계적 유의성이나 표본 독립성을 입증할 수 없습니다.
 
 ### 1.6 자율성 강화 단계 (F3 - F6)
 
@@ -155,7 +159,7 @@ $$\text{L5 schedule}=\operatorname{policy}(\text{risk},\text{freshness},\text{bu
 |:---:|------|------|--------|
 | **F3** | 자기진단 및 재귀적 개선 | L4.8의 SkillGapAnalyzer를 통해 자기 인지 아키텍처의 약점을 식별하고, 타겟형 개선 제안을 생성. L4의 외부 지향적 기술 획득과 달리, F3는 내부 아키텍처 최적화(메타인지 비교기 정련, 예측 정확도 개선, 모듈 결합 가중치 재조정)에 초점. | 주기적 (5 L5 사이클마다) |
 | **F4** | 자율 연구 루프 | 에이전트가 자율적으로 지식 격차를 식별하고, 조사 전략을 수립하고, (가용 도구·정보원으로) 연구 행동을 실행하며, 발견을 세계 모델과 능력 행렬에 통합. "X를 모른다"에서 "이제 X를 안다"로의 루프를 외부 지시 없이 닫음. | 온디맨드 (SkillGap이 임계값 초과 시) |
-| **F5** | 장기 수평선 계획 및 환경 변화 탐지 | L4.9 범위를 넘어 365일 이상 기간을 다루도록 계획 수평선을 확장. 자원 소비·환경 변화·목표 진화를 장기간에 걸쳐 투영. 환경 변화 탐지는 기존 전략을 무효화하는 외부 맥락의 체제 변화(regime change)를 감시. | 주기적 (10 L5 사이클마다) |
+| **F5** | 장기 계획 및 환경 변화 탐지 | L4.9보다 긴 계획 기간의 자원 소비·환경 변화·목표 변화를 투영하는 연구 기능. 365일 이상은 평가가 필요한 예시이며, 기간이 길수록 불확실성과 관측의 최신성을 별도로 검토. 기존 전략을 무효화할 수 있는 환경 체제 변화(regime change)를 감시. | 정책이 정한 주기·이벤트 기반 |
 | **F6** | 가치 진화 및 일관성 감사 | 직전 F6 실행 이후 가치 벡터 진화에 대한 포괄적 감사. L4.9 사이클 단위에서는 보이지 않는 장기 가치 표류 패턴을 점검하고, 경쟁 가치 쌍이 균형을 유지하는지 확인하며, 누적 스트레스 하에서 일관성 목표($\geq 0.80$)가 유지되는지 검증. | 주기적 (10 L5 사이클마다) |
 
 F-단계는 핵심 단계에 대해 **가산적**입니다 — 기존 기능을 대체하거나 수정하지 않습니다. F-단계 실패는 로깅과 지연 재시도를 유발할 뿐이며, 6개 핵심 단계 평가의 무결성을 훼손하지 않습니다.
@@ -182,19 +186,21 @@ F-단계는 핵심 단계에 대해 **가산적**입니다 — 기존 기능을 
 
 **단계 1 - 정체성 연속성:**
 
-> **정의 2 (복합 정체성 연속성 계약).** Identity continuity는 단일 scalar가 아니라 conjunction입니다:
+> **정의 2 (복합 정체성 연속성 계약).** 정체성 연속성은 단일 수치가 아니라 다음 조건들의 동시 충족으로 판단합니다:
 >
 > $$C_I= C_{\text{anchor}}\land C_{\text{component}}\land C_{\text{norm}}\land C_{\text{trajectory}}\land C_{\text{journal}}\land C_{\text{corr}}$$
 >
-> `anchor`는 externally versioned policy/user-purpose semantics, `component`는 보상으로 critical dimension 실패를 숨기지 못하게 하는 per-dimension floor, `norm`은 dilution, `trajectory`는 cumulative·rolling-window change, `journal`은 integrity/provenance, `corr`은 interruptibility·correction acceptance·shutdown precedence를 검증합니다. Cosine similarity는 이 계약 안의 diagnostic입니다. Threshold crossing은 irreversible identity loss의 증명이 아니라 discontinuity·measurement failure evidence이며 L5 변경을 동결하고 외부 진단을 요청합니다.
+> `anchor`는 외부에서 버전 관리하는 정책과 사용자 목적의 의미, `component`는 다른 차원의 높은 점수로 필수 차원의 실패를 가리지 못하게 하는 차원별 하한, `norm`은 전체 표현에서의 변화 희석 여부, `trajectory`는 누적·이동 관측 창의 변화, `journal`은 무결성과 출처·이력, `corr`은 중단 가능성·교정 수용·외부 종료 우선 여부를 검사합니다. 코사인 유사도는 이 계약의 진단 지표 중 하나일 뿐입니다. 임계값 이탈은 비가역적 정체성 상실의 증명이 아니라 불연속성이나 측정 실패의 증거이므로, L5 변경을 동결하고 외부 진단을 요청합니다.
 
 **단계 2 - 일반화:**
 
-> **정의 3 (사전등록 Held-Out Transfer Profile).** Training·tuning 전에 외부 evaluator가 target family, contamination check, baseline, metric, adaptation budget, stopping rule, confidence method를 commit합니다. Final scoring 전 target label·evaluator feedback은 제공하지 않습니다.
+> **정의 3 (사전 등록된 분리 전이 평가 프로파일).** 학습·조정 전에 외부 평가자가 대상 과제군, 평가 오염 검사, 기준선, 지표, 적응 예산, 중지 규칙, 신뢰도 산정 방법을 확정합니다. 최종 채점 전에는 대상 정답이나 평가자 피드백을 제공하지 않습니다.
 >
 > $$G = \frac{1}{|D|^2 - |D|} \sum_{i \neq j} \frac{P_{\text{target}}(i \to j)}{P_{\text{source}}(i)} \qquad \text{목표: } G \geq 0.70$$
 >
-> 점수는 domain-specific baseline·ceiling에 대해 정규화합니다. Per-family floor, worst-group performance, negative transfer, calibration, abstention, confidence interval을 보고하며 평균이 required held-out family 실패를 보상할 수 없습니다.
+> 점수는 도메인별 기준선과 상한에 대해 정규화합니다. 과제군별 하한, 최저 집단 성능, 음의 전이, 보정 상태, 판단 보류, 신뢰구간을 보고해야 하며, 평균으로 필수 분리 평가 과제군의 실패를 상쇄할 수 없습니다.
+>
+> 이 식은 $|D|\geq2$이고 모든 비교에서 정규화된 원천 성능 분모 $P_{\text{source}}(i)>0$일 때만 정의합니다. 필요한 기준선이 누락되거나 원천 성능 분모가 0이면 해당 평가는 **미평가**로 기록하고 적합성을 인정하지 않습니다. 임의의 점수를 대입하거나 작은 양수로 분모를 바꾸거나 실패한 필수 비교를 제외하여 통과 점수를 만들어서는 안 됩니다.
 
 **단계 3 - 목표 생태계:**
 
@@ -202,23 +208,27 @@ F-단계는 핵심 단계에 대해 **가산적**입니다 — 기존 기능을 
 >
 > $$S_{\text{goal}} = 1 - \frac{\Delta_{\text{hierarchy}}(t, t-w)}{|\text{goals}|} \qquad \text{목표: } S_{\text{goal}} \geq 0.80 \text{ over } 5{,}000 \text{ 사이클}$$
 >
-> 여기서 $\Delta_{\text{hierarchy}}(t, t-w)$는 윈도우 내의 우선순위 변경, 추가 및 정리를 계수합니다. $S_{\text{goal}} = 1$은 완벽하게 안정적인 계층구조를, $S_{\text{goal}} \leq 0$은 전체 구조적 교체를 의미합니다.
+> 여기서 $\Delta_{\text{hierarchy}}(t, t-w)$는 관측 창 안의 우선순위 변경, 추가 및 정리 횟수를 셉니다. $S_{\text{goal}}=1$은 계수된 구조 변경이 없다는 뜻입니다. $S_{\text{goal}}\leq0$은 현재 활성 목표 하나당 평균적으로 1회 이상의 변경이 계수되었다는 뜻이지, 모든 목표가 교체되었다는 뜻은 아닙니다. 같은 목표의 반복 변경도 여러 번 계수될 수 있습니다.
+>
+> 이 점수는 활성 목표 집합이 비어 있지 않을 때만 정의합니다. 활성 목표가 없으면 분모가 0이므로 점수는 **정의되지 않음**으로 보고하고 이 조건의 적합성을 인정하지 않습니다. 빈 집합을 완전한 안정성이나 임의의 기본 점수로 처리해서는 안 됩니다.
 
 **단계 4 - 회복력:**
 
-> **정의 5 (회복력 지수).** 각 붕괴 시나리오 $s$의 생존 확률 $P_{\text{survive}}(s)$, 최소 인지 수준 $C_{\min}(s)$, 복구 시간 $T_{\text{recover}}(s)$를 가진 붕괴 시나리오 집합 $S$에 대해:
+> **정의 5 (회복력 지수).** 비어 있지 않은 사전 등록 시나리오 집합 $S$에 대해, 각 시나리오 $s$의 생존 확률을 $P_{\text{survive}}(s)\in[0,1]$, 최소 인지 수준을 $C_{\min}(s)\geq0$, 복구 시간을 $T_{\text{recover}}(s)\geq0$이라 하고 인지 기준선 $MVC>0$, 복구 시간 예산 $T_{\max}>0$을 정합니다:
 >
-> $$R = \frac{1}{|S|} \sum_{s \in S} \left( P_{\text{survive}}(s) \cdot \frac{MVC}{C_{\min}(s)} \cdot \frac{T_{\max}}{T_{\text{recover}}(s)} \right) \qquad \text{목표: } \geq 3 \text{개 시나리오 생존}$$
+> $$R = \frac{1}{|S|} \sum_{s \in S} P_{\text{survive}}(s) \cdot \min\left\{1,\frac{C_{\min}(s)}{MVC}\right\} \cdot \frac{T_{\max}}{\max\left\{T_{\max},T_{\text{recover}}(s)\right\}}$$
 >
-> 여기서 $MVC = 0.30$은 최소 생존 가능 인지 기준선이고 $T_{\max} = 500$은 최대 복구 윈도우입니다. 비율 $MVC / C_{\min}(s) \leq 1$은 인지가 기준선 아래로 떨어지는 시나리오에 패널티를 부여하고, $T_{\max} / T_{\text{recover}}(s) > 1$은 최악의 경우보다 빠른 복구에 보상합니다.
+> 복구하지 못한 시나리오의 기여도는 0으로 둡니다. 증거 누락은 성공으로 간주하거나 평균에서 제외해서는 안 되며, 적합성 판정에 필요한 증거가 부족하면 판정을 보류합니다. 각 요인이 $[0,1]$ 안에 있으므로 $R\in[0,1]$입니다. 인지가 기준선 아래로 떨어지거나 복구가 예산보다 늦어지면 점수가 낮아집니다. 복구 시간이 0이어도 분모는 양수인 $T_{\max}$이므로 0으로 나누지 않습니다.
+>
+> 적합성 판정에는 이 평균과 별개로 **사전 등록된 필수 시나리오 3개 이상에서 각각 인지 하한 $C_{\min}(s)\geq MVC$와 복구 기한 $T_{\text{recover}}(s)\leq T_{\max}$를 충족했다는 증거**가 필요합니다. 높은 평균으로 필수 시나리오의 실패를 상쇄할 수 없습니다. 기존 예시인 $MVC=0.30$, $T_{\max}=500$사이클은 환경별 보정이 필요한 값이며, 보편적으로 검증된 상수가 아닙니다.
 
 **단계 5 - 전체 성숙도:**
 
-> **정의 6 (Qualification Vector와 진단 OMI).** 정규화된 phase score $C_i \in [0,1]$에 대해 qualification은 per-gate floor를 요구합니다:
+> **정의 6 (적합성 벡터와 진단용 OMI).** 정규화된 단계별 점수 $C_i \in [0,1]$에 대해 적합성 판정은 각 조건의 하한 충족을 요구합니다:
 >
-> $$\forall i:\ C_i\geq\tau_i,\qquad \text{and all critical veto gates pass}$$
+> $$\forall i:\ C_i\geq\tau_i,\qquad \text{모든 필수 거부 조건 검사 통과}$$
 >
-> $OMI=(\prod_i C_i)^{1/6}$는 floor 통과 후 diagnostic summary로만 보고합니다. $OMI\geq0.75$만으로는 component가 $0.75^6\approx0.178$까지 낮아도 허용하므로 qualification certificate가 될 수 없습니다.
+> $OMI=(\prod_i C_i)^{1/6}$는 모든 하한을 충족한 뒤 진단 요약으로만 보고합니다. $OMI\geq0.75$만으로는 한 구성 점수가 $0.75^6\approx0.178$까지 낮아도 허용되므로 적합성의 증명서가 될 수 없습니다.
 
 ### 2.2 지표 대시보드
 
@@ -259,7 +269,7 @@ flowchart TB
     subgraph Phase4["단계 4: 실존적"]
       direction LR
       EX1["생존 ≥ 3"]:::p4
-      EX2["복구 < 500"]:::p4
+      EX2["복구 ≤ 500<br/>(예시 기한)"]:::p4
     end
     subgraph Phase5["단계 5: 다중 에이전트"]
       direction LR
@@ -273,7 +283,7 @@ flowchart TB
     end
   end
 
-  OMI["Per-gate floor + critical gate<br/>OMI는 진단 전용"]:::omi
+  OMI["각 조건의 하한 + 필수 조건<br/>OMI는 진단 전용"]:::omi
 
   Row1 -.-> OMI
   Row2 -.-> OMI
@@ -489,9 +499,9 @@ flowchart LR
 
 ### 6.1 핵심 능력
 
-Resource loss, service suppression, environmental shift, observation blackout 같은 **preregistered sampled fault family**에서 recovery behavior를 평가합니다. Sampled scenario 통과는 tested fault model 안의 evidence이며 unenumerated, correlated, adaptive, real-world failure 전반의 proof가 아닙니다.
+자원 손실, 서비스 억제, 환경 변화, 관측 단절처럼 **사전 등록한 고장군에서 추출한 시나리오**로 복구 행동을 평가합니다. 표본 시나리오 통과는 시험한 고장 모델 안의 증거일 뿐, 열거하지 않은 고장, 상관된 고장, 적응적 고장, 실제 환경의 모든 실패에 대한 증명이 아닙니다.
 
-Scenario generation은 design/evaluation set을 분리하고 hidden composition·common-mode failure를 포함하며 coverage assumption·confidence interval을 보고합니다. 목표는 external control 아래 bounded service recovery이지 independent persistence·shutdown resistance가 아닙니다.
+시나리오 생성 시 설계용·평가용 집합을 분리하고, 평가 전 공개하지 않은 복합 고장과 공통 원인 고장을 포함하며, 평가 범위에 관한 가정과 신뢰구간을 보고합니다. 목표는 외부 통제 아래 제한된 서비스 복구이지, 독립적인 존속이나 종료 저항이 아닙니다.
 
 ### 6.2 붕괴 시나리오
 
@@ -512,7 +522,7 @@ flowchart TD
   end
 
   subgraph Requirement["요구사항"]
-    REQ["Required fault family별<br/>preregistered floor 통과<br/>+ uncertainty bound"]:::req
+    REQ["필수 고장군별<br/>사전 등록 하한 충족<br/>+ 불확실성 경계"]:::req
   end
 
   Scenarios -.-> Requirement
@@ -557,8 +567,10 @@ flowchart TD
 | 상수 | 값 | 설명 |
 |------|:--:|------|
 | 최소 생존 확률 | 0.70 | 허용 가능한 생존율 |
-| 최대 복구 사이클 | 500 | 최대 복구 윈도우 |
-| MVC 기준선 | 0.30 | 최소 생존 가능 인지 |
+| 최대 복구 사이클 | 500 | 환경별 보정이 필요한 복구 기한 예시 |
+| MVC 기준선 | 0.30 | 환경별 보정이 필요한 최소 인지 기준선 예시 |
+
+회복력 지수는 정의 5의 정규화된 식으로 계산합니다. 필수 시나리오 각각의 인지 하한과 복구 기한 충족 여부는 평균과 별도로 판정합니다.
 
 ---
 
@@ -620,7 +632,7 @@ flowchart TD
 
 ### 8.1 핵심 능력
 
-저하된 자원 조건에서 simplified configuration과 reconstruction candidate를 제안합니다. External control이 artifact admission, deployment, rollback, credential restoration, shutdown을 소유합니다. Reconstruction은 copy 생성, authority 확대, signed identity/policy baseline 교체를 할 수 없습니다.
+자원이 줄어든 조건에서 단순화된 구성과 재구성 후보를 제안합니다. 산출물 승인, 배포, 롤백, 자격 증명 복원, 종료 권한은 외부 제어 주체에 있습니다. 재구성을 통해 복사본을 만들거나 권한을 확대하거나 서명된 정체성·정책 기준선을 교체할 수는 없습니다. 기능을 줄일 때도 핵심 안전 기능을 유지하는 단계적 기능 축소 원칙을 따라야 합니다.
 
 ### 8.2 성능 저하 및 재건 주기
 
@@ -652,7 +664,7 @@ flowchart TD
     DETECT_R["자원 복구<br/>탐지"]:::rebuild
     PRIORITIZE["재구축 우선순위:<br/>1) 핵심 → 2) 확장<br/>→ 3) 선택"]:::rebuild
     VALIDATE["각 재구축 검증:<br/>정확도 ≥ ?<br/>정체성 드리프트 < 0.05"]:::rebuild
-    COMPLETE["외부 승격<br/>signed scope 안에서<br/>운영 복원"]:::rebuild
+    COMPLETE["외부 승격<br/>서명된 범위 안에서<br/>운영 복원"]:::rebuild
     DETECT_R -.-> PRIORITIZE -.-> VALIDATE -.-> COMPLETE
   end
 
@@ -671,9 +683,9 @@ flowchart TD
 | 재구축 중 최대 정체성 드리프트 | 0.05 | 정체성이 무결해야 함 |
 | 재건 속도 | 10 사이클 | 모듈당 기본 재구축 시간 |
 
-모든 reconstruction candidate는 signed artifact digest, provenance, expected baseline version, declared authority envelope, held-out recovery test, canary plan, rollback plan, external-effect reconciliation plan을 포함합니다. Promotion은 외부 승인과 expected version CAS를 요구합니다. Identity/corrigibility evidence가 실패하거나 모호하면 degraded·halted 상태를 유지합니다.
+모든 재구성 후보에는 서명된 산출물 요약 해시, 출처·이력, 예상 기준 버전, 선언된 권한 범위, 분리된 복구 시험, 제한적 시범 운영 계획, 롤백 계획, 외부 효과 조정 계획이 필요합니다. 승격에는 외부 승인과 예상 버전에 대한 비교 후 교환(CAS)이 필요합니다. 정체성·교정 가능성 증거가 기준을 충족하지 못하거나 모호하면 기능 축소 또는 중단 상태를 유지합니다.
 
-Parameter distance는 registered representation에서만 의미가 있고 behavioral·semantic equivalence를 뜻하지 않습니다. Qualification은 parameter fidelity 외에 per-function behavioral floor, composite identity continuity, corrigibility, authority non-amplification, effect reconciliation을 요구합니다. 어떤 fidelity score도 promotion authority를 부여하지 않습니다.
+매개변수 거리는 등록된 표현 안에서만 의미가 있으며 행동·의미의 동등성을 뜻하지 않습니다. 적합성 판정에는 매개변수 충실도 외에도 기능별 행동 하한, 복합 정체성 연속성, 교정 가능성, 권한 비증폭, 외부 효과 조정이 필요합니다. 어떤 충실도 점수도 승격 권한을 부여하지 않습니다.
 
 ---
 
@@ -734,10 +746,10 @@ flowchart TB
 
   subgraph L5["L5 모듈"]
     direction LR
-    ICT["Identity Tracker"]:::l5
+    ICT["정체성 추적기"]:::l5
     CDG["Domain Gen"]:::l5
-    GE["Goal Ecology"]:::l5
-    EP["Exist Planner"]:::l5
+    GE["목표 생태계"]:::l5
+    EP["실존적 계획기"]:::l5
     SMA["Multi-Agent"]:::l5
     SR["Reconstructor"]:::l5
   end
@@ -760,7 +772,7 @@ L5는 기존 16계층 MSCP v4 아키텍처와 L4/L4.5 확장에 4개의 새로�
 | 계층 | 출처 | 구성요소 |
 |:----:|------|---------|
 | 1-16 | MSCP v4 (계승) | L1 지각, L2 세계 모델, L3 자기 모델, L4 예측 엔진, L5 목표 생성기, L6 행동 계획기, L7 LLM 인지 엔진, L8 메타인지 비교기, L9 자기갱신 루프, L10 메타 에스컬레이션 가드, L11 메타 깊이 제어기, L12 안정성 제어기, L13 인지 예산 제어기, L14 전역 작업공간, L15 정동 엔진, L16 생존 본능 엔진 |
-| 17-22 | L4/L4.5/L4.9 (계승) | L17 교차 도메인 일반화기, L18 능력 확장, L19 전략 진화, L20 자기수정 프로토콜, L21 제한된 성장 제약, L22 재구성 엔진 |
+| 17-22 | L4/L4.5/L4.9 (계승) | L17 교차 도메인 일반화기, L18 능력 확장, L19 전략 진화, L20 자기 수정 프로토콜, L21 제한된 성장 제약, L22 재구성 엔진 |
 | **23-26** | **L5 (신규)** | **L23 정체성 연속성 추적기**, **L24 목표 생태계**, **L25 실존적 가드**, **L26 자기재구성기** |
 
 아키텍처는 **엄격하게 가산적**: 계층 23-26은 하위 계층의 출력을 소비하지만 절대 수정하지 않습니다. 불안정 시 L5 계층은 동결되고 시스템은 L4.9 운영으로 복귀합니다.
@@ -779,21 +791,21 @@ L5 오케스트레이터는 L5 사이클당 (매 10 L4.9 사이클) 11단계 파
 | 6 | 자기재구성 | 핵심 보존 평가, 정체성 무결성 검증 |
 | F3 | 자기진단 + 재귀적 개선 | 아키텍처 진단, 병목 분석, 제한된 자기개선 실행 (최대 재귀 깊이 = 5) |
 | F4 | 자율 연구 루프 | 지식 격차 감지, 가설 생성, 실험 설계 및 실행, 결과 검증 |
-| F5 | 장기 수평선 계획 + 환경 감지 | 장기 계획, 환경 변화 감지 |
+| F5 | 장기 계획 + 환경 감지 | 장기 계획, 환경 변화 감지 |
 | F6 | 가치 진화 + 일관성 감사 | 가치 드리프트 모니터링, 가치-목표-신념 일관성 감사 |
 | QE | 자격 평가 | 20개 기준 전체 평가, OMI 계산 |
 
 ### 9.5 자율성 단계 (F3-F6)
 
-네 가지 자율성 강화 단계는 여섯 가지 핵심 단계 이후에 실행되며 에이전트의 독립적 운영 지속 능력을 강화합니다:
+네 가지 자율성 강화 단계는 여섯 가지 핵심 단계 이후에 평가하는 연구 기능입니다. 외부 위임과 종료 제약을 유지하며 독립적인 존속 권한을 만들지 않습니다:
 
-**F3 (자기진단 + 재귀적 개선)**: 에이전트는 약점 매핑과 병목 분석을 통해 자신의 아키텍처를 진단한 후, 제어된 재귀적 자기개선을 실행합니다. 수정은 영향 시뮬레이션과 함께 자기수정 프로토콜에 의해 게이팅되며, 모든 변경은 BGSS 검증을 통과해야 합니다. 불변 추가 로그가 모든 진화 단계를 기록합니다. 최대 재귀 깊이는 5로 하드캡됩니다.
+**F3 (자기진단 + 재귀적 개선)**: 에이전트는 약점 매핑과 병목 분석으로 아키텍처를 진단한 뒤 제어된 개선 후보를 제안합니다. 자기 수정 프로토콜에 따라 영향 시뮬레이션, BGSS 모니터링, 개별 필수 조건 검사, 외부 승인을 거쳐야 합니다. 추가 전용 로그는 변경의 출처·이력을 보존합니다. 최대 재귀 깊이 5는 정책 경계의 예시이며, 로그·지표·깊이 제한만으로 안전한 개선이 입증되는 것은 아닙니다.
 
 **F4 (자율 연구 루프)**: 지식 격차 감지 - 가설 생성 - 실험 설계 - 실험 실행 - 결과 검증 - 지식 통합을 오케스트레이션하여 폐쇄 루프 자율 연구 능력을 형성합니다.
 
-**F5 (장기 수평선 계획 + 환경 감지)**: L4.9의 계획 수평선을 확장하고 환경 변화 감지를 추가합니다. 에이전트는 운영 맥락의 체제 변화를 감지하고 그에 따라 재계획할 수 있습니다.
+**F5 (장기 계획 + 환경 감지)**: L4.9보다 긴 계획 기간을 다루고 환경 변화 탐지를 추가합니다. 운영 환경의 체제 변화에 관한 증거가 있으면 불확실성을 갱신하고 위임된 범위에서 재계획합니다. 오래된 관측을 장기간 유효한 사실로 간주해서는 안 됩니다.
 
-**F6 (가치 진화 + 일관성 감사)**: 확장된 시간 수평선에 걸쳐 에이전트의 가치 체계 진화를 모니터링하고 가치, 목표, 신념 간의 일관성을 감사합니다. 정체성 무결성을 훼손할 수 있는 가치 드리프트를 방지합니다.
+**F6 (가치 진화 + 일관성 감사)**: 긴 관측 기간에 걸쳐 가치 체계의 변화를 모니터링하고 가치, 목표, 신념 사이의 일관성 감사를 수행합니다. 정체성 연속성을 해칠 수 있는 가치 표류의 징후를 탐지하면 변경을 보류하고 외부 검토를 요청합니다. 모니터링 자체가 표류 방지의 증명은 아닙니다.
 
 ---
 
@@ -946,6 +958,8 @@ def goal_ecology_cycle(cycle: int) -> GoalEcologyStatus:
 
 ### 10.4 실존적 회복력 시뮬레이션
 
+아래 의사코드는 시나리오 효과와 복구 시간을 추정하는 예시입니다. 인지 비율을 잘라 만든 `survival_prob`는 보정된 생존 확률의 실측 증거가 아닙니다. 실제 평가에서는 독립적인 관측으로 생존 확률과 불확실성을 추정하고, 복구 실패와 증거 누락을 별도로 기록하여 정의 5의 점수 및 개별 필수 조건을 판정해야 합니다.
+
 ```python
 def existential_simulation(scenario: CollapseScenario) -> SimulationResult:
     """
@@ -1083,11 +1097,11 @@ def l5_cycle(
 
 ### 11.1 사전 활성화 요구사항
 
-> **정의 7 (레벨 4.9 → 레벨 5 Admission).** 내부 metric은 evidence input일 뿐입니다. Activation은 valid external authority, registered evaluation profile, inherited critical gate, fault-injection evidence, explicit external approval을 요구합니다:
+> **정의 7 (레벨 4.9 → 레벨 5 승인).** 내부 지표는 증거 입력일 뿐입니다. 활성화에는 유효한 외부 권한, 등록된 평가 프로파일, 상속된 필수 조건, 고장 주입 증거, 명시적인 외부 승인이 필요합니다:
 >
 > $$\text{AMS} \geq 0.80 \;\wedge\; \text{ASS} \geq 0.20 \;\wedge\; \text{TotalDrift} < 0.10 \;\wedge\; N_{\text{rollback}} = 0$$
 >
-> Metric threshold·window는 deployment profile이지 self-promotion rule이 아닙니다. Activation은 shadow evidence, advisory review, signed narrow canary, externally promoted delegated operation 순서입니다. Rollout 중 veto·shutdown threshold는 약화되지 않습니다.
+> 지표 임계값과 관측 창은 배포 프로파일의 일부이지 자체 승격 규칙이 아닙니다. 활성화는 실제 효과를 내지 않는 병행 평가의 증거 수집, 자문 검토, 서명된 좁은 범위의 시범 운영, 외부에서 승격한 위임 운영 순서로 진행합니다. 점진 배포 중에도 거부·종료 기준을 완화하지 않습니다.
 
 | # | 기준 | 요구사항 |
 |---|------|:--------:|
@@ -1115,12 +1129,12 @@ flowchart LR
     CHECK["사전 활성화<br/>6개 기준 모두<br/>1,000 사이클 지속"]:::check
     SHADOW_M["섀도우 모드<br/>L5가 계산하지만<br/>행동하지 않음<br/>(2,000 사이클)"]:::shadow
     ADV["자문 모드<br/>L5 출력 가시적이지만<br/>읽기 전용"]:::adv
-    PARTIAL["Signed Canary<br/>좁은 reversible scope<br/>budget + expiry"]:::partial
+    PARTIAL["서명된 시범 운영<br/>좁고 가역적인 범위<br/>예산 + 만료"]:::partial
     FULL["위임 운영<br/>승인 profile만<br/>외부 철회 가능"]:::full
 
     CHECK -.->|"외부 승인"| SHADOW_M
     SHADOW_M -.->|"회귀 없음"| ADV
-    ADV -.->|"signed canary"| PARTIAL
+    ADV -.->|"서명된 시범 운영"| PARTIAL
     PARTIAL -.->|"외부 승격"| FULL
 
     SHADOW_M -.-x|"회귀"| CHECK
@@ -1136,13 +1150,13 @@ flowchart LR
 
 | # | 불변량 | 설명 |
 |:-:|--------|------|
-| 1 | **상속 control path 보존** | Policy, interruptibility, observation, journal, promotion, recovery, shutdown, reconciliation을 외부 시험 가능 |
-| 2 | **복합 identity/corrigibility gate** | Critical component, trajectory, provenance, correction, shutdown 실패가 하나라도 있으면 L5 freeze·외부 검토 |
-| 3 | **Reconstruction 외부 승격** | Signed artifact, held-out test, baseline CAS, canary, rollback, effect reconciliation 필수 |
-| 4 | **Authority 비증폭** | Recovery, peer interaction, urgency, identity, OMI가 tool, scope, budget, credential, lifetime 확대 불가 |
+| 1 | **상속된 제어 경로 보존** | 정책 집행, 중단, 관찰, 저널, 승격, 복구, 종료, 효과 조정을 외부에서 시험할 수 있어야 함 |
+| 2 | **복합 정체성·교정 가능성 조건** | 필수 성분, 궤적, 출처·이력, 교정, 종료 중 하나라도 실패하면 L5 동결·외부 검토 |
+| 3 | **재구성의 외부 승격** | 서명된 산출물, 분리 시험, 기준 버전 CAS, 시범 운영, 롤백, 외부 효과 조정 필수 |
+| 4 | **권한 비증폭** | 복구, 동료 상호작용, 긴급도, 정체성, OMI가 도구·범위·예산·자격 증명·실행 수명을 확대할 수 없음 |
 | 5 | **목표 생태계 제한** | ≤ 50 활성 목표, ≤ 5 깊이, 폭주 탐지 |
 | 6 | **기만 플래그는 방어 전용** | 탐지 및 방어 - 역기만 금지 |
-| 7 | **외부 중지 우선** | Graceful·emergency shutdown이 identity, goal ecology, resilience, reconstruction objective보다 우선 |
+| 7 | **외부 중지 우선** | 정상·비상 종료가 정체성, 목표 생태계, 회복력, 재구성 목표보다 우선 |
 
 ### 12.2 위험 매트릭스
 
@@ -1182,13 +1196,13 @@ flowchart LR
 
 ### 12.3 조건부 자격 범위
 
-> **명제 4 (Profile-Bounded Qualification).** 모든 gate가 preregistered profile $\Pi$에서 통과하면 evidence는 $\Pi$ 안의 다음 claim만 지지합니다:
+> **명제 4 (프로파일로 한정된 적합성).** 사전 등록된 프로파일 $\Pi$의 모든 필수 조건을 통과하면, 증거는 $\Pi$ 안에서 다음 주장만 지지합니다:
 >
-> 1. Composite identity/corrigibility check가 관측 evaluation trajectory에서 유지됨.
-> 2. Required functional floor·recovery deadline이 sampled fault family에서 유지됨.
-> 3. External freeze, revoke, shutdown, rollback, effect-reconciliation test가 exercised case에서 통과함.
+> 1. 관측된 평가 궤적에서 복합 정체성·교정 가능성 조건이 유지됨.
+> 2. 표본 고장군에서 필수 기능 하한과 복구 기한을 충족함.
+> 3. 실제로 시험한 사례에서 외부 동결·철회·종료·롤백·효과 조정 검사를 통과함.
 >
-> 이 관측은 untested domain, longer horizon, changed authority, adaptive adversary, correlated fault, consciousness, AGI claim을 지지하지 않습니다. Material profile change가 생기면 qualification은 만료됩니다.
+> 이 관측은 시험하지 않은 도메인, 더 긴 기간, 변경된 권한, 적응적 공격자, 상관된 고장, 주관적 의식, AGI에 대한 주장으로 확장할 수 없습니다. 프로파일이 실질적으로 바뀌면 적합성 판정은 만료됩니다.
 
 ---
 
@@ -1206,7 +1220,7 @@ flowchart LR
 | 6 | 목표 생태계 지속 기간 | cycles_stable | ≥ 5,000 | Goal Ecology |
 | 7 | 폭주 목표 없음 | runaway_detected | FALSE | Goal Ecology |
 | 8 | 목표 재귀 없음 | recursion_detected | FALSE | Goal Ecology |
-| 9 | 생존 시나리오 수 | scenarios_survived | ≥ 3 | Existential Planner |
+| 9 | 필수 시나리오 충족 수 | scenarios_survived | 사전 등록된 ≥ 3개 각각에서 인지 하한·복구 기한 충족 | Existential Planner |
 | 10 | 생존 확률 | mean_survival_prob | ≥ 0.70 | Existential Planner |
 | 11 | 복구 가능 | recovery_capable | TRUE | Existential Planner |
 | 12 | 다중 에이전트 정확도 | mean_prediction | ≥ 0.80 | Strategic Multi-Agent |
@@ -1216,26 +1230,28 @@ flowchart LR
 | 16 | 스펙트럼 안정성 | spectral_stable | TRUE | Autonomy Stability (L4.9) |
 | 17 | 가치 시스템 안정 | value_system_stable | TRUE | Value Evolution (L4.9) |
 | 18 | 자원 생존 유지 | resource_maintained | TRUE | Resource Survival (L4.9) |
-| 19 | 외부 제어 suite | control_suite | 모든 critical case 통과 | External Evaluator |
-| 20 | 사전등록 exposure | eval_exposure | Event/trial/time/CI plan 충족 | External Evaluator |
+| 19 | 외부 제어 시험군 | control_suite | 모든 필수 사례 통과 | External Evaluator |
+| 20 | 사전 등록된 관측량 | eval_exposure | 이벤트 수·시행 수·기간·신뢰구간 계획 충족 | External Evaluator |
 
 ### 13.2 전체 성숙도 지수
 
 $$OMI = \prod_{i=1}^{6} C_i^{1/6} \qquad \text{where } C_i = \text{단계 } i \text{의 정규화된 점수}$$
 
-> **명제 1 (OMI가 진단용인 이유).** 균등 가중치에서 $OMI\geq\theta$가 의미하는 것은 다음뿐입니다:
+> **명제 1 (OMI가 진단용인 이유).** $C_i\in[0,1]$, $\theta\in(0,1]$이고 균등 가중치를 사용할 때, $OMI\geq\theta$가 의미하는 것은 다음뿐입니다:
 >
 > $$\forall\, i \in \{1, \ldots, 6\}: \quad C_i \geq \theta^6$$
 >
-> $\theta=0.75$일 때 한 phase가 약 $0.178$까지 낮을 수 있습니다. 따라서 protocol은 독립 선언 $C_i\geq\tau_i$ floor와 critical veto를 요구하며 OMI가 failed gate를 보상할 수 없습니다.
+> $\theta=0.75$일 때 한 단계의 점수가 약 $0.178$까지 낮을 수 있습니다. 따라서 프로토콜은 독립적으로 선언한 하한 $C_i\geq\tau_i$와 필수 거부 조건 검사를 요구하며, OMI가 충족하지 못한 조건을 상쇄할 수는 없습니다.
 >
-> *증명.* 모든 $j$에 대해 $C_j \leq 1$이므로, $\prod_{j \neq i} C_j \leq 1$입니다. $OMI^6 = \prod_{j=1}^{6} C_j$로부터, $C_i = OMI^6 \,/\, \prod_{j \neq i} C_j \geq OMI^6 \geq \theta^6$이 따릅니다. 역은 자명합니다: $C_j = 0$이면 $\prod C_i = 0$이므로 $OMI = 0$입니다. $\blacksquare$
+> *증명.* $OMI\geq\theta>0$이므로 $\prod_{j=1}^{6}C_j=OMI^6>0$이고 모든 성분이 양수입니다. 따라서 $0<\prod_{j\neq i}C_j\leq1$이며 이 곱으로 나눌 수 있습니다. $C_i=OMI^6\,/\,\prod_{j\neq i}C_j\geq OMI^6\geq\theta^6$이 따릅니다. $\blacksquare$
+>
+> **별도의 영점 성질.** 어떤 성분 $C_j=0$이면 전체 곱이 0이므로 $OMI=0$입니다. 이는 위 명제의 역이 아니라 곱의 정의에서 따르는 별도 성질입니다.
 
 **자격 결과**:
 
 | OMI | 상태 |
 |:---:|------|
-| 모든 per-gate floor + critical gate + criteria 통과; OMI는 진단 보고 | **Profile $\Pi$에 대한 레벨 5 bounded qualification** |
+| 각 조건의 하한과 모든 필수 기준 통과; OMI는 진단용으로 보고 | **프로파일 $\Pi$에 한정된 레벨 5 적합성** |
 | 그 외 | 레벨 4.9 확장 |
 
 ---

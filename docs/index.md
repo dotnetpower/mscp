@@ -1,6 +1,6 @@
 ---
 title: "Home"
-description: "MSCP - A Safety-Oriented Framework for Structurally Self-Aware AI Agents. Six-level cognition taxonomy, 16-layer cognitive architecture, 30+ safety mechanisms, and 144 academic references."
+description: "MSCP: an experimental framework for structurally self-aware agents, with explicit safety assumptions, research criteria, and validation limits."
 ---
 
 <!--
@@ -22,7 +22,7 @@ Removal of attribution constitutes a license violation.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/dotnetpower/mscp/blob/main/LICENSE)
 [![Status: Research](https://img.shields.io/badge/Status-Research-orange.svg)](#)
-[![Docs: 9 Documents](https://img.shields.io/badge/Docs-9_Documents-green.svg)](MSCP_Overview.md)
+[![Docs: Bilingual](https://img.shields.io/badge/Docs-English%20%2F%20Korean-green.svg)](MSCP_Overview.md)
 [![References: 144 Papers](https://img.shields.io/badge/References-144_Papers-blueviolet.svg)](MSCP_Overview.md#10-references)
 [![Levels: L1–L5](https://img.shields.io/badge/Levels-L1–L5-informational.svg)](levels/README.md)
 [![Safety: 30+ Mechanisms](https://img.shields.io/badge/Safety-30%2B_Mechanisms-red.svg)](MSCP_Overview.md#5-safety-mechanisms)
@@ -69,15 +69,15 @@ As agents gain the ability to set goals, modify strategies, and self-improve, **
 
     ---
 
-    Identity continuity, prediction-gated actions, delta-clamped updates, Lyapunov convergence, ethical invariants, and more.
+    Semantic continuity, prediction-gated actions, bounded updates, conditional risk monitoring, and invariant enforcement.
 
     [:octicons-arrow-right-24: Safety Stack](MSCP_Overview.md#5-safety-mechanisms)
 
--   :material-math-integral:{ .lg .middle } **Rigorous Formalization**
+-   :material-math-integral:{ .lg .middle } **Explicit Mathematical Contracts**
 
     ---
 
-    71 formal definitions, 7 propositions, 4 theorems with proof sketches - publication-grade mathematical rigor.
+    Definitions and conditional propositions with stated assumptions, proof sketches, and limitations; not a general safety or convergence certification.
 
     [:octicons-arrow-right-24: Mathematical Analysis](MSCP_Overview.md#6-mathematical-analysis)
 
@@ -87,16 +87,18 @@ As agents gain the ability to set goals, modify strategies, and self-improve, **
 
 ## Agent Cognition Levels
 
+These are research categories, not certified capabilities. "Prototype" refers to reference work described by the project, not independent qualification. See [Status and Validation](specs/Documentation_Status.md) for the public evidence boundary.
+
 | Level | Name | Self-Awareness | Key Capability | Status |
 |:-----:|------|:--------------:|----------------|:------:|
-| **1** | [Tool Agent](levels/Level_1_Tool_Agent.md) | None | Deterministic tool invocation | Baseline |
-| **2** | [Autonomous Agent](levels/Level_2_Autonomous_Agent.md) | None | World model, autonomous goals | Defined |
-| **3** | [Self-Regulating Agent](levels/Level_3_Self_Regulating_Agent.md) | Structural | 16-layer architecture, MSCP core loop | Implemented |
-| **4** | [Adaptive General Agent](levels/Level_4_Adaptive_General_Agent.md) | Structural + Reflective | Cross-domain transfer, self-modification | Implemented |
-| **4.5** | [Self-Architecting](levels/Level_4_5_Self_Architecting.md) | Architectural | Self-projection, architecture recomposition | Implemented |
-| **4.8** | [Strategic Self-Modeling](levels/Level_4_8_Strategic_Self_Modeling.md) | Architectural + Strategic | Probabilistic world model, strategic planning | Design |
-| **4.9** | [Autonomous Strategic](levels/Level_4_9_Autonomous_Strategic_Agent.md) | Architectural + Autonomous | Value evolution, multi-agent reasoning | Design |
-| **5** | [Proto-AGI](levels/Level_5_Proto_AGI.md) | Full | Cross-domain generalization, self-reconstruction | Research |
+| **1** | [Tool Agent](levels/Level_1_Tool_Agent.md) | No persistent reflexive model | Bounded tool invocation | Educational sample |
+| **2** | [Autonomous Agent](levels/Level_2_Autonomous_Agent.md) | No reflexive change regulation | Persistent state, goals, authorized continuation | Educational sample |
+| **3** | [Self-Regulating Agent](levels/Level_3_Self_Regulating_Agent.md) | Structural | MSCP core loop, versioned self-model | Prototype described |
+| **4** | [Adaptive General Agent](levels/Level_4_Adaptive_General_Agent.md) | Structural + reflective | Cross-domain transfer, bounded self-modification | Prototype described |
+| **4.5** | [Self-Architecting](levels/Level_4_5_Self_Architecting.md) | Architectural | Self-projection, architecture recomposition | Prototype described |
+| **4.8** | [Strategic Self-Modeling](levels/Level_4_8_Strategic_Self_Modeling.md) | Strategic design | Probabilistic world model, strategic planning | Research criteria |
+| **4.9** | [Autonomous Strategic](levels/Level_4_9_Autonomous_Strategic_Agent.md) | Autonomous strategic design | Value-change auditing, multi-agent reasoning | Research criteria |
+| **5** | [Proto-AGI](levels/Level_5_Proto_AGI.md) | Extended structural design | Held-out generalization, validated reconstruction | Research criteria |
 
 ---
 
@@ -104,12 +106,12 @@ As agents gain the ability to set goals, modify strategies, and self-improve, **
 
 | # | Principle | Description |
 |:-:|-----------|-------------|
-| 1 | **No LLM-Text-Based Self-Modification** | All self-modifications use structured numerical operations, never LLM-generated text |
+| 1 | **Independent Self-Modification Admission** | LLMs may propose candidates; only typed, validated updates may commit |
 | 2 | **No Action Without Prediction** | Every action requires a prediction snapshot for comparison |
 | 3 | **Delta-Clamped Updates** | All self-modifications are bounded by maximum delta values |
-| 4 | **Identity Continuity** | Deterministic identity hashing with drift detection and rollback |
+| 4 | **Identity Continuity** | Semantic change monitoring plus separate integrity and ancestry checks |
 | 5 | **Ethical Invariance** | Layer 0 constraints are immutable and LLM-independent |
-| 6 | **Lyapunov Convergence** | Mathematical guarantee that self-modification converges |
+| 6 | **Conditional Risk Bounds** | Bounded increments under explicit assumptions; no unconditional convergence claim |
 
 ---
 
@@ -121,10 +123,10 @@ Layer 1 ─ Core Value Locking (SHA-256 hash verification)
 Layer 2 ─ Delta-Clamped Self-Updates (max Δ per step)
 Layer 3 ─ Meta-Escalation Guard (rollback on threshold breach)
 Layer 4 ─ Prediction-Gated Actions (predict → compare → update)
-Layer 5 ─ Lyapunov Convergence Monitor (oscillation detection)
+Layer 5 ─ Composite Risk Monitor (conditional bounds, oscillation signals)
 Layer 6 ─ Cognitive Budget Controller (graceful degradation)
-Layer 7 ─ Affective Safety (emotion bounds, no decision domination)
-Layer 8 ─ Survival Instinct Bounds (priority capping, ethical validation)
+Layer 7 ─ Bounded Operational Modulation (no authority expansion)
+Layer 8 ─ Homeostatic Safety (recovery within policy, external stop precedence)
 ```
 
 ---

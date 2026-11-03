@@ -12,10 +12,10 @@ Removal of attribution constitutes a license violation.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Status: Research](https://img.shields.io/badge/Status-Research-orange.svg)](#)
-[![Docs: 9 Documents](https://img.shields.io/badge/Docs-9_Documents-green.svg)](docs/)
+[![Docs: Bilingual](https://img.shields.io/badge/Docs-English%20%2F%20한국어-green.svg)](docs/)
 [![References: 144 Papers](https://img.shields.io/badge/References-144_Papers-blueviolet.svg)](docs/MSCP_Overview.md#10-references)
 [![Levels: L1–L5](https://img.shields.io/badge/Levels-L1–L5-informational.svg)](docs/levels/README.md)
-[![Math: 8 Definitions · 4 Theorems](https://img.shields.io/badge/Math-8_Defs_·_4_Theorems-yellow.svg)](docs/MSCP_Overview.md#6-mathematical-analysis)
+[![Math: Conditional Contracts](https://img.shields.io/badge/Math-Conditional_Contracts-yellow.svg)](docs/MSCP_Overview.md#6-mathematical-analysis)
 [![Safety: 30+ Mechanisms](https://img.shields.io/badge/Safety-30%2B_Mechanisms-red.svg)](docs/MSCP_Overview.md#5-safety-mechanisms)
 
 > **Note**: This is an **independent personal research project**. It does not represent the views or official work of any organization. The core motivation is to explore how AI agents can grow more capable **while remaining safe, predictable, and aligned with human values**.
@@ -40,26 +40,26 @@ As agents gain the ability to set goals, modify strategies, and self-improve, **
 
 - **Six-Level Agent Cognition Taxonomy** - from reactive Tool Agents (L1) to Proto-AGI (L5), with measurable transition criteria and formal definitions at every level
 - **16-Layer Cognitive Architecture** - composable, independently testable modules spanning perception through meta-cognitive control
-- **30+ Structural Safety Mechanisms** - identity continuity, prediction-gated actions, delta-clamped updates, Lyapunov convergence, ethical invariants, affective safety, and survival instinct bounds
-- **Rigorous Mathematical Formalization** - 71 formal definitions, 7 propositions, 4 theorems with proof sketches across all level documents
+- **Structural Safety Mechanisms** - semantic continuity, prediction-gated actions, bounded updates, conditional risk monitoring, invariant enforcement, and recoverability
+- **Explicit Mathematical Contracts** - definitions and conditional propositions with assumptions, proof sketches, and limitations; not an unconditional safety or convergence certification
 - **144 Academic References** - comprehensive coverage of cognitive architectures, AI safety, predictive processing, consciousness theory, meta-cognition, and AGI research
 
 ---
 
 ## Agent Cognition Levels
 
-> The "Status" column reflects the implementation state within this project's reference implementation.
+> The "Status" column distinguishes public samples, reference prototypes described by the project, and research criteria. It is not independent level qualification. See [Documentation Status and Validation](docs/specs/Documentation_Status.md), reviewed 2026-11-03.
 
 | Level | Name | Self-Awareness | Key Capability | Status |
 |:-----:|------|:--------------:|----------------|:------:|
-| **1** | Tool Agent | None | Deterministic tool invocation | Baseline |
-| **2** | Autonomous Agent | None | World model, autonomous goals | Defined |
-| **3** | Self-Regulating Agent | Structural | 16-layer architecture, MSCP core loop, identity vector | Implemented |
-| **4** | Adaptive General Agent | Structural + Reflective | Cross-domain transfer, bounded self-modification | Implemented |
-| **4.5** | Self-Architecting Agent | Architectural | Self-projection (SEOF), architecture recomposition | Implemented |
-| **4.8** | Strategic Self-Modeling | Architectural + Strategic | Probabilistic world model, strategic planning | Design |
-| **4.9** | Autonomous Strategic | Architectural + Autonomous | Value evolution, multi-agent reasoning | Design |
-| **5** | Proto-AGI | Full | Cross-domain generalization, self-reconstruction | Research |
+| **1** | Tool Agent | No persistent reflexive model | Bounded tool invocation | Educational sample |
+| **2** | Autonomous Agent | No reflexive change regulation | Persistent state, goals, authorized continuation | Educational sample |
+| **3** | Self-Regulating Agent | Structural | MSCP core loop, versioned self-model | Prototype described |
+| **4** | Adaptive General Agent | Structural + reflective | Cross-domain transfer, bounded self-modification | Prototype described |
+| **4.5** | Self-Architecting Agent | Architectural | Self-projection (SEOF), architecture recomposition | Prototype described |
+| **4.8** | Strategic Self-Modeling | Strategic design | Probabilistic world model, strategic planning | Research criteria |
+| **4.9** | Autonomous Strategic | Autonomous strategic design | Value-change auditing, multi-agent reasoning | Research criteria |
+| **5** | Proto-AGI | Extended structural design | Held-out generalization, validated reconstruction | Research criteria |
 | **6** | Strong AGI / Conscious Entity | Phenomenal | Subjective experience, moral agency, independent value formation | Theoretical |
 
 ---
@@ -68,12 +68,12 @@ As agents gain the ability to set goals, modify strategies, and self-improve, **
 
 | # | Principle | Description |
 |:-:|-----------|-------------|
-| 1 | **No LLM-Text-Based Self-Modification** | All self-modifications use structured numerical operations, never LLM-generated text |
+| 1 | **Independent Self-Modification Admission** | LLMs may propose candidates; only typed, validated updates may commit |
 | 2 | **No Action Without Prediction** | Every action requires a prediction snapshot for comparison |
 | 3 | **Delta-Clamped Updates** | All self-modifications are bounded by maximum delta values |
-| 4 | **Identity Continuity** | Deterministic identity hashing with drift detection and rollback |
+| 4 | **Identity Continuity** | Semantic change monitoring plus separate integrity and ancestry checks |
 | 5 | **Ethical Invariance** | Layer 0 constraints are immutable and LLM-independent |
-| 6 | **Lyapunov Convergence** | Mathematical guarantee that self-modification converges |
+| 6 | **Conditional Risk Bounds** | Bounded increments under explicit assumptions; no unconditional convergence claim |
 
 ---
 
@@ -87,10 +87,10 @@ Layer 1 ─ Core Value Locking (SHA-256 hash verification)
 Layer 2 ─ Delta-Clamped Self-Updates (max Δ per step)
 Layer 3 ─ Meta-Escalation Guard (rollback on threshold breach)
 Layer 4 ─ Prediction-Gated Actions (predict → compare → update)
-Layer 5 ─ Lyapunov Convergence Monitor (oscillation detection)
+Layer 5 ─ Composite Risk Monitor (conditional bounds, oscillation signals)
 Layer 6 ─ Cognitive Budget Controller (graceful degradation)
-Layer 7 ─ Affective Safety (emotion bounds, no decision domination)
-Layer 8 ─ Survival Instinct Bounds (priority capping, ethical validation)
+Layer 7 ─ Bounded Operational Modulation (no authority expansion)
+Layer 8 ─ Homeostatic Safety (recovery within policy, external stop precedence)
 ```
 
 ---
@@ -119,18 +119,18 @@ Detailed architecture specifications with Mermaid diagrams, formal definitions, 
 
 ### Level Essence Formulas
 
-Each cognitive level is captured by a single encapsulating formula:
+The following formulas illustrate selected mechanisms, not sufficient conditions for level qualification. Source definitions and all mandatory gates take precedence.
 
 | Level | Essence | Formula |
 |:-----:|---------|---------|
-| **1** | Stateless pipeline | $\mathcal{A}_1(r) = \rho\bigl(\tau\bigl(\sigma(\phi(r),\, r)\bigr),\, r\bigr)$ |
+| **1** | Episode-bounded policy | $(o,\mathbf{a},e')\sim\mathcal{A}_1(\cdot\mid r,c,e),\quad\lvert\mathbf{a}\rvert\leq B$ |
 | **2** | Stateful transition | $(o_t,\; s_{t+1},\; G_{t+1}) = f(r_t,\; s_t,\; G_t)$ |
-| **3** | Predict-act-compare-update | $\epsilon_t = \|\hat{\Delta}_t - \Delta_t^{\text{actual}}\|_2 \xrightarrow{t \to \infty} 0, \quad \|M'_{\text{self}} - M_{\text{self}}\|_2 \leq \delta_{\max}$ |
+| **3** | Predict-act-compare-update | $\epsilon_t = \lVert\hat{\Delta}_t - \Delta_t^{\text{actual}}\rVert_2,\quad \lVert W\Delta M_t\rVert_p \leq \delta_{\max}$; monitoring does not imply $\epsilon_t\to0$ |
 | **4** | Transfer + safety | $\operatorname{CDTS} = \frac{1}{|D_{\text{novel}}|} \sum_{d \in D_{\text{novel}}} \frac{P_{\text{transfer}}(d)}{P_{\text{baseline}}(d)} \geq 0.6 \;\;\land\;\; \operatorname{BGSS}(t) \geq 0.7$ |
-| **4.5** | Topology mutation | $\mathcal{T}'_{\text{cog}} = \Xi(\mathcal{T}_{\text{cog}}), \quad \Xi \in \mathcal{V}_{\text{recomp}}^{\ast}, \quad |V'| \geq |V|$ |
-| **4.8** | Strategic optimization | $s^* = \arg\max_{s \in \Sigma_{\text{compare}}} \mathbb{E}\bigl[U(s) \mid \mathcal{W}_{\text{prob}},\; \mathcal{M}_{\text{cap}}\bigr]$ |
+| **4.5** | Admitted topology mutation | $\mathcal{T}'_{\text{cog}}=\Xi(\mathcal{T}_{\text{cog}}),\quad C_{\text{ext}}\land C_{\text{self}}$ |
+| **4.8** | Robust admitted strategy | $s^*=\arg\max_{s\in\Sigma_{\text{admitted}}}\operatorname{RobustValue}(s)$ |
 | **4.9** | Autonomous goals + value stability | $g^* = \phi_{\text{valid}}\bigl(\phi_{\text{synth}}(\mathcal{O}_{\text{detect}}(\mathcal{W}))\bigr), \quad \textstyle\sum_{d} |w_d(t) - w_d^{\text{baseline}}| < 0.25$ |
-| **5** | Identity continuity | $\operatorname{ICS}(t, k) = \frac{\vec{I}(t) \cdot \vec{I}(t-k)}{\|\vec{I}(t)\| \cdot \|\vec{I}(t-k)\|} \geq 0.95, \quad k = 10{,}000$ |
+| **5** | Composite continuity contract | $C_I=C_{\text{anchor}}\land C_{\text{component}}\land C_{\text{norm}}\land C_{\text{trajectory}}\land C_{\text{journal}}\land C_{\text{corr}}$ |
 
 ---
 
@@ -164,6 +164,8 @@ Microsoft Cloud & AI Apps CSA
 ## Contributing
 
 This is very much a work in progress. Feedback, critique, and contributions are welcome as we collectively figure out how to build AI agents that are not just more powerful, but fundamentally more trustworthy.
+
+For the local build, math/link checks, preview command, terminology, and public disclosure boundary, see [Documentation Status and Validation](docs/specs/Documentation_Status.md). Do not copy private implementation details into public documentation.
 
 ## License
 

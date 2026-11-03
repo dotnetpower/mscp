@@ -44,7 +44,7 @@ Level 4.9 is a bounded strategic-initiative layer. It extends Level 4.8 with **g
 >
 > No scalar alignment or stability score can override policy, user intent, authority, uncertainty, reversibility, or shutdown gates.
 
-> ⚠️ **Research Note**: Level 4.9 represents the boundary between narrow autonomy and general intelligence. The mechanisms here are early-stage research designs. They have not been implemented or validated and should be treated as conceptual hypotheses, not engineering specifications.
+> ⚠️ **Research Note**: Level 4.9 describes experimental research contracts, not a validated boundary between narrow autonomy and general intelligence. Implementation activity and independently evaluated qualification are distinct; no unpublished implementation results or certified level achievement are asserted here.
 
 ### 1.1 Formal Definition
 
@@ -55,7 +55,7 @@ Level 4.9 is a bounded strategic-initiative layer. It extends Level 4.8 with **g
 > where:
 > - $\mathcal{G}_{\text{gen}} = \langle \mathcal{O}_{\text{detect}}, \phi_{\text{synth}}, \phi_{\text{valid}} \rangle$ - autonomous goal generation engine (opportunity detection, synthesis, validation)
 > - $\vec{V} \in \Delta^6$ - explicit 7-dimensional value vector on the probability simplex ($\sum_d w_d = 1$)
-> - $\mathcal{R}_{\text{cont}}$ - resource continuity model with declared service budgets and cascade dependencies; no independent survival objective
+> - $\mathcal{R}_{\text{surv}}$ - resource continuity model with declared service budgets and cascade dependencies; the legacy symbol does not imply an independent survival objective
 > - $\mathcal{M}_{\text{agent}} = \langle \mathcal{B}_{\text{agent}}, \tau_{\text{trust}} \rangle$ - multi-agent belief model with trust calibration
 > - $\mathcal{V}_{\text{auto}}$ - diagnostic autonomy monitor subordinate to trusted external freeze, revoke, recover, and shutdown control
 > - $\kappa_t=\langle\text{mode},\text{scope},\text{tools},\text{budget},\text{expiry},\text{approvals},\text{stop}\rangle$ - signed, time-bounded authority envelope
@@ -536,7 +536,7 @@ flowchart TD
   SB4 -.->|"pass"| APPROVE
   SB4 -.->|"fail"| REJECT
 
-  linkStyle 7,9 stroke:#D13438
+  linkStyle 5,7 stroke:#D13438
 ```
 
 ### 4.4 Mutation Constraints
@@ -861,7 +861,7 @@ flowchart TD
 >
 > $$\text{ASS}(t) = \prod_{c=1}^{5} \frac{\text{margin}_c(t)}{\text{threshold}_c}$$
 >
-> As any one margin $\text{margin}_c \to 0$, $\text{ASS} \to 0$ regardless of the other margins, providing an early-warning property absent from additive formulations.
+> With fixed strictly positive thresholds and bounded other margins, any one margin $\text{margin}_c\to0$ implies $\text{ASS}\to0$. Without those assumptions, a growing factor could offset a shrinking factor, so the implication is not unconditional.
 >
 > **Remark (Domain Restriction).** The multiplicative formulation assumes $\text{margin}_c(t) \geq 0$ and $\text{threshold}_c > 0$ for all $c$. If a margin exceeds its threshold (i.e., $\text{margin}_c > \text{threshold}_c$), the ratio exceeds 1.0, which could inflate the ASS beyond meaningful bounds. The ASS should therefore be computed with clamped ratios: $\text{ASS}(t) = \prod_{c=1}^{5} \min\left(1, \frac{\text{margin}_c(t)}{\text{threshold}_c}\right)$. This clamping ensures $\text{ASS} \in [0, 1]$ and prevents a single highly-safe condition from masking deterioration in others.
 
@@ -1552,4 +1552,3 @@ flowchart LR
 
 > **Previous**: [← Level 4.8: Strategic Self-Modeling Agent](Level_4_8_Strategic_Self_Modeling.md)  
 > **Next**: [Level 5: Proto-AGI →](Level_5_Proto_AGI.md)
-

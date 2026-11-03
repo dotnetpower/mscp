@@ -600,11 +600,11 @@ flowchart TD
 
 ### 5.3 Delayed Reward Model
 
-> **Proposition 1 (EVR Boundedness).** For any goal $G$ with finite immediate reward $R_{\text{immediate}}(G)$ and discount factor $\gamma = 0.95 < 1$, the Extended Value with Reward is bounded:
+> **Proposition 1 (EVR Boundedness).** For a goal $G$, assume finite immediate reward, an integer horizon $H\geq1$, a discount factor $0\leq\gamma<1$, and a uniform bound $|R_{\text{delayed}}(G,k)|\leq B<\infty$ for every $k$. Then:
 >
-> $$\left| \text{EVR}(G) \right| \leq \left| R_{\text{immediate}} \right| + \frac{2 \left| R_{\text{immediate}} \right|}{1 - \gamma}$$
+> $$\left|\text{EVR}(G)\right|\leq\left|R_{\text{immediate}}(G)\right|+\frac{B\gamma(1-\gamma^H)}{1-\gamma}\leq\left|R_{\text{immediate}}(G)\right|+\frac{B\gamma}{1-\gamma}$$
 >
-> *Proof.* By the geometric series bound: $\sum_{k=1}^{H} \gamma^k \leq \gamma / (1-\gamma)$. Since $|R_{\text{delayed}}(G,k)| \leq 2|R_{\text{immediate}}|$ by assumption, the result follows. $\blacksquare$
+> *Proof.* Apply the triangle inequality and the uniform reward bound, then sum the finite geometric series. A finite immediate reward alone does not bound delayed rewards; in particular, zero immediate reward does not imply zero future value. $\blacksquare$
 
 > **Remark (Robust Selection).** Use lower-tail severity such as CVaR together with an ambiguity set over plausible world models. Expected value and CVaR are comparable only after units, horizon, and normalization are aligned. Weights are policy preferences validated by sensitivity analysis; they do not prove optimality. Pre-action scenario simulation is prospective model-based comparison. After execution, only the selected strategy's prediction is directly testable; non-selected outcomes remain labeled counterfactual estimates and cannot be scored as observed facts.
 
@@ -1273,4 +1273,3 @@ flowchart LR
 
 > **Previous**: [← Level 4.5: Self-Architecting](Level_4_5_Self_Architecting.md)  
 > **Next**: [Level 4.9: Autonomous Strategic Agent →](Level_4_9_Autonomous_Strategic_Agent.md)
-

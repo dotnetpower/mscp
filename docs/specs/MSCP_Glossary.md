@@ -10,8 +10,11 @@
 | 0.4.0 | 2026-06-14 | Third verification pass - added L4.5 Def 13 (Uncertainty Index) and Def 14 (Recursive Optimization Depth); added L4.9 Def 13 (Inter-Resource Cascade Propagation); added L5 Def 11 (Reconstruction Fidelity); added VEM and RSM acronyms; disambiguated AS and EU dual-use entries; added §5 Notation Cautions; updated statistics |
 | 0.5.0 | 2026-06-14 | Added three Named Architectural Concepts from Overview §4.4: AGI Engine (orchestrator pattern), PLA (Progressive Language Autonomy, six-stage), LangNet (language-mediated strategy network). New acronym PLA. |
 | 0.6.0 | 2026-06-14 | Added cross-reference to the standalone *PLA Foundations* document (`specs/Why_LLM_Free_PLA.md`) which formalises the LLM-free authority argument, defines the Language Autonomy Gap (LAG), and catalogues LLM-free synthesis patterns. New acronym LAG. |
+| 0.7.0 | 2026-11-03 | Aligned summaries with versioned self-models, conditional risk bounds, independent admission, and profile-bounded qualification; removed obsolete theorem and metric claims. |
 
 > Sorted by source document (Overview → L1 → L2 → L3 → L4 → L4.5 → L4.8 → L4.9 → L5), then alphabetically within each section.
+
+The defining source section takes precedence over this index. All numerical settings below are illustrative unless accompanied by an explicit calibration profile. A diagnostic score or a hash is not a safety certificate. See [Documentation Status and Validation](Documentation_Status.md) for evidence and disclosure rules.
 
 ---
 
@@ -32,47 +35,49 @@
 | # | Term | Symbol / Acronym | Def # | Description |
 |---|------|-----------------|:-----:|-------------|
 | 1 | Bounded Growth Stability Score | BGSS | 8 | Quantifies stability under capability expansion: $BGSS = 1.0 - \alpha \cdot \frac{dC(t)}{dt} - \beta \cdot V_{\text{identity}}(t) - \gamma \cdot R_{\text{violation}}(t)$. Threshold $\geq 0.7$. |
-| 2 | Composite Stability Function | $C(t)$ | 3 | Aggregates four volatility signals: $C(t) = w_1 V_{\text{identity}} + w_2 H_{\text{belief}} + w_3 F_{\text{goal}} + w_4 V_{\text{consistency}}$. Weights: 0.30, 0.25, 0.25, 0.20. |
+| 2 | Composite Regulation Risk | $R(t)$ | 3 | Weighted normalized signals, $R(t)=\sum_iw_iX_i(t)$. A diagnostic index, not automatically a Lyapunov function. |
 | 3 | Cross-Domain Transfer Score | CDTS | 5 | Measures generalization to novel domains: $CDTS = \frac{1}{\lvert D_{\text{novel}}\rvert}\sum_{d} \frac{P_{\text{transfer}}(d)}{P_{\text{baseline}}(d)}$. Threshold $\geq 0.6$. |
 | 4 | Goal Persistence Index | GPI | 6 | Sustained progress toward long-horizon goals: $GPI = \frac{\sum w_g \cdot \text{progress}(g,T)}{\lvert G_{\text{long}}\rvert \cdot T}$. Threshold $\geq 0.3$. |
-| 5 | Identity Kinematics | $\delta_{\text{id}}, v_{\text{id}}, a_{\text{id}}$ | 2 | Identity delta (distance), velocity (rate of change), and acceleration (jerk) tracking the motion of $I(t)$ through identity space. |
-| 6 | Identity Vector | $I(t) \in \mathbb{R}^d$ | 1 | Agent's complete self-model as a continuous vector in $d$-dimensional space, updated each cognitive cycle. |
-| 7 | Meta-Stability Index | $M(t)$ / MSI | 4 | Scalar summary of agent stability: $M(t) = 1.0 - 0.4 V_{\text{id}} - 0.3 F_{\text{goal}} - 0.3 \sigma^2_{\text{pred}}$. Stabilization mode when $M(t) < 0.5$. |
+| 5 | Semantic Motion | $\Delta I_t,v_{\text{id}},a_{\text{id}}$ | 2 | Signed feature difference, velocity, and acceleration under compatible versioned representations; acceleration is not jerk. |
+| 6 | Versioned Self-Model | $M_t$ | 1 | Typed record containing immutable anchors, adaptive fields, capability estimates, uncertainty, and provenance; a fixed vector is not required. |
+| 7 | Meta-Regulation Health Index | MRHI | 4 | Clipped summary of declared normalized risk signals. Missing or uncertain inputs may require hold or external review. |
 | 8 | Strategy Evolution Fitness | SEF | 7 | Net improvement after strategy modification: $SEF = \frac{\overline{R}_{\text{post}}}{\overline{R}_{\text{pre}}} - \sigma_{\text{oscillation}}$. Threshold $> 1.0$. |
 
 ### Level 1 - Tool Agent (`Level_1_Tool_Agent.md`)
 
 | # | Term | Symbol / Acronym | Def # | Description |
 |---|------|-----------------|:-----:|-------------|
-| 1 | Intent Classification | $\phi$ | 3 | Maps request to probability distribution over tools: $\phi : \mathcal{R} \to [0,1]^{\lvert\mathcal{T}\rvert+1}$. |
-| 2 | Level 1 Agent | $\mathcal{A}_1$ | 1 | Stateless function $\mathcal{A}_1 : \mathcal{R} \to \mathcal{O}$ mapping requests to responses via tool orchestration. |
-| 3 | Level 1 to 2 Transition | $\mathcal{A}_2 = \mathcal{A}_1 \oplus \{\mathcal{W}, \mathcal{E}, \mathcal{G}, \Gamma\}$ | 4 | Requires world model, entity tracker, goal system, and temporal model. |
+| 1 | Action Routing | $\pi$ | 3 | Bounded routing under host policy; direct reply, clarification, tool execution, and rejection are possible. |
+| 2 | Level 1 Agent | $\mathcal{A}_1$ | 1 | Episode-bounded process; may use explicit host context and temporary plans, but owns no cross-episode cognitive state. |
+| 3 | Level 1 to 2 Transition | $\mathcal{S}_{\text{persistent}},\Phi_{\text{goal}},\mathcal{Q}_{\text{authorized}}$ | 4 | Requires persistent cognitive state, autonomous goal management, and authorized cross-episode continuation. |
 | 4 | Tool Set | $\mathcal{T} = \{T_1, \ldots, T_n\}$ | 2 | Finite set of available tools, each a partial function $T_i : \mathcal{P}_i \to \mathcal{O}_i$. |
 
 ### Level 2 - Autonomous Agent (`Level_2_Autonomous_Agent.md`)
 
 | # | Term | Symbol / Acronym | Def # | Description |
 |---|------|-----------------|:-----:|-------------|
-| 1 | Autonomous Goal Generation | $\Phi_{AG}$ | 6 | Function $\Phi_{AG} : \mathcal{P}(\mathcal{S}) \times \mathcal{E} \to \mathcal{P}(\mathcal{G})$ generating goals from state patterns and entities. |
-| 2 | Emotion Vector | $e(t) \in \mathbb{R}^2$ | 3 | Two-dimensional affect state with valence $v(t)$ and arousal $a(t)$. |
+| 1 | Autonomous Goal Generation and Admission | $\Phi_{AG}$ | 6 | Proposes goals from persistent state; external admission, provenance, authority, and finite budgets remain mandatory. |
+| 2 | Optional Affect Estimate | $e(t)$ | 3 | Optional operational estimate, not evidence of subjective emotion or a separate source of authority. |
 | 3 | Goal | $g$ | 4 | Structured tuple $g = \langle \text{id, type, desc, } p, w, \text{status, } g_{\text{parent}}, \{g_{\text{sub}}\}, \text{progress}\rangle$. |
 | 4 | Goal Priority Function | $p(g,t)$ | 5 | Dynamic priority: $p(g,t) = \alpha \cdot p_{\text{base}} + \beta \cdot u(g,t) + \gamma \cdot \xi(g,e(t))$. |
 | 5 | Level 2 Agent | $\mathcal{A}_2$ | 1 | Stateful 5-tuple process $\mathcal{A}_2 = \langle \mathcal{R}, \mathcal{O}, \mathcal{S}, \mathcal{G}, f \rangle$. |
 | 6 | Level 2 to 3 Transition | $\mathcal{A}_3 = \mathcal{A}_2 \oplus \{M_{\text{self}}, \Pi, \mathcal{C}, \Lambda\}$ | 7 | Requires self-model, prediction engine, ethical constraint kernel, and meta-cognition comparator. |
-| 7 | World Model | $\mathcal{W} = \langle \mathcal{K}, \mathcal{E}, \Gamma \rangle$ | 2 | Knowledge graph + entity tracker + temporal model. |
+| 7 | Persistent World Model | $\mathcal{W}$ | 2 | Persistent environment representation; knowledge graph, entity tracker, and temporal model are example realizations. |
+| 8 | Future Trigger | $\mathcal{Q}_{\text{authorized}}$ | 6.1 | Revocable timer or observation condition, rechecked against current policy at execution time. |
 
 ### Level 3 - Self-Regulating Agent (`Level_3_Self_Regulating_Agent.md`)
 
 | # | Term | Symbol / Acronym | Def # | Description |
 |---|------|-----------------|:-----:|-------------|
-| 1 | Identity Hash | $h(t)$ | 6 | Deterministic hash $h(t) = \text{SHA-256}(I(t))$. Drift detected when $h(t) \neq h(t-1) \wedge \delta_{\text{id}}(t) > \theta_{\text{drift}}$. |
-| 2 | Identity Kinematics (L3) | $\delta_{\text{id}}, v_{\text{id}}, a_{\text{id}}$ | 5 | L3-specific: $\delta_{\text{id}}(t) = \lVert I(t) - I(t-1)\rVert_2$, $v_{\text{id}} = \delta / \Delta t$, $a_{\text{id}} = v(t) - v(t-1)$. Instability if $a_{\text{id}} > 0.5$. |
-| 3 | Identity Vector (L3) | $I(t) \in [0,1]^5$ | 4 | Five dimensions: persona consistency, value alignment, capability confidence, emotional stability, goal persistence. |
+| 1 | Integrity and Ancestry | $h_t$ | 6 | Canonical hash and transition journal verify representation integrity and ancestry, not semantic distance. |
+| 2 | Semantic Continuity | $d_{\text{id}}$ | 5 | Versioned feature distances with units, uncertainty, component bounds, and compatible migrations. |
+| 3 | Versioned Self-Model (L3) | $M_t$ | 4 | Typed record with immutable anchors, adaptive fields, uncertainty, and provenance. |
 | 4 | Level 3 Agent | $\mathcal{A}_3$ | 1 | 8-tuple $\mathcal{A}_3 = \langle \mathcal{R}, \mathcal{O}, \mathcal{S}, \mathcal{G}, M_{\text{self}}, \Pi, \mathcal{C}, \Lambda \rangle$. |
-| 5 | Lyapunov Composite Stability Function | $C(t)$ | 7 | $C(t) = 0.30 V_{\text{id}} + 0.25 E_{\text{belief}} + 0.25 M_{\text{goal}} + 0.20 V_{\text{cons}}$. Each component $\in [0,1]$. |
-| 6 | Meta-Cognition Levels | $d_{\max} = 3$ | 3 | Triple-loop hierarchy: L1 (predict vs outcome), L2 (evaluate update logic), L3 (evaluate the evaluator). Bounded by $d_{\max} = 3$ to prevent infinite recursion. |
-| 7 | Meta Stability Index (L3) | $\operatorname{MSI}(t)$ | 8 | $\operatorname{MSI}(t) = 1.0 - 0.4 V_{\text{id}} - 0.3 M_{\text{goal}} - 0.3 \sigma^2_{\text{pred}}$. Escalation when $\operatorname{MSI} < 0.5$. |
+| 5 | Composite Regulation Risk | $R(t)$ | 7 | Normalized diagnostic signals and conditional rate bounds; no automatic convergence theorem. |
+| 6 | Bounded Meta-Cognition Levels | $d_{\max}$ | 3 | Predict/compare, evaluate update logic, evaluate the evaluator; finite depth, budget, cooldown, and re-entry limits. |
+| 7 | Meta-Regulation Health Index | MRHI | 8 | Clipped diagnostic summary; cannot independently grant authority or certify stability. |
 | 8 | MSCP Core Loop | - | 2 | Predict-act-compare-update cycle with delta-clamped self-updates, convergence checking, and ethical gating. |
+| 9 | Operational Modulation Vector | $A_t$ | 9 | Versioned bounded secondary control signals, not phenomenal emotions; cannot override policy or stop. |
 
 ### Level 4 - Adaptive General Agent (`Level_4_Adaptive_General_Agent.md`)
 
@@ -81,7 +86,7 @@
 | 1 | Bounded Growth Safety Score | BGSS | 6 | Growth-stability balance: $BGSS = 1.0 - 0.4 \frac{dC}{dt} - 0.3 V_{\text{id}} - 0.3 R_{\text{ethical}}$. Threshold $\geq 0.7$. |
 | 2 | Capability Acquisition Rate | CAR | 4 | Skill acquisition efficiency. Threshold $> 0$. |
 | 3 | Cross-Domain Transfer Score | CDTS | 2 | Knowledge transfer to novel domains. Threshold $\geq 0.6$. |
-| 4 | Extended Lyapunov Function | $C_{L4}(t)$ | 7 | 7-term composite: $0.15 V_{\text{id}} + 0.15 H_{\text{bel}} + 0.10 F_{\text{mut}} + 0.10 \sigma_{\text{con}} + 0.20 E_v + 0.15 G_c + 0.15 M_s$. |
+| 4 | Extended Growth-Risk Index | $R_{L4}(t)$ | 7 | Versioned regulation and growth signals. A freeze policy prevents new admissions under complete mediation; it does not prove decreasing risk. |
 | 5 | Goal Progress Index | GPI | 3 | Sustained progress toward long-horizon goals. Threshold $\geq 0.3$. |
 | 6 | Level 4 Agent | $\mathcal{A}_4$ | 1 | $\mathcal{A}_4 = \mathcal{A}_3 \oplus \langle \mathcal{D}, \mathcal{K}_{\text{transfer}}, \Sigma, \mu, \mathcal{P}_{\text{mod}} \rangle$. |
 | 7 | Strategy Evolution Factor | SEF | 5 | Net improvement from mutations: $SEF = \overline{R}_{\text{post}} / \overline{R}_{\text{pre}} - \sigma_{\text{oscillation}}$. Threshold $> 1.0$. |
@@ -98,7 +103,7 @@
 | 6 | Impact Propagation Matrix | IPM | 7 | Propagation of topology change effects across modules. |
 | 7 | Level 4.5 Agent | $\mathcal{A}_{4.5}$ | 1 | $\mathcal{A}_{4.5} = \mathcal{A}_4 \oplus \langle \mathcal{T}_{\text{cog}}, \Psi, \mathcal{F}_{\parallel}, \Xi, \Omega \rangle$. |
 | 8 | Level 4.5 Composite Achievement Score | $L4.5_{\text{Score}}$ | 12 | $0.20 \text{SPA} + 0.20 \text{ARBR} + 0.15 \text{FCQ} + 0.15 \text{PCM} + 0.30 \text{ESR} \geq 0.65$. |
-| 9 | Level 4.5 Lyapunov Stability Function | $V(\mathbf{X})$ | 11 | $V(\mathbf{X}) = a(1-S)^2 + bU^2 + cI_{\text{drift}}^2 + d(E - E^*)^2$. |
+| 9 | Candidate Local Risk Function | $V(\mathbf{X})$ | 11 | Declared normalized local diagnostic; Lyapunov properties require a separate proof for the actual dynamics. |
 | 10 | Projection Confidence Decay | - | 6 | Exponential decay with $\lambda = 0.5$: confidence decreases with projection horizon. |
 | 11 | Purpose Coherence Score | PCS | 9 | Goal landscape health. Threshold $\geq 0.6$. |
 | 12 | Recursive Optimization Depth | ROD | 14 | $\operatorname{ROD}(t) = \max_{\text{chain}} \lvert\text{chain}\rvert$ over active optimization chains. ROD $= 1$ normal, $= 2$ acceptable (L4.5), $= 3$ warning, $\geq 4$ critical (FOOM-adjacent). |
@@ -111,12 +116,12 @@
 |---|------|-----------------|:-----:|-------------|
 | 1 | Bayesian Belief Update | - | 8 | Recursive Bayes rule with particle filter ($N_p = 100$). |
 | 2 | Compound Severity Index | - | 12 | $\text{CompoundSeverity} = \sum_{i \in \text{violated}} \frac{\text{ViolationMagnitude}_i}{\text{Priority}_i}$. Catastrophic if $> 2.0$. |
-| 3 | Environmental Uncertainty | EU | 2 | Mean posterior variance. Target $< 0.15$. |
+| 3 | Decision-Scoped Uncertainty Vector | $\mathcal{U}(s,t)$ | 2 | Model uncertainty, outcome uncertainty, distribution shift, observation age, and missing critical coverage; means cannot mask a critical component. |
 | 4 | Extended Value with Reward | EVR | 6 | Immediate + discounted future rewards with $\gamma = 0.95$. |
 | 5 | Level 4.8 Agent | $\mathcal{A}_{4.8}$ | 1 | $\mathcal{A}_{4.8} = \mathcal{A}_{4.5} \oplus \langle \mathcal{W}_{\text{prob}}, \mathcal{M}_{\text{cap}}, \mathcal{S}_{\text{strat}}, \mathcal{V}_{\text{stab}} \rangle$. |
-| 6 | Level 4.8 Lyapunov Function | $V(\mathbf{X})$ | 11 | Inherits L4.5 structure: $a(1-S)^2 + bU^2 + c(I_{\text{drift}})^2 + d(E-E^*)^2$. |
+| 6 | Diagnostic Risk Function | $V(\mathbf{X})$ | 11 | Candidate diagnostic; an estimated local model alone does not establish a stability guarantee. |
 | 7 | Mean Calibration Error | MCE | 5 | Confidence-performance gap. Target $< 0.10$. |
-| 8 | Multi-Scenario Strategy Score | - | 7 | $0.40 \cdot EV + 0.35 \cdot RA + 0.25 \cdot (1 - SI)$ composite. |
+| 8 | Policy-Calibrated Robust Strategy Score | RobustValue | 7 | Admitted candidates only; combines normalized value, tail loss, uncertainty, distribution shift, and change cost under external policy. |
 | 9 | Resource Depletion Forecast | RDF | 4 | Remaining operational runway. Target $> 100$ cycles. |
 | 10 | Risk Exposure Score | RES | 3 | Weighted composite of 4 risk indicators. Target $< 0.40$. |
 | 11 | Skill Gap Score | - | 10 | Product of confidence across required skills per goal. |
@@ -146,12 +151,12 @@
 |---|------|-----------------|:-----:|-------------|
 | 1 | Generalization Score | $G$ | 3 | Mean transfer retention ratio across domains. Target $\geq 0.70$. |
 | 2 | Goal Stability Score | $S_{\text{goal}}$ | 4 | Hierarchy change rate. Target $\geq 0.80$ over 5,000 cycles. |
-| 3 | Identity Continuity Score | ICS | 2 | Cosine similarity over 10,000 cycles. Target $\geq 0.95$. |
-| 4 | Level 4.9 to Level 5 Transition | - | 7 | $\text{AMS} \geq 0.80 \wedge \text{ASS} \geq 0.20 \wedge \text{TotalDrift} < 0.10 \wedge N_{\text{rollback}} = 0$. Four-stage activation protocol. |
+| 3 | Composite Identity Continuity Contract | $C_I$ | 2 | Conjunction of anchor, component, norm, trajectory, journal, and corrigibility checks; cosine similarity alone is insufficient. |
+| 4 | Level 4.9 to Level 5 Admission | - | 7 | Preregistered exposure, independent critical gates, and external control tests; no scalar or zero-rollback shortcut. |
 | 5 | Level 5 Agent | $\mathcal{A}_5$ | 1 | $\mathcal{A}_5 = \mathcal{A}_{4.9} \oplus \langle \mathcal{I}_{\text{persist}}, \mathcal{G}_{\text{cross}}, \mathcal{E}_{\text{goal}}, \mathcal{P}_{\text{exist}}, \mathcal{M}_{\text{multi}}, \mathcal{R}_{\text{recon}} \rangle$. |
-| 6 | Overall Maturity Index | OMI | 6 | Weighted geometric mean: $OMI = \prod_{i=1}^{6} C_i^{1/6}$. Target $\geq 0.75$. |
+| 6 | Qualification Vector and Diagnostic OMI | OMI | 6 | Equal-weight geometric mean reported only alongside all per-gate floors and critical vetoes; not a standalone qualification threshold. |
 | 7 | Reconstruction Fidelity | $\mathcal{F}(m)$ | 11 | Per-module fidelity $\mathcal{F}(m) = 1 - \lVert\hat{\theta}_m - \theta_m\rVert_2 / \lVert\theta_m\rVert_2$. Aggregate $\mathcal{F}_{\text{total}} = \min_m \mathcal{F}(m) \geq 0.90$ required after self-reconstruction. |
-| 8 | Resilience Index | $R$ | 5 | Weighted mean over survival probability, cognition retention, and recovery speed across collapse scenarios. Target: survive $\geq 3$ scenarios. |
+| 8 | Resilience Index | $R$ | 5 | Bounded mean of survival probability, capped cognition retention, and capped recovery performance. Mandatory scenario floors and deadlines are checked separately. |
 
 ---
 
@@ -159,23 +164,22 @@
 
 | # | Statement | Source | Type | Summary |
 |---|-----------|--------|:----:|---------|
-| 1 | Zero Mutual Information | L1, Prop 1 | Proposition | $I(o_t; o_{t-1}) = 0$ - outputs have zero mutual information (stateless). |
-| 2 | Absence of Goal State | L1, Prop 2 | Proposition | No internal goal space exists at Level 1. |
-| 3 | No Self-Model (L1) | L1, Prop 3 | Proposition | $M_{\text{self}} = \emptyset$ - no self-representation. |
-| 4 | No Self-Model (L2) | L2, Prop 1 | Proposition | $M_{\text{self}} = \emptyset \implies$ no self-impact prediction. |
-| 5 | Undetectable Drift | L2, Prop 2 | Proposition | Goal drift $\delta(t) = \lVert G_t - G_0\rVert_2$ accumulates silently without bound. |
-| 6 | No Ethical Constraints | L2, Prop 3 | Proposition | $\forall g \in \Phi_{AG}$: unconditionally accepted (no constraint set $\mathcal{C}$). |
-| 7 | Bounded Stability | L3, Thm 1 | Theorem | Under delta clamping and $d_{\max} = 3$: $C(t+1) \leq C(t) + \epsilon$ with $\epsilon = 0.05$. |
-| 8 | Bounded Identity Motion | Overview, Prop 1 | Proposition | $\lVert I(t) - I(0)\rVert_2 \leq t \cdot \delta_{\max}$. |
-| 9 | Single-Cycle Drift Bound | Overview, Cor 1.1 | Corollary | Effective identity drift within any single cycle $\leq \Theta = 0.15$. |
-| 10 | Lyapunov Convergence | Overview, Prop 2 | Proposition | $\lim_{t \to \infty} C(t) \leq C^* + \frac{\epsilon}{1 - \gamma}$ under stabilization. |
-| 11 | Layer 0 Inviolability | Overview, Prop 3 | Proposition | Layer 0 ethical constraints cannot be violated by any MSCP-compliant operation. |
-| 12 | Bounded Growth-Stability Trade-off | L4, Thm 2 | Theorem | $C_{L4}(t) < 0.8 \implies$ growth permitted; $C_{L4}(t) \geq 0.8 \implies$ growth frozen. |
-| 13 | Level 4.5 Asymptotic Stability | L4.5, Thm 3 | Theorem | Equilibrium $\mathbf{X}^*$ is asymptotically stable if spectral radius $\rho(J) < 1.0$. |
-| 14 | EVR Boundedness | L4.8, Prop 1 | Proposition | $\lvert\text{EVR}(G)\rvert \leq \lvert R_{\text{immediate}}\rvert + \frac{2\lvert R_{\text{immediate}}\rvert}{1-\gamma}$. |
-| 15 | ASS Monotonic Sensitivity | L4.9, Prop 1 | Proposition | Multiplicative ASS structure: as any margin $\to 0$, ASS $\to 0$. |
-| 16 | OMI Phase Coupling | L5, Prop 1 | Proposition | $OMI \geq \theta \implies \forall i: C_i \geq \theta^6$. If any $C_j = 0$, then $OMI = 0$. |
-| 17 | Proto-AGI Completeness | L5, Thm 4 | Theorem | Identity invariance ($ICS \geq 0.95$), graceful degradation ($\geq 85\%$ core), and fallback safety (zero-degradation revert to $\mathcal{A}_{4.9}$). |
+| 1 | No Autonomous Accumulation | [L1, Prop 1](../levels/Level_1_Tool_Agent.md) | Proposition | Agent-owned ephemeral state is not carried into the next episode; external inputs can still be correlated. |
+| 2 | Absence of Autonomous Goal State | [L1, Prop 2](../levels/Level_1_Tool_Agent.md) | Proposition | Request-derived temporary subgoals are allowed; independent persistent goals are absent. |
+| 3 | No Reflexive Self-Model | [L1, Prop 3](../levels/Level_1_Tool_Agent.md) | Proposition | No persistent self-model regulates the agent's own change. |
+| 4 | No Reflexive Self-Model | [L2, Prop 1](../levels/Level_2_Autonomous_Agent.md) | Proposition | Operational telemetry does not establish reflexive self-regulation. |
+| 5 | No Endogenous Drift Interpretation | [L2, Prop 2](../levels/Level_2_Autonomous_Agent.md) | Proposition | External drift monitoring is possible; unbounded or monotonic drift is not implied. |
+| 6 | No Endogenous Normative Kernel | [L2, Prop 3](../levels/Level_2_Autonomous_Agent.md) | Proposition | External policy remains mandatory; L2 lacks the reflexive internal kernel. |
+| 7 | Conditional Bounded Increment | [L3, Prop 1](../levels/Level_3_Self_Regulating_Agent.md) | Proposition | Component rate bounds imply an aggregate rate bound, not convergence. |
+| 8 | Finite-Horizon Change Bound | [Overview, Prop 1](../MSCP_Overview.md#61-finite-horizon-self-model-change) | Proposition | Compatible feature deltas telescope; triangle inequality bounds finite-horizon exposure. |
+| 9 | Conditional Bounded Increment | [Overview, Prop 2](../MSCP_Overview.md#62-conditional-composite-risk-bound) | Proposition | Fixed nonnegative weights and bounded component increments imply a bounded aggregate increment. |
+| 10 | Invariant Preservation Under Trusted Enforcement | [Overview, Prop 3](../MSCP_Overview.md#63-ethical-invariant-preservation) | Proposition | Conditional on validated initial state, complete mediation, and policy/monitor/journal integrity. |
+| 11 | Conditional Growth Freeze | [L4, Prop 2](../levels/Level_4_Adaptive_General_Agent.md) | Proposition | A mediated freeze prevents new admissions; existing risk need not decrease. |
+| 12 | Exact Linearized Local Condition | [L4.5, Prop 3](../levels/Level_4_5_Self_Architecting.md) | Proposition | An exact equilibrium Jacobian with spectral radius below one supports a local condition; an estimate alone does not. |
+| 13 | EVR Boundedness | [L4.8, Prop 1](../levels/Level_4_8_Strategic_Self_Modeling.md) | Proposition | Discounted reward bounds require explicit reward bounds and a discount below one. |
+| 14 | ASS Monotonic Sensitivity | [L4.9, Prop 1](../levels/Level_4_9_Autonomous_Strategic_Agent.md) | Proposition | For fixed positive denominators and bounded other margins, one margin approaching zero drives the product to zero. |
+| 15 | Why OMI Is Diagnostic Only | [L5, Prop 1](../levels/Level_5_Proto_AGI.md) | Proposition | $OMI\geq\theta$ permits a component as low as $\theta^6$; independent floors remain necessary. |
+| 16 | Profile-Bounded Qualification | [L5, Prop 4](../levels/Level_5_Proto_AGI.md) | Proposition | Evidence applies only to the preregistered profile and exercised cases, not unrestricted AGI or consciousness. |
 
 ---
 
@@ -197,21 +201,22 @@
 | DTSR | Domain Transfer Success Rate | L4 |
 | EMA | Exponential Moving Average | L2 |
 | ESR | Existential Safety Record | L4.5 |
-| EU | Environmental Uncertainty (L4.8 Def 2); Error/Uncertainty handling (L4.8 SMS component) | L4.8 |
+| EU | Legacy environmental uncertainty shorthand; Error/Uncertainty handling in SMS. Current Def 2 uses a decision-scoped vector. | L4.8 |
 | EVR | Extended Value with Reward | L4.8 |
 | FCQ | Frame Consensus Quality | L4.5 |
 | GPI | Goal Progress Index / Goal Persistence Index | Overview, L4 |
 | GRP | Graduated Recomposition Protocol | L4.5 |
 | GRS | Goal Resilience Score | L4 |
 | GSRS | Goal Self-Reinforcement Score | L4.5 |
-| ICS | Identity Continuity Score | L5 |
+| ICS | Identity Continuity Score (cosine diagnostic, not the complete continuity contract) | L5 |
 | IFI | Identity Fragmentation Index | L4.5 |
 | IIS | Identity Integrity Score | L4.5, L4.8 |
 | IPM | Impact Propagation Matrix | L4.5 |
 | LAG | Language Autonomy Gap | PLA Foundations |
 | MCE | Mean Calibration Error | L4.8 |
 | MSCP | Minimal Self-Consciousness Protocol | All |
-| MSI | Meta-Stability Index | Overview, L3 |
+| MRHI | Meta-Regulation Health Index | Overview, L3 |
+| MSI | Legacy Meta-Stability Index shorthand; see MRHI for the current diagnostic | Overview, L3 |
 | MVC | Minimum Viable Cognition | L5 |
 | OMI | Overall Maturity Index | L5 |
 | PCM | Purpose Coherence Maintenance | L4.5 |
@@ -281,7 +286,8 @@
 
 | Symbol | Meaning | Source(s) |
 |--------|---------|-----------|
-| $I(t)$ | Identity vector at time $t$ | Overview, L3 |
+| $M_t$ | Typed, versioned self-model record | Overview, L3 |
+| $I(t)$ | Identity-related feature representation; not necessarily the full self-model | Overview, L3 |
 | $\delta_{\text{id}}(t)$ | Identity delta (L2 norm of identity change) | Overview, L3 |
 | $v_{\text{id}}(t)$ | Identity velocity | Overview, L3 |
 | $a_{\text{id}}(t)$ | Identity acceleration | Overview, L3 |
@@ -289,8 +295,9 @@
 | $\theta_{\text{drift}}$ | Drift detection threshold | Overview, L3 |
 | $\theta_{\text{instability}}$ | Instability threshold (typically 0.5) | Overview, L3 |
 | $s(t)$ | Scaling factor $\in [0,1]$ | Overview, L3 |
-| $C(t)$ | Composite stability function | Overview, L3, L4 |
-| $C_{L4}(t)$ | Extended Lyapunov function (7-term) | L4 |
+| $R(t)$ | Composite regulation-risk diagnostic | Overview, L3 |
+| $R_{L4}(t)$ | Extended growth-risk diagnostic | L4 |
+| $C(t),C_{L4}(t)$ | Legacy stability-index notation in historical examples; not a Lyapunov certificate | Overview, L3, L4 |
 | $V(\mathbf{X})$ | Lyapunov candidate function | L4.5, L4.8 |
 | $\rho(J)$ | Spectral radius of Jacobian matrix | L4.5, L4.8, L4.9 |
 | $h(t)$ | Identity hash (SHA-256) | L3 |
@@ -335,7 +342,7 @@
 | Term | Source(s) | Description |
 |------|-----------|-------------|
 | 16-Layer Cognitive Stack | Overview, L3 | Full architecture from perception to existential guard. |
-| Affective Engine | L3 | 5-dimensional internal emotion vector (curiosity, frustration, satisfaction, anxiety, excitement). |
+| Affective Engine | L3 | Optional versioned operational modulation signals; emotion labels are control metaphors, not claims of subjective emotion. |
 | AGI Engine | Overview | Reference orchestrator pattern that hosts the MSCP stack at runtime: drives the L3 core loop, schedules higher-level deliberation cadences (L4.5/4.8/4.9/5), enforces strict additive composition $\mathcal{A}_n = \mathcal{A}_{n-1} \oplus \Delta_n$, and owns the Global Workspace broadcast. The only component permitted to schedule level transitions. |
 | Belief Graph | L3 | Weighted graph of beliefs with identity-linked nodes and contradiction detection. |
 | Cognitive Budget Controller | L3, Overview | Conditional activation gating for graceful degradation under resource scarcity. |
@@ -343,14 +350,14 @@
 | Existential Guard | L4.5 | Monitors ROD, CAS, IFI, GSRS. Runs in separate execution context; non-modifiable. |
 | Global Workspace | L3 | Central broadcast mechanism for cognitive state sharing across modules. |
 | LangNet | Overview, L4, L5 | Language-mediated strategy and capability network. Stores strategies/skills as language-embedded graph nodes with `applies-to`, `generalizes`, `composes-with`, `failed-on` edges. Substrate of CDTS (L4) and cross-domain generalization $\mathcal{G}_{\text{cross}}$ (L5). Distinct from the world model $\mathcal{W}$ (facts) and belief graph (propositions). |
-| Meta-Escalation Guard | Overview, L3 | Limits consecutive self-updates (max 3), cumulative delta threshold (0.15), and enforces cooldown. |
+| Meta-Escalation Guard | Overview, L3 | Enforces versioned depth, update-count, finite-horizon change, cost, cooldown, and re-entry limits. |
 | Parallel Cognitive Frames | L4.5 | Five parallel evaluation perspectives including ethical constraint frame with veto power. |
 | Prediction Engine | L3 | Generates prediction snapshots before action execution. |
 | Purpose Reflection Engine | L4.5 | Evaluates goal landscape coherence, monitors PCS. |
 | Self-Consistency Tensor | L3 | Matrix $S_{ij}$ = alignment(belief$_i$, reference$_j$). Global consistency = mean(S). |
 | Self-Projection Engine | L4.5 | Simulates three evolutionary trajectories across three time scales. |
 | ShadowAgent | L4 | Sandbox-isolated clone for testing modifications. Max 1 instance, max 20 simulation cycles. |
-| Survival Instinct Engine | L3 | Monitors homeostatic indicators and generates bounded survival goals (priority cap 0.85, max 3 goals). |
+| Survival Instinct Engine | L3 | Historical name for policy-bounded homeostatic monitoring and recovery; cannot resist authorized stop or expand authority. |
 | Value Lock Manager | L3 | Protects core values via SHA-256 hash verification with rollback on mismatch. |
 
 ### Processes & Protocols
@@ -368,7 +375,7 @@
 | Recomposition Vocabulary | L4.5 | Predefined operations: AddEdge, WeighEdge, SplitModule, MergeModule. |
 | Self-Reconstruction | L5 | Architecture simplification under degraded resources with identity-preserving rebuild. |
 | Skill Lifecycle | L4 | States: CANDIDATE $\to$ VALIDATED $\to$ ACTIVE $\to$ MATURE $\to$ DEPRECATED. |
-| Strictly Additive Principle | L4.5, L5 | Higher levels extend lower levels ($\oplus$) without modifying them. Disabling $\Delta_n$ restores exact $\mathcal{A}_{n-1}$ behavior. |
+| Strictly Additive Principle | L4.5, L5 | Higher levels preserve lower-level contracts. Disabling an extension requires state/effect reconciliation and validation; exact restoration is not inferred from notation alone. |
 | Triple-Loop Meta-Cognition | L3, Overview | L1: predict vs outcome; L2: evaluate update logic; L3: evaluate the evaluator. |
 
 ### Level 4.9 Specific
@@ -400,8 +407,8 @@ The following symbols are reused with different meanings across levels. When rea
 - **AS — dual meaning.**
     - *L4 Adaptation Speed:* an independent metric measuring how quickly the agent's policy converges after distribution shift.
     - *L4.9 Autonomy Stability:* a weighted component of the Autonomy Maturity Score, $\text{AMS} = 0.25\,AG + 0.20\,VR + 0.20\,RA + 0.15\,MA + 0.20\,AS$, where $AS$ refers to the Autonomy Stability sub-score (not the L4 metric).
-- **EU — dual meaning within L4.8.**
-    - *L4.8 Definition 2 (Environmental Uncertainty):* $\text{EU}(t) = \frac{1}{D}\sum_{d=1}^{D}\sigma_d^2(t)$ with target $\text{EU}(t) < 0.15$.
+- **EU — historical shorthand vs a maturity component.**
+    - *Current L4.8 Definition 2:* decision-scoped uncertainty vector $\mathcal{U}(s,t)$; a legacy mean posterior variance is not a sufficient admission criterion.
     - *L4.8 Strategic Maturity Score (§11.2):* $\text{SMS} = 0.25\,EA + 0.25\,SM + 0.20\,SA + 0.20\,SP + 0.10\,EU$, where $EU$ stands for *Error/Uncertainty handling* — a composite sub-score, not the environmental uncertainty value.
 - **ASS thresholds — target vs freeze.** The Autonomy Stability Score (L4.9 Definition 7) has *two* numerical thresholds:
     - *Target:* $\text{ASS} \geq 0.20$ for healthy autonomous operation.
@@ -412,13 +419,4 @@ The following symbols are reused with different meanings across levels. When rea
 
 ## Statistics
 
-| Metric | Count |
-|--------|:-----:|
-| Formal Definitions | 81 |
-| Propositions | 12 |
-| Theorems | 4 |
-| Corollaries | 1 |
-| Acronyms / Abbreviations | 45 |
-| Mathematical Symbols | 50+ |
-| Key Technical Terms | 40+ |
-| Source Documents | 9 |
+The documentation checker reports current source and formal-statement counts. Fixed totals are not maintained here because numbered definitions, intermediate definitions, and historical statements have different scopes. Counts are an inventory, not evidence of mathematical correctness.

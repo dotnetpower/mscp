@@ -8,6 +8,6 @@ env/
 .env
 .env.*
 .cache/
+node_modules/
 .github/copilot-instructions.md
 .github/copilot-project-instructions.md
-

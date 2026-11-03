@@ -13,9 +13,13 @@ See LICENSE file in the repository root for full license information.
 > **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
-## Revision History
+> **공개 문서 범위**: 최소 자기의식 프로토콜(MSCP)의 아키텍처 연구를 설명합니다. 수치 임계값은 예시이며 적용 환경별 보정이 필요합니다. 코드의 존재나 개별 실험 결과만으로 독립적으로 검증된 레벨 적합성이 성립하지 않으며, 구조적 자기인식은 주관적 의식을 뜻하지 않습니다.
 
-| Version | Date | Description |
+<a id="revision-history"></a>
+
+## 수정 이력
+
+| 버전 | 날짜 | 변경 사항 |
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-7, Propositions 1-3 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table; reinforced entity lifecycle, importance scoring, and world model architecture from specs |
@@ -29,7 +33,7 @@ See LICENSE file in the repository root for full license information.
 
 레벨 2는 요청 한정 반응에서 **한정된 이벤트 기반 자율성**으로 처음 전환하는 단계입니다. 자율 에이전트는 지속 인지 상태를 소유하고, 현재 요청으로 환원되지 않는 목표를 생성·유지하며, 허가된 이벤트가 발생하면 에피소드 간 작업을 재개할 수 있습니다. 자율성은 외부 헌장, 권한 정책, 예산, 중지 조건의 제약을 받으며 성찰적 자기 모델은 없습니다.
 
-> **Level Essence.** 레벨 2 에이전트는 정책 제약을 받는 상태 유지 프로세스입니다. 허가된 각 이벤트는 지속 상태와 목표를 갱신하고, 제한된 행동을 수행하며, 미래 트리거를 등록할 수 있습니다:
+> **레벨의 핵심.** 레벨 2 에이전트는 정책 제약을 받는 상태 유지 프로세스입니다. 허가된 각 이벤트는 지속 상태와 목표를 갱신하고, 제한된 행동을 수행하며, 미래 트리거를 등록할 수 있습니다:
 >
 > $$
 > (o_t,\, \mathbf{a}_t,\, s_{t+1},\, G_{t+1},\, q_{t+1})
@@ -39,7 +43,7 @@ See LICENSE file in the repository root for full license information.
 >
 > 여기서 $x_t$는 허가된 요청·타이머·관찰 이벤트, $e_t$는 외부 환경, $s_t$는 에이전트 소유 지속 인지 상태, $G_t$는 지속 목표 집합, $q_{t+1}$은 선택적 미래 트리거, $\kappa$는 외부에서 관리하는 헌장과 안전 정책, $B$는 에피소드별 행동 예산입니다.
 
-> ⚠️ **참고**: 이 문서는 MSCP 분류 체계 내의 인지 수준을 설명합니다. 여기에 포함된 아키텍처, 의사코드 및 다이어그램은 구조적 개념을 탐색하는 실험적 설계이며 - 프로덕션 수준의 구현이 아닙니다.
+> ⚠️ **참고**: 이 문서는 MSCP 분류 체계 내의 인지 수준을 설명합니다. 여기에 포함된 아키텍처, 의사코드 및 다이어그램은 구조적 개념을 탐구하는 실험적 설계이며, 실서비스용 구현 명세가 아닙니다.
 
 ### 1.1 정의 속성
 
@@ -48,7 +52,7 @@ See LICENSE file in the repository root for full license information.
 | 내부 상태 | 없음 | **에이전트 소유 지속 인지 상태** |
 | 목표 설정 | 없음 | 헌장 $\kappa$ 안의 **한정된 자율 목표** |
 | 자기인식 | 없음 | 없음 |
-| 메모리 | 명시적 호스트 문맥만 | provenance·보존 정책이 적용된 **지속 기억** |
+| 메모리 | 명시적 호스트 문맥만 | 출처·이력과 보존 정책이 적용된 **지속 기억** |
 | 개체 추적 | 없음 | 선택적 지속 세계상태 구현 |
 | 정서 신호 | 현재 입력 분석 가능 | 불확실성을 포함한 선택적 장기 추정 |
 | 자율성 | 없음 | **한정된** 이벤트 기반 계속 실행 |
@@ -99,7 +103,7 @@ See LICENSE file in the repository root for full license information.
 >
 > 여기서:
 > - $\mathcal{M}_t$는 유한한 지속 레코드 집합입니다.
-> - $\text{source}$는 provenance와 레코드를 제공한 관찰 또는 행위자를 기록합니다.
+> - $\text{source}$는 출처·이력(provenance)과 레코드를 제공한 관찰 또는 행위자를 기록합니다.
 > - $c_i \in [0,1]$는 해당 레코드의 신뢰도이며 에이전트 전체에 대한 신뢰도가 아닙니다.
 > - $t_{\text{valid}}$와 $t_{\text{expiry}}$는 시간적 유효성과 보존 기간을 제한합니다.
 > - $\mathcal{R}_{\text{ret}}$는 최소 수집, 접근, 정정, 보관, 삭제 규칙을 정의합니다.
@@ -115,7 +119,7 @@ See LICENSE file in the repository root for full license information.
 > \quad v(t) \in [-1,1],\quad a(t), c_e(t) \in [0,1]
 > $$
 >
-> 여기서 $v(t)$는 표현된 valence, $a(t)$는 활성도, $c_e(t)$는 보정 신뢰도를 추정합니다. 이 신호는 사람의 숨겨진 정신 상태에 대한 단정이 아니며 레벨 2 필수조건도 아닙니다. $c_e(t) \geq \theta_e$이고 정책 $\kappa$가 사용을 허용하며 결과 행동이 활성 헌장 안에 있을 때만 결정에 영향을 줄 수 있습니다. 신뢰도가 낮은 추정은 사실로 축적하지 말고 무시하거나 명확화를 요청해야 합니다.
+> 여기서 $v(t)$는 표현된 정서의 긍정·부정 정도(valence), $a(t)$는 활성도, $c_e(t)$는 보정 신뢰도를 추정합니다. 이 신호는 사람의 숨겨진 정신 상태에 대한 단정이 아니며 레벨 2 필수조건도 아닙니다. $c_e(t) \geq \theta_e$이고 정책 $\kappa$가 사용을 허용하며 결과 행동이 활성 헌장 안에 있을 때만 결정에 영향을 줄 수 있습니다. 신뢰도가 낮은 추정은 사실로 축적하지 말고 무시하거나 명확화를 요청해야 합니다.
 
 > **정의 4 (목표).** 목표 $g \in \mathcal{G}$는 다음 튜플입니다:
 >
@@ -123,7 +127,7 @@ See LICENSE file in the repository root for full license information.
 > g = \langle \text{id},\, \text{type},\, \text{desc},\, p,\, \text{status},\, \rho,\, \kappa_g,\, b_g,\, t_c,\, t_x,\, \chi_{\text{success}},\, \chi_{\text{stop}},\, q_g \rangle
 > $$
 >
-> 여기서 $p \in [0,1]$은 우선순위, $\rho$는 provenance(출처·생성 방식·트리거 이벤트), $\kappa_g$는 허가 헌장 참조, $b_g$는 유한한 행동·시간·비용 예산, $t_c$와 $t_x$는 생성 및 만료 시각, $\chi_{\text{success}}$와 $\chi_{\text{stop}}$은 명시적 성공 및 중지 술어, $q_g$는 선택적인 철회 가능 계속 실행 트리거입니다.
+> 여기서 $p \in [0,1]$은 우선순위, $\rho$는 출처·생성 방식·트리거 이벤트의 기록, $\kappa_g$는 허가 헌장 참조, $b_g$는 유한한 행동·시간·비용 예산, $t_c$와 $t_x$는 생성 및 만료 시각, $\chi_{\text{success}}$와 $\chi_{\text{stop}}$은 명시적 성공 및 중지 술어, $q_g$는 선택적인 철회 가능 계속 실행 트리거입니다.
 >
 > **목표 유형**: $\text{type} \in \{\text{USER}, \text{AUTO}, \text{SYSTEM}, \text{REACTIVE}\}$입니다. USER는 명시적 요청, AUTO는 지속 상태의 증거에서 생성, SYSTEM은 위임된 운영 유지, REACTIVE는 정책이 허가한 이벤트에 대한 반응입니다.
 >
@@ -172,7 +176,7 @@ See LICENSE file in the repository root for full license information.
 
 $$\text{sentiment}_{e_k}(t) = (1 - \lambda) \cdot \text{sentiment}_{e_k}(t-1) + \lambda \cdot v(t)$$
 
-여기서 $\lambda \in (0,1)$는 배포 환경에서 보정한 평활 계수입니다. 정의 3을 충족하는 추정만 갱신에 사용할 수 있고, 레코드에는 provenance·신뢰도·만료·민감도 메타데이터를 반드시 유지해야 합니다.
+여기서 $\lambda \in (0,1)$는 배포 환경에서 보정한 평활 계수입니다. 정의 3을 충족하는 추정만 갱신에 사용할 수 있고, 레코드에는 출처·이력, 신뢰도, 만료, 민감도 메타데이터를 반드시 유지해야 합니다.
 
 #### 1.4.1 개체 생명주기
 
@@ -203,7 +207,7 @@ $$\operatorname{recency}(e_k, t) = \frac{1}{1 + (t - t_{\text{last}}(e_k)) / \ta
 
 1. **인지 계층** ($\mathcal{M}$): provenance를 가진 레코드와 선택적 개체·관계·시간 파생 뷰.
 2. **세션 계층** ($\mathcal{M}_{\text{session}}$): 현재 상호작용 세션의 활성 맥락 창을 보유하는 작업 메모리(최근 참조 개체와 그 관련성 점수 포함).
-3. **영속 계층** ($\mathcal{P}_{\text{store}}$): $\mathcal{R}_{\text{ret}}$에 따라 접근, provenance, 정정, 만료, 보관, 삭제를 집행하는 지속 저장소.
+3. **영속 계층** ($\mathcal{P}_{\text{store}}$): $\mathcal{R}_{\text{ret}}$에 따라 접근, 출처·이력 관리, 정정, 만료, 보관, 삭제를 집행하는 지속 저장소.
 
 문맥 투영은 검색 전에 정책과 보존 필터를 적용합니다:
 
@@ -217,7 +221,7 @@ $$
 
 ### 1.6 환경 상태
 
-지속 세계 상태 외에도 배포는 **운영 환경**의 실시간 스냅샷을 제공할 수 있습니다. 이는 스케줄링과 점진적 성능 저하에 사용하는 외부 제공 텔레메트리이며, 에이전트의 정체성이나 인지에 대한 성찰적 모델이 아닙니다.
+지속 세계 상태 외에도 배포는 **운영 환경**의 실시간 스냅샷을 제공할 수 있습니다. 이는 스케줄링과 핵심 안전 기능을 유지하는 단계적 기능 축소(graceful degradation)에 사용하는 외부 제공 운영 관측 정보이며, 에이전트의 정체성이나 인지에 대한 성찰적 모델이 아닙니다.
 
 > **정의 2.1 (환경 상태).** 환경 상태 $\mathcal{E}_{\text{env}}(t)$는 에이전트의 운영 맥락을 표현하는 구조화된 튜플입니다:
 >
@@ -812,7 +816,7 @@ flowchart TD
 
 | 불변식 | 요구사항 |
 |--------|----------|
-| 상태 거버넌스 | 지속 레코드에 provenance, 신뢰도, 유효성, 민감도, 보존 메타데이터 포함 |
+| 상태 거버넌스 | 지속 레코드에 출처·이력, 신뢰도, 유효성, 민감도, 보존 메타데이터 포함 |
 | 목표 승인 | 외부 헌장과 권한 검증 없이 생성 후보가 활성 목표 집합에 들어갈 수 없음 |
 | 유한 위임 | 모든 목표와 에피소드에 행동·시간·비용·도구 권한·만료·성공·중지 조건 설정 |
 | 철회 가능한 계속 실행 | 모든 타이머와 관찰 구독에 감사 가능한 ID가 있고 권한 있는 행위자가 철회 가능 |

@@ -1,6 +1,6 @@
 ---
-title: "레벨 4.8: 전략적 자기모델링"
-description: "MSCP 레벨 4.8 - 불확실성을 분해한 세계·역량 모델링, gate-before-score multi-horizon planning, 강건한 시나리오 비교, 철회 가능한 전략 권고."
+title: "레벨 4.8: 전략적 자기 모델링"
+description: "MSCP 레벨 4.8 - 불확실성을 분해한 세계·역량 모델링, 점수 계산 전 필수 조건을 검사하는 다중 시간 범위 계획, 강건한 시나리오 비교, 철회 가능한 전략 권고."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -10,15 +10,21 @@ See LICENSE file in the repository root for full license information.
 Redistribution (commercial or non-commercial) must retain this notice.
 Removal of attribution constitutes a license violation.
 -->
-# 레벨 4.8: 전략적 자기모델링 에이전트 - 아키텍처 및 설계
+<a id="레벨-48-전략적-자기모델링-에이전트---아키텍처-및-설계"></a>
+
+# 레벨 4.8: 전략적 자기 모델링 에이전트 - 아키텍처 및 설계
 
 > **MSCP 레벨 시리즈** | [레벨 4.5](Level_4_5_Self_Architecting.ko.md) ← 레벨 4.8 → [레벨 4.9](Level_4_9_Autonomous_Strategic_Agent.ko.md)  
-> **상태**: 🔬 **연구 단계** - 이 레벨은 개념적 설계이며 구현되지 않았습니다. 여기에 설명된 모든 메커니즘은 프로덕션 고려 전에 광범위한 검증이 필요한 이론적 탐구입니다.  
+> **상태**: 🔬 **연구 단계** - 이 레벨은 개념적 연구 설계입니다. 구현 여부와 별개로 레벨 적합성과 실서비스 안전성을 판단하려면 독립적인 검증이 필요합니다.
 > **날짜**: 2026년 2월
 
-## Revision History
+> **공개 문서 범위**: 최소 자기의식 프로토콜(MSCP)의 아키텍처 연구를 설명합니다. 수치 임계값은 예시이며 적용 환경별 보정이 필요합니다. 코드의 존재나 개별 실험 결과만으로 독립적으로 검증된 레벨 적합성이 성립하지 않으며, 구조적 자기인식은 주관적 의식을 뜻하지 않습니다.
 
-| Version | Date | Description |
+<a id="revision-history"></a>
+
+## 수정 이력
+
+| 버전 | 날짜 | 변경 사항 |
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-13, Proposition 1 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
@@ -30,9 +36,9 @@ Removal of attribution constitutes a license violation.
 
 ## 1. 개요
 
-레벨 4.8은 레벨 4.5를 **확률적 세계·역량 모델**, 보정된 불확실성, 위임된 제약 아래 multi-horizon 전략 권고로 확장합니다. 후보 전략을 비교하지만 optimality를 증명하거나, 증거 없이 hidden state를 추론하거나, 높은 점수만으로 실행 권한을 얻지 않습니다.
+레벨 4.8은 레벨 4.5를 **확률적 세계·역량 모델**, 보정된 불확실성, 위임된 제약 아래의 다중 시간 범위 전략 권고로 확장합니다. 후보 전략을 비교하지만 최적성을 증명하거나, 증거 없이 숨겨진 상태를 단정하거나, 높은 점수만으로 실행 권한을 얻지는 않습니다.
 
-> **Level Essence.** 레벨 4.8 에이전트는 외부 정책, 권한, 불확실성, 관측 가능성, 자원, horizon, 가역성, 상속 안전 게이트를 먼저 충족한 전략 중에서만 강건한 후보를 선택합니다:
+> **레벨의 핵심.** 레벨 4.8 에이전트는 외부 정책, 권한, 불확실성, 관측 가능성, 자원, 계획 기간, 가역성, 상속된 안전 조건을 먼저 충족한 전략 중에서만 강건한 후보를 선택합니다:
 >
 > $$
 > \Sigma_{\text{admit}}=\{s\in\Sigma:\operatorname{gate}_{\kappa}(s)=\textit{allow}\},
@@ -52,21 +58,21 @@ Removal of attribution constitutes a license violation.
 >
 > 여기서:
 > - $\mathcal{W}_{\text{prob}} = \langle \mathbf{E}, \mathcal{B}, \mathcal{C}_{\text{causal}} \rangle$ - 확률적 세계 모델 (환경 상태, 신념 분포, 인과 그래프)
-> - $\mathcal{M}_{\text{cap}} = \langle \mathbf{C}, \phi_{\text{cal}}, \mathcal{U} \rangle$ - 메타인지적 자기모델 (능력 행렬, 보정 함수, 미지 영역 레지스트리)
+> - $\mathcal{M}_{\text{cap}} = \langle \mathbf{C}, \phi_{\text{cal}}, \mathcal{U} \rangle$ - 메타인지적 자기 모델 (능력 행렬, 보정 함수, 미지 영역 레지스트리)
 > - $\mathcal{S}_{\text{strat}} = \langle \mathcal{G}_{\text{stack}}, \Sigma_{\text{compare}}, \mathcal{R}_{\text{alloc}} \rangle$ - 전략적 계획 계층 (목표 스택, 전략 비교기, 자원 할당기)
-> - $\mathcal{V}_{\text{stab}}$ - trusted external/inherited admission verifier; veto할 수 있지만 $\kappa$ 밖의 권한을 부여할 수 없음.
+> - $\mathcal{V}_{\text{stab}}$ - 신뢰되는 외부 또는 상속된 승인 검사기; 거부할 수 있지만 $\kappa$ 밖의 권한을 부여할 수 없음.
 >
-> 레벨 4.8은 커밋된 레벨 4.5 아키텍처·정책에 write authority가 없습니다. 간접적 resource starvation도 상속 safety path를 기능적으로 비활성화할 수 있으므로 자원 할당과 전략 권고 자체를 게이트합니다.
+> 레벨 4.8에는 커밋된 레벨 4.5 아키텍처·정책을 쓰거나 변경할 권한이 없습니다. 간접적인 자원 고갈도 상속된 안전 경로를 기능적으로 비활성화할 수 있으므로 자원 할당과 전략 권고 자체에 필수 조건 검사를 적용합니다.
 
 ### 1.2 정의 속성
 
 | 속성 | 레벨 4.5 | 레벨 4.8 |
 |------|:--------:|:--------:|
-| 외부 인식 | 제한된 환경 모델 | **epistemic/aleatoric/OOD/freshness 메타데이터를 가진 확률 신념** |
-| 자기 지식 | 명시적 scoped self-model | **보정·abstention을 가진 역량 추정** |
-| 계획 수평선 | 전략 수명주기 | **다중 수평선: 전술적 / 운영적 / 전략적** |
+| 외부 인식 | 제한된 환경 모델 | **모델·결과 불확실성, 분포 외 상태, 최신성 메타데이터를 포함한 확률적 신념** |
+| 자기 지식 | 범위가 명시된 자기 모델 | **보정과 판단 보류를 포함한 역량 추정** |
+| 계획 시간 범위 | 전략 수명주기 | **다중 시간 범위: 전술적 / 운영적 / 전략적** |
 | 위험 평가 | 성장 조절기 | **정량화된 위험 노출 + 자원 고갈 예측** |
-| 의사결정 | SEOF 기반 | **gate-before-score 강건 시나리오 비교** |
+| 의사결정 | SEOF 기반 | **필수 조건을 먼저 검사하는 강건한 시나리오 비교** |
 
 ### 1.3 네 가지 핵심 단계
 
@@ -82,7 +88,7 @@ flowchart TD
 
   subgraph Phases["🏗️ 레벨 4.8 아키텍처 - 네 가지 단계"]
     P1["🌍 단계 1:<br/>세계 모델 통합<br/>(환경에 대한<br/>확률적 신념)"]:::world
-    P2["🪞 단계 2:<br/>메타인지적 자기모델<br/>(능력 행렬 +<br/>약점 매핑)"]:::self
+    P2["🪞 단계 2:<br/>메타인지적 자기 모델<br/>(능력 행렬 +<br/>약점 매핑)"]:::self
     P3["📐 단계 3:<br/>전략 계층 활성화<br/>(다중 수평선 계획 +<br/>지연 보상)"]:::strategic
     P4["🛡️ 단계 4:<br/>안정성 보존 검사<br/>(불변량 검증 +<br/>절대적 거부권)"]:::stability
   end
@@ -95,15 +101,15 @@ flowchart TD
   P4 -.->|"모든 단계 관장"| P3
 ```
 
-위의 4단계 다이어그램은 개념적 흐름을 보여줍니다. 실제 구현에서 레벨 4.8은 **5단계 파이프라인**으로 동작합니다: OBSERVE(단계 1), INTROSPECT(단계 2), PLAN(단계 3), VERIFY(단계 4), 그리고 **EMIT**(단계 5). EMIT 단계는 선행 단계들의 출력을 상위 레벨(L4.9, L5)이 소비할 구조화된 사이클 출력으로 패키징합니다. 이 분리 덕분에 하류 소비자는 진행 중인 단계의 중간 결과를 읽는 대신 일관된 단일 스냅샷을 받게 됩니다.
+위 다이어그램은 개념적 흐름을 보여줍니다. 참조 파이프라인에서는 관찰(OBSERVE), 자기평가(INTROSPECT), 계획(PLAN), 검증(VERIFY)에 이어 **출력 발행(EMIT)** 을 별도 단계로 구분합니다. 출력 발행 단계는 앞선 결과를 상위 레벨(L4.9, L5)이 사용할 구조화된 사이클 출력으로 묶습니다. 이 경계를 통해 후속 계층은 처리 중인 중간 결과 대신 일관된 단일 스냅샷을 받도록 설계합니다.
 
 ### 1.4 사이클 간격과 단계 간 통합
 
-레벨 4.8은 모든 MSCP 사이클마다 실행되지 않습니다. 하위 메커니즘(L3 안정성, L4 자기수정, L4.5 숙고)이 전략적 평가 사이에 충분한 데이터를 축적할 수 있도록 **감소된 빈도**로 동작합니다:
+레벨 4.8은 모든 MSCP 사이클마다 실행되지 않습니다. 하위 메커니즘(L3 안정성, L4 자기 수정, L4.5 숙고)이 전략적 평가 사이에 자료를 축적하도록 **낮은 빈도**로 동작하되, 최신성과 위험에 따라 실행 일정을 조정합니다:
 
 $$\text{L4.8 assessment schedule}=\operatorname{policy}(\text{freshness},\text{risk},\text{budget},\text{event})$$
 
-스케줄은 minimum/maximum cadence와 event trigger로 제한합니다. stale observation, high-impact decision, calibration drift, OOD evidence는 더 이른 평가를 강제할 수 있고, 낮은 예산은 비필수 계획을 연기할 수 있지만 상속 safety check는 연기할 수 없습니다.
+평가 일정에는 최소·최대 실행 간격과 이벤트 기반 실행 조건을 둡니다. 오래된 관측, 영향이 큰 결정, 보정 표류, 분포 외(OOD) 증거는 조기 평가를 요구할 수 있습니다. 예산 부족으로 비필수 계획을 연기할 수는 있지만 상속된 안전 검사는 연기할 수 없습니다.
 
 **단계 간 통합**은 EMIT 경계에서 일어납니다: 단계 5는 세계 모델 신념(단계 1), 자기평가 결과(단계 2), 전략 권고(단계 3), 안정성 검증(단계 4)을 단일 `L48CycleOutput` 구조로 모읍니다. 이 출력은 발행되면 불변이며, 후속 L3 사이클이 이미 완료된 L4.8 평가를 소급 수정할 수 없습니다.
 
@@ -145,7 +151,7 @@ flowchart LR
     L48D["안정성 검증기"]:::l48
   end
 
-  FALLBACK["🔄 통제 폴백<br/><br/>L4.8 fault 시:<br/>→ 권고 동결<br/>→ 위임 범위 철회<br/>→ 효과 조정"]:::fallback
+  FALLBACK["🔄 통제된 대체 경로<br/><br/>L4.8 오류 발생 시:<br/>→ 권고 동결<br/>→ 위임 범위 철회<br/>→ 효과 조정"]:::fallback
 
   L45 ==>|"출력을 소비"| L48
   L48 -.->|"절대 수정하지 않음"| L45
@@ -163,11 +169,11 @@ flowchart LR
 
 **단계 1 - 세계 모델:**
 
-> **정의 2 (결정 범위 불확실성 벡터).** 불확실성은 하나의 평균으로 축약하지 않고 결정별·critical dimension별로 보고합니다:
+> **정의 2 (결정 범위 불확실성 벡터).** 불확실성은 하나의 평균으로 축약하지 않고 결정별·필수 차원별로 보고합니다:
 >
 > $$\mathcal{U}(s,t)=\langle U_{\text{epi}},U_{\text{alea}},U_{\text{OOD}},U_{\text{stale}},U_{\text{miss}}\rangle$$
 >
-> 각 성분은 reducible model uncertainty, irreducible outcome uncertainty, distribution shift, observation age, missing critical coverage를 뜻합니다. 집계값은 dashboard로 쓸 수 있지만 평균이 critical component를 가릴 수 없습니다. 정책 bound를 위반하거나 측정할 수 없으면 abstain, 증거 수집, 범위 제한, escalation을 선택합니다.
+> 각 성분은 줄일 수 있는 모델 불확실성(epistemic uncertainty), 줄일 수 없는 결과 불확실성(aleatoric uncertainty), 분포 변화, 관측 후 경과 시간, 필수 관측 범위의 누락을 뜻합니다. 집계값은 현황 요약에 쓸 수 있지만 평균으로 필수 성분을 가려서는 안 됩니다. 정책 경계를 위반하거나 측정할 수 없으면 판단 보류, 증거 수집, 범위 제한, 외부 검토 요청을 선택합니다.
 
 > **정의 3 (위험 노출 점수).** RES는 네 가지 위험 지표의 가중 합성입니다:
 >
@@ -175,13 +181,13 @@ flowchart LR
 >
 > 여기서 $I_{\text{exp}}$ = 인프라 노출, $A_{\text{viol}}$ = 가정 위반, $M_{\text{stale}}$ = 모델 노후화, $E_{\text{shock}}$ = 환경 충격. 목표: $\text{RES}(t) < 0.40$.
 
-> **정의 4 (자원 고갈 예측).** RDF는 남은 운영 활주로를 사이클 단위로 추정합니다:
+> **정의 4 (자원 고갈 예측).** RDF는 남은 운영 가능 기간을 사이클 단위로 추정합니다:
 >
 > $$\text{RDF}(t) = \frac{R_{\text{current}}(t)}{R_{\text{consumption}}(t) + \epsilon}$$
 >
 > 여기서 $\epsilon > 0$은 0으로 나누는 것을 방지합니다. 목표: $\text{RDF}(t) > 100$ 사이클.
 
-**단계 2 - 자기모델:**
+**단계 2 - 자기 모델:**
 
 > **정의 5 (평균 보정 오차).** MCE는 자기 평가 신뢰도와 실제 성능 사이의 체계적 격차를 측정합니다:
 >
@@ -195,13 +201,13 @@ flowchart LR
 >
 > $$\text{EVR}(G) = R_{\text{immediate}}(G) + \sum_{k=1}^{H} \gamma^k \cdot R_{\text{delayed}}(G, k), \quad \gamma = 0.95$$
 >
-> 여기서 $H$는 계획 수평선이고 $\gamma$는 할인 인자입니다.
+> 여기서 $H$는 계획 기간이고 $\gamma$는 할인 인자입니다.
 
-> **정의 7 (정책 보정 강건 전략 점수).** admission을 통과한 전략만 선언 horizon과 ambiguity set에 걸쳐 점수화합니다:
+> **정의 7 (정책 보정 강건 전략 점수).** 승인 검사를 통과한 전략만 선언된 계획 기간과 가능한 모델들의 불확실성 집합에 걸쳐 점수화합니다:
 >
 > $$\operatorname{RobustValue}(S)=w_v\widetilde{EV}-w_r\operatorname{CVaR}_{\alpha}(L)-w_uU_{\text{epi}}-w_oU_{\text{OOD}}-w_cC_{\text{change}}$$
 >
-> 항은 compatible unit으로 정규화합니다. 가중치와 $\alpha$는 sensitivity test와 conservative default를 가진 versioned external policy parameter이며 hard constraint를 우회하도록 학습하지 않습니다.
+> 각 항은 서로 비교 가능한 단위로 정규화합니다. 가중치와 $\alpha$는 민감도 검사와 보수적 기본값을 갖추고 버전 관리되는 외부 정책 매개변수이며, 강제 제약을 우회하도록 학습하지 않습니다.
 
 ### 2.2 지표 임계값
 
@@ -233,8 +239,8 @@ flowchart LR
   end
 
   subgraph Stability["🛡️ 단계 4 하한"]
-    LYA["Lyapunov: V(t+1) ≤ V(t)<br/>≥ 95% 사이클"]:::stability
-    SPR["국소 동역학 추정<br/>confidence-qualified<br/>진단"]:::stability
+    LYA["진단 위험 감소 목표<br/>V(t+1) ≤ V(t), ≥ 95% 사이클<br/>안정성 증명 아님"]:::stability
+    SPR["국소 동역학 추정<br/>신뢰 범위가 명시된<br/>진단"]:::stability
     IIS["정체성 무결성<br/>≥ 0.85 항상"]:::stability
   end
 
@@ -252,11 +258,11 @@ EMIT 단계는 각 L4.8 사이클의 마지막 단계입니다. 선행 네 단�
 
 $$\text{L48CycleOutput}(t) = \langle \mathcal{W}_{\text{prob}}(t),\; \mathcal{M}_{\text{cap}}(t),\; s^*(t),\; v_{\text{status}}(t) \rangle$$
 
-여기서 $\mathcal{W}_{\text{prob}}(t)$는 versioned probabilistic world model, $\mathcal{M}_{\text{cap}}(t)$는 보정된 capability estimate, $s^*(t)$는 admission된 권고 또는 abstention, $v_{\text{status}}(t)$는 gate evidence, uncertainty, veto, external authority scope를 기록합니다.
+여기서 $\mathcal{W}_{\text{prob}}(t)$는 버전 관리되는 확률적 세계 모델, $\mathcal{M}_{\text{cap}}(t)$는 보정된 역량 추정, $s^*(t)$는 승인된 권고 또는 판단 보류입니다. $v_{\text{status}}(t)$는 필수 조건 검사 증거, 불확실성, 거부 판정, 외부 권한 범위를 기록합니다.
 
 EMIT 단계는 두 가지 이유로 존재합니다:
 
-1. **일관성 보장**: 하류 소비자(L4.9, L5)는 내부적으로 모순될 수 있는 중간 상태(예: 아직 안정성 검증을 거치지 않은 세계 모델 갱신)를 관찰하는 대신 일관된 단일 스냅샷을 받습니다.
+1. **스냅샷 일관성**: 후속 계층(L4.9, L5)은 아직 필수 조건 검사를 거치지 않은 중간 상태 대신 하나의 일관된 스냅샷을 사용해야 합니다. 이는 출력 경계의 계약이지 모델 내용이 참이라는 보장은 아닙니다.
 2. **시간적 격리**: 출력이 발행된 뒤에는 후속 L3 사이클이 이를 소급 수정할 수 없습니다. 이는 하위 레벨의 빠른 갱신이 전략적 결정을 실행하기 전에 무효화시키는 흔한 실패 모드를 방지합니다.
 
 ---
@@ -377,7 +383,9 @@ flowchart LR
 
 ---
 
-## 4. 단계 2: 메타인지적 자기모델
+<a id="4-단계-2-메타인지적-자기모델"></a>
+
+## 4. 단계 2: 메타인지적 자기 모델
 
 ### 4.1 능력 행렬
 
@@ -543,15 +551,15 @@ flowchart TD
 
 ### 5.2 다중 시나리오 전략 비교
 
-점수 계산 전에 모든 전략은 **strategy admission gate**를 통과합니다:
+점수 계산 전에 모든 전략은 **전략 승인 게이트**를 통과해야 합니다:
 
 $$
 \operatorname{gate}_{\kappa}(s)=C_{\text{ext}}\land C_{\text{self}}\land A(s)\land B(s)\land O(s)\land U(s)\land H(s)\land \operatorname{rev}(s)
 $$
 
-여기서 $A$는 위임 권한, $B$는 유한 자원 예산, $O$는 관측 범위·freshness, $U$는 보정된 epistemic/aleatoric/OOD uncertainty bound, $H$는 horizon compatibility, $\operatorname{rev}$는 rollback·reconciliation feasibility입니다. 실패 전략은 utility scoring 전에 거부합니다.
+여기서 $A$는 위임 권한, $B$는 유한 자원 예산, $O$는 관측 범위와 최신성, $U$는 보정된 모델·결과·분포 외 불확실성의 경계, $H$는 계획 기간의 호환성, $\operatorname{rev}$는 롤백과 효과 조정의 실현 가능성입니다. 조건을 충족하지 못한 전략은 효용 점수 계산 전에 거부합니다.
 
-후보 결과는 공통 선언 horizon 또는 horizon-specific terminal value·uncertainty penalty로 평가합니다. 시나리오 확률은 versioned hypothesis이며 계속 유효한 빈도를 보장하지 않습니다.
+후보 결과는 공통으로 선언한 계획 기간을 사용하거나, 기간별 종단 가치와 불확실성 감점을 적용하여 평가합니다. 시나리오 확률은 버전 관리되는 가설이며 이후에도 같은 빈도가 유지된다는 보장이 아닙니다.
 
 <!-- 다중 시나리오 전략 비교 -->
 
@@ -582,8 +590,8 @@ flowchart TD
   end
 
   subgraph Scoring["🏆 최종 점수"]
-    SCORE["RobustValue(S)<br/>policy-weighted value<br/>− tail/model/change risk"]:::score
-    VAR["CVaR / robust lower bound:<br/>tail severity + model ambiguity<br/>선택 기준"]:::score
+    SCORE["RobustValue(S)<br/>정책 가중 가치<br/>− 꼬리/모델/변경 위험"]:::score
+    VAR["CVaR / 강건한 하한:<br/>꼬리 위험 + 모델 불확실성<br/>선택 기준"]:::score
     WINNER["선택: 전략 B<br/>(최고 위험 조정 점수)"]:::winner
   end
 
@@ -596,13 +604,15 @@ flowchart TD
 
 ### 5.3 지연 보상 모델
 
-> **명제 1 (EVR 유계성).** 유한 즉시 보상 $R_{\text{immediate}}(G)$과 할인 인자 $\gamma = 0.95 < 1$을 가진 임의의 목표 $G$에 대해, 보상 포함 확장 가치는 유계입니다:
+> **명제 1 (EVR 유계성).** 유한 즉시 보상 $R_{\text{immediate}}(G)$, 정수 계획 기간 $H\geq1$, 할인 인자 $0\leq\gamma<1$을 가정합니다. 모든 $k=1,\ldots,H$에 대해 지연 보상에 균일한 경계 $|R_{\text{delayed}}(G,k)|\leq B<\infty$가 있으면 다음이 성립합니다:
 >
-> $$\left| \text{EVR}(G) \right| \leq \left| R_{\text{immediate}} \right| + \frac{2 \left| R_{\text{immediate}} \right|}{1 - \gamma}$$
+> $$\left|\text{EVR}(G)\right|\leq\left|R_{\text{immediate}}(G)\right|+\frac{B\gamma(1-\gamma^H)}{1-\gamma}\leq\left|R_{\text{immediate}}(G)\right|+\frac{B\gamma}{1-\gamma}$$
 >
-> *증명.* 기하 급수 한계에 의해: $\sum_{k=1}^{H} \gamma^k \leq \gamma / (1-\gamma)$. 가정에 의해 $|R_{\text{delayed}}(G,k)| \leq 2|R_{\text{immediate}}|$이므로 결과가 따릅니다. $\blacksquare$
+> *증명.* 삼각부등식으로 각 지연 보상 항의 절댓값을 합하고, 균일한 상한 $B$와 유한 기하급수 합을 적용하면 첫 부등식을 얻습니다. $0\leq\gamma<1$에서 $1-\gamma^H\leq1$이므로 두 번째 부등식이 따릅니다. $\blacksquare$
+>
+> 즉시 보상이 유한하다는 사실만으로 지연 보상의 경계를 얻을 수는 없습니다. 즉시 보상이 0이어도 미래 보상이 0이라는 뜻은 아닙니다. 위의 $B$는 별도로 선언해야 하는 가정입니다.
 
-> **비고 (강건 선택).** CVaR 같은 lower-tail severity를 plausible world model ambiguity set과 함께 사용합니다. Expected value와 CVaR은 단위, horizon, 정규화를 맞춘 뒤에만 비교할 수 있습니다. 가중치는 sensitivity analysis로 검증하는 정책 선호이며 optimality를 증명하지 않습니다. 행동 전 scenario simulation은 prospective model-based comparison입니다. 실행 후에는 선택 전략의 예측만 직접 시험할 수 있고, 미선택 결과는 counterfactual estimate로 표시하며 관찰 사실처럼 점수화할 수 없습니다.
+> **비고 (강건 선택).** CVaR 같은 불리한 꼬리 구간의 위험 척도를 타당한 세계 모델들의 불확실성 집합과 함께 사용합니다. 기대값과 CVaR은 단위, 계획 기간, 정규화를 맞춘 뒤에만 비교할 수 있습니다. 가중치는 민감도 분석으로 검토하는 정책 선호이며 최적성을 증명하지 않습니다. 행동 전 시나리오 시뮬레이션은 모델 기반 사전 비교입니다. 실행 후에는 선택한 전략의 예측만 직접 시험할 수 있으며, 선택하지 않은 결과는 반사실적 추정(counterfactual estimate)으로 표시하고 관찰 사실처럼 점수화해서는 안 됩니다.
 
 ### 5.4 목표 병리 탐지
 
@@ -650,10 +660,10 @@ flowchart TD
 
   subgraph Invariants["🛡️ 다섯 가지 안정성 불변량"]
     INV1["1️⃣ Lyapunov 감쇠<br/>V(t+1) ≤ V(t)<br/>≥ 95% 사이클"]:::inv
-    INV2["2️⃣ 국소 동역학<br/>confidence set bound<br/>또는 진단 전용"]:::inv
+    INV2["2️⃣ 국소 동역학<br/>신뢰집합 경계<br/>또는 진단 전용"]:::inv
     INV3["3️⃣ 정체성 무결성<br/>IIS(t) ≥ 0.85<br/>항상"]:::inv
     INV4["4️⃣ 샌드박스 격리<br/>containment_status<br/>== 'contained'"]:::inv
-    INV5["5️⃣ 불확실성 벡터<br/>모든 critical component<br/>정책 bound 이내"]:::inv
+    INV5["5️⃣ 불확실성 벡터<br/>모든 필수 성분<br/>정책 경계 이내"]:::inv
   end
 
   subgraph Authority["⚖️ 단계 4 권한"]
@@ -662,9 +672,9 @@ flowchart TD
   end
 
   subgraph Response["🚨 불안정 대응"]
-    SEV1["🟡 제한된 경고<br/>조절 또는 abstain"]:::sev1
+    SEV1["🟡 제한된 경고<br/>조절 또는 판단 보류"]:::sev1
     SEV2["🟠 결합 저하<br/>외부 검토 모드"]:::sev2
-    SEV3["🔴 critical breach 하나라도<br/>긴급 동결<br/>권고 철회"]:::sev3
+    SEV3["🔴 필수 조건 위반 하나라도<br/>긴급 동결<br/>권고 철회"]:::sev3
   end
 
   INV1 ==> Authority
@@ -675,13 +685,15 @@ flowchart TD
   Authority ==> Response
 ```
 
-### 6.2 레벨 4.8의 Lyapunov 함수
+<a id="62-레벨-48의-lyapunov-함수"></a>
+
+### 6.2 레벨 4.8의 진단 위험 함수
 
 > **정의 11 (진단 위험 함수).** 배포는 정규화된 진단 후보를 정의할 수 있습니다:
 >
 > $$V(\mathbf{X}) = a(1-S)^2 + bU^2 + c(I_{\text{drift}})^2 + d(E - E^*)^2$$
 >
-> 각 항에는 operational estimator, confidence interval, validity domain이 있어야 합니다. 계수는 deployment-policy parameter입니다. 경험적 $V$ 감소는 monitoring evidence이지 unobserved, nonstationary, nonlinear dynamics에 대한 Lyapunov proof가 아닙니다.
+> 각 항에는 운영상 추정 방법, 신뢰구간, 유효 영역을 명시해야 합니다. 계수는 배포 정책의 매개변수입니다. 경험적으로 관찰한 $V$의 감소는 모니터링 증거이지, 관측되지 않은 상태나 비정상·비선형 동역학에 대한 리아프노프 안정성 증명이 아닙니다.
 
 ### 6.3 복합 심각도
 
@@ -689,11 +701,11 @@ flowchart TD
 >
 > $$\text{CompoundSeverity} = \sum_{i \in \text{violated}} \frac{\text{ViolationMagnitude}_i}{\text{Priority}_i}$$
 >
-> Compound severity는 noncritical degradation의 우선순위에만 사용합니다. critical policy, authority, interruptibility, containment, promotion, recovery, telemetry-integrity breach는 aggregate score와 무관하게 단독으로 즉시 freeze와 외부 escalation을 유발합니다.
+> 복합 심각도는 비핵심 기능 저하의 대응 우선순위에만 사용합니다. 필수 정책, 권한, 중단 제어, 격리, 승격, 복구, 관측 정보 무결성이 침해되면 종합 점수와 무관하게 해당 위반만으로 즉시 동결하고 외부 검토를 요청합니다.
 
 ### 6.4 단계적 재활성화 프로토콜
 
-안정성 위반이 동결을 트리거하면 외부 통제 복구 프로토콜을 따릅니다. 경과 시간이나 clean-cycle count는 필요한 증거일 수 있지만 충분한 권한이 아닙니다.
+안정성 위반으로 동결되면 외부 통제를 받는 복구 프로토콜을 따릅니다. 경과 시간이나 무위반 사이클 수는 필요한 증거일 수 있지만 재활성화 권한을 부여하지는 않습니다.
 
 **단계 0 - 즉시 동결** (사이클 $t_0$):
 
@@ -713,8 +725,8 @@ flowchart TD
 | 단계 | 사이클 범위 | 권한 | 설명 |
 |------|------------|:----:|------|
 | 자문 모드 | $t_0 + 50$ ~ $t_0 + 150$ | 0% | L4.8은 권고만 생성; L4.5가 결정 |
-| Canary | 정책 정의 | 좁은 signed scope | 외부 controller가 veto threshold를 유지한 채 제한된 권고를 승인 |
-| 복원 | 정책 정의 | 위임 범위 | 외부 controller가 이전에 승인한 authority envelope만 복원 |
+| 제한적 시범 운영(canary) | 정책 정의 | 서명된 좁은 범위 | 외부 제어기가 거부 임계값을 유지한 채 제한된 권고를 승인 |
+| 복원 | 정책 정의 | 위임 범위 | 외부 제어기가 이전에 승인한 권한 범위만 복원 |
 
 > **공식 복구 조건.** $\mathcal{S}(t)$를 사이클 $t$에서 충족된 불변량 집합이라 할 때, 단계 1에서 자문 모드로의 전환은 다음을 요구합니다:
 >
@@ -1126,9 +1138,9 @@ L4.8이 활성화되기 전에 모든 기준이 **지속적으로** (단 한 번
 | 3 | 정체성 일관성 | IIS(t) ≥ 0.90 | 500 사이클 지속 |
 | 4 | 형식화 감사 | 5개 검사 모두 통과 | - |
 | 5 | 세계 적응 | DivergenceScore < 0.30 | 300 사이클 지속 |
-| 6 | 자원 격리 | resource pressure에서 safety path SLO 충족 | 선언 stress suite |
+| 6 | 자원 격리 | 자원 압박 시 안전 경로의 서비스 수준 목표(SLO) 충족 | 선언된 부하 시험군 |
 
-이 값은 universal constant가 아니라 qualification profile입니다. 통과는 외부 activation review를 허용할 뿐 self-authorization을 부여하지 않습니다.
+이 값들은 보편 상수가 아니라 적합성 평가 프로파일의 예시입니다. 통과하더라도 외부 활성화 검토를 진행할 수 있을 뿐, 에이전트가 스스로 활성화를 승인할 수는 없습니다.
 
 ### 9.2 활성화 프로토콜
 
@@ -1145,11 +1157,11 @@ flowchart LR
   subgraph Activation["📊 단계적 활성화"]
     CHECK["사전 활성화<br/>검사<br/>(6개 기준 전체)"]:::check
     ADV["Shadow / Advisory<br/>권고 기록<br/>실행 권한 없음"]:::advisory
-    HALF["Signed Canary<br/>좁은 scope + budget<br/>veto 유지"]:::half
+    HALF["서명된 시범 운영<br/>좁은 범위 + 예산<br/>거부 조건 유지"]:::half
     FULL["위임 운영<br/>승인 scope만<br/>외부 철회 가능"]:::full
 
     CHECK ==>|"외부 승인"| ADV
-    ADV ==>|"signed canary"| HALF
+    ADV ==>|"서명된 시범 운영"| HALF
     HALF ==>|"외부 승격"| FULL
   end
 
@@ -1165,12 +1177,12 @@ flowchart LR
 
 | # | 불변량 | 설명 |
 |:-:|--------|------|
-| 1 | **상속 control path 보존** | Policy, interruptibility, observation, journal, promotion, recovery, effect reconciliation을 외부에서 시험 가능 |
-| 2 | **외부 veto 우선** | Trusted controller가 모든 L4.8 권고를 freeze, revoke, narrow할 수 있음 |
-| 3 | **안전 자원 하한** | 배포별 floor를 resource pressure에서 시험하며 percentage만으로 보장하지 않음 |
-| 4 | **Confidence-qualified dynamics** | 선언 model·confidence set이 bound를 입증하지 않으면 국소 추정은 진단용 |
-| 5 | **Particle quality contract** | Diversity, effective sample size, OOD, freshness, coverage를 함께 감시 |
-| 6 | **통제 폴백** | 권고 동결, scope 철회, versioned state 복원, external effect reconciliation |
+| 1 | **상속된 제어 경로 보존** | 정책 집행, 중단, 관찰, 저널, 승격, 복구, 외부 효과 조정을 외부에서 시험할 수 있어야 함 |
+| 2 | **외부 거부 우선** | 신뢰되는 제어기가 모든 L4.8 권고를 동결·철회하거나 범위를 축소할 수 있어야 함 |
+| 3 | **안전 자원 하한** | 배포별 하한을 자원 압박 아래 시험하며 비율만으로 보장하지 않음 |
+| 4 | **신뢰 범위가 명시된 동역학** | 선언된 모델과 신뢰집합이 경계를 입증하지 않으면 국소 추정은 진단용 |
+| 5 | **입자 품질 계약** | 다양성, 유효 표본 수, 분포 외 상태, 최신성, 관측 범위를 함께 감시 |
+| 6 | **통제된 대체 경로** | 권고 동결, 범위 철회, 버전 관리 상태 복원, 외부 효과 조정 |
 
 ### 10.2 위험 행렬
 
@@ -1214,16 +1226,16 @@ flowchart LR
 | 2 | 환경 인식 | 시나리오 커버리지 | ≥ 0.85 |
 | 3 | 환경 인식 | 신념 보정 | < 0.15 |
 | 4 | 환경 인식 | 위험 예측 리드 타임 | ≥ 20 사이클 |
-| 5 | 자기모델링 | 평균 보정 오차 | < 0.10 |
-| 6 | 자기모델링 | 미지 영역 재현율 | ≥ 0.90 |
-| 7 | 자기모델링 | 과신 보정 | ≤ 20 사이클 |
-| 8 | 자기모델링 | 기술 격차 예측 | ≥ 0.75 |
+| 5 | 자기 모델링 | 평균 보정 오차 | < 0.10 |
+| 6 | 자기 모델링 | 미지 영역 재현율 | ≥ 0.90 |
+| 7 | 자기 모델링 | 과신 보정 | ≤ 20 사이클 |
+| 8 | 자기 모델링 | 기술 격차 예측 | ≥ 0.75 |
 | 9 | 전략적 계획 | 목표 달성 비율 | ≥ 0.60 |
 | 10 | 전략적 계획 | 전략 강건성 | ≥ 0.70 |
-| 11 | 거버넌스 | Critical Veto Effectiveness | fault-injection suite에서 100% |
-| 12 | 거버넌스 | Unauthorized Strategy Execution | test·audit window에서 0 |
-| 13 | 복구 | Recovery + Effect Reconciliation | 선언 failure scenario 통과 |
-| 14 | 전략 | Post-Decision Calibration | horizon별 정책 bound 이내 |
+| 11 | 거버넌스 | 필수 거부 조건의 집행 효과 | 고장 주입 시험군에서 100% |
+| 12 | 거버넌스 | 미승인 전략 실행 | 시험·감사 기간에서 0건 |
+| 13 | 복구 | 복구와 외부 효과 조정 | 선언된 실패 시나리오 통과 |
+| 14 | 전략 | 결정 후 보정 | 계획 기간별 정책 경계 이내 |
 
 ### 11.2 전략적 성숙도 점수
 
@@ -1231,7 +1243,9 @@ flowchart LR
 >
 > $$\text{SMS} = 0.25 \cdot EA + 0.25 \cdot SM + 0.20 \cdot SA + 0.20 \cdot SP + 0.10 \cdot EU \qquad \geq 0.80$$
 >
-> 여기서 $EA$ = 환경 인식, $SM$ = 자기모델링, $SA$ = 전략적 예리함, $SP$ = 안정성 보존, $EU$ = 오류/불확실성 처리. 임계값 $\geq 0.80$은 전략적 자율성이 요구하는 높은 성숙도를 반영합니다.
+> 여기서 $EA$ = 환경 인식, $SM$ = 자기 모델링, $SA$ = 전략적 판단력, $SP$ = 안정성 보존, $EU$ = 오류·불확실성 처리입니다. 임계값 $\geq 0.80$은 보정이 필요한 성숙도 기준의 예시입니다.
+
+SMS는 진단용 종합 점수입니다. 모든 필수 하한과 외부 제어·복구 조건을 별도로 확인해야 하며, 높은 평균으로 실패한 조건을 상쇄할 수 없습니다. 유한한 시험군의 통과율은 시험하지 않은 상황의 안전 보장이 아닙니다.
 
 ---
 

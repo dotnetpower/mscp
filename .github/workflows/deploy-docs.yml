@@ -6,6 +6,21 @@ on:
     paths:
       - 'docs/**'
       - 'mkdocs.yml'
+      - 'requirements-docs.txt'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/check_docs.py'
+      - 'scripts/check-math.cjs'
+      - '.github/workflows/deploy-docs.yml'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - 'requirements-docs.txt'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/check_docs.py'
+      - 'scripts/check-math.cjs'
       - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:
 
@@ -15,7 +30,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: "pages-${{ github.event_name }}-${{ github.ref }}"
   cancel-in-progress: true
 
 jobs:
@@ -43,15 +58,29 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-docs.txt
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install math checker
+        run: npm ci --ignore-scripts
+
       - name: Build site
         run: mkdocs build --strict
 
+      - name: Validate math and documentation contracts
+        run: python scripts/check_docs.py
+
       - name: Upload artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:

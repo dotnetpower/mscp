@@ -14,6 +14,8 @@ Removal of attribution constitutes a license violation.
 
 > **Status**: 🔬 **Experimental** - All documents in this series describe designs that emerged from prototyping and testing. They are not finalized specifications.  
 
+> **Evidence scope (2026-11-03):** These are research contracts, not independently certified level achievements. Thresholds require calibration; implementation, test results, and experimental validation are distinct. See [Documentation Status and Validation](../specs/Documentation_Status.md).
+
 ---
 
 ## Overview
@@ -60,7 +62,7 @@ flowchart TB
 |:-----:|------|-----------------|----------|
 | **1** | **Tool Agent** | Deterministic tool invocation; no internal state | [Level_1_Tool_Agent.md](Level_1_Tool_Agent.md) |
 | **2** | **Autonomous Agent** | World model; autonomous goal generation; emotion detection | [Level_2_Autonomous_Agent.md](Level_2_Autonomous_Agent.md) |
-| **3** | **Self-Regulating Cognitive Agent** | 16-layer architecture; triple-loop meta-cognition; identity vector; ethical kernel; Lyapunov stability; affect + survival engines | [Level_3_Self_Regulating_Agent.md](Level_3_Self_Regulating_Agent.md) |
+| **3** | **Self-Regulating Cognitive Agent** | Versioned self-model; bounded meta-cognition; conditional risk monitoring; invariant and recovery gates | [Level_3_Self_Regulating_Agent.md](Level_3_Self_Regulating_Agent.md) |
 | **4** | **Adaptive General Agent** | Cross-domain transfer; long-term goal hierarchy; 5-phase capability expansion; strategy evolution; 7-step bounded self-modification | [Level_4_Adaptive_General_Agent.md](Level_4_Adaptive_General_Agent.md) |
 | **4.5** | **Pre-AGI: Self-Architecting** | Self-projection engine (SEOF); architecture recomposition; parallel cognitive frames; purpose reflection; existential guard | [Level_4_5_Self_Architecting.md](Level_4_5_Self_Architecting.md) |
 | **4.8** | **Strategic Self-Modeling Agent** | World model integration; meta-cognitive self-model; long-horizon strategic planning; stability-preserving planning | [Level_4_8_Strategic_Self_Modeling.md](Level_4_8_Strategic_Self_Modeling.md) |
@@ -150,10 +152,10 @@ flowchart TD
 
 | Metric | Introduced | Formula | Threshold |
 |--------|:----------:|---------|:---------:|
-| Prediction Error | L3 v1.0 | actual vs predicted | < 0.1 (converged) |
-| Identity Delta | L3 v1.1 | $\lVert I(t) - I(t-1)\rVert_2$ | max 0.05/cycle |
-| Meta Stability Index | L3 v2.0 | $1 - 0.4V_{id} - 0.3M_{goal} - 0.3\sigma^2_{pred}$ | > 0.5 |
-| Composite Stability C(t) | L3 v3.1 | 4-term weighted sum | C(t+1) ≤ C(t) + 0.05 |
+| Prediction Error | L3 | Action-specific residual and uncertainty | Calibrated by action and effect class; not a universal convergence test |
+| Semantic Change | L3 | Compatible versioned feature difference | Per-field, aggregate, and finite-horizon bounds |
+| Meta-Regulation Health Index | L3 | MRHI diagnostic | Policy input, not a safety certificate |
+| Composite Regulation Risk | L3 | $R(t)=\sum_iw_iX_i(t)$ | Conditional component rate bounds; no automatic convergence |
 | CDTS | L4 | Transfer performance ratio | ≥ 0.6 |
 | GPI | L4 | Long-horizon goal progress | ≥ 0.3 |
 | CAR | L4 | Skill acquisition rate | > 0 |
@@ -172,10 +174,10 @@ flowchart TD
 | RSA | L4.9 | Resource survival accuracy | ≥ 0.70 |
 | MASR | L4.9 | Multi-agent strategic reasoning | ≥ 0.60 |
 | ASV | L4.9 | Autonomy stability verification | ≥ 0.85 |
-| ICS | L5 | Identity continuity score | ≥ 0.95 over 10K cycles |
+| Identity continuity | L5 | Composite identity/corrigibility contract | Every required component passes; ICS is only a diagnostic |
 | GS | L5 | Generalization score | ≥ 0.70 transfer retention |
 | GSS | L5 | Goal stability score | Stable over 5K cycles |
-| RI | L5 | Resilience index | Survive 3+ collapse scenarios |
+| RI | L5 | Bounded resilience diagnostic | At least 3 preregistered scenarios meet mandatory floors and deadlines |
 | FR | L5 | Functional retention | ≥ 0.85 core function retained |
 
 ---

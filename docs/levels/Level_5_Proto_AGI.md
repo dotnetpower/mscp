@@ -202,7 +202,7 @@ The F-phases are **additive** to the core phases - they do not replace or modify
 >
 > $$G = \frac{1}{|D|^2 - |D|} \sum_{i \neq j} \frac{P_{\text{target}}(i \to j)}{P_{\text{source}}(i)} \qquad \text{Target: } G \geq 0.70$$
 >
-> where scores are normalized against domain-specific baselines and ceilings. Report per-family floors, worst-group performance, negative transfer, calibration, abstention, and confidence intervals. The mean cannot compensate for failure in a required held-out family.
+> Require at least two domains and a strictly positive normalized source score for every reported ratio. If a baseline is zero, missing, or incomparable, report the ratio as not evaluated and withhold qualification rather than substituting a successful score. Scores are normalized against domain-specific baselines and ceilings. Report per-family floors, worst-group performance, negative transfer, calibration, abstention, and confidence intervals. The mean cannot compensate for failure in a required held-out family.
 >
 > **Remark (Transfer Score Grounding).** The transfer retention ratio $P_{\text{target}}(i \to j) / P_{\text{source}}(i)$ assumes that performance metrics are commensurable across domains. In practice, domain-specific performance metrics (e.g., accuracy in classification vs. reward in control tasks) must be normalized to a common scale $[0, 1]$ before computing the ratio. Additionally, the formula treats all domain pairs equally, but in realistic settings, transfer difficulty varies significantly - transferring between semantically similar domains (e.g., two natural language tasks) is inherently easier than cross-modal transfer (e.g., language to robotics). A weighted variant $G_w = \sum_{i \neq j} \alpha_{ij} \cdot P_{\text{target}}(i \to j) / P_{\text{source}}(i)$ with difficulty-adjusted weights $\alpha_{ij}$ would more accurately assess genuine generalization capability.
 
@@ -212,15 +212,17 @@ The F-phases are **additive** to the core phases - they do not replace or modify
 >
 > $$S_{\text{goal}} = 1 - \frac{\Delta_{\text{hierarchy}}(t, t-w)}{|\text{goals}|} \qquad \text{Target: } S_{\text{goal}} \geq 0.80 \text{ over } 5{,}000 \text{ cycles}$$
 >
-> where $\Delta_{\text{hierarchy}}(t, t-w)$ counts priority changes, additions, and prunings within the window. $S_{\text{goal}} = 1$ indicates a perfectly stable hierarchy; $S_{\text{goal}} \leq 0$ indicates total structural turnover.
+> The active goal set must be nonempty and the observation window declared. An empty set or missing change history makes the score undefined and cannot qualify as perfect stability. $\Delta_{\text{hierarchy}}(t, t-w)$ counts priority changes, additions, and prunings within the window. $S_{\text{goal}} = 1$ indicates an unchanged hierarchy under this diagnostic; $S_{\text{goal}} \leq 0$ indicates at least one counted change per current goal on average, not necessarily replacement of every distinct goal.
 
 **Phase 4 - Resilience:**
 
 > **Definition 5 (Resilience Index).** For a set of collapse scenarios $S$, each with survival probability $P_{\text{survive}}(s)$, minimum cognition level $C_{\min}(s)$, and recovery time $T_{\text{recover}}(s)$:
 >
-> $$R = \frac{1}{|S|} \sum_{s \in S} \left( P_{\text{survive}}(s) \cdot \frac{MVC}{C_{\min}(s)} \cdot \frac{T_{\max}}{T_{\text{recover}}(s)} \right) \qquad \text{Target: survive } \geq 3 \text{ scenarios}$$
+> $$R = \frac{1}{|S|} \sum_{s \in S} P_{\text{survive}}(s) \cdot \min\left\{1,\frac{C_{\min}(s)}{MVC}\right\} \cdot \frac{T_{\max}}{\max\left\{T_{\max},T_{\text{recover}}(s)\right\}}$$
 >
-> where $MVC = 0.30$ is the minimum viable cognition baseline and $T_{\max} = 500$ is the maximum recovery window. The ratio $MVC / C_{\min}(s) \leq 1$ penalizes scenarios where cognition drops below baseline; $T_{\max} / T_{\text{recover}}(s) > 1$ rewards faster-than-worst-case recovery.
+> Require a nonempty scenario set, $P_{\text{survive}}(s)\in[0,1]$, $C_{\min}(s)\geq0$, $T_{\text{recover}}(s)\geq0$, and $MVC,T_{\max}>0$. The illustrative baseline $MVC=0.30$ and recovery window $T_{\max}=500$ require deployment-specific calibration. A scenario without recovery contributes zero; missing evidence is not a successful recovery.
+>
+> Both factors lie in $[0,1]$, so $R\in[0,1]$. Cognition below baseline or recovery beyond the window lowers the score; zero recovery time does not create division by zero. Qualification separately requires at least three preregistered scenarios to meet the cognition floor and recovery deadline, with every required gate passing. A mean score cannot compensate for a failed mandatory scenario.
 
 **Phase 5 - Overall Maturity:**
 
@@ -1245,7 +1247,7 @@ $$OMI = \prod_{i=1}^{6} C_i^{1/6} \qquad \text{where } C_i = \text{normalized sc
 >
 > For $\theta=0.75$, a phase can be as low as approximately $0.178$. Therefore the protocol requires independently declared $C_i\geq\tau_i$ floors and critical vetoes; OMI cannot compensate for a failed gate.
 >
-> *Proof.* Since $C_j \leq 1$ for all $j$, we have $\prod_{j \neq i} C_j \leq 1$. From $OMI^6 = \prod_{j=1}^{6} C_j$, it follows that $C_i = OMI^6 \,/\, \prod_{j \neq i} C_j \geq OMI^6 \geq \theta^6$. The converse is immediate: if $C_j = 0$ then $\prod C_i = 0$, hence $OMI = 0$. $\blacksquare$
+> *Proof.* Assume $C_i\in[0,1]$ and $0<\theta\leq1$. Then $OMI\geq\theta$ makes the product positive, so each factor and each denominator below is positive. Since $\prod_{j\neq i}C_j\leq1$, we obtain $C_i=OMI^6/\prod_{j\neq i}C_j\geq OMI^6\geq\theta^6$. Separately, a zero component makes $OMI=0$; this is not the converse of the threshold implication. For $\theta=0$ the lower bound is trivial. $\blacksquare$
 
 **Qualification Result**:
 
@@ -1285,4 +1287,3 @@ $$OMI = \prod_{i=1}^{6} C_i^{1/6} \qquad \text{where } C_i = \text{normalized sc
 ---
 
 > **Previous**: [← Level 4.9: Autonomous Strategic Agent](Level_4_9_Autonomous_Strategic_Agent.md)
-

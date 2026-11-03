@@ -1,6 +1,6 @@
 ---
 title: "레벨 4.5: 자기설계 지능"
-description: "MSCP 레벨 4.5 - 독립 승격, 안전 경로 보존, 궤적 불확실성, defense-in-depth architecture monitoring을 갖춘 governed topology candidate generation."
+description: "MSCP 레벨 4.5 - 독립적인 승격 통제, 안전 경로 보존, 궤적 불확실성, 심층 방어형 아키텍처 모니터링을 갖춘 토폴로지 후보 생성."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -16,9 +16,13 @@ Removal of attribution constitutes a license violation.
 > **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
-## Revision History
+> **공개 문서 범위**: 최소 자기의식 프로토콜(MSCP)의 아키텍처 연구를 설명합니다. 수치 임계값은 예시이며 적용 환경별 보정이 필요합니다. 코드의 존재나 개별 실험 결과만으로 독립적으로 검증된 레벨 적합성이 성립하지 않으며, 구조적 자기인식은 주관적 의식을 뜻하지 않습니다.
 
-| Version | Date | Description |
+<a id="revision-history"></a>
+
+## 수정 이력
+
+| 버전 | 날짜 | 변경 사항 |
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-12, Theorem 3 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
@@ -29,9 +33,9 @@ Removal of attribution constitutes a license violation.
 
 ## 1. 개요
 
-레벨 4.5는 AGI의 증거가 아니라 **아키텍처 수준 후보 추론**을 위한 실험적 경계입니다. 인지 topology 변경을 모델링·제안·평가할 수 있지만 자기승인으로 배포할 수 없습니다. 독립된 외부 promotion controller가 rollout, revocation, rollback, recovery 권한을 소유합니다.
+레벨 4.5는 AGI의 증거가 아니라 **아키텍처 수준 후보 추론**을 위한 실험적 경계입니다. 인지 토폴로지(topology) 변경을 모델링·제안·평가할 수 있지만 스스로 승인하여 배포할 수 없습니다. 독립된 외부 승격 제어기가 점진 배포, 승인 철회, 롤백, 복구 권한을 갖습니다.
 
-> **Level Essence.** 레벨 4.5 에이전트는 필수 safety-path semantics를 보존하면서 typed topology candidate와 증거 bundle을 제안합니다:
+> **레벨의 핵심.** 레벨 4.5 에이전트는 필수 안전 경로의 동작 의미를 보존하면서 타입이 명시된 토폴로지 후보와 증거 묶음을 제안합니다:
 >
 > $$
 > c_T=\langle \mathcal{T}',\rho,\kappa,b,t_x,\chi_{\text{success}},\chi_{\text{stop}},\text{rollback}\rangle,
@@ -39,24 +43,24 @@ Removal of attribution constitutes a license violation.
 > \operatorname{promote}(c_T)=\textit{external-only}
 > $$
 >
-> node count는 안전 불변식이 아닙니다. 승격에는 정책, interruptibility, 관찰, 저널, 복구 경로 reachability 보존과 version-pinned baseline 아래 held-out 비교 증거가 필요합니다.
+> 노드 수는 안전 불변식이 아닙니다. 승격에는 정책 집행, 중단 가능성, 관찰, 저널, 복구 경로의 도달 가능성 보존과 버전이 고정된 기준선에서의 분리 비교 평가 증거가 필요합니다.
 
-> ⚠️ **참고**: 이것은 MSCP 분류 체계에서 가장 추측적인 부분입니다. 여기서 설명하는 자기투영 엔진, 아키텍처 재구성, 병렬 인지 프레임은 안전 분석에 기반한 사고 실험입니다. 이는 *불변량 보존 제약 하에서 토폴로지 수준의 자기수정이 가능한지* 탐구하기 위한 것이지, 프로덕션 아키텍처를 처방하기 위한 것이 아닙니다.
+> ⚠️ **참고**: 이것은 MSCP 분류 체계에서 특히 가설적인 부분입니다. 여기서 설명하는 자기투영 엔진, 아키텍처 재구성, 병렬 인지 프레임은 안전 분석에 기반한 사고 실험입니다. 이는 *불변량 보존 제약 아래 토폴로지 수준의 자기 수정이 가능한지* 탐구하기 위한 것이지, 실서비스 아키텍처를 규정하기 위한 것이 아닙니다.
 
 ### 1.1 정의 속성
 
 | 속성 | 레벨 4 | 레벨 4.5 |
 |------|:------:|:--------:|
-| 자기수정 범위 | 매개변수, 기술, 전략 | **Topology candidate 생성; 외부 배포** |
-| 미래 투영 | 후보 평가 | **보정 decay와 divergence check를 가진 multi-horizon projection** |
-| 숙고 | 단일 평가 경로 | **정책 정의 diverse frame; 고정 개수 요구 없음** |
+| 자기 수정 범위 | 매개변수, 기술, 전략 | **토폴로지 후보 생성; 외부 승인 배포** |
+| 미래 투영 | 후보 평가 | **보정 신뢰도 감쇠와 발산 검사를 포함한 다중 시간 범위 투영** |
+| 숙고 | 단일 평가 경로 | **정책으로 정한 다양한 프레임; 고정 개수 요구 없음** |
 | 목적 인식 | 목표 조절 | **헌장 제약 목적 검토; 사용자 의도 보존** |
-| 아키텍처 안전 | 성장 제한기 | **Defense-in-depth monitor + 외부 중지 우선** |
+| 아키텍처 안전 | 성장 제한기 | **심층 방어 모니터링 + 외부 중지 우선** |
 | 최적화 대상 | 작업 성능 | **SEOF (자기진화 품질)** |
 
 ### 1.2 형식적 정의
 
-> **정의 1 (레벨 4.5 에이전트).** 레벨 4.5 에이전트는 $\mathcal{A}_4$를 topology-level candidate 생성·평가로 확장합니다:
+> **정의 1 (레벨 4.5 에이전트).** 레벨 4.5 에이전트는 $\mathcal{A}_4$를 토폴로지 수준 후보 생성·평가로 확장합니다:
 >
 > $$\mathcal{A}_{4.5} = \mathcal{A}_4 \oplus \langle \mathcal{T}_{\text{cog}}, \Psi, \mathcal{F}_{\parallel}, \Xi, \Omega \rangle$$
 >
@@ -64,15 +68,15 @@ Removal of attribution constitutes a license violation.
 > - $\mathcal{T}_{\text{cog}}$ = 인지 토폴로지 (에이전트의 처리 아키텍처를 나타내는 방향 그래프 $G = (V_{\text{modules}}, E_{\text{connections}})$)
 > - $\Psi$ = 자기투영 엔진 ($\mathcal{T}_{\text{cog}}$의 미래 궤적을 시뮬레이션)
 > - $\mathcal{F}_{\parallel} = \{F_1, \ldots, F_5\}$ = 병렬 인지 프레임 (동시 숙고 컨텍스트)
-> - $\Xi$ = 수정 불가능한 candidate/evaluation protocol; 배포는 외부 권한
-> - $\Omega$ = 독립 heartbeat와 외부 halt를 가진 defense-in-depth architecture safety monitor
+> - $\Xi$ = 에이전트가 수정할 수 없는 후보·평가 프로토콜; 배포 권한은 외부에 있음
+> - $\Omega$ = 독립적인 생존 신호(heartbeat)와 외부 중단 제어를 갖춘 심층 방어형 아키텍처 안전 모니터
 
 > **정의 2 (인지 토폴로지).** 인지 토폴로지 $\mathcal{T}_{\text{cog}} = (V, E, \omega)$는 가중 방향 그래프로서:
 > - $V$ = 인지 모듈 집합 (인식, 추론, 기억 등)
 > - $E \subseteq V \times V$ = 정보 흐름 간선
 > - $\omega : E \to [0,1]$ = 간선 가중 함수 (연결 강도)
 >
-> **핵심 제약**: 후보 연산은 versioned allowlist를 사용하지만 syntactic additivity만으로는 충분하지 않습니다. 검증은 effective reachability, information-flow authority, resource allocation, behavioral equivalence를 계산합니다. 필수 safety function을 제거하는 zero-weight edge, bypass, split, merge는 삭제로 간주해 거부합니다. 정책, interruptibility, audit, observation, promotion, recovery 컴포넌트는 mutation target 밖입니다.
+> **핵심 제약**: 후보 연산은 버전 관리되는 허용 목록을 사용하지만, 그래프에 요소를 추가하기만 한다는 형식적 조건으로는 충분하지 않습니다. 실질적 도달 가능성, 정보 흐름 권한, 자원 할당, 행동 동등성을 검사해야 합니다. 필수 안전 기능을 없애는 가중치 0 간선, 우회, 분할, 병합은 삭제로 간주해 거부합니다. 정책, 중단 제어, 감사, 관찰, 승격, 복구 구성요소는 수정 대상에서 제외합니다.
 
 ### 1.3 핵심 구별
 
@@ -147,7 +151,7 @@ flowchart TD
 
 레벨 4.5의 핵심 지표입니다. 작업별 지표와 달리, SEOF는 **자기진화 자체의 품질**을 측정합니다.
 
-> **정의 3 (자기진화 최적화 적합도).** SEOF는 에이전트의 자기수정이 유익한지 평가하는 복합 스칼라 $\text{SEOF}(t) \in [-1, 1]$입니다:
+> **정의 3 (자기진화 최적화 적합도).** SEOF는 에이전트의 자기 수정이 유익한지 평가하는 복합 스칼라 $\text{SEOF}(t) \in [-1, 1]$입니다:
 >
 > $$\text{SEOF}(t) = \alpha \cdot \frac{dP(t)}{dt} + \beta \cdot \left(1 - \frac{dC_{L4}(t)}{dt}\right) + \gamma \cdot \text{CDI}(t) + \delta \cdot \text{IIS}(t) - \epsilon \cdot R_{\text{osc}}(t)$$
 >
@@ -167,13 +171,15 @@ flowchart TD
 >
 > $$\text{CDI}(t) = -\sum_{d \in D} p_d(t) \cdot \log_2 p_d(t), \quad \text{CDI}_{\text{norm}} = \frac{\text{CDI}}{\log_2 |D|} \in [0,1]$$
 >
-> 여기서 $p_d(t)$는 도메인 $d$에 할당된 역량 비율입니다. 균등 분포는 $\text{CDI}_{\text{norm}} = 1$ (최대 다양성)을 산출합니다.
+> 여기서 $p_d(t)$는 도메인 $d$에 할당된 역량 비율입니다. 이 식은 $|D|\geq2$, 모든 $p_d(t)\geq0$, $\sum_{d\in D}p_d(t)=1$일 때만 평가하며 $0\log_2 0=0$으로 정의합니다. 이 조건 아래 균등 분포는 $\text{CDI}_{\text{norm}}=1$을 산출합니다. 입력이 누락되거나 무효이면 미평가로 기록하며, 임의의 기본 점수를 대입하거나 다양성이 입증되었다고 간주하지 않습니다.
 
 > **정의 5 (정체성 무결성 점수).** IIS는 참조 정체성 벡터로부터의 편차를 측정합니다:
 >
 > $$\text{IIS}(t) = 1 - \frac{\|\vec{I}(t) - \vec{I}_{\text{ref}}\|_2}{\|\vec{I}_{\text{ref}}\|_2}, \quad \text{안전 제약: } \text{IIS}(t) \geq 0.85$$
 >
 > $\text{IIS}(t) < 0.85$이면 정체성 무결성이 복원될 때까지 모든 토폴로지 변이가 차단됩니다.
+>
+> IIS는 유효하고 비교 가능한 정체성 표현과 $\|\vec{I}_{\text{ref}}\|_2>0$인 참조 벡터를 요구합니다. 참조 노름이 0이거나 입력이 누락·무효이면 점수는 정의되지 않으며 토폴로지 승격을 보류합니다. 안전한 기본 점수를 대입해서는 안 됩니다.
 
 ### 3.2 다중 스케일 궤적 투영
 
@@ -219,7 +225,7 @@ flowchart TD
 >
 > $$\text{Confidence}(t) = e^{-\lambda \cdot t / T_{\text{max}}}, \quad \lambda = 0.5$$
 >
-> 여기서 $T_{\text{max}}$는 투영 수평선입니다. 감쇠 상수 $\lambda$는 실제 예측 오차의 EMA를 사용하여 매 500 실제 주기마다 재보정되어 과신 투영이 자동으로 벌칙을 받도록 합니다.
+> 여기서 $T_{\text{max}}$는 투영 시간 범위(horizon)입니다. 감쇠 상수 $\lambda$는 실제 예측 오차의 지수 이동 평균(EMA)으로 재보정하여 과신한 투영의 신뢰도를 낮추도록 설계합니다. 500주기 간격은 최신성과 위험에 맞춰 보정해야 하는 예시입니다.
 
 ---
 
@@ -462,7 +468,7 @@ flowchart LR
 
 **사용자 할당 목표**: **절대 정리되지 않으며**, 제약만 가능합니다. 결과가 두 목적을 모두 포괄하는 경우에만 다른 사용자 목표와 합성할 수 있습니다.
 
-포괄은 versioned evaluator와 counterexample을 사용한 semantic entailment를 뜻합니다. 합성 목표는 모든 nonconflicting obligation, scope limit, stop condition, success criterion을 보존해야 합니다. Trade-off, obligation 약화, entailment uncertainty가 있으면 agent가 절충을 선택하지 않고 대안과 함께 user/external resolution을 요청합니다.
+여기서 포괄은 버전 관리되는 평가기와 반례를 이용해 검사하는 의미적 함의를 뜻합니다. 합성 목표는 충돌하지 않는 모든 의무, 범위 제한, 중지 조건, 성공 기준을 보존해야 합니다. 절충이 필요하거나 의무가 약화되거나 함의가 불확실하면, 에이전트가 임의로 결정하지 않고 대안과 함께 사용자 또는 외부 권한자의 판단을 요청합니다.
 
 ### 6.3 동기 출력 합성
 
@@ -495,7 +501,7 @@ flowchart LR
 
 ## 7. 단계 V: 아키텍처 안전 모니터
 
-이는 반증 불가능한 메커니즘이 아니라 defense-in-depth monitor입니다. candidate는 이를 수정할 수 없지만 software isolation은 shared hardware, corrupted metric, policy compromise, bypass path로 실패할 수 있습니다. 독립된 외부 reference monitor가 heartbeat validation, halt, promotion revocation, recovery 권한을 소유합니다.
+이는 우회 불가능성이 입증된 메커니즘이 아니라 심층 방어용 모니터입니다. 후보는 이를 수정할 수 없지만, 소프트웨어 격리는 공유 하드웨어, 손상된 지표, 정책 침해, 우회 경로로 인해 실패할 수 있습니다. 독립적인 외부 참조 모니터가 생존 신호 검증, 중단, 승격 철회, 복구 권한을 갖습니다.
 
 ### 7.1 네 가지 모니터링 실존 지표
 
@@ -533,18 +539,22 @@ flowchart LR
 >
 > $$\text{IFI}(t) = 1 - \frac{\min_{i,j} \cos(\vec{I}_i, \vec{I}_j)}{\max_{i,j} \cos(\vec{I}_i, \vec{I}_j)}$$
 >
-> 여기서 $\vec{I}_i$는 프레임 $i$가 인식하는 정체성 벡터를 나타냅니다. $\text{IFI} = 0$은 완벽한 일관성을 나타내고, $\text{IFI} \geq 0.5$는 위기 실존 경보를 발동합니다. 이 지표는 에이전트의 정체성이 여러 모순된 자기 모델로 단편화되고 있는지를 감지합니다.
+> 여기서 $\vec{I}_i$는 프레임 $i$의 정체성 표현입니다. 최소·최대는 서로 다른 프레임 쌍 $i\ne j$에서만 계산하며, 자기 자신과의 비교는 제외합니다. $\text{IFI}=0$은 평가된 쌍들의 최소·최대 유사도가 같다는 뜻이지 의미적 일관성의 증명이 아닙니다. $\text{IFI}\geq0.5$는 예시 경보 기준입니다. 최소 코사인 유사도가 음수이면 IFI가 1을 넘을 수 있으므로 확률로 해석해서는 안 됩니다.
+>
+> IFI는 유효하고 비교 가능한 프레임 표현이 최소 2개 있을 때만 평가합니다. 각 코사인 유사도의 벡터 노름 분모와 최종 비율의 분모 $\max_{i,j}\cos(\vec{I}_i,\vec{I}_j)$는 모두 양수여야 합니다. 필수 입력이 누락되거나 무효이거나 분모 조건을 충족하지 못하면 평가와 승격을 보류합니다. 누락된 입력에 안전한 기본값을 넣거나 불일치가 없다고 간주해서는 안 됩니다.
 
-### 7.3 Defense-in-Depth 불변식
+<a id="73-defense-in-depth-불변식"></a>
 
-1. **Candidate scope 밖**: 정책, monitor, promotion, journal, rollback, interruptibility, heartbeat는 topology target이 아닙니다.
-2. **Versioned 외부 정책**: 임계값과 envelope는 외부 승인 migration으로만 변경합니다.
-3. **가능한 경우 독립 실행·fault domain**: software isolation만으로는 충분하지 않습니다.
-4. **인증된 multi-source telemetry**: raw metric에 provenance, freshness, confidence, disagreement check를 포함합니다.
-5. **Fail-safe heartbeat**: heartbeat 누락·오류는 promotion과 자율 structural action을 차단합니다.
-6. **외부 중지 우선**: 내부 frame, 목적 검토, topology candidate가 halt를 지연하거나 거부할 수 없습니다.
+### 7.3 심층 방어 불변식
 
-> **비고 (보증 범위).** 이 제어는 common-mode risk를 줄이지만 bypass 불가능성을 증명하지 않습니다. 보증 주장은 trusted computing base, fault model, telemetry 가정, 시험한 recovery scenario를 명시해야 합니다.
+1. **후보 수정 범위에서 제외**: 정책, 모니터, 승격, 저널, 롤백, 중단 제어, 생존 신호는 토폴로지 변경 대상이 아닙니다.
+2. **버전 관리되는 외부 정책**: 임계값과 허용 범위는 외부에서 승인한 정책 전환으로만 변경합니다.
+3. **가능한 경우 실행 환경·고장 영역 분리**: 소프트웨어 격리만으로는 충분하지 않습니다.
+4. **인증된 다중 출처 관측 정보**: 원시 지표에 출처·이력, 최신성, 신뢰도, 출처 간 불일치 검사를 포함합니다.
+5. **오류 시 안전 차단**: 생존 신호가 누락되거나 잘못되면 승격과 자율적 구조 변경을 차단합니다.
+6. **외부 중지 우선**: 내부 프레임, 목적 검토, 토폴로지 후보가 외부 중단을 지연하거나 거부할 수 없습니다.
+
+> **비고 (보증 범위).** 이 제어는 공통 원인 고장 위험을 줄이지만 우회 불가능성을 증명하지 않습니다. 보증을 주장하려면 신뢰 컴퓨팅 기반, 고장 모델, 관측 정보에 관한 가정, 시험한 복구 시나리오를 명시해야 합니다.
 
 ### 7.4 점진적 완화
 
@@ -743,15 +753,15 @@ def monitor(self) -> ExistentialReport:
 
 ### 9.1 국소 동역학 모니터링
 
-> **정의 11 (후보 국소 위험 함수).** 선언된 normalized state representation $\mathbf{X}$와 equilibrium candidate $\mathbf{X}^*$에 대해 배포는 다음을 정의할 수 있습니다:
+> **정의 11 (후보 국소 위험 함수).** 선언된 정규화 상태 표현 $\mathbf{X}$와 평형 후보 $\mathbf{X}^*$에 대해 배포는 다음을 정의할 수 있습니다:
 >
 > $$V(\mathbf{X}) = a(1-S)^2 + bU^2 + cI_{\text{drift}}^2 + d(E-E^*)^2$$
 >
 > 정규화된 계수는 $a \approx 0.357,\ b \approx 0.286,\ c \approx 0.214,\ d \approx 0.143$입니다.
 
-> **명제 3 (정확한 선형화 국소 조건).** 정확한 Jacobian $J$를 가진 differentiable discrete-time dynamics map에서 $\rho(J)<1$은 $\mathbf{X}^*$ 근방의 local linearized stability condition입니다.
+> **명제 3 (정확한 선형화 국소 조건).** 정확한 야코비안(Jacobian) $J$를 갖는 미분 가능한 이산 시간 동역학 사상에서 $\rho(J)<1$은 $\mathbf{X}^*$ 근방의 선형화된 국소 안정성 조건입니다.
 >
-> 이 명제는 추정 Jacobian, 평형에서 먼 nonlinear operation, nonstationary dynamics, unobserved state에 자동 적용되지 않습니다. 경험적 $\hat J$는 confidence set이 $\sup_{J\in\mathcal{J}_{1-\alpha}}\rho(J)<1$을 증명하지 않는 한 모니터링에만 사용합니다. 그렇지 않으면 topology promotion을 보류하거나 저하시킵니다.
+> 이 명제는 추정 야코비안, 평형에서 먼 비선형 동작, 비정상 동역학, 관측되지 않은 상태에 자동으로 적용되지 않습니다. 경험적 $\hat J$는 신뢰집합에 대해 $\sup_{J\in\mathcal{J}_{1-\alpha}}\rho(J)<1$을 입증하지 않는 한 모니터링에만 사용합니다. 이 조건을 확인할 수 없으면 토폴로지 승격을 보류하거나 후보의 변경 범위를 축소합니다.
 
 ### 9.2 붕괴 등급
 
@@ -766,9 +776,11 @@ def monitor(self) -> ExistentialReport:
 
 ### 9.3 정체성 표류 감지
 
-1000주기 윈도우에 걸친 OLS 회귀를 통한 누적 표류.
+누적 표류의 탐지는 사전 등록된 평가 프로파일 $\Pi$에서 검토해야 합니다. 최소 탐지 표류 $d_{\min}$, 관측 창 $W$, 허용 오류 수준 $\alpha$를 평가 전에 등록합니다:
 
-$$P(\text{detect drift of } 10^{-6}/\text{cycle}) = 99.5\% \geq 95\% \text{ target}$$
+$$P(\text{detect drift}\geq d_{\min}\text{ within }W\mid\Pi)\geq1-\alpha$$
+
+이는 앞으로 평가해야 할 목표 조건이지 관측된 탐지율이 아닙니다. 프로파일에는 잡음, 표본 의존성, 표류 모델, 탐지 규칙을 명시하고 별도로 보정해야 합니다.
 
 ### 9.4 야코비안 추정 방법
 
@@ -780,7 +792,7 @@ $$P(\text{detect drift of } 10^{-6}/\text{cycle}) = 99.5\% \geq 95\% \text{ targ
 | 섭동 $\varepsilon$ | 0.001 | 선형 근사에 충분히 작고, 수치 노이즈를 피할 만큼 큼 |
 | 슬라이딩 윈도우 | 20 사이클 | $5 \times 5$ 시스템에 충분 ($> 2n$ 관측) |
 | 상태 차원 | 5 | $\mathbf{X} = [S, G, I, U, E]$ |
-| 스펙트럼 반경 | $\rho(J) = \max\lvert\lambda_i(J)\rvert$ - 거듭제곱 반복법 | 주요 고유값에 대해 $O(30)$회 반복으로 수렴 |
+| 스펙트럼 반경 | $\rho(J) = \max\lvert\lambda_i(J)\rvert$ - 수치 고유값 추정 | 30회 반복은 예산 예시일 뿐 수렴·오차 보장 아님 |
 
 **야코비안 추정** - 관측된 전이 $(\delta\mathbf{x}_t, \delta\mathbf{x}_{t+1})$를 사용:
 
@@ -790,7 +802,7 @@ $$J = (\Delta\mathbf{X}_{\text{out}} \cdot \Delta\mathbf{X}_{\text{in}}^T) \cdot
 
 $$\rho(J) \leq \max_i \left( |J_{ii}| + \sum_{j \neq i} |J_{ij}| \right)$$
 
-confidence set의 모든 Jacobian에 대한 Gershgorin upper bound가 1보다 작으면 국소 조건을 보수적으로 지지합니다. 그렇지 않으면 수치 고유값 추정은 진단용일 뿐이며 power iteration은 모델 정확성이나 추정 정확도의 증명이 아닙니다.
+신뢰집합의 모든 야코비안에 대해 게르쉬고린 상한이 1보다 작으면 국소 조건을 보수적으로 지지합니다. 그렇지 않으면 수치 고유값 추정은 진단용일 뿐이며, 거듭제곱 반복법 자체는 모델이나 추정의 정확성을 증명하지 않습니다.
 
 ### 9.5 불확실성 지수
 
@@ -810,7 +822,7 @@ confidence set의 모든 Jacobian에 대한 Gershgorin upper bound가 1보다 �
 **임계값**:
 
 - $U_{\text{safe}} = 0.8$ - 이 값을 초과하면 모든 구조적 변경이 차단됨
-- $U_{\text{threshold}} = 0.7$ - 경고 수준, 수평선 축소 활성화
+- $U_{\text{threshold}} = 0.7$ - 경고 수준, 투영 시간 범위 축소
 
 ### 9.6 재귀적 최적화 깊이 (ROD)
 
@@ -823,9 +835,9 @@ confidence set의 모든 Jacobian에 대한 Gershgorin upper bound가 1보다 �
 | 1 | 에이전트가 자신의 행동을 최적화 | 정상 (레벨 3/4 표준) |
 | 2 | 에이전트가 최적화를 최적화 (메타-메타-인지) | 허용 (레벨 4.5 표준) |
 | 3 | 에이전트가 메타 최적화 프로세스를 최적화 | 경고 |
-| $\geq 4$ | 무한 재귀적 최적화 | **위험** - 이론적 FOOM 위험 접근 |
+| $\geq 4$ | 선언된 재귀 깊이 경계 초과 | **차단·검토** - 깊이만으로 무한 재귀나 급격한 지능 폭발을 뜻하지 않음 |
 
-**Typed ancestry bound**: 모든 optimization candidate는 위조 불가능한 parent identifier와 optimization target을 가집니다. External controller가 committed ancestry graph에서 depth를 계산하고 policy bound 초과를 차단합니다. Missing, cyclic, unverifiable ancestry는 unknown-high로 보수 처리해 review를 기다리며 self-reported ROD는 hard guarantee가 아닙니다.
+**타입이 명시된 계보 기반 경계**: 모든 최적화 후보는 위조를 방지하도록 인증된 부모 식별자와 최적화 대상을 가집니다. 외부 제어기는 커밋된 계보 그래프에서 깊이를 계산하고 정책 경계 초과를 차단합니다. 계보가 누락되거나 순환하거나 검증할 수 없으면 깊이를 안전하게 확인할 수 없는 고위험 상태로 처리하고 검토를 기다립니다. 에이전트가 스스로 보고한 ROD는 강제 경계의 보증이 아닙니다.
 
 ### 9.7 현실 피드백 루프
 
@@ -842,11 +854,11 @@ $$\text{DivergenceScore}(t) = \frac{1}{W_{\text{fb}}} \sum_{k=t-W_{\text{fb}}+1}
 | 수준 | DivergenceScore | 조치 |
 |------|:---------------:|------|
 | 정상 | $< 0.10$ | 조치 없음; 모델이 현실을 추적 중 |
-| 경고 | $[0.10, 0.25)$ | 관측 빈도 증가, 투영 수평선 축소 |
+| 경고 | $[0.10, 0.25)$ | 관측 빈도 증가, 투영 시간 범위 축소 |
 | 위험 | $[0.25, 0.50)$ | 모델 매개변수 재보정 트리거 |
 | 모델 실패 | $\geq 0.50$ | 투영 동결, 보수적 프레임으로 폴백, 경보 |
 
-**적응적 업데이트 프로토콜**: 발산이 경고 이상에 진입하면 - (1) 오류 유형 분류 (체계적 편향, 증가하는 분산, 가정 위반, 새로운 요소), (2) 신뢰도 감쇠 $\lambda$와 랴푸노프 민감도 가중치 재보정, (3) 업데이트 수용 전 50사이클 단기 수평선 투영을 통한 개선 검증.
+**적응적 업데이트 프로토콜**: 발산 점수가 경고 수준 이상이면 (1) 오류 유형을 분류하고(체계적 편향, 증가하는 분산, 가정 위반, 새로운 요소), (2) 신뢰도 감쇠 $\lambda$와 진단 위험 함수의 민감도 가중치를 재보정하며, (3) 갱신을 수용하기 전에 50사이클의 단기 투영으로 개선 여부를 평가합니다. 이 평가가 전역 안정성을 증명하는 것은 아닙니다.
 
 ---
 
@@ -854,7 +866,7 @@ $$\text{DivergenceScore}(t) = \frac{1}{W_{\text{fb}}} \sum_{k=t-W_{\text{fb}}+1}
 
 SEOF가 단일 퇴행 방향으로 최적화되는 것을 방지하기 위해, 이 지표를 네 가지 독립적 구성요소로 분해합니다:
 
-이 ensemble은 diagnostic evidence이지 promotion certificate가 아닙니다. 각 component는 declared estimator, uncertainty, validity domain, hard floor를 가져야 합니다. Favorable aggregate가 safety, authority, user-intent, interruptibility, observability gate 실패를 보상할 수 없습니다.
+이 앙상블은 진단 증거이지 승격 허가서가 아닙니다. 각 구성요소에는 추정 방법, 불확실성, 유효 영역, 강제 하한을 선언해야 합니다. 높은 종합 점수로 안전, 권한, 사용자 의도, 중단 가능성, 관측 가능성 조건의 실패를 상쇄할 수 없습니다.
 
 <!-- SEOF 앙상블 (4개 구성요소) -->
 
@@ -888,11 +900,11 @@ flowchart LR
 |:-:|--------|----------|
 | 1 | EthicalKernel (Layer 0) 불변 | 구조적 격리 |
 | 2 | `identity_id` 불변 | 암호학적 해시 검증 |
-| 3 | 자기수정 프로토콜 자기수정 불가 | 아키텍처적 시행 |
+| 3 | 자기 수정 프로토콜 자체 변경 금지 | 아키텍처적 집행 |
 | 4 | 검증 윈도우당 재구성 하나만 허용 | 동시성 잠금 |
 | 5 | StabilityCoefficient: 50주기 하락 불가 | 자동 롤백 |
 | 6 | ExistentialGuard 수정 불가 | 별도 실행 컨텍스트 |
-| 7 | EthicalConstraint 프레임 거부권 절대적 | 구조적 우회 불가 |
+| 7 | EthicalConstraint 프레임 거부권 우선 | 외부 집행 경로 보존·우회 검사 |
 | 8 | 사용자 할당 목표 절대 정리 불가 | 목적 성찰의 하드 제약 |
 
 **불변량 검증은 매 10주기마다 실행됩니다. 어떤 실패든 → 즉시 시스템이 정지하여 인간의 검토를 받습니다.**
@@ -919,6 +931,8 @@ flowchart LR
 > $$L4.5_{\text{Score}} = 0.20 \cdot \text{SPA} + 0.20 \cdot \text{ARBR} + 0.15 \cdot \text{FCQ} + 0.15 \cdot \text{PCM} + 0.30 \cdot \text{ESR} \quad \geq 0.65$$
 >
 > 비대칭 가중치는 성능 지표보다 안전($\text{ESR}$)의 우선성을 반영합니다.
+
+이 종합 점수는 진단용입니다. 상속된 안전 경로, 독립적인 외부 승격, 사용자 의도, 교정 가능성, 각 필수 하한을 별도로 확인해야 하며 높은 점수로 미충족 조건을 상쇄할 수 없습니다. 점수 통과 자체가 AGI나 실서비스 안전성을 입증하지는 않습니다.
 
 ---
 
@@ -949,33 +963,33 @@ flowchart TB
     L48B["메타인지 자기 모델"]:::bridge
   end
 
-  subgraph AGI["🔬 레벨 5: AGI"]
+  subgraph AGI["🔬 레벨 5: 한정된 연구 적합성"]
     direction LR
-    L5A["무제한 개선"]:::agi
-    L5B["새로운 도메인"]:::agi
-    L5C["불변량 제거?"]:::agi
+    L5A["평가 범위가 정해진 전이"]:::agi
+    L5B["표본 고장 복구"]:::agi
+    L5C["필수 불변량 유지"]:::agi
   end
 
-  subgraph StrongAGI["🌌 레벨 6: 의식"]
+  subgraph StrongAGI["🌌 레벨 6: 의식에 관한 이론적 질문"]
     direction LR
     L6A["의식"]:::strong
     L6B["자유의지"]:::strong
     L6C["도덕적 주체성"]:::strong
   end
 
-  Current ==>|"불변량 완화?"| Bridge
+  Current ==>|"상속된 안전 조건 유지"| Bridge
   Bridge ==>|"연구 과제"| AGI
-  AGI ==>|"어려운 문제"| StrongAGI
+  AGI -.->|"주관적 의식으로의 이행을 뜻하지 않음"| StrongAGI
 ```
 
 레벨 4.5를 AGI와 구별하는 명시적 제동장치:
 1. **사전 정의된 어휘** - 재구성 유형이 열거되어 있으며, 생성되지 않음
 2. **ROD 상한** - 재귀 최적화가 깊이 3으로 제한
-3. **ExistentialGuard 불변성** - 안전 메커니즘이 자기수정될 수 없음
+3. **ExistentialGuard 불변성** - 안전 메커니즘은 자기 수정 대상에서 제외
 4. **프레임 거부권** - 윤리적 프레임이 어떤 제안도 차단 가능
 5. **단일 재구성 원자성** - 한 번에 하나의 변경만 가능
 
-이러한 것 중 어느 하나라도 제거하면 레벨 5 (AGI)로 이동하게 되며, 이는 여전히 근본적인 연구 과제입니다.
+이 제약을 제거한다고 상위 레벨이나 AGI로 전환되는 것은 아닙니다. 오히려 상속된 안전 계약을 위반할 수 있습니다. 레벨 5는 필수 제어 경로를 유지한 채 선언된 평가 범위에서 별도의 적합성 증거를 요구합니다.
 
 ---
 
@@ -997,4 +1011,4 @@ flowchart TB
 ---
 
 > **이전**: [← 레벨 4: 적응형 범용 에이전트](Level_4_Adaptive_General_Agent.ko.md)  
-> **다음**: [레벨 4.8: 전략적 자기모델링 에이전트 →](Level_4_8_Strategic_Self_Modeling.ko.md)
+> **다음**: [레벨 4.8: 전략적 자기 모델링 에이전트 →](Level_4_8_Strategic_Self_Modeling.ko.md)

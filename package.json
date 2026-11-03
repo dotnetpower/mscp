@@ -1,0 +1,10 @@
+{
+  "name": "mscp-docs",
+  "private": true,
+  "scripts": {
+    "check:docs": "python scripts/check_docs.py"
+  },
+  "devDependencies": {
+    "katex": "0.16.11"
+  }
+}

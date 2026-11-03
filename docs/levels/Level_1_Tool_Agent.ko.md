@@ -16,9 +16,13 @@ Removal of attribution constitutes a license violation.
 > **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
-## Revision History
+> **공개 문서 범위**: 최소 자기의식 프로토콜(MSCP)의 아키텍처 연구를 설명합니다. 수치 임계값은 예시이며 적용 환경별 보정이 필요합니다. 코드의 존재나 개별 실험 결과만으로 독립적으로 검증된 레벨 적합성이 성립하지 않으며, 구조적 자기인식은 주관적 의식을 뜻하지 않습니다.
 
-| Version | Date | Description |
+<a id="revision-history"></a>
+
+## 수정 이력
+
+| 버전 | 날짜 | 변경 사항 |
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-4, Propositions 1-3 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
@@ -32,7 +36,7 @@ Removal of attribution constitutes a license violation.
 
 레벨 1은 MSCP 분류 체계의 **자기 모델 이전 기준선**입니다. 도구 에이전트는 외부 요청에 응답하여 한정된 실행 에피소드를 수행하고, 허용된 도구를 호출한 뒤 종료합니다. 에이전트가 소유한 지속적인 세계·자기·목표 상태가 없으며 스스로 새 에피소드를 시작할 수 없습니다. 호스트가 대화 이력을 입력으로 명시적으로 제공할 수 있지만, 이 문맥은 자율적 장기 기억이 아닙니다.
 
-> **Level Essence.** 레벨 1 에이전트는 외부 요청으로 시작되는 에피소드 한정 정책입니다. 제한된 행동 시퀀스를 수행할 수 있지만, 에피소드 경계를 넘어 숨겨진 에이전트 소유 인지 상태를 유지하지 않습니다:
+> **레벨의 핵심.** 레벨 1 에이전트는 외부 요청으로 시작되는 에피소드 한정 정책입니다. 제한된 행동 시퀀스를 수행할 수 있지만, 에피소드 경계를 넘어 숨겨진 에이전트 소유 인지 상태를 유지하지 않습니다:
 >
 > $$
 > (o_t,\, \mathbf{a}_t,\, e_{t+1}) \sim \mathcal{A}_1(\,\cdot\mid r_t, c_t, e_t),
@@ -83,7 +87,7 @@ $$
 > \to \operatorname{Dist}\!\left(\operatorname{Result}(\mathcal{D}_k \times \mathcal{E},\, \operatorname{Err}_k)\right)
 > $$
 >
-> 여기서 $\mathcal{P}_k$는 매개변수 공간, $\mathcal{D}_k$는 성공 도메인, $\operatorname{Err}_k$는 타입이 지정된 오류 도메인입니다. 도구 메타데이터는 부작용 등급, 필요한 권한, timeout 동작, 재시도 안전 여부를 반드시 선언해야 합니다. Timeout은 확인된 실패가 아니라 **결과 불명**을 의미할 수 있습니다.
+> 여기서 $\mathcal{P}_k$는 매개변수 공간, $\mathcal{D}_k$는 성공 도메인, $\operatorname{Err}_k$는 타입이 지정된 오류 도메인입니다. 도구 메타데이터는 부작용 등급, 필요한 권한, 시간 초과(timeout) 시 동작, 재시도 안전 여부를 반드시 선언해야 합니다. 시간 초과는 확인된 실패가 아니라 **결과 불명**을 의미할 수 있습니다.
 
 > **정의 3 (행동 라우팅).** 행동 집합을 다음과 같이 정의합니다:
 >

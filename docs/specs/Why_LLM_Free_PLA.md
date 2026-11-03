@@ -12,7 +12,7 @@
 
 ## TL;DR
 
-An LLM is a *statistical text generator* that samples tokens from a distribution. An autonomous agent is a *subject* that tests its own hypotheses, updates its own self-model, and decides on its own actions. If you place both roles on the same substrate, the agent will mistake its own LLM hallucinations for its own thought. **Progressive Language Autonomy (PLA)** is the stage classification that enforces this separation, and *LLM-free* mechanisms are what make each PLA stage trustworthy. This document explains why.
+An LLM can generate text and action candidates, but its output should not automatically become execution authority. **Progressive Language Autonomy (PLA)** separates production from admission as an agent takes on more complex work. Here, *LLM-free* means that safety-critical admission and state changes do not depend solely on an LLM response, not that the system never uses an LLM. See [Documentation Status and Validation](Documentation_Status.md) for the public evidence boundary.
 
 ---
 
@@ -36,23 +36,23 @@ An LLM is a *statistical text generator* that samples tokens from a distribution
 
 ### 1.1 The Default Agent Architecture
 
-Most contemporary agent frameworks (ReAct-style chains, multi-agent orchestration libraries, "autonomous coder" loops) share a single architectural choice: **every decision the agent makes is the next token sampled from an LLM**. Goal selection, plan revision, self-critique, even the meta-evaluation "is my reasoning sound?" - all are realized as further LLM completions over a prompt that includes the agent's previous outputs.
+Some agents rely heavily on LLM responses for goal selection, plan revision, and self-critique. This document examines the narrower design in which **LLM output becomes an execution decision without independent admission**. It does not place every framework with external policy, tool permission checks, or independent validators in that category.
 
-We call this pattern the **LLM-wrapper architecture**. It is simple, expressive, and immediately useful for L1 tool-agent workloads. It is also where every cognitive failure mode discussed below originates.
+We call this restricted pattern an **LLM-wrapper architecture**. It can be useful for simple workloads, but persistent goals and self-modification require additional state-management and admission contracts.
 
 ### 1.2 Five Failure Modes of LLM-as-Cognition
 
-The following failure modes are not edge cases - they are structural consequences of placing decision authority on a statistical text generator.
+These are risks to examine when production and admission are not separated, not inevitable outcomes for every LLM-based system.
 
-**(F1) Hallucination self-attribution.** When the LLM generates a confident-sounding chain of reasoning, the agent has no faculty *external to the LLM* with which to check it. The hallucination and the reasoning live in the same stream. An LLM-wrapper agent that "decides" to delete a file based on a hallucinated read of the filesystem cannot, by construction, recognize that its decision was hallucinated. The agent literally treats its own confabulation as its own thought.
+**(F1) Mistaking generated explanations for verified facts.** Without independent observation or verification, a confident explanation may substitute for evidence. Tool observations must be distinguished from model-generated claims, and consequential work admitted against verified evidence.
 
-**(F2) Non-determinism breaks identity tracking.** MSCP Level 3 introduces the identity vector $I(t) \in [0,1]^5$ and its delta-clamped update rule (L3 §4.1, L3 §4.2). The whole apparatus rests on the idea that *the same agent in the same state* makes *the same decision*. LLM sampling makes this false by design. Two identical cycles produce two different identity trajectories, so $\delta_{\text{id}}(t)$, $v_{\text{id}}$, $a_{\text{id}}$ become noise. The drift detector cannot distinguish real drift from sampling variance.
+**(F2) Confusing sampling variation with semantic change.** L3 uses a versioned self-model and bounded updates. Drift monitoring becomes unreliable if sampling variation, measurement uncertainty, and semantic change are conflated. Non-determinism itself is not forbidden, but observation and admission policy must handle it explicitly.
 
-**(F3) Prompt injection becomes self-modification.** In an LLM-wrapper agent, every input string is concatenated into the prompt that drives the next decision. The input *is* the substrate of cognition. An attacker who can put text into the agent's input channel can - in principle - rewrite the agent's behavior on that turn. There is no architectural place to put a "this came from outside, treat it as data, not as code" boundary, because the boundary is exactly the LLM's attention pattern, which is itself trained text.
+**(F3) External text influencing admission authority.** If untrusted input is not separated from policy and state-changing commands, prompt injection can influence execution decisions. Independent type, provenance, and authority checks are required; their existence alone does not eliminate every attack.
 
-**(F4) Metacognitive collapse.** MSCP v0.4 (Overview §3.1, "Key Lessons from Early Prototyping") records the discovery that *LLM-based self-reflection* failed: when the agent asks an LLM "evaluate your previous reasoning," the evaluation is another sample from the same distribution, prone to the same hallucinations, with no fixed reference point. Each meta-level is just another completion. The triple-loop meta-cognition of L3 §3.2 only works if at least one loop is *not* an LLM completion.
+**(F4) Mistaking self-evaluation for independent verification.** Asking the same model to reassess an answer may provide a secondary signal, but cannot replace independent observations and calibrated comparison. L3 distinguishes predictions from actual outcomes and limits evaluation depth and cost.
 
-**(F5) Irreversible self-modification.** If self-modification is realized as "the LLM emitted new instructions for itself," there is no schema-checked patch, no rollback, no audit trail. A confabulated rule lives forever in the prompt context until it scrolls out, at which point its effects on the world remain but the rule itself is unrecoverable. L4 §8 (Bounded Self-Modification) is explicitly designed to forbid this pattern.
+**(F5) Self-modification without validation and recovery.** Direct application of generated instructions can omit schema checks, change history, and recovery points. L4 separates proposal from commit and distinguishes internal rollback from reconciliation of effects already produced in the external world.
 
 ### 1.3 Proposition 1: Authority vs Production
 
@@ -105,45 +105,48 @@ The asymmetry is intentional. Production-style activities are LLM-friendly; safe
 
 ## 3. The Autonomy Gap (Formal Argument)
 
+This section distinguishes an output-distribution diagnostic from an architectural requirement. Neither entropy nor output divergence certifies an MSCP level.
+
 ### 3.1 Definition of the Language Autonomy Gap
 
 > **Definition 2 (Language Autonomy Gap).** Let $p_{\text{LLM}}(o \mid x)$ be the distribution over outputs induced by a bare LLM completion on prompt $x$, and let $p_{\text{agent}}(o \mid x, \mathcal{W}, I)$ be the distribution over outputs induced by the full agent (LLM + LLM-free mechanisms + world model $\mathcal{W}$ + identity vector $I$). The **Language Autonomy Gap** at time $t$ is the entropy difference:
 >
 > $$\text{LAG}(t) = H\!\bigl(p_{\text{LLM}}(o \mid x_t)\bigr) - H\!\bigl(p_{\text{agent}}(o \mid x_t, \mathcal{W}_t, I(t))\bigr)$$
 
-A high LAG means the agent has narrowed the LLM's distribution substantially via its LLM-free mechanisms - identity constraints, ethical kernel, prediction gating, goal priorities. A low LAG means the agent is essentially echoing the LLM.
+A positive LAG means the agent's output distribution has lower entropy under the declared measurement setup. LAG may also be zero or negative. It does not identify which mechanism caused a change, measure decision authority, or establish that the agent is echoing the LLM.
 
-### 3.2 Why LAG Must Be Bounded Away From Zero
+### 3.2 Equal Entropy Does Not Imply Equal Distributions
 
-If $\text{LAG}(t) \to 0$, then $p_{\text{agent}} \to p_{\text{LLM}}$, and the agent's behavior is statistically indistinguishable from the LLM's. In that regime:
+The implication $\text{LAG}(t)\to0 \implies p_{\text{agent}}\to p_{\text{LLM}}$ is false. For example, $p=(0.9,0.1)$ and $q=(0.1,0.9)$ have equal entropy but total variation distance $0.8$. Conversely, an independent safety gate can accept a safe LLM proposal unchanged, producing identical outputs despite a real separation of authority.
 
-- The identity vector trajectory becomes a random walk over LLM sampling noise.
-- The prediction-comparison loop (L3 §3.1) compares one LLM sample to another LLM sample - the comparison itself becomes hallucination-prone.
-- The ethical kernel cannot block an action without re-prompting the LLM to confirm the block, opening a circular trust dependency.
-- The whole MSCP safety stack reduces to "we trust the LLM," which is exactly the property MSCP was designed to *not* require.
+Entropy differences alone therefore cannot establish autonomy, safety, identity drift, or the absence of an independent verifier.
 
-### 3.3 Why LAG Must Also Be Bounded Away From Infinity
+### 3.3 Optional Distribution-Difference Diagnostic
 
-If $\text{LAG}(t)$ is too large, the agent is *over-constraining* the LLM and loses its language fluency, its ability to handle novel inputs, and its capacity for genuinely new goal synthesis. The point of PLA is not to suppress the LLM; it is to integrate it under authority.
+When both distributions can be estimated over the same declared output space, an optional diagnostic is the Jensen-Shannon divergence:
 
-### 3.4 PLA Stages as a LAG Schedule
+$$D_{\mathrm{JS}}(p,q)=H\!\left(\frac{p+q}{2}\right)-\frac{H(p)+H(q)}{2},\qquad 0\leq D_{\mathrm{JS}}\leq1$$
 
-PLA stages can be read as a target schedule for LAG over the agent's maturation:
+The bound uses base-2 entropy. Report the sampling policy, output representation, sample size, uncertainty, and common input conditions. An unavailable estimate must be reported as unavailable, not zero. Even this divergence measures output differences, not decision authority or language quality; those require separate evaluations.
 
-| PLA Stage | Target LAG regime | Interpretation |
-|:---------:|:-----------------:|----------------|
-| Stage 0 (L1) | $\text{LAG} \approx 0$ | LLM-wrapper; agent = LLM. Acceptable only because L1 has no self-model to corrupt. |
-| Stage 1 (L2) | $\text{LAG}$ small but $> 0$ | Goal synthesis becomes LLM-free; everything else still LLM-led. |
-| Stage 2 (L3) | $\text{LAG}$ moderate | Prediction gating, identity vector, ethical kernel all LLM-free. |
-| Stage 3 (L4) | $\text{LAG}$ moderate-to-high | Cross-domain strategy retrieval (LangNet) becomes LLM-free. |
-| Stage 4 (L4.5-L4.8) | $\text{LAG}$ high | Self-projection, probabilistic world modeling, confidence calibration all LLM-free. |
-| Stage 5 (L5) | $\text{LAG}$ bounded but maximal | Autonomous research loop, value-evolution audit, identity-preserving self-reconstruction all LLM-free. |
+### 3.4 PLA Stages as Authority Requirements
+
+PLA stages describe which decisions require independent mechanisms, not a monotonically increasing entropy gap:
+
+| PLA Stage | Required independent mechanism | Evaluation focus |
+|:---------:|--------------------------------|------------------|
+| Stage 0 (L1) | Host policy and bounded tool admission | No agent-owned cross-episode cognitive state |
+| Stage 1 (L2) | Persistent goal management and trigger admission | Authorized continuation, goal provenance |
+| Stage 2 (L3) | Prediction comparison, self-update admission, invariant enforcement | Calibrated errors and mediated writes |
+| Stage 3 (L4) | Strategy evaluation and transfer assessment | Held-out transfer and bounded modification |
+| Stage 4 (L4.5-L4.8) | Projection validation and uncertainty calibration | Model error, observability, recovery |
+| Stage 5 (L5) | Research admission, value-change audit, reconstruction validation | Preregistered per-gate qualification |
 
 ### 3.5 Proposition 2: The LLM-Wrapper Trap
 
-> **Proposition 2 (LLM-Wrapper Trap).** An agent whose $\text{LAG}(t)$ remains near zero across all $t$ cannot achieve any MSCP level above L1, regardless of how capable its LLM is. Increasing the LLM's capacity reduces output variance but does not separate authority from production, so the failure modes (F1)-(F5) of §1.2 persist.
+> **Proposition 2 (Structural LLM-Wrapper Limitation).** A system with no agent-owned persistent cognitive state, autonomous goal management, or authorized cross-episode continuation does not meet the Level 2 admission criteria, irrespective of its LLM's capability or output entropy.
 
-This is the central claim of the paper: **scaling LLMs alone does not climb the MSCP ladder**. Climbing the ladder requires building LLM-free mechanisms that take over decision authority while leaving production to the LLM.
+This follows from the [Level 1 to Level 2 definition](../levels/Level_1_Tool_Agent.md#7-transition-to-level-2), not from an information-theoretic impossibility theorem. Higher levels require additional independently evaluated contracts. LLM capability alone neither establishes nor rules out those contracts.
 
 ---
 
@@ -155,12 +158,12 @@ The following table walks the MSCP stack and lists, for each level, the mechanis
 |--------------|-----------------|------------------------------|-------------------------------------|
 | Autonomous goal generation $\Phi_{AG}$ | L2 §3.2 (Def 6) | Deterministic pattern detector over the percept buffer | Goal priorities oscillate with sampling noise; user cannot reproduce why a goal was emitted |
 | Predict-compare-update core loop | L3 §3.1 (Def 2) | Deterministic comparison of $\hat{\Delta}$ vs $\Delta^{\text{actual}}$ | "The LLM thinks its prediction was good" - meta-circularity, no calibration signal |
-| Prediction gating $\theta_{\text{pred}}=0.30$ | L3 §3.3 | Deterministic threshold check on $\epsilon_{t-1}$ | LLM-reported accuracy is hallucination-prone; gate is bypassable |
-| Identity hash $h(t)=\text{SHA-256}(I(t))$ | L3 §4.1 (Def 6) | Cryptographic hash of vector | LLM cannot detect drift in its own self-model |
+| Action-specific prediction admission | L3 §3.3 | Policy, calibrated uncertainty/risk, observability, reversibility, and budget checks | A past global error or self-reported accuracy is not sufficient authorization |
+| Integrity and ancestry | L3 §4.3 (Def 6) | Canonical hash and transition journal, separate from semantic distance | Narrative consistency cannot establish integrity or valid ancestry |
 | Delta clamp $\delta_{\max}=0.05$ | L3 §4.2 | Numeric clip on $\|I(t)-I(t-1)\|_2$ | Self-edits drift unboundedly within a single cycle |
-| Ethical kernel Layer 0 | L3 §4.3 | Immutable invariant set, byte-comparison | LLM "interprets" the invariant differently each turn |
+| Ethical kernel Layer 0 | L3 §4 | Typed invariant predicates mediated on every commit path | A generated interpretation cannot replace independent admission |
 | Belief graph consistency | L3 §5 | Graph traversal contradiction detector | LLM justifies any belief if prompted; no contradiction caught |
-| Lyapunov composite $C(t)$ + oscillation detector | L3 §6.1, §6.2 | Weighted sum + sliding-window sign-change counter | Stability is a felt property, not an LLM judgment |
+| Composite risk $R(t)$ and oscillation monitor | L3 §6.1, §6.2 | Versioned signals and calibrated component/rate checks | A diagnostic signal is not a convergence proof |
 | Bounded Self-Modification (7-step protocol) | L4 §8.2 | Schema-validated patch + ShadowAgent simulation + rollback | Self-modification becomes irreversible text drift |
 | Cross-Domain Transfer Score | L4 §4.2 | Quantitative success rate over test domains | LLM "feels" it can transfer; actual transfer untested |
 | LangNet retrieval $\pi_{\text{LangNet}}(q, d)$ | Overview §4.4.3 | Embedding similarity + graph edges | LLM hallucinates a strategy that does not exist in LangNet |
@@ -169,7 +172,7 @@ The following table walks the MSCP stack and lists, for each level, the mechanis
 | Strategy Comparator | L4.8 §1.5 | Numeric comparison over scored strategies | LLM picks the verbose one, not the high-utility one |
 | ASS freeze gate (ASS $< 0.05$) | L4.9 §1.6 | Threshold check on the ASS scalar | If the gate is an LLM call, the LLM can bypass its own gate |
 | Goal conflict resolver | L4.9 §3.6 | Weighted utility synthesis / priority sort | LLM rationalizes any winner post-hoc |
-| Identity Continuity Score $\geq 0.95$ | L5 §1.1, §2.1 | Cosine similarity over 10,000-cycle identity history | Untrackable in token space |
+| Composite identity continuity contract | L5 §2.1 | Anchor, component, norm, trajectory, journal, and corrigibility gates | Cosine similarity alone can miss dilution or a failed critical component |
 | Autonomous Research Loop (F4) | L5 §1.6 | Skill-gap-driven query synthesis + observation integration | LLM "researches" by confabulating answers |
 | Value Evolution & Coherence Audit (F6) | L5 §1.6 | Vector-distance audit of value vector trajectory | LLM produces narrative consistency, not metric consistency |
 | Self-Reconstruction $\mathcal{R}_{\text{recon}}$ | L5 §8 | Identity-preserving rebuild with drift $\Delta < 0.05$ | LLM rebuilds a different agent and calls it the same |
@@ -357,7 +360,7 @@ Both pipelines exhibit the same invariants, which together constitute the operat
 4. **Persistent state mutation is terminal.** Belief graph writes (understanding) and emitted artefacts (synthesis) happen only at the end of the pipeline, after all gates have approved. There is no mid-pipeline shortcut that writes state.
 5. **Every gate is replayable.** Given the same inputs and the same persistent state, every gate yields the same verdict. This is what makes the auditability claim of §7.1 concrete.
 
-These five invariants are the architectural shape of $\text{LAG}(t) > 0$ in practice. An implementation that violates any one of them is, by the definition of §3.1, collapsing toward an LLM-wrapper agent regardless of how many "LLM-free" modules appear in its module list.
+These five conditions are design contracts for separating production and admission. They are not equivalent to $\text{LAG}(t)>0$. Compliance must be checked on actual execution and write paths, not inferred from module names or output statistics.
 
 ---
 
@@ -371,11 +374,11 @@ When a decision path consists of LLM-free function calls, it can be reconstructe
 
 ### 7.2 Reproducibility
 
-Given the same persistent state and the same input, an LLM-free pipeline produces the same output. Regression tests are possible. Bug bisection is possible. Long-cycle replay (e.g., the 10,000-cycle identity continuity test, L5 §10.1) is possible. None of these is possible against a non-determined sampler.
+Deterministic components can reproduce results given the same input, state, code, and policy revision. Probabilistic components can also support statistical regression tests when seeds, sampling policies, and observations are recorded. End-to-end reproducibility additionally depends on scheduling, external tools, floating-point behavior, and the environment.
 
 ### 7.3 Prompt Injection Surface Reduction
 
-Once the substrate of cognition is separated from the input channel, prompt injection collapses from "rewrite the agent's behavior" to "deliver text the agent treats as data." The text may still cause the agent to retrieve information or send a message, but it cannot rewrite the ethical kernel, the identity vector, or the prediction gate, because none of those are realized as next-token sampling.
+Separating untrusted input from admission authority reduces paths by which text can directly modify policy or the self-model. Risks remain through false observations, tool results, and misuse of permitted actions. Type and authority checks and complete mediation must be tested against an explicit threat model.
 
 ### 7.4 Graduated Trust via PLA Certification
 
@@ -383,7 +386,7 @@ The AGI Engine activates $\Delta_n$ for $n \geq 2$ only after certifying the PLA
 
 ### 7.5 LLM Substitutability
 
-When LLMs are tools rather than substrate, swapping one LLM for another is a configuration change, not an architectural change. The agent's identity, goals, beliefs, and safety mechanisms survive the swap, because none of them were stored in the LLM. This is the practical answer to "what happens when the next-generation LLM appears?" - in an LLM-wrapper agent, the answer is "we have a different agent now"; in an LLM-free PLA agent, the answer is "we have the same agent with better tools."
+Keeping persistent state and admission rules outside the LLM can reduce the impact of a model replacement. Output distributions, tool behavior, and calibration can still change, so compatibility checks and reevaluation remain necessary. A model replacement is not assumed to be behavior-preserving or merely a configuration change.
 
 ---
 

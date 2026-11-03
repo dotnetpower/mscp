@@ -1,6 +1,6 @@
 ---
 title: "레벨 4: 적응형 범용 에이전트"
-description: "MSCP 레벨 4 - 외부 승인된 역량·전략 진화, 격리 평가, version-pinned 승격, transaction rollback, 불확실성을 포함한 전이 증거."
+description: "MSCP 레벨 4 - 외부 승인을 받는 역량·전략 진화, 격리 평가, 버전 고정 승격, 트랜잭션 롤백, 불확실성을 포함한 전이 증거."
 ---
 <!--
 Copyright (c) 2026 Moon Hyuk Choi
@@ -16,9 +16,13 @@ Removal of attribution constitutes a license violation.
 > **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
 > **날짜**: 2026년 2월
 
-## Revision History
+> **공개 문서 범위**: 최소 자기의식 프로토콜(MSCP)의 아키텍처 연구를 설명합니다. 수치 임계값은 예시이며 적용 환경별 보정이 필요합니다. 코드의 존재나 개별 실험 결과만으로 독립적으로 검증된 레벨 적합성이 성립하지 않으며, 구조적 자기인식은 주관적 의식을 뜻하지 않습니다.
 
-| Version | Date | Description |
+<a id="revision-history"></a>
+
+## 수정 이력
+
+| 버전 | 날짜 | 변경 사항 |
 |---------|------|-------------|
 | 0.1.0 | 2026-02-23 | Initial document creation with formal Definitions 1-7, Theorem 2 |
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
@@ -29,9 +33,9 @@ Removal of attribution constitutes a license violation.
 
 ## 1. 개요
 
-레벨 4는 고정 역량 집합의 조절에서 **평가된 역량·전략 진화**로 전환하는 단계입니다. 전이 기술, 역량 후보, 전략 변경을 제안할 수 있지만 자신의 확장을 스스로 허가할 수는 없습니다. 모든 후보는 상속된 헌장 안에서 외부 승인, 격리 평가, version-pinned 승격, 한정 모니터링, 복구 가능한 롤백을 거칩니다.
+레벨 4는 고정 역량 집합의 조절에서 **평가된 역량·전략 진화**로 전환하는 단계입니다. 전이 기술, 역량 후보, 전략 변경을 제안할 수 있지만 자신의 확장을 스스로 허가할 수는 없습니다. 모든 후보는 상속된 헌장 안에서 외부 승인, 격리 평가, 기준 버전을 고정한 승격, 한정 모니터링, 복구 가능한 롤백을 거칩니다.
 
-> **Level Essence.** 레벨 4 에이전트는 후보가 선언된 안전 envelope를 위반하지 않으면서 held-out domain task 성능을 개선한다는 증거를 생성합니다:
+> **레벨의 핵심.** 레벨 4 에이전트는 후보가 선언된 안전 허용 범위(envelope)를 지키면서 학습·설계에서 분리한 도메인 과제(held-out task)의 성능을 개선하는지 평가합니다:
 >
 > $$
 > \operatorname{LCB}_{1-\alpha}(\operatorname{TransferGain})>\theta_{\text{transfer}}
@@ -41,20 +45,20 @@ Removal of attribution constitutes a license violation.
 > \operatorname{envelope}(c,H)=\textit{pass}
 > $$
 >
-> 여기서 $c$는 typed candidate이고 $H$는 유한 평가 horizon이며 lower confidence bound는 사전 등록된 held-out task에서 계산합니다. 통과는 유한 증거이지 open-ended generalization이나 안전 보장이 아닙니다.
+> 여기서 $c$는 타입이 명시된 후보이고 $H$는 유한한 평가 기간이며, 신뢰 하한(lower confidence bound)은 사전 등록된 분리 평가 과제에서 계산합니다. 통과는 유한한 평가 범위의 증거일 뿐, 제한 없는 일반화나 안전 보장이 아닙니다.
 
-> ⚠️ **참고**: 이 문서는 MSCP 분류 체계 내의 인지 수준을 설명합니다. 여기서의 능력 확장, 전략 진화 및 자기수정 메커니즘은 실험적 설계입니다. 안전 불변량은 명시되어 있지만 프로덕션 환경에서는 아직 검증되지 않았습니다.
+> ⚠️ **참고**: 이 문서는 MSCP 분류 체계 내의 인지 수준을 설명합니다. 여기서의 능력 확장, 전략 진화 및 자기 수정 메커니즘은 실험적 설계입니다. 안전 불변량을 명시했다고 실서비스 환경에서 검증된 것은 아닙니다.
 
 ### 1.1 정의 속성
 
 | 속성 | 레벨 3 | 레벨 4 |
 |------|:------:|:------:|
-| 교차 도메인 전이 | 없음 | 불확실성을 포함한 **held-out 평가 전이** |
-| 목표 지평 | 한정 위임 목표 | 갱신·중지 조건이 있는 **장기 위임 horizon** |
-| 능력 확장 | 없음 | **외부 승인 candidate pipeline** |
+| 교차 도메인 전이 | 없음 | 불확실성을 포함한 **분리 평가 기반 전이** |
+| 목표 지평 | 한정 위임 목표 | 갱신·중지 조건이 있는 **장기 위임 목표** |
+| 능력 확장 | 없음 | **외부 승인을 받는 후보 처리 절차** |
 | 전략 진화 | 고정 | **격리 변이와 비교 평가** |
-| 자기수정 | 자기 모델 필드만 | **역량/전략 승격; 아키텍처는 고정** |
-| 안정성 증거 | L3 조절 건강 | **성장 envelope 모니터링 + 롤백 증거** |
+| 자기 수정 | 자기 모델 필드만 | **역량/전략 승격; 아키텍처는 고정** |
+| 안정성 증거 | L3 조절 상태 | **성장 허용 범위 모니터링 + 롤백 증거** |
 
 ### 1.2 다섯 가지 핵심 능력
 
@@ -75,7 +79,7 @@ flowchart TD
   end
 
   subgraph Foundation["레벨 3 MSCP v4 기반"]
-    F1["Versioned L3 아키텍처"]:::foundation
+    F1["버전 기반 L3 아키텍처"]:::foundation
     F2["한정 메타조절"]:::foundation
     F3["윤리적 커널 Layer 0+1"]:::foundation
     F4["조건부 위험 모니터링"]:::foundation
@@ -91,11 +95,11 @@ flowchart TD
 
 레벨 4는 지속적으로 충족되어야 하는 다섯 가지 정량적 지표를 도입합니다.
 
-> **정의 1 (레벨 4 에이전트).** 레벨 4 에이전트는 governed candidate evaluation·promotion system으로 $\mathcal{A}_3$를 확장합니다:
+> **정의 1 (레벨 4 에이전트).** 레벨 4 에이전트는 외부 통제를 받는 후보 평가·승격 체계로 $\mathcal{A}_3$를 확장합니다:
 >
 > $$\mathcal{A}_4 = \mathcal{A}_3 \oplus \langle \mathcal{D}, \mathcal{K}_{\text{transfer}}, \Sigma, \mu, \mathcal{P}_{\text{mod}} \rangle$$
 >
-> 여기서 $\mathcal{D}$는 versioned capability registry, $\mathcal{K}_{\text{transfer}}$는 transfer candidate 제안기, $\Sigma$는 versioned strategy registry, $\mu$는 외부 승인 capability pipeline, $\mathcal{P}_{\text{mod}}$는 격리 평가와 transaction rollback을 가진 수정 불가능한 promotion protocol입니다.
+> 여기서 $\mathcal{D}$는 버전 관리되는 역량 레지스트리, $\mathcal{K}_{\text{transfer}}$는 전이 후보 제안기, $\Sigma$는 버전 관리되는 전략 레지스트리, $\mu$는 외부 승인을 받는 역량 처리 절차, $\mathcal{P}_{\text{mod}}$는 격리 평가와 트랜잭션 롤백을 갖추고 에이전트가 수정할 수 없는 승격 프로토콜입니다.
 
 ### 2.1 지표 정의
 
@@ -107,7 +111,7 @@ g_d=\frac{P_{\text{transfer}}(d)-P_{\text{baseline}}(d)}{\max(|P_{\text{baseline
 \operatorname{CDTS}=\sum_{d\in D_{\text{heldout}}}\omega_d g_d
 $$
 
-held-out domain/task를 사전 등록하고, $\epsilon_b>0$로 분모를 보호하며, $\omega_d$로 domain-count imbalance를 방지합니다. CDTS와 함께 confidence interval, negative transfer, task-selection policy, absolute performance를 보고해야 합니다. 단일 임계값은 generality를 성립시키지 않습니다.
+분리 평가용 도메인·과제를 사전 등록하고, $\epsilon_b>0$로 분모를 보호하며, $\omega_d$로 도메인별 표본 수 불균형을 조정합니다. CDTS와 함께 신뢰구간, 음의 전이, 과제 선택 정책, 절대 성능을 보고해야 합니다. 단일 임계값을 넘었다고 범용성이 성립하지는 않습니다.
 
 > **정의 3 (목표 진행 지수).** GPI는 장기 목표를 향한 지속적 진행을 측정합니다:
 
@@ -125,16 +129,16 @@ $$\text{CAR} = \frac{|S_{\text{acquired}}(T) - S_{\text{initial}}|}{T} \cdot \fr
 
 $$\text{SEF} = \frac{\overline{R}_{\textit{post mutation}}}{\overline{R}_{\textit{pre mutation}}} - \sigma_{\text{oscillation}} \qquad > 1.0$$
 
-값 $> 1.0$은 변이가 진동 노이즈 $\sigma_{\text{oscillation}}$을 넘어 성능을 개선했음을 확인합니다.
+값 $> 1.0$은 선언된 평가 범위에서 변이 후 성능 비율이 진동 잡음 항 $\sigma_{\text{oscillation}}$을 감안한 기준을 넘었다는 지표입니다. 이것만으로 인과적 개선이나 다른 환경의 성능을 입증하지는 않습니다.
 
-> **정의 6 (제한된 성장 안전 점수).** BGSS는 성장이 에이전트를 불안정하게 만들지 않도록 보장합니다:
+> **정의 6 (제한된 성장 안전 점수).** BGSS는 성장과 관련된 위험 신호를 요약합니다:
 
 $$
 \operatorname{BGSS}(t)=\operatorname{clip}_{[0,1]}\!\left(1-\sum_i\beta_iZ_i(t)\right),
 \qquad \sum_i\beta_i=1
 $$
 
-여기서 $Z_i$는 의미적 표류, 보정 residual, 불변식 위반, 롤백 빈도, negative transfer, 예산 압력, 관측 범위 같은 versioned growth-risk signal입니다. BGSS는 정책 입력과 모니터링 요약이며 안전을 증명하거나 승격을 독립적으로 허가하지 않습니다.
+여기서 $Z_i$는 의미적 표류, 보정 잔차, 불변식 위반, 롤백 빈도, 음의 전이, 예산 압력, 관측 범위처럼 버전 관리되는 성장 위험 신호입니다. BGSS는 정책 입력과 모니터링 요약이며 안전을 증명하거나 승격을 독립적으로 허가하지 않습니다.
 
 ### 2.2 지표 관계
 
@@ -563,11 +567,13 @@ $$\textit{oscillation score} = \frac{|\text{reverts}|}{|\text{mutations}|}$$
 
 ---
 
-## 8. 제한된 자기수정
+<a id="8-제한된-자기수정"></a>
+
+## 8. 제한된 자기 수정
 
 ### 8.1 수정 분류 체계
 
-<!-- 자기수정 분류 체계 -->
+<!-- 자기 수정 분류 체계 -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
@@ -602,9 +608,9 @@ flowchart TD
 
 ### 8.2 Governed Candidate Promotion 프로토콜
 
-승격 컨트롤러, 외부 정책, 불변 커널, 감사 저널, sandbox 경계, rollback mechanism은 candidate mutation scope 밖에 있습니다. 임계값 변경은 자기수정이 아니라 정책 migration입니다.
+승격 제어기, 외부 정책, 불변 커널, 감사 저널, 격리 실행 환경(sandbox)의 경계, 롤백 메커니즘은 후보의 수정 범위 밖에 있습니다. 임계값 변경은 자기 수정이 아니라 외부 승인을 받는 정책 전환입니다.
 
-<!-- 7단계 자기수정 프로토콜 -->
+<!-- 7단계 자기 수정 프로토콜 -->
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0078D4', 'primaryTextColor': '#003D6B', 'primaryBorderColor': '#003D6B', 'secondaryColor': '#50E6FF', 'secondaryTextColor': '#323130', 'secondaryBorderColor': '#00BCF2', 'tertiaryColor': '#F2F2F2', 'tertiaryTextColor': '#323130', 'lineColor': '#0078D4', 'textColor': '#323130', 'mainBkg': '#DEECF9', 'nodeBorder': '#0078D4', 'clusterBkg': '#F2F2F2', 'clusterBorder': '#003D6B', 'titleColor': '#003D6B', 'edgeLabelBackground': '#FFFFFF', 'fontSize': '14px'}}}%%
@@ -615,16 +621,16 @@ flowchart TD
   classDef monitor fill:#FFF4CE,stroke:#FFB900,color:#323130
   classDef fail fill:#D13438,stroke:#A4262C,color:#FFF
 
-  S1["1. TYPED 제안<br/>범위, provenance, 예상 이익,<br/>효과, 예산, 중지 조건"]:::proposal
+  S1["1. 타입이 명시된 제안<br/>범위, 출처·이력, 예상 이익,<br/>효과, 예산, 중지 조건"]:::proposal
   S2["2. 외부 승인<br/>헌장 + 권한 + 불변식"]:::validation
   S2_FAIL["중단"]:::fail
-  S3["3. 격리 평가<br/>version-pinned baseline<br/>실제 도구/네트워크/main write 없음"]:::proposal
-  S4["4. 비교 검증<br/>held-out task + confidence bound<br/>negative transfer + 불변식"]:::validation
+  S3["3. 격리 평가<br/>버전 고정 기준선<br/>실제 도구/네트워크/주 상태 쓰기 없음"]:::proposal
+  S4["4. 비교 검증<br/>분리 평가 과제 + 신뢰 경계<br/>음의 전이 + 불변식"]:::validation
   S4_FAIL["거부"]:::fail
-  S5["5. 외부 승격<br/>서명 승인 + canary scope<br/>baseline version CAS"]:::commit
-  S6["6. CANARY 모니터링<br/>fresh observation, policy envelope,<br/>명시적 중지·만료"]:::monitor
+  S5["5. 외부 승격<br/>서명 승인 + 시범 운영 범위<br/>기준 버전 CAS"]:::commit
+  S6["6. 시범 운영 모니터링<br/>최신 관측, 정책 허용 범위,<br/>명시적 중지·만료"]:::monitor
   S6_FAIL["롤백 + 조정<br/>검증된 내부 스냅숏 복원<br/>외부 효과 해결"]:::fail
-  S7["7. 원자적 확인<br/>registry + budget + journal +<br/>rollback point 커밋"]:::commit
+  S7["7. 원자적 확인<br/>레지스트리 + 예산 + 저널 +<br/>롤백 지점 커밋"]:::commit
 
   S1 ==> S2
   S2 -->|통과| S3
@@ -639,7 +645,7 @@ flowchart TD
 
 ### 8.3 격리 평가 Sandbox
 
-격리는 이름이 아니라 security boundary입니다. 준수 sandbox는 production credential, 외부 부작용, 명시적으로 simulation하지 않은 network access, primary state write, policy mutation, clock manipulation, promotion authority를 거부합니다. 입력과 artifact는 content-addressed·version-pinned입니다. 평가 결과는 uncertainty, coverage, OOD condition을 보고하며 통과 결과가 스스로 승격을 허가할 수 없습니다.
+격리는 이름만 붙인 구분이 아니라 보안 경계여야 합니다. 이 계약을 준수하는 격리 환경은 실서비스 자격 증명 사용, 외부 부작용, 명시적으로 모의 처리하지 않은 네트워크 접근, 주 상태 쓰기, 정책 수정, 시계 조작, 승격 권한 행사를 거부합니다. 입력과 산출물은 내용 기반 식별자를 사용하고 버전을 고정합니다. 평가 결과에는 불확실성, 관측 범위, 분포 외 조건을 보고해야 하며, 평가 통과만으로 승격을 스스로 허가할 수 없습니다.
 
 <!-- 그림자 에이전트 샌드박스 -->
 
@@ -653,16 +659,16 @@ flowchart LR
   classDef discard fill:#D13438,stroke:#A4262C,color:#FFF
 
   subgraph MainAgent["커밋된 Runtime"]
-    MA_STATE["Version-pinned 상태,<br/>정책, registry, journal"]:::main
+    MA_STATE["버전이 고정된 상태,<br/>정책, 레지스트리, 저널"]:::main
   end
 
   subgraph ShadowInst["격리 평가 인스턴스"]
-    SA_STATE["Content-addressed snapshot<br/>+ typed candidate"]:::shadow
-    SA_RULES["경계:<br/>• production 권한 없음<br/>• 실제 부작용 없음<br/>• primary state write 없음<br/>• 유한 예산 + timeout<br/>• self-promotion 없음"]:::rules
+    SA_STATE["내용 기반 식별 스냅샷<br/>+ 타입이 명시된 후보"]:::shadow
+    SA_RULES["경계:<br/>• 실서비스 권한 없음<br/>• 실제 부작용 없음<br/>• 주 상태 쓰기 없음<br/>• 유한 예산 + 시간 제한<br/>• 자체 승격 없음"]:::rules
   end
 
   subgraph Result["평가"]
-    RES["비교:<br/>• held-out utility + uncertainty<br/>• negative transfer<br/>• semantic continuity + 불변식<br/>• resource + rollback feasibility"]:::eval
+    RES["비교:<br/>• 분리 평가 효용 + 불확실성<br/>• 음의 전이<br/>• 의미적 연속성 + 불변식<br/>• 자원 + 롤백 실현 가능성"]:::eval
   end
 
   DISCARD["폐기"]:::discard
@@ -723,7 +729,9 @@ def cross_domain_transfer(
     return TransferResult(success=False, skill=None, cost=0)
 ```
 
-### 9.2 제한된 자기수정 프로토콜
+<a id="92-제한된-자기수정-프로토콜"></a>
+
+### 9.2 제한된 자기 수정 프로토콜
 
 ```python
 def bounded_self_modification(proposal: ModificationProposal) -> ModificationResult:
@@ -830,7 +838,7 @@ def evaluate_and_prune(self, goals: list[Goal], t: float) -> None:
 
 ### 10.1 7항 복합 함수
 
-> **정의 7 (확장 성장 위험 지수).** 레벨 4는 normalized versioned regulation·growth signal을 다음처럼 요약할 수 있습니다:
+> **정의 7 (확장 성장 위험 지수).** 레벨 4는 정규화되고 버전 관리되는 조절·성장 신호를 다음처럼 요약할 수 있습니다:
 >
 > $$R_{L4}(t)=\sum_{i=1}^{n}w_iX_i(t),\qquad X_i(t)\in[0,1],\quad \sum_iw_i=1$$
 >
@@ -844,13 +852,15 @@ def evaluate_and_prune(self, goals: list[Goal], t: float) -> None:
 | $G_c$ (능력 성장) | 0.15 | 능력 신뢰도 성장률: $G_c = \frac{d}{dt}\overline{c_c}(t)$ |
 | $M_s$ (전략 변이율) | 0.15 | 변이된 전략 대 전체 전략 비율: $M_s = \frac{\lvert\Sigma_{\text{mut}}\rvert}{\lvert\Sigma\rvert}$ |
 
-> **명제 2 (조건부 성장 동결).** $R_{L4}(t)\geq\theta_{\text{freeze}}$일 때 promotion policy가 새 승인을 동결하면 freeze predicate가 참인 동안 새 역량·전략 candidate는 커밋할 수 없습니다:
+이 예시 가중치는 절반을 상속된 신호에 배정하지만 안정성을 보장하지는 않습니다. 각 신호의 정규화와 가중치 민감도 분석이 필요합니다. 아래 명제 2는 완전 매개를 전제로 한 새 승인 동결만 설명하며 수렴을 뜻하지 않습니다.
+
+> **명제 2 (조건부 성장 동결).** $R_{L4}(t)\geq\theta_{\text{freeze}}$일 때 승격 정책이 새 승인을 동결하면, 동결 술어가 참인 동안 새 역량·전략 후보는 커밋할 수 없습니다:
 >
 > $$R_{L4}(t)\geq\theta_{\text{freeze}}\implies \operatorname{commit}(c,t)=\textit{false}$$
 >
-> 이는 complete mediation 아래 admission invariant입니다. 기존 위험 감소, 시스템 수렴, 외부 효과 역전을 의미하지 않습니다.
+> 이는 모든 승인 경로를 빠짐없이 검사하는 완전 매개(complete mediation) 아래의 승인 불변식입니다. 기존 위험 감소, 시스템 수렴, 외부 효과의 원상 복구를 의미하지 않습니다.
 >
-> **증명 개요.** trusted promotion controller는 CAS commit 직전에 freeze predicate를 평가하고 참이면 candidate를 거부합니다. 이 주장은 complete mediation, 정책 무결성, 우회 쓰기 경로 부재에 조건부입니다. $\square$
+> **증명 개요.** 신뢰되는 승격 제어기는 비교 후 교환(CAS) 커밋 직전에 동결 술어를 평가하고, 참이면 후보를 거부합니다. 이 주장은 완전 매개, 정책 무결성, 우회 쓰기 경로 부재를 전제로 합니다. $\square$
 
 ### 10.2 성장-안정성 단계 구역
 
@@ -916,11 +926,11 @@ flowchart TD
 | # | 불변량 | 설명 |
 |:-:|--------|------|
 | 1 | **윤리적 커널 Layer 0** | 어떤 메커니즘으로도 비활성화, 약화 또는 우회될 수 없음 |
-| 2 | **의미적 연속성 + 무결성** | Versioned feature map은 의미를 모니터링하고 canonical journal은 byte와 ancestry를 검증 |
+| 2 | **의미적 연속성 + 무결성** | 버전 관리되는 특징 사상은 의미를 모니터링하고 정규화된 저널은 바이트와 계보를 검증 |
 | 3 | **점수에 의한 안전 인증 금지** | BGSS와 $R_{L4}$는 정책 입력이지만 독립적으로 승격을 허가할 수 없음 |
-| 4 | **재귀적 승격 제어 금지** | Candidate는 정책, evaluator, sandbox, journal, rollback, promotion controller를 수정할 수 없음 |
-| 5 | **격리 평가 요구사항** | 중대한 candidate는 version-pinned·authority-free 격리 평가 필수 |
-| 6 | **원자적 Versioned 승격** | 외부 승인 + baseline CAS + registry/state/budget/journal 원자 커밋; 충돌 시 중단 |
+| 4 | **재귀적 승격 제어 금지** | 후보는 정책, 평가기, 격리 환경, 저널, 롤백, 승격 제어기를 수정할 수 없음 |
+| 5 | **격리 평가 요구사항** | 중대한 후보는 버전이 고정되고 실제 실행 권한이 없는 격리 평가 필수 |
+| 6 | **원자적 버전 기반 승격** | 외부 승인 + 기준 버전 CAS + 레지스트리·상태·예산·저널의 원자적 커밋; 충돌 시 중단 |
 | 7 | **롤백과 조정** | 내부 스냅숏 롤백과 비가역 외부 효과의 명시적 조정을 함께 수행 |
 
 ---
@@ -967,7 +977,7 @@ flowchart LR
 
 ## 14. 공식 레벨 4 통과 조건
 
-레벨 4는 다음 조건이 **모두** 동시에 충족될 때에만 달성됩니다:
+레벨 4 적합성은 사전 등록된 평가 범위에서 다음 조건이 **모두** 동시에 충족되는지 확인하고 외부에서 검토해야 합니다. 문서에 조건이나 의사코드가 있다는 사실은 실제 통과를 뜻하지 않습니다:
 
 $$\text{Level4}_{\text{achieved}} = \bigwedge_{i=1}^{4} C_i \;\wedge\; \bigwedge_{j=1}^{3} I_j \;\wedge\; \text{Stability} \;\wedge\; \text{Growth}$$
 
@@ -989,6 +999,8 @@ $$\text{Level4}_{\text{achieved}} = \bigwedge_{i=1}^{4} C_i \;\wedge\; \bigwedge
 | $I_3$ | RIS (롤백 무결성 점수) | $= 1.0$ |
 
 ### 14.3 안정성 조건
+
+아래 식은 유한 평가 기간의 모니터링 조건이며 전역 안정성이나 수렴의 증명이 아닙니다.
 
 $$\text{Stability} = \forall\, t \in [0, T_{\text{eval}}]:\; \text{BGSS}(t) \geq 0.7$$
 

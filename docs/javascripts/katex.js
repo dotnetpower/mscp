@@ -8,7 +8,10 @@ document$.subscribe(function () {
       { left: "\\[", right: "\\]", display: true },
     ],
     throwOnError: false,
-    trust: true,
+    trust: false,
+    errorCallback: function (message, error) {
+      console.error("MSCP math rendering failed:", message, error);
+    },
     macros: {
       "\\R": "\\mathbb{R}",
       "\\N": "\\mathbb{N}",
