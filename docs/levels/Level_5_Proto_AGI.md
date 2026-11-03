@@ -14,7 +14,7 @@ Removal of attribution constitutes a license violation.
 
 > **MSCP Level Series** | [Level 4.9](Level_4_9_Autonomous_Strategic_Agent.md) ← Level 5  
 > **Status**: 🔬 **Research Stage** - This level is a conceptual bounded qualification profile. Passing it would provide evidence only for the declared tasks, distributions, horizons, fault models, and authority envelope; it would not establish AGI, consciousness, open-ended competence, or production safety.
-> **Date**: February 2026
+> **Initial draft**: February 2026 | **Last updated**: 2026-11-03
 
 ## Revision History
 
@@ -27,6 +27,7 @@ Removal of attribution constitutes a license violation.
 | 0.5.0 | 2026-03-31 | Added cycle interval and scheduling (1.5); added goal ecology limits (5.3); added F3-F6 autonomy phase descriptions (1.6); added 20 qualification criteria explanations (13.1); enriched BGSS L5 constraint |
 | 0.6.0 | 2026-06-14 | Status note clarified as conceptual research; Mermaid label `Level 4.9 (15 modules)` abstracted to `Level 4.9 (Autonomous Strategic Core)` |
 | 0.7.0 | 2026-07-21 | Recast L5 as bounded qualification; added composite identity continuity, preregistered held-out transfer, per-gate floors, sampled-fault scope, external reconstruction approval, and shutdown precedence |
+| 0.8.0 | 2026-11-03 | Corrected resilience factor direction and bounded recovery scoring; added denominator and missing-evidence guards, separated mandatory gates from averages, corrected the OMI proof, and synchronized Korean explanations. |
 
 ---
 

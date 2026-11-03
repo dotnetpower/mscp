@@ -5,6 +5,7 @@
 | Version | Date | Description |
 |---------|------|-------------|
 | 0.1.0 | 2026-06-14 | Initial document. Argues why Progressive Language Autonomy (PLA, Overview §4.4.2) cannot be delegated to an LLM, defines the Language Autonomy Gap (LAG), maps LLM-free mechanism requirements onto each MSCP level, and catalogs non-LLM linguistic synthesis patterns. |
+| 0.2.0 | 2026-11-03 | Removed the invalid equal-entropy inference and LAG-based level claim; added a counterexample and optional Jensen-Shannon diagnostic; reframed PLA stages as authority requirements and aligned safety caveats and Korean explanations. |
 
 > **Companion document.** This paper expands [MSCP Overview §4.4.2](../MSCP_Overview.md) into a stand-alone rationale. Read the Overview §4.4 first for the orchestrator-pattern context (AGI Engine, PLA, LangNet).
 

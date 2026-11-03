@@ -24,6 +24,7 @@ Removal of attribution constitutes a license violation.
 | 0.4.0 | 2026-03-08 | Added 10-Phase MSCP Cycle (Section 3); synchronized with updated reference implementation specifications |
 | 0.5.0 | 2026-03-31 | Added key thresholds summary (2.5); enriched level descriptions with concrete parameters |
 | 0.6.0 | 2026-06-14 | Decoupled reference implementation status from absolute counts (modules / tests / LOC) to avoid stale numbers; rephrased L4.5→L5 transition narrative as ongoing rather than time-stamped |
+| 0.7.0 | 2026-11-03 | Aligned summaries with conditional risk bounds; made compatible feature-map and fixed-weight assumptions explicit; clarified public evidence and qualification limits; synchronized Korean terminology and linked the documentation validation policy. |
 
 ---
 

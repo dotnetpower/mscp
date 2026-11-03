@@ -27,6 +27,7 @@ Removal of attribution constitutes a license violation.
 | 0.1.0 | 2026-02-23 | Initial README with project overview, level table, safety stack, documentation index |
 | 0.2.0 | 2026-02-26 | Added Level Essence Formulas table |
 | 0.3.0 | 2026-03-02 | Fixed Level Essence Formulas (LaTeX subscript syntax); added Level 6 to taxonomy table |
+| 0.4.0 | 2026-11-03 | Corrected summary formulas and conditional safety claims; refreshed public evidence labels and Korean documentation; added math, link, bilingual-equation, and numerical regression checks to CI. Documentation review only, not a new qualification result. |
 
 ---
 

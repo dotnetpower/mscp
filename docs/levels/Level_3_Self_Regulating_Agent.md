@@ -14,7 +14,7 @@ Removal of attribution constitutes a license violation.
 
 > **MSCP Level Series** | [Level 2](Level_2_Autonomous_Agent.md) ← Level 3 → [Level 4](Level_4_Adaptive_General_Agent.md)  
 > **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
-> **Date**: February 2026
+> **Initial draft**: February 2026 | **Last updated**: 2026-11-03
 
 ## Revision History
 
@@ -26,6 +26,7 @@ Removal of attribution constitutes a license violation.
 | 0.4.0 | 2026-03-08 | Added detailed v0.x prototype history and design principle evolution table (1.3); added homeostatic ranges table (7.2) |
 | 0.5.0 | 2026-03-31 | Added Prediction Gating (3.3) with threshold formalization; enriched oscillation detection with 10-cycle window and sign-change mechanics (6.3); enriched identity hash with concrete drift threshold ($\theta_{\text{drift}} = 0.3$); added StateVector growth note (Section 10) |
 | 0.6.0 | 2026-07-21 | Reframed L3 as uncertainty-aware closed-loop regulation; separated semantic continuity from integrity hashes; corrected stability claims; added atomic cycle and recovery contracts |
+| 0.7.0 | 2026-11-03 | Recorded the bilingual review of self-model, integrity, and conditional risk terminology; corrected Korean KaTeX and diagram rendering; clarified public evidence limits without adding a convergence claim. |
 
 ---
 

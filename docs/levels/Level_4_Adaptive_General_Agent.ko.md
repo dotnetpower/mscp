@@ -14,7 +14,7 @@ Removal of attribution constitutes a license violation.
 
 > **MSCP 레벨 시리즈** | [레벨 3](Level_3_Self_Regulating_Agent.ko.md) ← 레벨 4 → [레벨 4.5](Level_4_5_Self_Architecting.ko.md)  
 > **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
-> **날짜**: 2026년 2월
+> **초안 작성**: 2026년 2월 | **최종 수정**: 2026-11-03
 
 > **공개 문서 범위**: 최소 자기의식 프로토콜(MSCP)의 아키텍처 연구를 설명합니다. 수치 임계값은 예시이며 적용 환경별 보정이 필요합니다. 코드의 존재나 개별 실험 결과만으로 독립적으로 검증된 레벨 적합성이 성립하지 않으며, 구조적 자기인식은 주관적 의식을 뜻하지 않습니다.
 
@@ -28,6 +28,7 @@ Removal of attribution constitutes a license violation.
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.4.0 | 2026-03-08 | Added Environment Interaction Layer (Section 3); renumbered all sections; added Formal Pass Condition (Section 14) |
 | 0.6.0 | 2026-07-21 | Reframed self-improvement as externally admitted candidate promotion; corrected transfer and stability claims; added version-pinned sandbox and transactional rollback contracts |
+| 0.7.0 | 2026-11-03 | 가중치 설명의 폐기된 안정성 정리 참조를 제거하고, 연구용 가중치와 신규 도입 중지가 수렴을 보장하지 않음을 명시했습니다. 한국어 표현과 공개 근거의 한계를 정비했습니다. |
 
 ---
 

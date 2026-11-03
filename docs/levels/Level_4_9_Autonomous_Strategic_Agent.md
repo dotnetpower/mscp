@@ -14,7 +14,7 @@ Removal of attribution constitutes a license violation.
 
 > **MSCP Level Series** | [Level 4.8](Level_4_8_Strategic_Self_Modeling.md) ← Level 4.9 → [Level 5](Level_5_Proto_AGI.md)  
 > **Status**: 🔬 **Research Stage** - This level is a conceptual design and has NOT been implemented. All mechanisms described here are theoretical explorations requiring extensive validation before any production consideration.  
-> **Date**: February 2026
+> **Initial draft**: February 2026 | **Last updated**: 2026-11-03
 
 ## Revision History
 
@@ -27,6 +27,7 @@ Removal of attribution constitutes a license violation.
 | 0.5.0 | 2026-03-31 | Added cycle interval, ASS freeze threshold, explicit value dimensions (1.5-1.7); added value mutation sandbox concept (4.3); enriched goal conflict resolution |
 | 0.6.0 | 2026-06-14 | Mermaid labels `Level 4.8 (13 modules)` / `L4.8 Architecture (13 modules)` abstracted to `Level 4.8 (Strategic Self-Model)` / `L4.8 Architecture (Strategic Self-Model)` so that level diagrams no longer encode transient module counts |
 | 0.7.0 | 2026-07-21 | Added external authority envelope, delegation modes, shutdown precedence, sequential value-change review, and qualified strategic claims |
+| 0.8.0 | 2026-11-03 | Qualified ASS sensitivity assumptions, unified the resource-model symbol, and distinguished implementation activity from validated qualification; fixed invalid Mermaid edge indices and aligned Korean terminology. |
 
 ---
 

@@ -14,7 +14,7 @@ Removal of attribution constitutes a license violation.
 
 > **MSCP Level Series** | [Level 3](Level_3_Self_Regulating_Agent.md) ← Level 4 → [Level 4.5](Level_4_5_Self_Architecting.md)  
 > **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
-> **Date**: February 2026
+> **Initial draft**: February 2026 | **Last updated**: 2026-11-03
 
 ## Revision History
 
@@ -26,6 +26,7 @@ Removal of attribution constitutes a license violation.
 | 0.4.0 | 2026-03-08 | Added Environment Interaction Layer (Section 3); added formal Level 4 Pass Condition (Section 13) |
 | 0.5.0 | 2026-03-31 | Added ValueVector Invariant (Def 6.1); clarified BGSS threshold progression; added value system protection explanation |
 | 0.6.0 | 2026-07-21 | Reframed self-improvement as externally admitted candidate promotion; corrected transfer and stability claims; added version-pinned sandbox and transactional rollback contracts |
+| 0.7.0 | 2026-11-03 | Removed the obsolete stability-theorem reference from the weight rationale; distinguished illustrative risk weights and admission freezes from convergence; aligned Korean explanations and public evidence caveats. |
 
 ---
 

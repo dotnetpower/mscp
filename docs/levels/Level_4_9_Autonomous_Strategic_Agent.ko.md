@@ -14,7 +14,7 @@ Removal of attribution constitutes a license violation.
 
 > **MSCP 레벨 시리즈** | [레벨 4.8](Level_4_8_Strategic_Self_Modeling.ko.md) ← 레벨 4.9 → [레벨 5](Level_5_Proto_AGI.ko.md)  
 > **상태**: 🔬 **연구 단계** - 이 레벨은 개념적 연구 설계입니다. 구현 여부와 별개로 레벨 적합성과 실서비스 안전성을 판단하려면 독립적인 검증이 필요합니다.
-> **날짜**: 2026년 2월
+> **초안 작성**: 2026년 2월 | **최종 수정**: 2026-11-03
 
 > **공개 문서 범위**: 최소 자기의식 프로토콜(MSCP)의 아키텍처 연구를 설명합니다. 수치 임계값은 예시이며 적용 환경별 보정이 필요합니다. 코드의 존재나 개별 실험 결과만으로 독립적으로 검증된 레벨 적합성이 성립하지 않으며, 구조적 자기인식은 주관적 의식을 뜻하지 않습니다.
 
@@ -29,6 +29,7 @@ Removal of attribution constitutes a license violation.
 | 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (1.2 to 1.3); added formal cascade propagation Definition 13 (Section 5.1) |
 | 0.6.0 | 2026-06-14 | Mermaid 라벨 `레벨 4.8 (13개 모듈)` / `L4.8 아키텍처 (13개 모듈)`을 `레벨 4.8 (전략적 자기모델)` / `L4.8 아키텍처 (전략적 자기모델)`로 추상화 |
 | 0.7.0 | 2026-07-21 | Added external authority envelope, delegation modes, shutdown precedence, sequential value-change review, and qualified strategic claims |
+| 0.8.0 | 2026-11-03 | ASS 민감도 명제의 가정을 보완하고 자원 모델 기호를 통일했으며 구현과 단계 검증을 구분했습니다. Mermaid 연결 스타일의 잘못된 간선 번호와 한국어 표현을 수정했습니다. |
 
 ---
 

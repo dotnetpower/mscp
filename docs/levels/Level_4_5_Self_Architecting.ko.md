@@ -14,7 +14,7 @@ Removal of attribution constitutes a license violation.
 
 > **MSCP 레벨 시리즈** | [레벨 4](Level_4_Adaptive_General_Agent.ko.md) ← 레벨 4.5 → [레벨 4.8](Level_4_8_Strategic_Self_Modeling.ko.md)  
 > **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
-> **날짜**: 2026년 2월
+> **초안 작성**: 2026년 2월 | **최종 수정**: 2026-11-03
 
 > **공개 문서 범위**: 최소 자기의식 프로토콜(MSCP)의 아키텍처 연구를 설명합니다. 수치 임계값은 예시이며 적용 환경별 보정이 필요합니다. 코드의 존재나 개별 실험 결과만으로 독립적으로 검증된 레벨 적합성이 성립하지 않으며, 구조적 자기인식은 주관적 의식을 뜻하지 않습니다.
 
@@ -28,6 +28,7 @@ Removal of attribution constitutes a license violation.
 | 0.2.0 | 2026-02-26 | Added overview essence formula; added revision history table |
 | 0.4.0 | 2026-03-08 | Added Jacobian estimation (9.4), Uncertainty Index Def 13 (9.5), ROD Def 14 (9.6), Reality Feedback Loop (9.7) |
 | 0.6.0 | 2026-07-21 | Separated topology proposal from deployment authority; replaced additive-count safety and unfalsifiability claims with functional preservation, independent promotion, and defense in depth |
+| 0.7.0 | 2026-11-03 | 근거가 공개되지 않은 표류 탐지율을 사전 등록 평가 조건으로 바꾸고 CDI·IIS·IFI의 입력과 분모 조건을 명시했습니다. 진단 지표의 한계와 한국어 기술 표현을 정비했습니다. |
 
 ---
 

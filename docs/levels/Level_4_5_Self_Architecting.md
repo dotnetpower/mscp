@@ -14,7 +14,7 @@ Removal of attribution constitutes a license violation.
 
 > **MSCP Level Series** | [Level 4](Level_4_Adaptive_General_Agent.md) ← Level 4.5 → [Level 4.8](Level_4_8_Strategic_Self_Modeling.md)  
 > **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
-> **Date**: February 2026
+> **Initial draft**: February 2026 | **Last updated**: 2026-11-03
 
 ## Revision History
 
@@ -26,6 +26,7 @@ Removal of attribution constitutes a license violation.
 | 0.4.0 | 2026-03-08 | Added Jacobian estimation method (9.4), Uncertainty Index Def 13 (9.5), ROD Def 14 (9.6), Reality Feedback Loop (9.7) |
 | 0.5.0 | 2026-03-31 | Added Motivation Output synthesis (6.3); enriched existential metric explanations; added deliberation phase scheduling |
 | 0.6.0 | 2026-07-21 | Separated topology proposal from deployment authority; replaced additive-count safety and unfalsifiability claims with functional preservation, independent promotion, and defense in depth |
+| 0.7.0 | 2026-11-03 | Replaced the unsupported drift-detection percentage with a preregistered evaluation requirement; added CDI, IIS, and IFI input-domain guards; clarified diagnostic limits and synchronized Korean technical wording. |
 
 ---
 

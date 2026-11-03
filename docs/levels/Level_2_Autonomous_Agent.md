@@ -11,7 +11,7 @@ See LICENSE file in the repository root for full license information.
 
 > **MSCP Level Series** | [Level 1](Level_1_Tool_Agent.md) ← Level 2 → [Level 3](Level_3_Self_Regulating_Agent.md)  
 > **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
-> **Date**: February 2026
+> **Initial draft**: February 2026 | **Last updated**: 2026-11-03
 
 ## Revision History
 
@@ -22,6 +22,7 @@ See LICENSE file in the repository root for full license information.
 | 0.3.0 | 2026-02-26 | Fixed Def 6 type signature ($\mathcal{P}(\mathcal{S}) \to \mathcal{S}$); added constructive argument to Prop 2 |
 | 0.5.0 | 2026-03-31 | Added EnvironmentState (Def 2.1), ConversationContext (1.6), Percept Tracking (1.7); enriched term explanations |
 | 0.6.0 | 2026-07-21 | Defined bounded event-driven autonomy; separated persistence from autonomy; added goal provenance, retention, and external safety requirements |
+| 0.7.0 | 2026-11-03 | Reviewed persistent-state, goal-admission, and authorized-continuation descriptions; improved Korean wording and clarified public evidence scope without asserting new level qualification. |
 
 ---
 

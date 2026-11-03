@@ -14,7 +14,7 @@ Removal of attribution constitutes a license violation.
 
 > **MSCP Level Series** | [Level 4.5](Level_4_5_Self_Architecting.md) ← Level 4.8 → [Level 4.9](Level_4_9_Autonomous_Strategic_Agent.md)  
 > **Status**: 🔬 **Research Stage** - This level is a conceptual design and has NOT been implemented. All mechanisms described here are theoretical explorations that require extensive validation before any production consideration.  
-> **Date**: February 2026
+> **Initial draft**: February 2026 | **Last updated**: 2026-11-03
 
 ## Revision History
 
@@ -27,6 +27,7 @@ Removal of attribution constitutes a license violation.
 | 0.5.0 | 2026-03-31 | Added Phase 5 (Emit) output specification (2.3); added cycle interval and cross-phase integration scheduling (1.4); enriched module concepts (ConfidenceCalibrator, SkillGapAnalyzer) |
 | 0.6.0 | 2026-06-14 | Mermaid label `Level 4.5 (25 modules)` abstracted to `Level 4.5 (Self-Architecting Core)` so that the level diagram no longer encodes a transient module count |
 | 0.7.0 | 2026-07-21 | Added strategy admission gates, uncertainty decomposition, horizon alignment, observability contracts, and qualified stability/counterfactual claims |
+| 0.8.0 | 2026-11-03 | Corrected EVR boundedness using an explicit uniform delayed-reward bound and finite geometric sum; clarified its assumptions and aligned Korean uncertainty, strategy, and validation terminology. |
 
 ---
 

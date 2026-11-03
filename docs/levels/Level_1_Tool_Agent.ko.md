@@ -14,7 +14,7 @@ Removal of attribution constitutes a license violation.
 
 > **MSCP 레벨 시리즈** | [개요](../MSCP_Overview.ko.md) ← 레벨 1 → [레벨 2](Level_2_Autonomous_Agent.ko.md)  
 > **상태**: 🔬 **실험적** - 개념적 프레임워크 및 실험적 설계. 프로덕션 사양이 아닙니다.  
-> **날짜**: 2026년 2월
+> **초안 작성**: 2026년 2월 | **최종 수정**: 2026-11-03
 
 > **공개 문서 범위**: 최소 자기의식 프로토콜(MSCP)의 아키텍처 연구를 설명합니다. 수치 임계값은 예시이며 적용 환경별 보정이 필요합니다. 코드의 존재나 개별 실험 결과만으로 독립적으로 검증된 레벨 적합성이 성립하지 않으며, 구조적 자기인식은 주관적 의식을 뜻하지 않습니다.
 
@@ -29,6 +29,7 @@ Removal of attribution constitutes a license violation.
 | 0.3.0 | 2026-02-26 | Def 3: replaced $[0,1]^n$ with probability simplex $\Delta^n$; Def 2: added remark reconciling partial/total function |
 | 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (5.1 to 5.2) |
 | 0.5.0 | 2026-07-21 | Reframed L1 as a bounded reactive episode; corrected state, stochasticity, tool-effect, and transition semantics; added an L1 safety contract |
+| 0.6.0 | 2026-11-03 | 한·영 문서 검토를 기록하고 한국어 용어와 공개 근거의 한계를 정비했습니다. 기존의 실행 단위 제한과 레벨 1 동작 계약은 유지했습니다. |
 
 ---
 

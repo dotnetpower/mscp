@@ -14,7 +14,7 @@ Removal of attribution constitutes a license violation.
 
 > **MSCP Level Series** | [Overview](../MSCP_Overview.md) ← Level 1 → [Level 2](Level_2_Autonomous_Agent.md)  
 > **Status**: 🔬 **Experimental** - Conceptual framework and experimental design. Not a production specification.  
-> **Date**: February 2026
+> **Initial draft**: February 2026 | **Last updated**: 2026-11-03
 
 ## Revision History
 
@@ -25,6 +25,7 @@ Removal of attribution constitutes a license violation.
 | 0.3.0 | 2026-02-26 | Def 3: replaced $[0,1]^n$ with probability simplex $\Delta^n$; Def 2: added remark reconciling partial/total function |
 | 0.4.0 | 2026-03-08 | Fixed duplicate section numbering (5.1 - 5.2) |
 | 0.5.0 | 2026-07-21 | Reframed L1 as a bounded reactive episode; corrected state, stochasticity, tool-effect, and transition semantics; added an L1 safety contract |
+| 0.6.0 | 2026-11-03 | Recorded the bilingual documentation review; improved Korean terminology and public evidence caveats while preserving the existing episode-bounded Level 1 contracts. |
 
 ---
 
