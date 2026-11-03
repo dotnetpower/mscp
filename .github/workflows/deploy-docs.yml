@@ -10,6 +10,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'scripts/check_docs.py'
+      - 'scripts/test_check_docs.py'
       - 'scripts/check-math.cjs'
       - '.github/workflows/deploy-docs.yml'
   pull_request:
@@ -20,6 +21,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'scripts/check_docs.py'
+      - 'scripts/test_check_docs.py'
       - 'scripts/check-math.cjs'
       - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:
@@ -69,6 +71,9 @@ jobs:
 
       - name: Build site
         run: mkdocs build --strict
+
+      - name: Test documentation guards
+        run: python -m unittest discover -s scripts -p 'test_*.py'
 
       - name: Validate math and documentation contracts
         run: python scripts/check_docs.py

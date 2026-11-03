@@ -11,6 +11,7 @@
 | 0.5.0 | 2026-06-14 | Added three Named Architectural Concepts from Overview §4.4: AGI Engine (orchestrator pattern), PLA (Progressive Language Autonomy, six-stage), LangNet (language-mediated strategy network). New acronym PLA. |
 | 0.6.0 | 2026-06-14 | Added cross-reference to the standalone *PLA Foundations* document (`specs/Why_LLM_Free_PLA.md`) which formalises the LLM-free authority argument, defines the Language Autonomy Gap (LAG), and catalogues LLM-free synthesis patterns. New acronym LAG. |
 | 0.7.0 | 2026-11-03 | Aligned summaries with versioned self-models, conditional risk bounds, independent admission, and profile-bounded qualification; removed obsolete theorem and metric claims. |
+| 0.8.0 | 2026-11-03 | Defined PLA as non-LLM language understanding and synthesis, excluded LLM realization and fallback, and marked LAG as an optional external diagnostic rather than a PLA criterion. |
 
 > Sorted by source document (Overview → L1 → L2 → L3 → L4 → L4.5 → L4.8 → L4.9 → L5), then alphabetically within each section.
 
@@ -212,7 +213,7 @@ The defining source section takes precedence over this index. All numerical sett
 | IFI | Identity Fragmentation Index | L4.5 |
 | IIS | Identity Integrity Score | L4.5, L4.8 |
 | IPM | Impact Propagation Matrix | L4.5 |
-| LAG | Language Autonomy Gap | PLA Foundations |
+| LAG | Language Autonomy Gap (historical, optional external comparison; not a PLA criterion) | PLA Foundations |
 | MCE | Mean Calibration Error | L4.8 |
 | MSCP | Minimal Self-Consciousness Protocol | All |
 | MRHI | Meta-Regulation Health Index | Overview, L3 |
@@ -365,7 +366,7 @@ The defining source section takes precedence over this index. All numerical sett
 | Term | Source(s) | Description |
 |------|-----------|-------------|
 | Bounded Self-Modification | L4 | 7-step protocol: Propose, Pre-Validate, Simulate, Stability-Validate, Commit, Monitor, Confirm. |
-| Progressive Language Autonomy (PLA) | Overview | Six-stage maturation classification of language-mediated autonomy, monotone across MSCP levels. Stage 0 (L1) = no autonomy, Stage 1 (L2) = autonomous goal generation, Stage 2 (L3) = self-critique with prediction gating, Stage 3 (L4) = strategy synthesis & cross-domain transfer, Stage 4 (L4.5–L4.8) = self-projection & probabilistic world modeling, Stage 5 (L5) = autonomous research & value-evolution audit. An agent's PLA stage is bounded above by the highest MSCP level its AGI Engine has activated. |
+| Progressive Language Autonomy (PLA) | Overview, PLA Foundations | Language understanding and synthesis without local or remote LLM inference: meaning representation, planning, composition, realization, checks, retries, and failure handling. The six-stage research mapping retains the non-LLM path at every stage; LLM-assisted generation with independent approval is a different architecture. LAG and output divergence are not PLA admission criteria. |
 | Collapse Scenarios | L5 | Four scenarios: Resource Collapse, Adversarial Suppression, Environmental Shift, Information Blackout. |
 | Delta-Clamped Updates | Overview, L3 | All self-modifications bounded by $\delta_{\max}$. LLM text-based self-modification is forbidden. |
 | Five-Phase Capability Expansion | L4 | Pipeline for autonomous skill acquisition and validation. |

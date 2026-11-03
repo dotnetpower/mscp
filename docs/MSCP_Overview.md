@@ -25,6 +25,7 @@ Removal of attribution constitutes a license violation.
 | 0.5.0 | 2026-03-31 | Added key thresholds summary (2.5); enriched level descriptions with concrete parameters |
 | 0.6.0 | 2026-06-14 | Decoupled reference implementation status from absolute counts (modules / tests / LOC) to avoid stale numbers; rephrased L4.5→L5 transition narrative as ongoing rather than time-stamped |
 | 0.7.0 | 2026-11-03 | Aligned summaries with conditional risk bounds; made compatible feature-map and fixed-weight assumptions explicit; clarified public evidence and qualification limits; synchronized Korean terminology and linked the documentation validation policy. |
+| 0.8.0 | 2026-11-03 | Corrected PLA to non-LLM language understanding and synthesis, including realization and failure paths; distinguished it from LLM-assisted production under independent admission and aligned the stage summary. |
 
 ---
 
@@ -466,18 +467,20 @@ The AGI Engine is the only component permitted to schedule level transitions. No
 
 #### 4.4.2 Progressive Language Autonomy (PLA)
 
-**PLA** is the staged maturation of *language-mediated autonomy* - how much of the agent's reasoning, self-extension, and goal generation it conducts autonomously through its language faculty, as opposed to following hand-written prompts or external instructions. PLA is not a single metric; it is a stage classification that mirrors the MSCP levels:
+**PLA** is the staged development of **language understanding and synthesis without an LLM**. Its non-LLM path interprets supported inputs and constructs language from meaning representations, knowledge, context, composition, and surface realization. A grammar-constrained LLM, an LLM draft followed by independent approval, or an LLM fallback does not satisfy this definition. See [PLA Foundations](specs/Why_LLM_Free_PLA.md) for the full contract.
+
+The mapping below organizes research requirements, not progressively reduced LLM usage. Every PLA stage excludes local and remote LLM inference from its language path:
 
 | PLA Stage | MSCP Level | Capability |
 |:---------:|:----------:|------------|
-| Stage 0 | L1 | No autonomy. Language is used only to parse the request and dispatch to a tool. |
-| Stage 1 | L2 | **Autonomous goal generation** from language patterns in conversation context ($\mathcal{C}_{\text{conv}}$, L2 §1.7). Agent may emit goals the user did not ask for. |
-| Stage 2 | L3 | **Closed-loop self-regulation** through action-specific prediction, uncertainty/effect gating, observation, comparison, bounded candidate update, and recoverable commit. |
-| Stage 3 | L4 | **Language-grounded strategy synthesis** and cross-domain transfer (CDTS $\geq 0.60$). Agent reuses learned strategies across novel domains. |
-| Stage 4 | L4.5–L4.8 | **Language-mediated self-projection** (trajectory simulation) and **probabilistic world modeling** with confidence calibration (L4.8 §1.5). |
-| Stage 5 | L5 | **Autonomous research loop** (L5 §1.6 F4), **value-evolution audit** (F6), and identity-preserving self-reconstruction $\mathcal{R}_{\text{recon}}$. |
+| Stage 0 | L1 | Bounded non-LLM request interpretation and realization of tool observations; unsupported inputs are explicit. |
+| Stage 1 | L2 | Language constructed from persistent context and admitted goals; describing a goal is not permission to execute it. |
+| Stage 2 | L3 | Grounded self-reports composed from prediction, observation, comparison, update, and recovery records. |
+| Stage 3 | L4 | Compositional expression of strategies and transfer hypotheses, with independent transfer evaluation. |
+| Stage 4 | L4.5–L4.8 | Non-LLM realization of projections, alternatives, and uncertainty-qualified explanations. |
+| Stage 5 | L5 | Non-LLM research questions, observation integration, findings, and long-horizon discourse under the L5 evaluation profile. |
 
-PLA stages are **monotone**: an agent at stage $k$ retains all capabilities of stages $0, \ldots, k{-}1$. Regression below an agent's certified PLA stage is a stability violation and triggers meta-escalation. The PLA stage of an agent is bounded above by the highest MSCP level its host **AGI Engine** has activated.
+A claimed PLA stage retains the applicable lower-stage contracts and the non-LLM language path. Adding an LLM parser, generator, rewriter, ranker, or fallback invalidates that claim. Stage labels do not establish independently validated MSCP qualification. General MSCP rules for admitting LLM proposals describe other agent designs, not permission to put LLM generation inside PLA.
 
 #### 4.4.3 LangNet
 

@@ -7,6 +7,12 @@ description: "Public evidence, qualification limits, terminology, and validation
 
 **Documentation review date: 2026-11-03.** This date identifies a documentation revision, not a new experiment or a certification of the reference implementation.
 
+## Revision History
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 0.1.0 | 2026-11-03 | First tracked revision: clarified PLA's non-LLM language boundary and distinguished documentation regression checks from implementation-level dependency verification. |
+
 ## What the public documents establish
 
 MSCP is an experimental architecture and protocol for **structural self-awareness**: representing, predicting, and regulating an agent's own state changes. The project name does not assert subjective experience, phenomenal consciousness, or achieved AGI. L4.5, L4.8, and L4.9 are intermediate research stages; L6 is a speculative boundary, not a documented engineering milestone.
@@ -39,6 +45,14 @@ The defining section in each level document is authoritative; the glossary and h
 - Numerical thresholds, weights, budgets, and windows are illustrative research settings unless accompanied by a declared calibration and evaluation profile.
 - An invariant-preservation claim is conditional on complete mediation, validated initial state, and integrity of the policy, monitor, and recovery journal. It does not cover every deployment failure.
 
+## PLA's non-LLM language boundary
+
+PLA means language understanding and synthesis without local or remote LLM inference, including preprocessing, planning, realization, rewriting, ranking, retries, and fallback. An independently approved LLM draft is not PLA. General MSCP provisions permitting model proposals concern other agent designs, not an exception to this boundary.
+
+Implementation evidence requires dependency review and representative execution tests with remote and local LLM entry points denied and invocation counters enabled, including failure paths. Also evaluate semantic fidelity, grammar, grounding, coverage, and explicit handling of unsupported inputs. A narrow zero-call observation alone is not proof of complete independence.
+
+Optional external LAG or Jensen-Shannon comparisons are not runtime dependencies or qualification gates. This repository's documentation checks validate the written contract, not the private implementation.
+
 ## Public disclosure boundary
 
 Publish behavior contracts, assumptions, evaluation methodology, and limitations that have been approved for disclosure. Keep implementation locations, private identifiers, credentials, operational logs, raw evaluation data, deployment settings, internal tuning values, and unpublished capability claims outside this repository.
@@ -57,6 +71,7 @@ Draft updates from an approved public summary, not by copying private source or 
 | Integrity / semantic continuity | 무결성 / 의미적 연속성 | Distinct properties; do not conflate them |
 | Graceful degradation | 핵심 안전 기능을 유지하는 단계적 기능 축소 | Reduced capabilities under resource constraints |
 | Persisted prediction | 저장된 예측 기록 | A prediction recorded before execution |
+| LLM-free language synthesis | LLM 없는 언어 합성 | No LLM production, rewriting, ranking, or fallback within PLA |
 
 ## Documentation checks
 
@@ -66,11 +81,12 @@ From the repository root:
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-docs.txt
 npm ci
+.venv/bin/python -m unittest discover -s scripts -p 'test_*.py'
 .venv/bin/mkdocs build --strict
 .venv/bin/python scripts/check_docs.py
 .venv/bin/mkdocs serve --dev-addr 127.0.0.1:8000
 ```
 
-The checker validates generated local links and fragments, parses every generated math item with the configured KaTeX version, checks bilingual equation parity, and runs numerical regression checks for the corrected diagnostics. These checks do not prove the protocol's safety or empirical performance.
+The checker validates generated local links and fragments, parses every generated math item with the configured KaTeX version, checks bilingual critical equations and the two non-LLM PLA diagrams, and runs numerical regression checks for the corrected diagnostics. The PLA guard checks document consistency, not actual inference behavior. These checks do not prove the protocol's safety or empirical performance.
 
 For browser review, check both languages, desktop and narrow layouts, and instant navigation. No math error markers or unrendered math wrappers should remain after the page initializes.

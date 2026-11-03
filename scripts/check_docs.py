@@ -13,6 +13,31 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 
+PLA_ZERO_CALL_EQUATION = r"\operatorname{LLMCalls}(\tau_{\mathrm{PLA}})=0"
+PLA_PIPELINE_EDGES = (
+    {
+        ("EXT", "PARSE"),
+        ("PARSE", "TYPE"),
+        ("TYPE", "SEM"),
+        ("TYPE", "REJECT"),
+        ("SEM", "CHECK"),
+        ("CHECK", "STORE"),
+        ("CHECK", "REJECT"),
+        ("REJECT", "WAIT"),
+    },
+    {
+        ("TRIG", "CTX"),
+        ("CTX", "PLAN"),
+        ("PLAN", "COMPOSE"),
+        ("COMPOSE", "REALIZE"),
+        ("REALIZE", "VALID"),
+        ("VALID", "EMIT"),
+        ("VALID", "HOLD"),
+        ("HOLD", "PLAN"),
+        ("HOLD", "STOP"),
+    },
+)
+
 
 class Page(HTMLParser):
     def __init__(self, path):
@@ -21,9 +46,12 @@ class Page(HTMLParser):
         self.ids = set()
         self.links = []
         self.equations = []
+        self.diagrams = []
         self.article = False
         self._math = None
         self._math_tag = None
+        self._diagram = None
+        self._diagram_tag = None
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
@@ -39,10 +67,17 @@ class Page(HTMLParser):
                 raise ValueError(f"{self.path}: nested math wrapper")
             self._math = []
             self._math_tag = tag
+        if "mermaid" in classes:
+            if self._diagram is not None:
+                raise ValueError(f"{self.path}: nested Mermaid wrapper")
+            self._diagram = []
+            self._diagram_tag = tag
 
     def handle_data(self, data):
         if self._math is not None:
             self._math.append(data)
+        if self._diagram is not None:
+            self._diagram.append(data)
 
     def handle_endtag(self, tag):
         if self._math is not None and tag == self._math_tag:
@@ -54,6 +89,10 @@ class Page(HTMLParser):
             self.equations.append((value[2:-2], display))
             self._math = None
             self._math_tag = None
+        if self._diagram is not None and tag == self._diagram_tag:
+            self.diagrams.append("".join(self._diagram).strip())
+            self._diagram = None
+            self._diagram_tag = None
 
 
 def normalize_equation(value):
@@ -111,7 +150,7 @@ def check_links(pages, site):
 def check_bilingual_contracts(pages, site):
     contracts = {
         "MSCP_Overview": ("\\psi(M_T)", "|R(t+1)-R(t)|"),
-        "specs/Why_LLM_Free_PLA": ("\\text{LAG}(t)", "D_{\\mathrm{JS}}"),
+        "specs/Why_LLM_Free_PLA": ("\\operatorname{LLMCalls}", "\\operatorname{Realize}"),
         "levels/Level_4_5_Self_Architecting": ("\\text{detect drift}",),
         "levels/Level_4_8_Strategic_Self_Modeling": ("B\\gamma",),
         "levels/Level_5_Proto_AGI": ("T_{\\max}",),
@@ -135,6 +174,36 @@ def check_bilingual_contracts(pages, site):
                 raise ValueError(f"Bilingual contract mismatch: {stem}: {marker}")
             checked += sum(expected.values())
     print(f"Bilingual critical equations: {checked} matched")
+
+
+def check_pla_contract(pages, site):
+    edge_pattern = re.compile(r"\s*([A-Z][A-Z0-9_]*)\s*-->\s*(?:\|[^|\n]*\|)?\s*([A-Z][A-Z0-9_]*)\s*")
+    for locale in ("", "ko"):
+        path = site / locale / "specs/Why_LLM_Free_PLA/index.html"
+        if path not in pages:
+            raise ValueError(f"{path}: PLA documentation page missing")
+        page = pages[path]
+        equations = {normalize_equation(value) for value, display in page.equations if display}
+        if normalize_equation(PLA_ZERO_CALL_EQUATION) not in equations:
+            raise ValueError(f"{path}: PLA zero-LLM contract missing")
+        if len(page.diagrams) != len(PLA_PIPELINE_EDGES):
+            raise ValueError(f"{path}: expected two PLA pipeline diagrams")
+        for index, (diagram, expected) in enumerate(zip(page.diagrams, PLA_PIPELINE_EDGES), 1):
+            if re.search(r"\bLLM[PS]\b|\bLLM\s*\(\s*producer|\bre-prompt\b", diagram, re.I):
+                raise ValueError(f"{path}: LLM producer or fallback in PLA diagram {index}")
+            declared = set(re.findall(r"^\s*([A-Z][A-Z0-9_]*)\s*[\[{]", diagram, re.M))
+            expected_nodes = {node for edge in expected for node in edge}
+            actual = []
+            for line in diagram.splitlines():
+                if "-->" not in line:
+                    continue
+                match = edge_pattern.fullmatch(line)
+                if match is None:
+                    raise ValueError(f"{path}: unsupported PLA edge syntax in diagram {index}")
+                actual.append(match.groups())
+            if declared != expected_nodes or set(actual) != expected or len(actual) != len(expected):
+                raise ValueError(f"{path}: PLA pipeline structure changed in diagram {index}")
+    print("PLA documentation: zero-LLM contract and both pipeline structures verified in English and Korean")
 
 
 def check_numerical_regressions():
@@ -197,6 +266,8 @@ def main():
         page.feed(path.read_text(encoding="utf-8"))
         if page._math is not None:
             raise ValueError(f"{path}: unclosed math wrapper")
+        if page._diagram is not None:
+            raise ValueError(f"{path}: unclosed Mermaid wrapper")
         if page.article:
             pages[path] = page
             for index, (value, display) in enumerate(page.equations, 1):
@@ -210,6 +281,7 @@ def main():
         raise ValueError("No generated documentation pages found")
     check_links(pages, site)
     check_bilingual_contracts(pages, site)
+    check_pla_contract(pages, site)
     check_numerical_regressions()
     subprocess.run(
         ["node", str(ROOT / "scripts/check-math.cjs")],
